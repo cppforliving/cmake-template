@@ -1,4 +1,3 @@
-include(${PROJECT_SOURCE_DIR}/CMake/googletest-download.cmake)
 add_executable(example example.cpp)
-target_link_libraries(example gtest_main)
+target_link_libraries(example gmock_main)
 add_test(NAME example_test COMMAND example)
