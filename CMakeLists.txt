@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.6)
 project(cmake-template)
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/CMake")
+set(CMAKE_CXX_STANDARD 14)
 include_directories(include)
 add_subdirectory(src)
 include(CTest)
