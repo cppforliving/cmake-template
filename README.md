@@ -1,5 +1,5 @@
 # cmake-template
 
-Requires
-- Git
-- Python
+## Requirements
+* Git
+* Python
