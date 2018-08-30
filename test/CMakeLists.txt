@@ -1,4 +1,5 @@
+set(TEST_NAME example-test)
 set(SOURCE_FILES example-test.cpp)
-add_executable(${PROJECT_NAME}-test ${SOURCE_FILES})
-target_link_libraries(${PROJECT_NAME}-test gmock_main)
-add_test(NAME ${PROJECT_NAME}-test COMMAND ${PROJECT_NAME}-test)
+add_executable(${TEST_NAME} ${SOURCE_FILES})
+target_link_libraries(${TEST_NAME} gmock_main)
+add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})
