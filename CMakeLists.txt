@@ -15,6 +15,17 @@ else()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror")
 endif()
 
+find_program(GCOVR_COMMAND gcovr)
+if(GCOVR_COMMAND)
+    add_custom_target(gcovr
+        COMMAND ${GCOVR_COMMAND} --html --html-details
+            -r ${PROJECT_SOURCE_DIR}
+            -e ${PROJECT_BINARY_DIR}
+            --object-directory=${PROJECT_BINARY_DIR}
+            -o ${PROJECT_BINARY_DIR}/coverage.html
+        COMMENT "Generating gcovr html report")
+endif()
+
 set(VALGRIND_COMMAND_OPTIONS "-q --tool=${VALGRIND_TOOL}")
 if(VALGRIND_TOOL STREQUAL memcheck)
     set(VALGRIND_COMMAND_OPTIONS "${VALGRIND_COMMAND_OPTIONS} --leak-check=yes --show-reachable=yes --num-callers=50 \

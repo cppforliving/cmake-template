@@ -1,5 +1,6 @@
 set(TEST_NAME example-test)
 set(SOURCE_FILES example-test.cpp)
+include_directories(${PROJECT_SOURCE_DIR}/src)
 add_executable(${TEST_NAME} ${SOURCE_FILES})
 target_link_libraries(${TEST_NAME} gmock_main)
 add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})
