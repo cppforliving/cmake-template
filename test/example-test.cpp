@@ -1,6 +1,6 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
-#include "example.hpp"
+#include "example/example.hpp"
 using namespace ::testing;
 
 TEST(example, test)

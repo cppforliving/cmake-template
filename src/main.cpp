@@ -1,4 +1,4 @@
-#include "example.hpp"
+#include "example/example.hpp"
 
 int main(int /*argc*/, char** /*argv*/)
 {

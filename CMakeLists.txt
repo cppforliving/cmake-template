@@ -20,6 +20,7 @@ if(GCOVR_COMMAND)
     add_custom_target(gcovr
         COMMAND ${GCOVR_COMMAND} --html --html-details
             -r ${PROJECT_SOURCE_DIR}
+            -e ${PROJECT_SOURCE_DIR}/test 
             -e ${PROJECT_BINARY_DIR}
             --object-directory=${PROJECT_BINARY_DIR}
             -o ${PROJECT_BINARY_DIR}/coverage.html
