@@ -42,6 +42,7 @@ if(BUILD_PROFILING)
     endif()
 endif()
 
+add_subdirectory(doc)
 add_subdirectory(src)
 if(BUILD_TESTING)
     add_subdirectory(test)
