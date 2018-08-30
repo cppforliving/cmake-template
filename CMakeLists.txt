@@ -1,7 +1,11 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 project(cmake-template)
+
 option(BUILD_COVERAGE "Build for coverage analysis" OFF)
+option(BUILD_PROFILING "Build for performance analysis" OFF)
+
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
+
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_EXTENSIONS OFF)
 if(MSVC)
@@ -9,13 +13,28 @@ if(MSVC)
 else()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror")
 endif()
+
 include(CTest)
 if(BUILD_TESTING)
     include(googletest-download)
 endif()
-if(NOT MSVC AND BUILD_COVERAGE)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
+
+if(BUILD_COVERAGE)
+    if(MSVC)
+        message(FATAL_ERROR "BUILD_COVERAGE not supported yet for MSVC")
+    else()
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
+    endif()
 endif()
+
+if(BUILD_PROFILING)
+    if(MSVC)
+        message(FATAL_ERROR "BUILD_PROFILING not supported yet for MSVC")
+    else()
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pg")
+    endif()
+endif()
+
 add_subdirectory(src)
 if(BUILD_TESTING)
     add_subdirectory(test)
