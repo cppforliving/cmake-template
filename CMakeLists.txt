@@ -17,7 +17,8 @@ endif()
 
 set(VALGRIND_COMMAND_OPTIONS "-q --tool=${VALGRIND_TOOL}")
 if(VALGRIND_TOOL STREQUAL memcheck)
-    set(VALGRIND_COMMAND_OPTIONS "${VALGRIND_COMMAND_OPTIONS} --leak-check=yes --show-reachable=yes --num-callers=50")
+    set(VALGRIND_COMMAND_OPTIONS "${VALGRIND_COMMAND_OPTIONS} --leak-check=yes --show-reachable=yes --num-callers=50 \
+        --suppressions=${PROJECT_SOURCE_DIR}/valgrind.supp")
 endif()
 
 include(CTest)
