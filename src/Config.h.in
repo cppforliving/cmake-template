@@ -1,0 +1,27 @@
+#ifndef ${DLL}_CONFIG_H_
+#define ${DLL}_CONFIG_H_
+
+// Source https://gcc.gnu.org/wiki/Visibility#How_to_use_the_new_C.2B-.2B-_visibility_support
+#if defined _WIN32 || defined __CYGWIN__
+  #ifdef ${dll}_EXPORTS
+    #ifdef __GNUC__
+      #define ${DLL}_API __attribute__((dllexport))
+    #else
+      #define ${DLL}_API __declspec(dllexport)
+    #endif
+  #else
+    #ifdef __GNUC__
+      #define ${DLL}_API __attribute__((dllimport))
+    #else
+      #define ${DLL}_API __declspec(dllimport)
+    #endif
+  #endif
+#else
+  #if __GNUC__ >= 4
+    #define ${DLL}_API __attribute__((visibility("default")))
+  #else
+    #define ${DLL}_API
+  #endif
+#endif
+
+#endif  // ${DLL}_CONFIG_H_

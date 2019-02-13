@@ -1,5 +1,5 @@
 get_filename_component(LIBRARY_NAME "${CMAKE_CURRENT_SOURCE_DIR}" NAME)
-set(SOURCE_FILES example.cpp)
+set(SOURCE_FILES clegacy.c)
 add_library(${LIBRARY_NAME} ${SOURCE_FILES})
 set(dll ${LIBRARY_NAME})
 string(TOUPPER ${dll} DLL)

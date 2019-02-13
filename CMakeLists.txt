@@ -1,58 +1,61 @@
-cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.10)
+option(BUILD_SHARED_LIBS
+    "Global flag to cause `add_library()` to create shared libraries if on." ON)
+set(CMAKE_BUILD_TYPE Debug CACHE STRING
+    "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel.")
+option(CMAKE_EXPORT_COMPILE_COMMANDS
+    "Enable/Disable output of compile commands during generation." ON)
+set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}" CACHE STRING
+    "Install path prefix, prepended onto install directories.")
+option(CMAKE_INTERPROCEDURAL_OPTIMIZATION
+    "If set to true, enables interprocedural optimizations if they are known to be supported." OFF)
 project(cmake-template)
 
-option(BUILD_COVERAGE "Build for coverage analysis" OFF)
-option(BUILD_PROFILING "Build for performance analysis" OFF)
-set(VALGRIND_TOOL memcheck CACHE STRING "Valgrind tool")
-
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
+include("${CMAKE_BINARY_DIR}/conan_paths.cmake")
+
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_C_EXTENSIONS OFF)
+set(CMAKE_C_VISIBILITY_PRESET hidden)
 
 set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_EXTENSIONS OFF)
-if(MSVC)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /WX")
-else()
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror")
-endif()
+set(CMAKE_CXX_STANDARD_REQUIRED ${CMAKE_C_STANDARD_REQUIRED})
+set(CMAKE_CXX_EXTENSIONS ${CMAKE_C_EXTENSIONS})
+set(CMAKE_CXX_VISIBILITY_PRESET ${CMAKE_C_VISIBILITY_PRESET})
 
-find_program(GCOVR_COMMAND gcovr)
-if(GCOVR_COMMAND)
-    add_custom_target(gcovr
-        COMMAND ${GCOVR_COMMAND} --html --html-details
-            -r ${PROJECT_SOURCE_DIR}
-            -e ${PROJECT_SOURCE_DIR}/test 
-            -e ${PROJECT_BINARY_DIR}
-            --object-directory=${PROJECT_BINARY_DIR}
-            -o ${PROJECT_BINARY_DIR}/coverage.html
-        COMMENT "Generating gcovr html report")
-endif()
+set(CMAKE_VISIBILITY_INLINES_HIDDEN ON)
 
-set(VALGRIND_COMMAND_OPTIONS "-q --tool=${VALGRIND_TOOL}")
-if(VALGRIND_TOOL STREQUAL memcheck)
-    set(VALGRIND_COMMAND_OPTIONS "${VALGRIND_COMMAND_OPTIONS} --leak-check=yes --show-reachable=yes --num-callers=50 \
-        --suppressions=${PROJECT_SOURCE_DIR}/valgrind.supp")
-endif()
+find_package(Threads)
+set(Boost_NO_SYSTEM_PATHS ON)
+find_package(Boost REQUIRED COMPONENTS system)
+#find_package(Git REQUIRED)
 
+include(GNUInstallDirs)
+include(build/ColorDiagnostics)
+include(build/CoroutinesTS)
+include(build/ThreadSafety)
+include(Valgrind)
+include(uninstall)
 include(CTest)
 if(BUILD_TESTING)
-    include(googletest-download)
+    find_package(GTest REQUIRED)
+    find_package(Catch2 REQUIRED)
+    #include(download/googletest)
+    #include(download/benchmark)
+    #include(download/Catch2)
 endif()
+#include(download/abseil-cpp)
+#include(download/GSL)
+include(build/Warnings)
+include(clang-format)
+include(build/StaticChecks)
+include(build/Sanitizer)
+include(build/Coverage)
+include(gcovr)
+include(build/Profiling)
 
-if(BUILD_COVERAGE)
-    if(MSVC)
-        message(FATAL_ERROR "BUILD_COVERAGE not supported yet for MSVC")
-    else()
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
-    endif()
-endif()
-
-if(BUILD_PROFILING)
-    if(MSVC)
-        message(FATAL_ERROR "BUILD_PROFILING not supported yet for MSVC")
-    else()
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pg")
-    endif()
-endif()
+#set(CMAKE_INSTALL_RPATH ${CMAKE_INSTALL_FULL_LIBDIR} ${Boost_LIBRARY_DIRS})
 
 add_subdirectory(doc)
 add_subdirectory(src)

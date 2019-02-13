@@ -1,0 +1,15 @@
+[requires]
+boost/1.65.1@conan/stable
+Catch2/2.5.0@catchorg/stable
+gtest/1.8.1@bincrafters/stable
+
+[options]
+*:shared=True
+*:fPIC=True
+
+[imports]
+bin, *.dll -> ./bin
+lib, *.dylib* -> ./test/unit
+
+[generators]
+cmake_paths

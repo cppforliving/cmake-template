@@ -1,0 +1,23 @@
+# Source https://github.com/google/googletest/blob/master/googletest/README.md#incorporating-into-an-existing-cmake-project
+
+cmake_minimum_required(VERSION 2.8.2)
+
+project(@_git_name@-download NONE)
+
+find_file(@_git_name@_PATCH @_git_name@.patch @CMAKE_CURRENT_LIST_DIR@)
+if(@_git_name@_PATCH)
+    set(_patch_command @GIT_EXECUTABLE@ apply ${@_git_name@_PATCH})
+endif()
+
+include(ExternalProject)
+ExternalProject_Add(@_git_name@
+  GIT_REPOSITORY    @_git_parent@/@_git_name@.git
+  GIT_TAG           @_git_tag@
+  SOURCE_DIR        "@CMAKE_BINARY_DIR@/@_git_name@-src"
+  BINARY_DIR        "@CMAKE_BINARY_DIR@/@_git_name@-build"
+  PATCH_COMMAND     ${_patch_command}
+  CONFIGURE_COMMAND ""
+  BUILD_COMMAND     ""
+  INSTALL_COMMAND   ""
+  TEST_COMMAND      ""
+)

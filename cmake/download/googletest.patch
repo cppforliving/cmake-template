@@ -1,0 +1,13 @@
+diff --git a/googletest/include/gtest/internal/gtest-port.h b/googletest/include/gtest/internal/gtest-port.h
+index 786497d..262fe45 100644
+--- a/googletest/include/gtest/internal/gtest-port.h
++++ b/googletest/include/gtest/internal/gtest-port.h
+@@ -2687,7 +2687,7 @@ typedef TypeWithSize<8>::Int TimeInMillis;  // Represents time in milliseconds.
+ // FIXME: Find a better way to refactor flag and environment parsing
+ // out of both gtest-port.cc and gtest.cc to avoid exporting this utility
+ // function.
+-bool ParseInt32(const Message& src_text, const char* str, Int32* value);
++GTEST_API_ bool ParseInt32(const Message& src_text, const char* str, Int32* value);
+ 
+ // Parses a bool/Int32/string from the environment variable
+ // corresponding to the given Google Test flag.

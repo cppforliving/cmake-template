@@ -2,8 +2,14 @@
 
 # Download and unpack googletest at configure time
 
-configure_file("${CMAKE_CURRENT_LIST_DIR}/googletest-download/CMakeLists.txt.in"
-               "${CMAKE_BINARY_DIR}/googletest-download/CMakeLists.txt")
+set(_git_parent https://github.com/google)
+set(_git_name   googletest)
+set(_git_tag    release-1.8.1)
+set(_git_patch  googletest.patch)
+configure_file("${CMAKE_CURRENT_LIST_DIR}/CMakeLists.txt.in"
+               "${CMAKE_BINARY_DIR}/googletest-download/CMakeLists.txt"
+               @ONLY)
+unset(_git_patch)
 
 execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
     RESULT_VARIABLE result

@@ -1,0 +1,42 @@
+# This is a sample build configuration for C++ – Make.
+# Check our guides at https://confluence.atlassian.com/x/5Q4SMw for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+image: gumienny/gcc:6
+
+pipelines:
+  custom:
+    run-ci:
+      - step:
+          name: Print some info about system
+          script:
+            - uname -a
+            - lscpu
+      - parallel:
+          # - step:
+          #     name: Build and test
+          #     script:
+          #       - cmake .
+          #       - make -j $(nproc)
+          #       - ctest -j $(nproc) -D ExperimentalTest
+          # - step:
+          #     name: Build and test coverage
+          #     script:
+          #       - apt-get update && apt-get install -y gcovr
+          #       - cmake -D build_coverage=ON .
+          #       - make -j $(nproc)
+          #       - ctest -j $(nproc) -D ExperimentalTest
+          #       - ctest -j $(nproc) -D ExperimentalCoverage
+          - step:
+              name: Build and test memcheck
+              script:
+                - cmake -D CMAKE_BUILD_TYPE=Debug .
+                - make -j $(nproc)
+                - ctest -j $(nproc) -D ExperimentalMemCheck
+          # - step:
+          #     name: Generate documentation
+          #     script:
+          #       - apt-get update && apt-get install -y doxygen graphviz
+          #       - cmake -D BUILD_TESTING=OFF .
+          #       - make doc

@@ -1,0 +1,91 @@
+language: cpp
+
+cache:
+  ccache: true
+  directories:
+    - $HOME/.conan
+    - $HOME/../../.conan
+
+matrix:
+  allow_failures:
+    - os: windows
+  include:
+
+    - os: windows
+      compiler: cl
+      install:
+        - choco install conan
+        - export PATH="/c/Program Files/Conan/conan:$PATH"
+      env:
+        - MATRIX_EVAL="CC=cl && CXX=cl"
+        - CONAN_EXTRAS="-s compiler='Visual Studio' -s compiler.version=14 -s arch=x86"
+        - CMAKE_EXTRAS="-G 'Visual Studio 15 2017' -A Win32 -T host=x64 -Wdev"
+
+    - os: linux
+      compiler: gcc
+      dist: xenial
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-8
+      install:
+        - pip install --user conan
+      env:
+        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
+        - CONAN_EXTRAS="-s compiler.libcxx=libstdc++11"
+
+    - os: linux
+      compiler: clang
+      dist: xenial
+      install:
+        - sudo update-alternatives
+            --install /usr/bin/clang clang /usr/local/clang-7.0.0/bin/clang 70
+            --slave /usr/bin/clang++ clang++ /usr/local/clang-7.0.0/bin/clang++
+        - sudo update-ccache-symlinks
+        - pip install --user conan
+      env:
+        - MATRIX_EVAL="CC=clang && CXX=clang++"
+        - CONAN_EXTRAS="-s compiler.libcxx=libstdc++11"
+
+    - os: osx
+      compiler: clang
+      osx_image: xcode9.4
+      addons:
+        homebrew:
+          packages:
+            - ccache
+      install:
+        - ccache -M 500M
+        - export PATH="/usr/local/opt/ccache/libexec:$PATH"
+        - export PATH="/Users/travis/Library/Python/2.7/bin:$PATH"
+        - pip install --user conan
+      env:
+        - MATRIX_EVAL="CC=clang && CXX=clang++"
+
+before_install:
+  - printenv | sort | grep -E '^TRAVIS.*$' -v
+  - printenv | sort | grep -E '^TRAVIS.*$'
+  - eval "${MATRIX_EVAL}"
+
+after_install:
+  - rm -f $HOME/.conan/profiles/default
+  - conan profile new default --detect
+
+before_script:
+  - BUILD_TYPE=Release
+  - ccache -z || ":"
+  - cmake -G || ":"
+
+script:
+  - mkdir build && cd build
+  - eval "conan install .. -b missing -s build_type=${BUILD_TYPE} ${CONAN_EXTRAS}" &&
+    eval "cmake .. -DCMAKE_BUILD_TYPE=${BUILD_TYPE} ${CMAKE_EXTRAS}" &&
+    ( cat $HOME/build/piotrgumienny/cmake-template/build/CMakeFiles/CMakeOutput.log || ":" ) &&
+    cat CMakeCache.txt &&
+    cmake --build . --config ${BUILD_TYPE} &&
+    ctest -C ${BUILD_TYPE} -V
+
+after_script:
+  - ccache -s || ":"
