@@ -1,4 +1,4 @@
-find_package(Doxygen)
+find_package(Doxygen COMPONENTS doxygen dot)
 if(DOXYGEN_FOUND)
     find_package(Java COMPONENTS Runtime)
     if(Java_Runtime_FOUND)
@@ -21,6 +21,6 @@ if(DOXYGEN_FOUND)
     endif()
     configure_file(Doxyfile.in Doxyfile @ONLY)
     add_custom_target(doc
-        COMMAND ${DOXYGEN_EXECUTABLE} Doxyfile > Doxygen.log
+        COMMAND ${DOXYGEN_EXECUTABLE} Doxyfile > doxygen.log
         COMMENT "Generating ${PROJECT_NAME} documentation")
 endif()
