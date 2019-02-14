@@ -1,6 +1,7 @@
 get_filename_component(LIBRARY_NAME "${CMAKE_CURRENT_SOURCE_DIR}" NAME)
-set(SOURCE_FILES example.cpp)
-add_library(${LIBRARY_NAME} ${SOURCE_FILES})
+add_library(${LIBRARY_NAME}
+    example.cpp
+)
 set(dll ${LIBRARY_NAME})
 string(TOUPPER ${dll} DLL)
 configure_file(
