@@ -8,8 +8,8 @@ gtest/1.8.1@bincrafters/stable
 *:fPIC=True
 
 [imports]
-bin, *.dll -> ./bin
-lib, *.dylib* -> ./bin
+#bin, *.dll -> ./bin
+#lib, *.dylib* -> ./bin
 
 [generators]
 cmake_paths
