@@ -55,8 +55,6 @@ include(build/Coverage)
 include(gcovr)
 include(build/Profiling)
 
-#set(CMAKE_INSTALL_RPATH ${CMAKE_INSTALL_FULL_LIBDIR} ${Boost_LIBRARY_DIRS})
-
 add_subdirectory(doc)
 add_subdirectory(src)
 if(BUILD_TESTING)
