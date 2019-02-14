@@ -13,9 +13,11 @@ target_link_libraries(${PROJECT_NAME}
 )
 if(APPLE)
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND otool -l ${PROJECT_NAME}
         COMMAND otool -L ${PROJECT_NAME})
 elseif(NOT MSVC)
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND objdump -x ${PROJECT_NAME} | grep -i PATH
         COMMAND ldd ${PROJECT_NAME})
 endif()
 install(TARGETS ${PROJECT_NAME}
