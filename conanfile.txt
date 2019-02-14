@@ -5,11 +5,11 @@ gtest/1.8.1@bincrafters/stable
 
 [options]
 *:shared=True
-*:fPIC=True
 
 [imports]
 #bin, *.dll -> ./bin
-#lib, *.dylib* -> ./bin
+#lib, *.dylib* -> ./lib
+#lib, *.so* -> ./lib
 
 [generators]
 cmake_paths
