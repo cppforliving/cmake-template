@@ -14,4 +14,3 @@ if(MSVC AND BUILD_SHARED_LIBS)
 endif()
 add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME}
     --gtest_color=yes --gtest_output=xml:${TEST_NAME}.xml)
-set_tests_properties(${TEST_NAME} PROPERTIES LABELS unit)

@@ -10,4 +10,3 @@ target_link_libraries(${TEST_NAME}
 debug_dynamic_depencencies(${TEST_NAME})
 add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME}
     --use-colour=yes)
-set_tests_properties(${TEST_NAME} PROPERTIES LABELS e2e)
