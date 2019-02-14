@@ -10,11 +10,11 @@ target_link_libraries(${TEST_NAME}
 )
 if(APPLE)
     add_custom_command(TARGET ${TEST_NAME} POST_BUILD
-        COMMAND otool -l ${TEST_NAME}
+        COMMAND otool -l ${TEST_NAME} | grep PATH -A2
         COMMAND otool -L ${TEST_NAME})
 elseif(NOT MSVC)
     add_custom_command(TARGET ${TEST_NAME} POST_BUILD
-        COMMAND objdump -x ${TEST_NAME} | grep -i PATH
+        COMMAND objdump -x ${TEST_NAME} | grep PATH
         COMMAND ldd ${TEST_NAME})
 endif()
 if(MSVC AND BUILD_SHARED_LIBS)
