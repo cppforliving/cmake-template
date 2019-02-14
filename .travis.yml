@@ -20,7 +20,7 @@ matrix:
       env:
         - MATRIX_EVAL="CC=cl && CXX=cl"
         - CONAN_EXTRAS="-s compiler='Visual Studio' -s compiler.version=14 -s arch=x86_64"
-        - CMAKE_EXTRAS="-G 'Visual Studio 14 2015' -A Win64 -T host=x64 -Wdev"
+        - CMAKE_EXTRAS="-G 'Visual Studio 14 2015' -A x64 -T host=x64 -Wdev"
 
     - os: windows
       compiler: cl
@@ -30,7 +30,7 @@ matrix:
       env:
         - MATRIX_EVAL="CC=cl && CXX=cl"
         - CONAN_EXTRAS="-s compiler='Visual Studio' -s compiler.version=15 -s arch=x86_64"
-        - CMAKE_EXTRAS="-G 'Visual Studio 15 2017' -A Win64 -T host=x64 -Wdev"
+        - CMAKE_EXTRAS="-G 'Visual Studio 15 2017' -A x64 -T host=x64 -Wdev"
 
     - os: linux
       compiler: gcc
