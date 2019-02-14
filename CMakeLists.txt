@@ -55,6 +55,18 @@ include(build/Coverage)
 include(gcovr)
 include(build/Profiling)
 
+function(debug_dynamic_depencencies target_name)
+    if(APPLE)
+        add_custom_command(TARGET ${target_name} POST_BUILD
+            COMMAND otool -l ${target_name} | grep PATH -A2
+            COMMAND otool -L ${target_name})
+    elseif(NOT MSVC)
+        add_custom_command(TARGET ${target_name} POST_BUILD
+            COMMAND objdump -x ${target_name} | grep PATH
+            COMMAND ldd ${target_name})
+    endif()
+endfunction()
+
 add_subdirectory(doc)
 add_subdirectory(src)
 if(BUILD_TESTING)

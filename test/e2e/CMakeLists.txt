@@ -7,15 +7,7 @@ target_link_libraries(${TEST_NAME}
     Catch2::Catch2
     example
 )
-if(APPLE)
-    add_custom_command(TARGET ${TEST_NAME} POST_BUILD
-        COMMAND otool -l ${TEST_NAME} | grep PATH -A2
-        COMMAND otool -L ${TEST_NAME})
-elseif(NOT MSVC)
-    add_custom_command(TARGET ${TEST_NAME} POST_BUILD
-        COMMAND objdump -x ${TEST_NAME} | grep PATH
-        COMMAND ldd ${TEST_NAME})
-endif()
+debug_dynamic_depencencies(${TEST_NAME})
 add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME}
     --use-colour=yes)
 set_tests_properties(${TEST_NAME} PROPERTIES LABELS e2e)

@@ -11,14 +11,6 @@ target_link_libraries(${PROJECT_NAME}
     Boost::disable_autolinking
     Boost::dynamic_linking
 )
-if(APPLE)
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND otool -l ${PROJECT_NAME} | grep PATH -A2
-        COMMAND otool -L ${PROJECT_NAME})
-elseif(NOT MSVC)
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND objdump -x ${PROJECT_NAME} | grep PATH
-        COMMAND ldd ${PROJECT_NAME})
-endif()
+debug_dynamic_depencencies(${PROJECT_NAME})
 install(TARGETS ${PROJECT_NAME}
     DESTINATION "${CMAKE_INSTALL_BINDIR}")
