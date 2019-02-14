@@ -9,7 +9,7 @@ gtest/1.8.1@bincrafters/stable
 
 [imports]
 bin, *.dll -> ./bin
-lib, *.dylib* -> ./test/unit
+lib, *.dylib* -> ./lib
 
 [generators]
 cmake_paths
