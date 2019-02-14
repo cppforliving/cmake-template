@@ -8,5 +8,7 @@ target_link_libraries(${TEST_NAME}
     example
 )
 debug_dynamic_depencencies(${TEST_NAME})
-add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME}
-    --use-colour=yes)
+add_test(NAME ${TEST_NAME} COMMAND ${CMAKE_COMMAND} -E env
+    $<$<BOOL:APPLE>:DYLD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib:$DYLD_LIBRARY_PATH>
+    $<$<BOOL:WIN32>:PATH=${CMAKE_BINARY_DIR}/bin:$PATH>
+    ${TEST_NAME} --use-colour=yes)
