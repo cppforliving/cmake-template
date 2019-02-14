@@ -1,5 +1,4 @@
 [
-  { include: ["@<internal/catch_.*>", "private", "<catch.hpp>", "public"] },
   { include: ["@<gmock/gmock-.*>", "private", "<gmock/gmock.h>", "public"] },
   { include: ["@<gtest/gtest-.*>", "private", "<gtest/gtest.h>", "public"] }
 ]
