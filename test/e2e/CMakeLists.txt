@@ -8,8 +8,12 @@ target_link_libraries(${TEST_NAME}
     example
 )
 debug_dynamic_depencencies(${TEST_NAME})
-add_test(${TEST_NAME} ${CMAKE_COMMAND} -E env
-    $<$<PLATFORM_ID:Windows>:PATH=${CMAKE_BINARY_DIR}/bin:$PATH>
-    $<$<PLATFORM_ID:Linux>:LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib:$LD_LIBRARY_PATH>
-    $<$<PLATFORM_ID:Darwin>:DYLD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib:$DYLD_LIBRARY_PATH>
+if(WIN32)
+    set(TEST_ENV "PATH=${CMAKE_BINARY_DIR}/bin:$PATH")
+elseif(APPLE)
+    set(TEST_ENV "DYLD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib:$DYLD_LIBRARY_PATH")
+elseif(UNIX)
+    set(TEST_ENV "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib:$LD_LIBRARY_PATH")
+endif()
+add_test(${TEST_NAME} ${CMAKE_COMMAND} -E env ${TEST_ENV}
     ./${TEST_NAME} --use-colour=yes)
