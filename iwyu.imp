@@ -1,4 +1,4 @@
 [
-  { include: ["@<gmock/gmock-.*>", "private", "<gmock/gmock.h>", "public"] },
-  { include: ["@<gtest/gtest-.*>", "private", "<gtest/gtest.h>", "public"] }
+  { include: ["@<gmock/(gmock[-_]|internal/).*>", "private", "<gmock/gmock.h>", "public"] },
+  { include: ["@<gtest/(gtest[-_]|internal/).*>", "private", "<gtest/gtest.h>", "public"] }
 ]
