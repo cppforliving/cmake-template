@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 option(BUILD_SHARED_LIBS
     "Global flag to cause `add_library()` to create shared libraries if on." ON)
-set(CMAKE_BUILD_TYPE Debug CACHE STRING
-    "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel.")
 option(CMAKE_EXPORT_COMPILE_COMMANDS
     "Enable/Disable output of compile commands during generation." ON)
 set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}" CACHE STRING
