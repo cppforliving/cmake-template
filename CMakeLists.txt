@@ -24,7 +24,7 @@ set(CMAKE_CXX_VISIBILITY_PRESET ${CMAKE_C_VISIBILITY_PRESET})
 
 set(CMAKE_VISIBILITY_INLINES_HIDDEN ON)
 
-find_package(Threads)
+find_package(Threads REQUIRED)
 set(Boost_NO_SYSTEM_PATHS ON)
 find_package(Boost REQUIRED COMPONENTS system)
 #find_package(Git REQUIRED)
