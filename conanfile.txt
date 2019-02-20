@@ -5,6 +5,7 @@ gtest/1.8.1@bincrafters/stable
 
 [options]
 *:shared=True
+*:short_paths=False
 
 [imports]
 bin, *.dll -> ./bin

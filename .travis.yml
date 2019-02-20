@@ -4,7 +4,6 @@ cache:
   ccache: true
   directories:
     - $HOME/.conan
-    - $HOME/../../.conan
 
 matrix:
   allow_failures:
