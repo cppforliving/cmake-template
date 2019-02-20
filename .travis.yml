@@ -60,8 +60,8 @@ matrix:
         - export PATH="/c/Program Files/Conan/conan:$PATH"
       env:
         - MATRIX_EVAL="CC=cl && CXX=cl"
-        - CONAN_EXTRAS="-s compiler='Visual Studio' -s compiler.version=15"
-        - CMAKE_EXTRAS="-G 'Visual Studio 15 2017 Win64'"
+        - CONAN_EXTRAS="-s compiler='Visual Studio' -s compiler.version=15 -s arch=x86"
+        - CMAKE_EXTRAS="-G 'Visual Studio 15 2017'"
 
 before_install:
   - printenv | sort | grep -E '^TRAVIS.*$' -v
@@ -76,7 +76,7 @@ before_script:
 
 script:
   - mkdir build && cd build
-  - eval "conan install -b missing -s build_type=${BUILD_TYPE} ${CONAN_EXTRAS} .." &&
+  - eval "conan install -b gtest -s build_type=${BUILD_TYPE} ${CONAN_EXTRAS} .." &&
     eval "cmake -D CMAKE_BUILD_TYPE=${BUILD_TYPE} ${CMAKE_EXTRAS} -Wdev .." &&
     ( cmake -LA | grep -v '=$' || ":" ) &&
     cmake --build . --config ${BUILD_TYPE} &&
