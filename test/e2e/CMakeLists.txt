@@ -16,4 +16,6 @@ elseif(WIN32)
     set(TEST_ENV "PATH=${CMAKE_BINARY_DIR}/bin:$PATH")
 endif()
 add_test(${TEST_NAME} ${CMAKE_COMMAND} -E env ${TEST_ENV}
-    ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${TEST_NAME} --use-colour=yes)
+    ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${TEST_NAME}${CMAKE_EXECUTABLE_SUFFIX}
+        --use-colour=yes
+)
