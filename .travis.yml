@@ -2,6 +2,7 @@ language: cpp
 
 cache:
   ccache: true
+  pip: true
   directories:
     - $HOME/.conan
 
@@ -20,7 +21,7 @@ matrix:
           packages:
             - g++-8
       install:
-        - pip install --user conan
+        - pip install -U --user conan
       env:
         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
         - CONAN_EXTRAS="-s compiler.libcxx=libstdc++11"
@@ -33,7 +34,7 @@ matrix:
             --install /usr/bin/clang clang /usr/local/clang-7.0.0/bin/clang 70
             --slave /usr/bin/clang++ clang++ /usr/local/clang-7.0.0/bin/clang++
         - sudo update-ccache-symlinks
-        - pip install --user conan
+        - pip install -U --user conan
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
         - CONAN_EXTRAS="-s compiler.libcxx=libstdc++11"
@@ -49,7 +50,7 @@ matrix:
         - ccache -M 500M
         - export PATH="/usr/local/opt/ccache/libexec:$PATH"
         - export PATH="/Users/travis/Library/Python/2.7/bin:$PATH"
-        - pip install --user conan
+        - pip install -U --user conan
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
 
@@ -60,8 +61,8 @@ matrix:
         - export PATH="/c/Program Files/Conan/conan:$PATH"
       env:
         - MATRIX_EVAL="CC=cl && CXX=cl"
-        - CONAN_EXTRAS="-s compiler='Visual Studio' -s compiler.version=15 -s arch=x86"
-        - CMAKE_EXTRAS="-G 'Visual Studio 15 2017'"
+        - CONAN_EXTRAS="-s compiler='Visual Studio' -s compiler.version=15"
+        - CMAKE_EXTRAS="-G 'Visual Studio 15 2017 Win64'"
 
 before_install:
   - printenv | sort | grep -E '^TRAVIS.*$' -v
