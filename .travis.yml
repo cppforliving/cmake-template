@@ -71,11 +71,11 @@ before_install:
 after_install:
   - rm -f $HOME/.conan/profiles/default
   - conan profile new default --detect
+  - conan config set general.user_home_short=None
 
 before_script:
   - BUILD_TYPE=Release
   - ccache -z || ":"
-  - cmake -G || ":"
 
 script:
   - mkdir build && cd build
