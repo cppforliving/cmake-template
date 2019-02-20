@@ -69,16 +69,14 @@ before_install:
   - eval "${MATRIX_EVAL}"
 
 before_script:
-  - rm -f $HOME/.conan/profiles/default
-  - conan profile new default --detect
   - conan config set general.user_home_short=None
+  - conan profile show default || conan profile new default --detect
   - BUILD_TYPE=Release
   - ccache -z || ":"
 
 script:
   - mkdir build && cd build
   - eval "conan install -b missing -s build_type=${BUILD_TYPE} ${CONAN_EXTRAS} .." &&
-    ( ls -Al bin lib || ":" ) &&
     eval "cmake -D CMAKE_BUILD_TYPE=${BUILD_TYPE} ${CMAKE_EXTRAS} -Wdev .." &&
     cat CMakeCache.txt &&
     cmake --build . --config ${BUILD_TYPE} &&
