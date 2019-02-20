@@ -5,8 +5,8 @@ add_library(${LIBRARY_NAME}
 set(dll ${LIBRARY_NAME})
 string(TOUPPER ${dll} DLL)
 configure_file(
-    ${PROJECT_SOURCE_DIR}/src/Config.h.in
-    ${CMAKE_CURRENT_BINARY_DIR}/Config.h
+    "${PROJECT_SOURCE_DIR}/src/Config.h.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/Config.h"
 )
 target_include_directories(${LIBRARY_NAME}
     PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>
