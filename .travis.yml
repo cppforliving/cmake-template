@@ -82,9 +82,6 @@ script:
   - mkdir build && cd build
   - eval "conan install -b missing -s build_type=${BUILD_TYPE} ${CONAN_EXTRAS} .." &&
     ( ls -Al bin lib || ":" ) &&
-    cat cmake/FindGTest.cmake &&
-    find . -name '*.cmake' &&
-    find . -name '*.pc' &&
     eval "cmake -D CMAKE_BUILD_TYPE=${BUILD_TYPE} ${CMAKE_EXTRAS} -Wdev .." &&
     cat CMakeCache.txt &&
     cmake --build . --config ${BUILD_TYPE} &&
