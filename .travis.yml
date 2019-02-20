@@ -4,6 +4,7 @@ cache:
   ccache: true
   directories:
     - $HOME/.conan
+    - 'C:\Users\travis\.conan'
 
 matrix:
   allow_failures:

@@ -16,7 +16,7 @@ elseif(WIN32)
     set(TEST_ENV "PATH=${CMAKE_BINARY_DIR}/bin:$PATH")
 endif()
 add_test(${TEST_NAME} ${CMAKE_COMMAND} -E env ${TEST_ENV}
-    ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${TEST_NAME}${CMAKE_EXECUTABLE_SUFFIX}
+    ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${CMAKE_CFG_INTDIR}/${TEST_NAME}${CMAKE_EXECUTABLE_SUFFIX}
         --gtest_color=yes
         --gtest_output=xml:${TEST_NAME}.xml
 )
