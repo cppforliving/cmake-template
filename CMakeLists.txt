@@ -25,6 +25,11 @@ set(CMAKE_CXX_VISIBILITY_PRESET ${CMAKE_C_VISIBILITY_PRESET})
 
 set(CMAKE_VISIBILITY_INLINES_HIDDEN ON)
 
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_PDB_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
 find_package(Threads REQUIRED)
 set(Boost_NO_SYSTEM_PATHS ON)
 find_package(boost REQUIRED COMPONENTS system)
@@ -55,14 +60,15 @@ include(gcovr)
 include(build/Profiling)
 
 function(debug_dynamic_depencencies target_name)
+    set(target_file $<TARGET_FILE:${target_name}>)
     if(APPLE)
         add_custom_command(TARGET ${target_name} POST_BUILD
-            COMMAND otool -l ${target_name} | grep PATH -A2
-            COMMAND otool -L ${target_name})
+            COMMAND otool -l ${target_file} | grep PATH -A2
+            COMMAND otool -L ${target_file})
     elseif(NOT MSVC)
         add_custom_command(TARGET ${target_name} POST_BUILD
-            COMMAND objdump -x ${target_name} | grep PATH
-            COMMAND ldd ${target_name})
+            COMMAND objdump -x ${target_file} | grep PATH
+            COMMAND ldd ${target_file})
     endif()
 endfunction()
 
