@@ -83,7 +83,8 @@ script:
     ( ls -Al bin lib || ":" ) &&
     eval "cmake -D CMAKE_BUILD_TYPE=${BUILD_TYPE} ${CMAKE_EXTRAS} -Wdev .." &&
     cat CMakeCache.txt &&
-    cmake --build . --config ${BUILD_TYPE} &&
+    ( cmake --build . --config ${BUILD_TYPE} || ":" ) &&
+    find . -type f -name 'catch_main.*' &&
     cat compile_commands.json &&
     ctest -C ${BUILD_TYPE} -V
 
