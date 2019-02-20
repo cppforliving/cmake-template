@@ -6,7 +6,7 @@ option(CMAKE_EXPORT_COMPILE_COMMANDS
 set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}" CACHE STRING
     "Install path prefix, prepended onto install directories.")
 option(CMAKE_INTERPROCEDURAL_OPTIMIZATION
-    "If set to true, enables interprocedural optimizations if they are known to be supported." OFF)
+    "Enable interprocedural optimization if supported by the compiler." OFF)
 project(cmake-template)
 
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
