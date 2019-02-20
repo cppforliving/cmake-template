@@ -7,6 +7,8 @@ gtest/1.8.1@bincrafters/stable
 *:shared=True
 
 [imports]
+., *.cmake -> ./cmake @ keep_path=False
+., *.pc -> ./share/pkgconfig @ keep_path=False
 bin, *.dll -> ./bin
 lib, *.dylib* -> ./lib
 lib, *.so* -> ./lib

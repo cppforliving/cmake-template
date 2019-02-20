@@ -9,9 +9,9 @@ target_link_libraries(${TEST_NAME}
     example
 )
 debug_dynamic_depencencies(${TEST_NAME})
-if(MSVC AND BUILD_SHARED_LIBS)
-    target_compile_definitions(${TEST_NAME} PUBLIC -DGTEST_LINKED_AS_SHARED_LIBRARY=1)
-endif()
+#if(MSVC AND BUILD_SHARED_LIBS)
+#    target_compile_definitions(${TEST_NAME} PUBLIC -DGTEST_LINKED_AS_SHARED_LIBRARY=1)
+#endif()
 if(APPLE)
     set(TEST_ENV "DYLD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib:$DYLD_LIBRARY_PATH")
 elseif(UNIX)
