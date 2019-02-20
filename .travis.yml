@@ -10,16 +10,6 @@ matrix:
     - os: windows
   include:
 
-    - os: windows
-      compiler: cl
-      install:
-        - choco install conan
-        - export PATH="/c/Program Files/Conan/conan:$PATH"
-      env:
-        - MATRIX_EVAL="CC=cl && CXX=cl"
-        - CONAN_EXTRAS="-s compiler='Visual Studio' -s compiler.version=15 -s arch=x86_64"
-        - CMAKE_EXTRAS="-G 'Visual Studio 15 2017' -A x64 -T host=x64 -Wdev"
-
     - os: linux
       compiler: gcc
       dist: xenial
@@ -62,6 +52,16 @@ matrix:
         - pip install --user conan
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
+
+    - os: windows
+      compiler: cl
+      install:
+        - choco install conan
+        - export PATH="/c/Program Files/Conan/conan:$PATH"
+      env:
+        - MATRIX_EVAL="CC=cl && CXX=cl"
+        - CONAN_EXTRAS="-s compiler='Visual Studio' -s compiler.version=15 -s arch=x86_64"
+        - CMAKE_EXTRAS="-G 'Visual Studio 15 2017' -A x64 -T host=x64"
 
 before_install:
   - printenv | sort | grep -E '^TRAVIS.*$' -v
