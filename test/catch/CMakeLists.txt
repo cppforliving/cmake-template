@@ -1,4 +1,7 @@
 add_library(catch_main catch_main.cpp)
-set_property(TARGET catch_main
-    PROPERTY CXX_VISIBILITY_PRESET default)
+if(MSVC)
+    set_property(TARGET catch_main PROPERTY WINDOWS_EXPORT_ALL_SYMBOLS ON)
+else()
+    set_property(TARGET catch_main PROPERTY CXX_VISIBILITY_PRESET default)
+endif()
 target_link_libraries(catch_main Catch2::Catch2)
