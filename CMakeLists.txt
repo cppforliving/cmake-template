@@ -9,6 +9,7 @@ option(CMAKE_INTERPROCEDURAL_OPTIMIZATION
     "Enable interprocedural optimization if supported by the compiler." OFF)
 project(cmake-template)
 
+message("CMAKE_CONFIGURATION_TYPES: ${CMAKE_CONFIGURATION_TYPES}")
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 include("${CMAKE_BINARY_DIR}/conan_paths.cmake")
 list(INSERT CMAKE_MODULE_PATH 0 "${CMAKE_BINARY_DIR}")

@@ -4,7 +4,6 @@ cache:
   ccache: true
   directories:
     - $HOME/.conan
-    - "\/c\/Users\/travis\/.conan"
 
 matrix:
   allow_failures:
@@ -61,8 +60,8 @@ matrix:
         - export PATH="/c/Program Files/Conan/conan:$PATH"
       env:
         - MATRIX_EVAL="CC=cl && CXX=cl"
-        - CONAN_EXTRAS="-s compiler='Visual Studio' -s compiler.version=15 -s arch=x86_64"
-        - CMAKE_EXTRAS="-G 'Visual Studio 15 2017' -A x64 -T host=x64"
+        - CONAN_EXTRAS="-s compiler='Visual Studio' -s compiler.version=15"
+        - CMAKE_EXTRAS="-G 'Visual Studio 15 2017 Win64'"
 
 before_install:
   - printenv | sort | grep -E '^TRAVIS.*$' -v
@@ -79,7 +78,7 @@ script:
   - mkdir build && cd build
   - eval "conan install -b missing -s build_type=${BUILD_TYPE} ${CONAN_EXTRAS} .." &&
     eval "cmake -D CMAKE_BUILD_TYPE=${BUILD_TYPE} ${CMAKE_EXTRAS} -Wdev .." &&
-    cat CMakeCache.txt &&
+    ( cmake -LA || ":" ) &&
     cmake --build . --config ${BUILD_TYPE} &&
     ( cat compile_commands.json || ":" ) &&
     ctest -C ${BUILD_TYPE} -V
