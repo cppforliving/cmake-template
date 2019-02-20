@@ -1,17 +1,16 @@
 [requires]
-boost/1.65.1@conan/stable
 Catch2/2.5.0@catchorg/stable
+boost/1.65.1@conan/stable
 gtest/1.8.1@bincrafters/stable
 
 [options]
 *:shared=True
 
 [imports]
-., *.cmake -> ./cmake @ keep_path=False
-., *.pc -> ./share/pkgconfig @ keep_path=False
 bin, *.dll -> ./bin
 lib, *.dylib* -> ./lib
 lib, *.so* -> ./lib
 
 [generators]
+cmake_find_package
 cmake_paths

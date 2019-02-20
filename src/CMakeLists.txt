@@ -6,10 +6,7 @@ target_link_libraries(${PROJECT_NAME}
     clegacy
     example
     Threads::Threads
-    Boost::system
-    Boost::diagnostic_definitions
-    #Boost::disable_autolinking
-    Boost::dynamic_linking
+    boost::boost
 )
 debug_dynamic_depencencies(${PROJECT_NAME})
 install(TARGETS ${PROJECT_NAME}
