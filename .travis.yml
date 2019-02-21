@@ -35,6 +35,8 @@ matrix:
             --slave /usr/bin/clang++ clang++ /usr/local/clang-7.0.0/bin/clang++
         - sudo update-ccache-symlinks
         - pip install -U --user conan
+        - apt-cache search libc++
+        - find /usr -type f -name 'libc++.so*' || ":"
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
         - CONAN_EXTRAS="-s compiler.libcxx=libc++"
@@ -74,7 +76,6 @@ before_script:
   - conan profile show default || conan profile new default --detect
   - BUILD_TYPE=Release
   - ccache -z || ":"
-  - find /usr -type f -name 'libc++.so*' || ":"
 
 script:
   - mkdir build && cd build
