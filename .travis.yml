@@ -80,7 +80,7 @@ before_script:
 
 script:
   - mkdir build && cd build
-  - eval "conan install -b missing -s build_type=${BUILD_TYPE} ${CONAN_EXTRAS} .." &&
+  - eval "conan install -b missing -s build_type=${BUILD_TYPE} -s cppstd=14 ${CONAN_EXTRAS} .." &&
     eval "cmake -D CMAKE_BUILD_TYPE=${BUILD_TYPE} ${CMAKE_EXTRAS} -Wdev .." &&
     cmake -LA | grep '=$' -v &&
     cmake -LA | grep '=$' &&
