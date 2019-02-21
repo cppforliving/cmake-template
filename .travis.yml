@@ -74,6 +74,7 @@ before_script:
   - conan profile show default || conan profile new default --detect
   - BUILD_TYPE=Release
   - ccache -z || ":"
+  - find /usr -type f -name 'libc++.so*' || ":"
 
 script:
   - mkdir build && cd build
