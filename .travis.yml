@@ -37,7 +37,7 @@ matrix:
         - pip install -U --user conan
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
-        - CONAN_EXTRAS="-s compiler.libcxx=libstdc++11"
+        - CONAN_EXTRAS="-s compiler.libcxx=libc++"
 
     - os: osx
       compiler: clang
