@@ -70,12 +70,12 @@ function(debug_dynamic_depencencies target_name)
             COMMAND otool -L ${target_file})
     elseif(UNIX)
         add_custom_command(TARGET ${target_name} POST_BUILD
-            COMMAND objdump -x ${target_file} | grep PATH
+            COMMAND objdump -p ${target_file} | grep PATH
             COMMAND ldd ${target_file})
     elseif(WIN32)
         add_custom_command(TARGET ${target_name} POST_BUILD
-            COMMAND objdump -s -j .rdata ${target_file}
-            COMMAND dumpbin /SECTION:.rdata ${target_file} || :)
+            COMMAND objdump -p ${target_file} | grep 'DLL Name'
+            COMMAND dumpbin -DEPENDENTS ${target_file})
     endif()
 endfunction()
 
