@@ -65,10 +65,13 @@ function(debug_dynamic_depencencies target_name)
         add_custom_command(TARGET ${target_name} POST_BUILD
             COMMAND otool -l ${target_file} | grep PATH -A2
             COMMAND otool -L ${target_file})
-    elseif(NOT MSVC)
+    elseif(UNIX)
         add_custom_command(TARGET ${target_name} POST_BUILD
             COMMAND objdump -x ${target_file} | grep PATH
             COMMAND ldd ${target_file})
+    elseif(WIN32)
+        add_custom_command(TARGET ${target_name} POST_BUILD
+            COMMAND objdump -x ${target_file})
     endif()
 endfunction()
 

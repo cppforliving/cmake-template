@@ -15,6 +15,7 @@ elseif(UNIX)
     set(test_env "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib:${CMAKE_BINARY_DIR}/lib/${cfg_intdir}:$LD_LIBRARY_PATH")
 elseif(WIN32)
     set(test_env "PATH=${CMAKE_BINARY_DIR}/bin:${CMAKE_BINARY_DIR}/bin/${cfg_intdir}:$PATH")
+    string(REPLACE "C:" "/c" test_env "${test_env}")
 endif()
 add_test(NAME ${test_name} COMMAND ${CMAKE_COMMAND} -E env ${test_env}
     ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${cfg_intdir}/${test_name}${CMAKE_EXECUTABLE_SUFFIX}
