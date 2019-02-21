@@ -13,7 +13,6 @@ target_include_directories(${lib_name}
     PUBLIC $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/src>
     INTERFACE $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
-debug_dynamic_depencencies(${lib_name})
 install(TARGETS ${lib_name}
     DESTINATION "${CMAKE_INSTALL_LIBDIR}")
 install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/"
