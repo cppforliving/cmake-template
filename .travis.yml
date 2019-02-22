@@ -61,8 +61,8 @@ matrix:
         - export PATH="/c/Program Files/Conan/conan:$PATH"
       env:
         - MATRIX_EVAL="CC=cl && CXX=cl"
-        - CONAN_EXTRAS="-s compiler='Visual Studio' -s compiler.version=14"
-        - CMAKE_EXTRAS="-G 'Visual Studio 14 2015 Win64'"
+        - CONAN_EXTRAS="-s compiler='Visual Studio' -s compiler.version=15"
+        - CMAKE_EXTRAS="-G 'Visual Studio 15 2017 Win64'"
 
 before_install:
   - printenv | sort | grep -E '^TRAVIS.*$' -v
