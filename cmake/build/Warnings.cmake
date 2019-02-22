@@ -2,7 +2,7 @@ if(MSVC)
     add_compile_options(
         /EHsc
         /W4
-        /WX-
+        /WX
         /Zc:__cplusplus
         /nologo
         /permissive-

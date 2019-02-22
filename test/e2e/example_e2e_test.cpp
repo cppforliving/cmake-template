@@ -13,5 +13,5 @@ TEST_CASE("example_e2e_test.efence") {
     const auto a = std::make_unique<char[]>(sizeof("Alpha"));
     const auto b = std::make_unique<char[]>(sizeof("Bravo"));
     const auto c = "Charlie";
-    std::copy(c, c + sizeof("Charlie"), a.get());
+    std::copy(c, c + sizeof("Alpha"), a.get());
 }
