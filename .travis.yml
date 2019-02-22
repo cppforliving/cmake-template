@@ -2,7 +2,6 @@ language: cpp
 
 cache:
   ccache: true
-  pip: true
   directories:
     - $HOME/.conan
 
@@ -21,7 +20,7 @@ matrix:
           packages:
             - g++-8
       install:
-        - pip install -U --user conan
+        - pip install --user conan
       env:
         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
         - CONAN_EXTRAS="-s compiler.libcxx=libstdc++11"
@@ -35,7 +34,7 @@ matrix:
             --slave /usr/bin/clang++ clang++ /usr/local/clang-7.0.0/bin/clang++
         - export LD_LIBRARY_PATH="/usr/local/clang-7.0.0/lib:$LD_LIBRARY_PATH"
         - sudo update-ccache-symlinks
-        - pip install -U --user conan
+        - pip install --user conan
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
         - CONAN_EXTRAS="-s compiler.libcxx=libstdc++11"
@@ -51,7 +50,7 @@ matrix:
         - ccache -M 500M
         - export PATH="/usr/local/opt/ccache/libexec:$PATH"
         - export PATH="/Users/travis/Library/Python/2.7/bin:$PATH"
-        - pip install -U --user conan
+        - pip install --user conan
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
 
