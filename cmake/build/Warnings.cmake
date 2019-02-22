@@ -1,14 +1,14 @@
 if(MSVC)
     add_compile_options(
-        -EHsc
-        -W4
-        -WX
-        -Zc:__cplusplus
-        -nologo
-        -permissive-
+        /EHsc
+        /W4
+        /WX
+        /Zc:__cplusplus
+        /nologo
+        /permissive-
     )
     add_definitions(
-        -D_HAS_EXCEPTIONS=1
+        /D_HAS_EXCEPTIONS=1
     )
 else()
     add_compile_options(
