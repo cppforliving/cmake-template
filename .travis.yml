@@ -34,6 +34,8 @@ matrix:
             --install /usr/bin/clang clang /usr/local/clang-7.0.0/bin/clang 70
             --slave /usr/bin/clang++ clang++ /usr/local/clang-7.0.0/bin/clang++
         - export LD_LIBRARY_PATH="/usr/local/clang-7.0.0/lib:$LD_LIBRARY_PATH"
+        - ls /usr/local/clang-7.0.0/bin
+        - ls /usr/local/clang-7.0.0
         - sudo update-ccache-symlinks
         - pip install -U --user conan
       env:
