@@ -1,4 +1,4 @@
-version: 0.1.{build}
+version: 1.0.{build}
 
 image:
   #- Visual Studio 2015
@@ -13,15 +13,15 @@ configuration:
   - Release
 
 install:
-  - cmmd: set PATH=%PATH%;%PYTHON%/Scripts
-  - cmmd: pip install conan
-  - cmmd: conan user
+  - cmd: set PATH=%PATH%;%PYTHON%/Scripts
+  - cmd: pip install conan
+  - cmd: conan user
 
 build_script:
-  - cmmd: mkdir build && cd build
-  - cmmd: conan install -b missing -s compiler='Visual Studio' -s compiler.version=15 ..
-  - cmmd: cmake -G 'Visual Studio 15 2017 Win64' ..
-  - cmmd: cmake --build . --config Release
+  - cmd: mkdir build && cd build
+  - cmd: conan install -b missing -s compiler='Visual Studio' -s compiler.version=15 ..
+  - cmd: cmake -G 'Visual Studio 15 2017 Win64' ..
+  - cmd: cmake --build . --config Release
 
 test_script:
-  - cmmd: ctest -C Release -V
+  - cmd: ctest -C Release -V
