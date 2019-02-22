@@ -36,8 +36,6 @@ matrix:
         - export LD_LIBRARY_PATH="/usr/local/clang-7.0.0/lib:$LD_LIBRARY_PATH"
         - sudo update-ccache-symlinks
         - pip install -U --user conan
-        - apt-cache search libc++
-        - find /usr -type f -name 'libc++*' || ":"
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
         - CONAN_EXTRAS="-s compiler.libcxx=libc++"
