@@ -1,6 +1,6 @@
-// #ifdef _WIN32
-// # include <SDKDDKVer.h>
-// #endif
+#ifdef _WIN32
+# include <SDKDDKVer.h>
+#endif
 #include <exception>
 #include <iostream>
 #include <new>
