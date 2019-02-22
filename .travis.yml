@@ -6,8 +6,6 @@ cache:
     - $HOME/.conan
 
 matrix:
-  allow_failures:
-    - os: windows
   include:
 
     - os: linux
@@ -53,16 +51,16 @@ matrix:
         - pip install --user conan
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
+        - CMAKE_EXTRAS="-G XCode"
 
     - os: windows
       compiler: cl
       install:
-        - choco install conan
-        - export PATH="/c/Program Files/Conan/conan:$PATH"
+        - pip install --user conan
       env:
         - MATRIX_EVAL="CC=cl && CXX=cl"
         - CONAN_EXTRAS="-s compiler='Visual Studio' -s compiler.version=15"
-        - CMAKE_EXTRAS="-G 'Visual Studio 15 2017 Win64'"
+        - CMAKE_EXTRAS="-G 'Visual Studio 15 2017' -A x64"
 
 before_install:
   - printenv | sort | grep -E '^TRAVIS.*$' -v
