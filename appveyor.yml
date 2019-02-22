@@ -20,7 +20,7 @@ install:
 
 build_script:
   - mkdir build && cd build
-  - conan install -b missing -s compiler='Visual Studio' -s compiler.version=15 ..
+  - conan install -b missing -s compiler='Visual Studio' -s compiler.version=15 ../
   - cmake -G 'Visual Studio 15 2017 Win64' ..
   - cmake --build . --config Release
 
