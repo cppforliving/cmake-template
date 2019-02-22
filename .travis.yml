@@ -30,12 +30,12 @@ matrix:
         - sudo update-alternatives
             --install /usr/bin/clang clang /usr/local/clang-7.0.0/bin/clang 70
             --slave /usr/bin/clang++ clang++ /usr/local/clang-7.0.0/bin/clang++
-            --slave /usr/bin/lld lld /usr/local/clang-7.0.0/bin/lld
+            --slave /usr/bin/ld ld /usr/local/clang-7.0.0/bin/lld
         - export LD_LIBRARY_PATH="/usr/local/clang-7.0.0/lib:$LD_LIBRARY_PATH"
         - sudo update-ccache-symlinks
         - pip install --user conan
       env:
-        - MATRIX_EVAL="CC=clang && CXX=clang++ && LD=lld"
+        - MATRIX_EVAL="CC=clang && CXX=clang++"
         - CONAN_EXTRAS="-s compiler.libcxx=libstdc++11"
 
     - os: osx
