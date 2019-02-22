@@ -9,7 +9,7 @@ platform:
   - x86_64
 
 configuration:
-  #- Debug
+  - Debug
   - Release
 
 cache:
@@ -23,9 +23,9 @@ install:
 
 build_script:
   - mkdir build && cd build
-  - conan install -b missing -s compiler="Visual Studio" -s compiler.version=14 ..
+  - conan install -b missing -s build_type %CONFIGURATION% -s compiler="Visual Studio" -s compiler.version=14 ..
   - cmake -G "Visual Studio 14 2015 Win64" ..
-  - cmake --build . --config Release
+  - cmake --build . --config %CONFIGURATION%
 
 test_script:
-  - ctest -C Release -V
+  - ctest -C %CONFIGURATION% -V
