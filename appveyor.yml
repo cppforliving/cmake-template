@@ -20,11 +20,18 @@ install:
   - pip install conan
   - conan user
   - conan config set general.user_home_short=None
+  - if "%PLATFORM%"=="x64" (
+      set CONAN_ARCH=x86_64 &
+      set CMAKE_ARCH=x64
+    ) else (
+      set CONAN_ARCH=x86 &
+      set CMAKE_ARCH=Win32
+    )
 
 build_script:
   - mkdir build && cd build
-  - conan install -b missing -s build_type=%CONFIGURATION% -s compiler="Visual Studio" -s compiler.version=14 -s arch=%PLATFORM% ..
-  - cmake -G "Visual Studio 14 2015" -A %PLATFORM% ..
+  - conan install -b missing -s build_type=%CONFIGURATION% -s compiler="Visual Studio" -s compiler.version=14 -s arch=%CONAN_ARCH% ..
+  - cmake -G "Visual Studio 14 2015" -A %CMAKE_ARCH% ..
   - cmake --build . --config %CONFIGURATION%
 
 test_script:

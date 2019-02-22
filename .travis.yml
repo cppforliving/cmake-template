@@ -51,12 +51,15 @@ matrix:
         - pip install --user conan
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
-        - CMAKE_EXTRAS="-G XCode"
+        - CMAKE_EXTRAS="-G Xcode"
 
     - os: windows
       compiler: cl
       install:
-        - pip install --user conan
+        - choco install conan
+        - export PATH="/c/Program Files/Conan/conan:$PATH"
+        - find "/c/Program Files" -type f -name pip*
+        - find "/c/Program Files (x86)" -type f -name pip*
       env:
         - MATRIX_EVAL="CC=cl && CXX=cl"
         - CONAN_EXTRAS="-s compiler='Visual Studio' -s compiler.version=15"
@@ -65,7 +68,7 @@ matrix:
 before_install:
   - printenv | sort | grep -E '^TRAVIS.*$' -v
   - printenv | sort | grep -E '^TRAVIS.*$'
-  - eval "${MATRIX_EVAL}"
+  - eval "$MATRIX_EVAL"
 
 before_script:
   - conan user
@@ -75,13 +78,13 @@ before_script:
 
 script:
   - mkdir build && cd build
-  - eval "conan install -b missing -s build_type=${BUILD_TYPE} ${CONAN_EXTRAS} .." &&
-    eval "cmake -D CMAKE_BUILD_TYPE=${BUILD_TYPE} ${CMAKE_EXTRAS} -Wdev .." &&
+  - eval "conan install -b missing -s build_type=$BUILD_TYPE $CONAN_EXTRAS .." &&
+    eval "cmake -D CMAKE_BUILD_TYPE=$BUILD_TYPE $CMAKE_EXTRAS -Wdev .." &&
     cmake -LA | grep '=(.*-NOTFOUND)?$' -Ev &&
     cmake -LA | grep '=(.*-NOTFOUND)?$' -E &&
-    cmake --build . --config ${BUILD_TYPE} &&
+    cmake --build . --config $BUILD_TYPE &&
     ( cat compile_commands.json || ":" ) &&
-    ctest -C ${BUILD_TYPE} -V
+    ctest -C $BUILD_TYPE -V
 
 after_script:
   - ccache -s || ":"
