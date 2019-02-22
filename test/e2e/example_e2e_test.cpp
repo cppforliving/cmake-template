@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <catch2/catch.hpp>
 #include <memory>
+#include <string>
 #include "example/example.hpp"
 
 TEST_CASE("example_e2e_test.all") {
@@ -12,6 +13,6 @@ TEST_CASE("example_e2e_test.all") {
 TEST_CASE("example_e2e_test.efence") {
     const auto a = std::make_unique<char[]>(sizeof("Alpha"));
     const auto b = std::make_unique<char[]>(sizeof("Bravo"));
-    const auto c = "Charlie";
-    std::copy(c, c + sizeof("Alpha"), a.get());
+    const auto c = std::string("Charlie");
+    std::copy(c.begin(), c.cend(), a.get());
 }
