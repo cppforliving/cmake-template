@@ -74,6 +74,7 @@ before_install:
 before_script:
   - conan user
   - BUILD_TYPE=Release
+  - ld --version || ":"
   - ccache -z || ":"
 
 script:
