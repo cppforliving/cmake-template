@@ -14,14 +14,13 @@ configuration:
 
 install:
   - echo %PATH%
-  - set PATH=%PATH%;%PYTHON%/Scripts
   - pip install conan
   - conan user
 
 build_script:
   - mkdir build && cd build
-  - conan install -b missing -s compiler='Visual Studio' -s compiler.version=15 ../
-  - cmake -G 'Visual Studio 15 2017 Win64' ..
+  - conan install -b missing -s compiler="Visual Studio" -s compiler.version=15 ..
+  - cmake -G "Visual Studio 15 2017 Win64" ..
   - cmake --build . --config Release
 
 test_script:
