@@ -30,11 +30,12 @@ matrix:
         - sudo update-alternatives
             --install /usr/bin/clang clang /usr/local/clang-7.0.0/bin/clang 70
             --slave /usr/bin/clang++ clang++ /usr/local/clang-7.0.0/bin/clang++
+            --slave /usr/bin/lld lld /usr/local/clang-7.0.0/bin/lld
         - export LD_LIBRARY_PATH="/usr/local/clang-7.0.0/lib:$LD_LIBRARY_PATH"
         - sudo update-ccache-symlinks
         - pip install --user conan
       env:
-        - MATRIX_EVAL="CC=clang && CXX=clang++"
+        - MATRIX_EVAL="CC=clang && CXX=clang++ && LD=lld"
         - CONAN_EXTRAS="-s compiler.libcxx=libstdc++11"
 
     - os: osx
@@ -58,12 +59,12 @@ matrix:
       install:
         - choco install conan
         - export PATH="/c/Program Files/Conan/conan:$PATH"
-        - find "/c/Program Files" -type f -name pip*
-        - find "/c/Program Files (x86)" -type f -name pip*
+        - conan config set general.user_home_short=None
+        - find "$HOME" -type f -name pip*
       env:
         - MATRIX_EVAL="CC=cl && CXX=cl"
-        - CONAN_EXTRAS="-s compiler='Visual Studio' -s compiler.version=15"
-        - CMAKE_EXTRAS="-G 'Visual Studio 15 2017' -A x64"
+        - CONAN_EXTRAS="-s compiler='Visual Studio' -s compiler.version=15 -s arch=x86"
+        - CMAKE_EXTRAS="-G 'Visual Studio 15 2017' -A Win32"
 
 before_install:
   - printenv | sort | grep -E '^TRAVIS.*$' -v
@@ -72,14 +73,13 @@ before_install:
 
 before_script:
   - conan user
-  - conan config set general.user_home_short=None
   - BUILD_TYPE=Release
   - ccache -z || ":"
 
 script:
   - mkdir build && cd build
   - eval "conan install -b missing -s build_type=$BUILD_TYPE $CONAN_EXTRAS .." &&
-    eval "cmake -D CMAKE_BUILD_TYPE=$BUILD_TYPE $CMAKE_EXTRAS -Wdev .." &&
+    eval "cmake -D CMAKE_BUILD_TYPE=$BUILD_TYPE $CMAKE_EXTRAS .." &&
     cmake -LA | grep '=(.*-NOTFOUND)?$' -Ev &&
     cmake -LA | grep '=(.*-NOTFOUND)?$' -E &&
     cmake --build . --config $BUILD_TYPE &&
