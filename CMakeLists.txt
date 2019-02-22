@@ -30,8 +30,8 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 set(CMAKE_PDB_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 
-string(APPEND CMAKE_C_FLAGS " -Wl,--as-needed")# -Wl,--no-undefined")
-string(APPEND CMAKE_CXX_FLAGS " -Wl,--as-needed")# -Wl,--no-undefined")
+#string(APPEND CMAKE_C_FLAGS " -Wl,--as-needed -Wl,--no-undefined")
+#string(APPEND CMAKE_CXX_FLAGS " -Wl,--as-needed -Wl,--no-undefined")
 
 find_package(Threads REQUIRED)
 set(Boost_NO_SYSTEM_PATHS ON)
