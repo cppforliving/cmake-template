@@ -19,6 +19,7 @@ install:
   - echo %PATH%
   - pip install conan
   - conan user
+  - conan config set general.user_home_short=None
 
 build_script:
   - mkdir build && cd build
