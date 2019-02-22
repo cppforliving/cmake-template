@@ -12,6 +12,9 @@ configuration:
   #- Debug
   - Release
 
+cache:
+  - '%USERPROFILE%\.conan'
+
 install:
   - echo %PATH%
   - pip install conan
