@@ -22,9 +22,6 @@ install:
   - conan config set general.user_home_short=None
 
 build_script:
-  - echo %CONFIGURATION%
-  - echo "%CONFIGURATION%"
-  - echo '%CONFIGURATION%'
   - mkdir build && cd build
   - conan install -b missing -s build_type "%CONFIGURATION%" -s compiler="Visual Studio" -s compiler.version=14 ..
   - cmake -G "Visual Studio 14 2015 Win64" ..
