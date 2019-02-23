@@ -63,7 +63,6 @@ matrix:
         - choco install conan
         - export PATH="/c/Program Files/Conan/conan:$PATH"
         - conan config set general.user_home_short=None
-        - find "$HOME" -type f -name pip*
       env:
         - MATRIX_EVAL="CC=cl && CXX=cl"
         - CONAN_EXTRAS="-s compiler='Visual Studio' -s compiler.version=15 -s arch=x86"
