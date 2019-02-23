@@ -4,27 +4,27 @@ image:
   - Visual Studio 2015
   - Visual Studio 2017
 
- configuration:
+configuration:
   - Debug
   - Release
 
- platform:
+platform:
   - x86
   - x64
 
 matrix:
-  include:
+  exclude:
     - image: Visual Studio 2015
-      configuration: Debug
+      configuration: Release
       platform: x86
     - image: Visual Studio 2015
-      configuration: Release
-      platform: x64
-    - image: Visual Studio 2017
       configuration: Debug
       platform: x64
     - image: Visual Studio 2017
       configuration: Release
+      platform: x64
+    - image: Visual Studio 2017
+      configuration: Debug
       platform: x86
 
 cache:
