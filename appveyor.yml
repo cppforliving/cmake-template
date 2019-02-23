@@ -1,5 +1,17 @@
 version: 1.0.{build}
 
+image:
+  - Visual Studio 2015
+  - Visual Studio 2017
+
+ configuration:
+  - Debug
+  - Release
+
+ platform:
+  - x86
+  - x64
+
 matrix:
   include:
     - image: Visual Studio 2015
