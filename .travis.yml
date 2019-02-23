@@ -6,6 +6,9 @@ cache:
     - $HOME/.conan
 
 matrix:
+  allow_failures:
+    - os: windows
+  fast_finish: true
   include:
 
     - os: linux
@@ -18,7 +21,7 @@ matrix:
           packages:
             - g++-8
       install:
-        - pip install --user conan
+        - pip install conan
       env:
         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
         - CONAN_EXTRAS="-s compiler.libcxx=libstdc++11"
@@ -33,7 +36,7 @@ matrix:
             --slave /usr/bin/ld ld /usr/local/clang-7.0.0/bin/lld
         - export LD_LIBRARY_PATH="/usr/local/clang-7.0.0/lib:$LD_LIBRARY_PATH"
         - sudo update-ccache-symlinks
-        - pip install --user conan
+        - pip install conan
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
         - CONAN_EXTRAS="-s compiler.libcxx=libstdc++11"
@@ -49,22 +52,22 @@ matrix:
         - ccache -M 500M
         - export PATH="/usr/local/opt/ccache/libexec:$PATH"
         - export PATH="/Users/travis/Library/Python/2.7/bin:$PATH"
-        - pip install --user conan
+        - pip install conan
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
         - CMAKE_EXTRAS="-G Xcode"
 
-    # - os: windows
-    #   compiler: cl
-    #   install:
-    #     - choco install conan
-    #     - export PATH="/c/Program Files/Conan/conan:$PATH"
-    #     - conan config set general.user_home_short=None
-    #     - find "$HOME" -type f -name pip*
-    #   env:
-    #     - MATRIX_EVAL="CC=cl && CXX=cl"
-    #     - CONAN_EXTRAS="-s compiler='Visual Studio' -s compiler.version=15 -s arch=x86"
-    #     - CMAKE_EXTRAS="-G 'Visual Studio 15 2017' -A Win32"
+    - os: windows
+      compiler: cl
+      install:
+        - choco install conan
+        - export PATH="/c/Program Files/Conan/conan:$PATH"
+        - conan config set general.user_home_short=None
+        - find "$HOME" -type f -name pip*
+      env:
+        - MATRIX_EVAL="CC=cl && CXX=cl"
+        - CONAN_EXTRAS="-s compiler='Visual Studio' -s compiler.version=15 -s arch=x86"
+        - CMAKE_EXTRAS="-G 'Visual Studio 15 2017' -A Win32"
 
 before_install:
   - printenv | sort | grep -E '^TRAVIS.*$' -v
