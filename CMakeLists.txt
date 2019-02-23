@@ -63,6 +63,9 @@ include(gcovr)
 include(build/Profiling)
 
 function(debug_dynamic_depencencies target_name)
+    if(NOT debug_dynamic_deps)
+        return()
+    endif()
     set(target_file $<TARGET_FILE:${target_name}>)
     if(APPLE)
         add_custom_command(TARGET ${target_name} POST_BUILD
