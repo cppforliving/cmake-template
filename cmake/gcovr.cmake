@@ -1,10 +1,10 @@
-find_program(GCOVR_COMMAND gcovr)
-mark_as_advanced(GCOVR_COMMAND)
-if(GCOVR_COMMAND)
+find_program(gcovr_command gcovr)
+mark_as_advanced(gcovr_command)
+if(gcovr_command)
     function(add_gcovr_command coverage_target)
         if(build_coverage STREQUAL html OR build_coverage STREQUAL xml)
             add_custom_command(TARGET ${coverage_target} POST_BUILD
-                COMMAND ${GCOVR_COMMAND} --${build_coverage}
+                COMMAND ${gcovr_command} --${build_coverage}
                     $<$<STREQUAL:${build_coverage},html>:--html-details>
                     -r "${PROJECT_SOURCE_DIR}/src"
                     --object-directory="${PROJECT_BINARY_DIR}"
