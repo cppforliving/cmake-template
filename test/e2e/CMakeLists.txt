@@ -9,7 +9,7 @@ target_link_libraries(${test_name}
     clegacy
     example
 )
-debug_dynamic_depencencies(${test_name})
+debug_dynamic_dependencies(${test_name})
 set(cfg_intdir $<IF:$<STREQUAL:.,${CMAKE_CFG_INTDIR}>,.,$<CONFIG>>)
 if(APPLE)
     set(test_env "DYLD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/lib:${CMAKE_BINARY_DIR}/lib/${cfg_intdir}:$DYLD_LIBRARY_PATH")

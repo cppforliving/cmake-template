@@ -68,7 +68,7 @@ include(build/Coverage)
 include(gcovr)
 include(build/Profiling)
 
-function(debug_dynamic_depencencies target_name)
+function(debug_dynamic_dependencies target_name)
     if(NOT debug_dynamic_deps)
         return()
     endif()

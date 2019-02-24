@@ -8,6 +8,6 @@ target_link_libraries(${PROJECT_NAME}
     Threads::Threads
     boost::boost
 )
-debug_dynamic_depencencies(${PROJECT_NAME})
+debug_dynamic_dependencies(${PROJECT_NAME})
 install(TARGETS ${PROJECT_NAME}
     DESTINATION "${CMAKE_INSTALL_BINDIR}")
