@@ -1,6 +1,5 @@
 # Source https://gitlab.kitware.com/cmake/community/wikis/FAQ#can-i-do-make-uninstall-with-cmake
 
-# uninstall target
 if(NOT TARGET uninstall)
     configure_file(
         "${CMAKE_CURRENT_LIST_DIR}/cmake_uninstall.cmake.in"
