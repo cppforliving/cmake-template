@@ -1,7 +1,8 @@
-set(valgrind_tool memcheck CACHE STRING "Valgrind tools: memcheck, cachegrind, callgrind, massif, helgrind, drd.")
+set(${PROJECT_NAME}_valgrind memcheck CACHE STRING
+    "Valgrind tools: memcheck, cachegrind, callgrind, massif, helgrind, drd.")
 
-set(VALGRIND_COMMAND_OPTIONS "--tool=${valgrind_tool}")
-if(valgrind_tool STREQUAL memcheck)
+set(VALGRIND_COMMAND_OPTIONS "--tool=${${PROJECT_NAME}_valgrind}")
+if(${PROJECT_NAME}_valgrind STREQUAL memcheck)
     string(APPEND VALGRIND_COMMAND_OPTIONS " \
         --leak-check=yes \
         --show-reachable=yes \
@@ -15,18 +16,18 @@ if(valgrind_tool STREQUAL memcheck)
         --xml=yes \
         --xml-file=valgrind.xml")
 # cachegrind
-elseif(valgrind_tool STREQUAL callgrind)
+elseif(${PROJECT_NAME}_valgrind STREQUAL callgrind)
     string(APPEND VALGRIND_COMMAND_OPTIONS " \
         --dump-instr=yes \
         --collect-jumps=yes \
         --callgrind-out-file=callgrind.out")
 # helgrind --xtree-memory=full --xtree-memory-file=helgrind-xtmemory.kcg
 # drd
-elseif(valgrind_tool STREQUAL massif)
+elseif(${PROJECT_NAME}_valgrind STREQUAL massif)
     string(APPEND VALGRIND_COMMAND_OPTIONS " \
         --xtree-memory=full \
         --xtree-memory-file=massif-xtmemory.kcg \
         --massif-out-file=massif.out")
 else()
-    message(FATAL_ERROR "valgrind_tool=${valgrind_tool} not supported yet")
+    message(FATAL_ERROR "${PROJECT_NAME}_valgrind=${${PROJECT_NAME}_valgrind} not supported yet")
 endif()

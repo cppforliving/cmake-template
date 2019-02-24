@@ -1,8 +1,8 @@
-option(build_profiling "Build for performance analysis." OFF)
+option(${PROJECT_NAME}_profiling "Build for performance analysis." OFF)
 
-if(build_profiling)
+if(${PROJECT_NAME}_profiling)
     if(MSVC)
-        message(FATAL_ERROR "build_profiling not supported yet for MSVC")
+        message(FATAL_ERROR "${PROJECT_NAME}_profiling not supported yet for MSVC")
     else()
         add_compile_options(-pg)
     endif()
