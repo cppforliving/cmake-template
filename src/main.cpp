@@ -1,14 +1,14 @@
 #ifdef _WIN32
-# include <SDKDDKVer.h>
+#include <SDKDDKVer.h>
 #endif
-#include <exception>
-#include <iostream>
-#include <new>
-#include <thread>
 #include <boost/asio/deadline_timer.hpp>
 #include <boost/asio/io_service.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/system/error_code.hpp>
+#include <exception>
+#include <iostream>
+#include <new>
+#include <thread>
 #include "clegacy/clegacy.h"
 #include "example/example.hpp"
 
@@ -27,9 +27,7 @@ struct ContinuousGreeter {
 };
 
 int main(int /*argc*/, char** /*argv*/) {
-    std::set_new_handler([] {
-        std::terminate();
-    });
+    std::set_new_handler([] { std::terminate(); });
 
     io_service io;
     deadline_timer timer{io, milliseconds{1}};
