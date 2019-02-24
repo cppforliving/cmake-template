@@ -1,7 +1,6 @@
 set(test_name example_unit_test)
 add_executable(${test_name}
     example_unit_test.cpp
-    CoroutinesTS.cpp
 )
 target_link_libraries(${test_name}
     gtest::gtest

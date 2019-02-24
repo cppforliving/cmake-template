@@ -48,7 +48,6 @@ find_package(boost REQUIRED COMPONENTS system)
 
 include(GNUInstallDirs)
 include(build/ColorDiagnostics)
-include(build/CoroutinesTS)
 include(Valgrind)
 include(uninstall)
 include(CTest)
