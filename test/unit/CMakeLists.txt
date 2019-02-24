@@ -1,4 +1,4 @@
-set(test_name example_unit_test)
+set(test_name unit_test)
 add_executable(${test_name}
     example_unit_test.cpp
 )

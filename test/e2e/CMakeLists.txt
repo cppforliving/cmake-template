@@ -1,10 +1,12 @@
-set(test_name example_e2e_test)
+set(test_name e2e_test)
 add_executable(${test_name}
+    clegacy_e2e_test.cpp
     example_e2e_test.cpp
 )
 target_link_libraries(${test_name}
     catch_main
     Catch2::Catch2
+    clegacy
     example
 )
 debug_dynamic_depencencies(${test_name})
