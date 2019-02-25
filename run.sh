@@ -53,7 +53,5 @@ if [[ ! -z $memcheck ]]; then
     $make_cmd ExperimentalMemCheck
 else
     $make_cmd ExperimentalTest
-    if [[ ! -z $coverage ]]; then
-        $make_cmd ExperimentalCoverage
-    fi
+    [[ -z $coverage ]] || $make_cmd ExperimentalCoverage
 fi
