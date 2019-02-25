@@ -36,6 +36,7 @@ done
 build_dir=build/$build_type
 make_cmd="make -C $build_dir --no-print-directory"
 
+set -e
 if [[ ! -z $clean ]]; then
     rm -rf build
 fi
