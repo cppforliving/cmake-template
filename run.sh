@@ -4,37 +4,31 @@ conan_config=Release
 cmake_config=Release
 valgrind=memcheck
 
-while (( $# )); do
-    case $1 in
+for o in $@; do
+    case $o in
     Clean)
         clean=1
-        shift 1
         ;;
     Debug)
         conan_config=Debug
-        cmake_config=$1
-        shift 1
+        cmake_config=$o
         ;;
     Release|MinSizeRel|RelWithDebInfo)
         conan_config=Release
-        cmake_config=$1
-        shift 1
+        cmake_config=$o
         ;;
-    Coverage)
-        coverage=$2
-        shift 2
+    Coverage=*)
+        coverage=${o#*=}
         ;;
-    MemCheck)
+    MemCheck=*)
         memcheck=1
-        valgrind=$2
-        shift 2
+        valgrind=${o#*=}
         ;;
-    Sanitizer)
-        sanitizer=$2
-        shift 2
+    Sanitizer=*)
+        sanitizer=${o#*=}
         ;;
     *)
-        echo "unknown option '$1'"
+        echo "unknown option '$o'"
         exit 1
     esac
 done
