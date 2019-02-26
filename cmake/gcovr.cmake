@@ -5,12 +5,12 @@ if(${PROJECT_NAME}_coverage STREQUAL html OR ${PROJECT_NAME}_coverage STREQUAL x
     foreach(coverage_target ExperimentalCoverage ContinuousCoverage NightlyCoverage)
         add_custom_command(TARGET ${coverage_target} POST_BUILD
             COMMAND ${gcovr_command}
-                -r "${PROJECT_SOURCE_DIR}/src"
+                --root "${PROJECT_SOURCE_DIR}/src"
                 --object-directory "${PROJECT_BINARY_DIR}"
                 $<$<STREQUAL:${${PROJECT_NAME}_coverage},xml>:--xml>
                 $<$<STREQUAL:${${PROJECT_NAME}_coverage},html>:--html-details>
-                -o "${PROJECT_BINARY_DIR}/coverage.${${PROJECT_NAME}_coverage}"
-                -s
+                --output "${PROJECT_BINARY_DIR}/coverage.${${PROJECT_NAME}_coverage}"
+                --print-summary
             COMMENT "Generating gcovr ${${PROJECT_NAME}_coverage} reports")
     endforeach()
 elseif(NOT ${PROJECT_NAME}_coverage STREQUAL "")
