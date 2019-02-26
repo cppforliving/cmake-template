@@ -1,7 +1,7 @@
-set(${PROJECT_NAME}_check none CACHE STRING
-    "Static code analysis tools: clang-tidy, cppcheck, cpplint, iwyu, lwyu, none (default).")
+set(${PROJECT_NAME}_check "" CACHE STRING
+    "Static code analysis tools: clang-tidy, cppcheck, cpplint, iwyu, lwyu.")
 
-if(${${PROJECT_NAME}_check} STREQUAL clang-tidy)
+if("${${PROJECT_NAME}_check}" STREQUAL clang-tidy)
     find_program(clang_tidy_command clang-tidy)
     mark_as_advanced(clang_tidy_command)
     set(CMAKE_C_CLANG_TIDY ${clang_tidy_command}
@@ -9,21 +9,21 @@ if(${${PROJECT_NAME}_check} STREQUAL clang-tidy)
         -warnings-as-errors=*
     )
     set(CMAKE_CXX_CLANG_TIDY ${CMAKE_C_CLANG_TIDY})
-elseif(${${PROJECT_NAME}_check} STREQUAL cppcheck)
+elseif("${${PROJECT_NAME}_check}" STREQUAL cppcheck)
     find_program(cppcheck_command cppcheck)
     mark_as_advanced(cppcheck_command)
     set(CMAKE_C_CPPCHECK ${cppcheck_command}
         --enable=all
     )
     set(CMAKE_CXX_CPPCHECK ${CMAKE_C_CPPCHECK})
-elseif(${${PROJECT_NAME}_check} STREQUAL cpplint)
+elseif("${${PROJECT_NAME}_check}" STREQUAL cpplint)
     find_program(cpplint_command cpplint)
     mark_as_advanced(cpplint_command)
     set(CMAKE_C_CPPLINT ${cpplint_command}
         --filter=-legal/copyright
     )
     set(CMAKE_CXX_CPPLINT ${CMAKE_C_CPPLINT})
-elseif(${${PROJECT_NAME}_check} STREQUAL iwyu)
+elseif("${${PROJECT_NAME}_check}" STREQUAL iwyu)
     find_program(iwyu_command iwyu)
     mark_as_advanced(iwyu_command)
     set(CMAKE_C_INCLUDE_WHAT_YOU_USE ${iwyu_command}
@@ -33,8 +33,8 @@ elseif(${${PROJECT_NAME}_check} STREQUAL iwyu)
     if(NOT MSVC)
         list(APPEND CMAKE_CXX_INCLUDE_WHAT_YOU_USE -nostdinc++)
     endif()
-elseif(${${PROJECT_NAME}_check} STREQUAL lwyu)
+elseif("${${PROJECT_NAME}_check}" STREQUAL lwyu)
     set(CMAKE_LINK_WHAT_YOU_USE ON)
-elseif(NOT ${${PROJECT_NAME}_check} STREQUAL none)
+elseif(NOT "${${PROJECT_NAME}_check}" STREQUAL "")
     message(FATAL_ERROR "${PROJECT_NAME}_check=${${PROJECT_NAME}_check} not supported yet")
 endif()

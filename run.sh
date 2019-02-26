@@ -4,31 +4,40 @@ conan_config=Release
 cmake_config=Release
 valgrind=memcheck
 
-for o in $@; do
-    case $o in
+for opt in $@; do
+    case $opt in
     Clean)
         clean=1
         ;;
+    Format)
+        format=1
+        ;;
     Debug)
         conan_config=Debug
-        cmake_config=$o
+        cmake_config=$opt
         ;;
     Release|MinSizeRel|RelWithDebInfo)
         conan_config=Release
-        cmake_config=$o
+        cmake_config=$opt
+        ;;
+    Test)
+        testing=1
         ;;
     Coverage=*)
-        coverage=${o#*=}
+        coverage=${opt#*=}
         ;;
     MemCheck=*)
         memcheck=1
-        valgrind=${o#*=}
+        valgrind=${opt#*=}
         ;;
     Sanitizer=*)
-        sanitizer=${o#*=}
+        sanitizer=${opt#*=}
+        ;;
+    Check=*)
+        check=${opt#*=}
         ;;
     *)
-        echo "unknown option '$o'"
+        echo "unknown option '$opt'"
         exit 1
     esac
 done
@@ -40,12 +49,9 @@ set -e
 [[ -z $clean ]] || rm -rf build
 mkdir -p $build_dir
 conan install -s build_type=$conan_config -s compiler.libcxx=libstdc++11 -if $build_dir .
-cmake -DCMAKE_BUILD_TYPE=$cmake_config -Dprojname_coverage=$coverage -Dprojname_valgrind=$valgrind -Dprojname_sanitizer=$sanitizer -B$build_dir -H.
-$make_cmd format
+cmake -DCMAKE_BUILD_TYPE=$cmake_config -Dprojname_coverage=$coverage -Dprojname_valgrind=$valgrind -Dprojname_sanitizer=$sanitizer -Dprojname_check=$check -B$build_dir -H.
+[[ -z $format ]] || $make_cmd format
 $make_cmd all
-if [[ ! -z $memcheck ]]; then
-    $make_cmd ExperimentalMemCheck
-else
-    $make_cmd ExperimentalTest
-    [[ -z $coverage ]] || $make_cmd ExperimentalCoverage
-fi
+[[ -z $testing ]] || $make_cmd ExperimentalTest
+[[ -z $coverage ]] || $make_cmd ExperimentalCoverage
+[[ -z $memcheck ]] || $make_cmd ExperimentalMemCheck
