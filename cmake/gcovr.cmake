@@ -10,6 +10,7 @@ if(${PROJECT_NAME}_coverage STREQUAL html OR ${PROJECT_NAME}_coverage STREQUAL x
                 --${${PROJECT_NAME}_coverage}
                 $<$<STREQUAL:${${PROJECT_NAME}_coverage},html>:--html-details>
                 -o "${PROJECT_BINARY_DIR}/coverage.${${PROJECT_NAME}_coverage}"
+                -v > gcovr.log
             COMMENT "Generating gcovr ${${PROJECT_NAME}_coverage} reports")
     endforeach()
 elseif(NOT ${PROJECT_NAME}_coverage STREQUAL "")
