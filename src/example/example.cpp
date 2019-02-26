@@ -2,6 +2,7 @@
 
 namespace example {
 namespace detail {
+
 int get123() {
     return 123;
 }
