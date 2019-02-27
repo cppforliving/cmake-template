@@ -58,4 +58,6 @@ build_script:
   - cmake --build . --config %CONFIGURATION%
 
 test_script:
+  - build/activate_run.bat
   - ctest -C %CONFIGURATION% -V
+  - build/deactivate_run.bat

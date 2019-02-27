@@ -15,3 +15,4 @@ lib, *.so* -> ./lib
 [generators]
 cmake_find_package
 cmake_paths
+virtualrunenv
