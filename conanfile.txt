@@ -8,9 +8,9 @@ gtest/1.8.1@bincrafters/stable
 *:short_paths=False
 
 [imports]
-bin, *.dll -> ./bin
-lib, *.dylib* -> ./lib
-lib, *.so* -> ./lib
+; bin, *.dll -> ./bin
+; lib, *.dylib* -> ./lib
+; lib, *.so* -> ./lib
 
 [generators]
 cmake_find_package
