@@ -86,9 +86,9 @@ script:
     cmake -LA | grep '=(.*-NOTFOUND)?$' -E &&
     cmake --build . --config $BUILD_TYPE &&
     ( cat compile_commands.json || ":" ) &&
-    source build/activate_run.sh &&
+    source activate_run.sh &&
     ctest -C $BUILD_TYPE -V &&
-    source build/deactivate_run.sh
+    source deactivate_run.sh
 
 after_script:
   - ccache -s || ":"
