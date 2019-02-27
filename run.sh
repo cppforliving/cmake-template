@@ -52,6 +52,6 @@ conan install -s build_type=$conan_config -s compiler.libcxx=libstdc++11 -if $bu
 cmake -DCMAKE_BUILD_TYPE=$cmake_config -Dprojname_coverage=$coverage -Dprojname_valgrind=$valgrind -Dprojname_sanitizer=$sanitizer -Dprojname_check=$check -B$build_dir -H.
 [[ -z $format ]] || $make_cmd format
 $make_cmd all
-[[ -z $testing ]] || $make_cmd ExperimentalTest
+[[ -z $testing && -z $coverage ]] || $make_cmd ExperimentalTest
 [[ -z $coverage ]] || $make_cmd ExperimentalCoverage
 [[ -z $memcheck ]] || $make_cmd ExperimentalMemCheck
