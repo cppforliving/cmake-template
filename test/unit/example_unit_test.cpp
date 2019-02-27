@@ -13,7 +13,7 @@ TEST(example_unit_test, memory) {
     delete example::detail::newInt();
 }
 
-TEST(example_unit_test, inheritence) {
+TEST(example_unit_test, inheritance) {
     example::Derived derived;
     ASSERT_NO_THROW(derived.virtualMethod());
 }
