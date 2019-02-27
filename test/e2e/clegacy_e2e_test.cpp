@@ -1,5 +1,5 @@
-#include <stdlib.h>
 #include <catch2/catch.hpp>
+#include <cstdlib>
 #include "clegacy/clegacy.h"
 
 TEST_CASE("clegacy_e2e_test.all") {
