@@ -8,6 +8,6 @@ target_link_libraries(${test_name}
 )
 debug_dynamic_dependencies(${test_name})
 add_test(NAME ${test_name} COMMAND ${test_name}
-        --gtest_color=yes
-        --gtest_output=xml:${test_name}.xml
+    --gtest_color=yes
+    --gtest_output=xml:${test_name}.xml
 )

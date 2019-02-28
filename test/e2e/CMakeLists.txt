@@ -11,5 +11,5 @@ target_link_libraries(${test_name}
 )
 debug_dynamic_dependencies(${test_name})
 add_test(NAME ${test_name} COMMAND ${test_name}
-        --use-colour=yes
+    --use-colour=yes
 )
