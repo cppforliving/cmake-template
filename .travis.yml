@@ -89,6 +89,7 @@ script:
     cat activate_run.sh || ":" &&
     cat activate_run.bat || ":" &&
     source activate_run.sh &&
+    echo $PATH &&
     ctest -C $BUILD_TYPE -V &&
     source deactivate_run.sh
 

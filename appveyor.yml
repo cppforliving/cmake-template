@@ -59,5 +59,6 @@ build_script:
 
 test_script:
   - activate_run.bat
+  - echo %PATH%
   - ctest -C %CONFIGURATION% -V
   - deactivate_run.bat
