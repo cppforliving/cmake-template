@@ -17,6 +17,8 @@ if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
         "Install path prefix, prepended onto install directories." FORCE)
 endif()
 
+set(CMAKE_SKIP_RPATH ON)
+
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 include("${CMAKE_BINARY_DIR}/conan_paths.cmake")
 list(INSERT CMAKE_MODULE_PATH 0 "${CMAKE_BINARY_DIR}")
