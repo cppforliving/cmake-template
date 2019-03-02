@@ -17,7 +17,7 @@ if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
         "Install path prefix, prepended onto install directories." FORCE)
 endif()
 
-set(CMAKE_SKIP_RPATH ON)
+set(CMAKE_SKIP_RPATH OFF)
 set(CMAKE_MACOSX_RPATH OFF)
 
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
