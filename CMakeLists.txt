@@ -45,7 +45,7 @@ set(CMAKE_PDB_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 #string(APPEND CMAKE_CXX_FLAGS " -Wl,--as-needed -Wl,--no-undefined")
 
 find_package(Threads REQUIRED)
-set(Boost_NO_SYSTEM_PATHS ON)
+#set(Boost_NO_SYSTEM_PATHS ON)
 find_package(boost REQUIRED COMPONENTS system)
 #find_package(Git REQUIRED)
 

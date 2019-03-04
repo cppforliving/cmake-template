@@ -91,7 +91,9 @@ script:
     source activate_run.sh &&
     echo $PATH &&
     ctest -C $BUILD_TYPE -V &&
-    source deactivate_run.sh
+    source deactivate_run.sh &&
+    cmake --build . --target install --config $BUILD_TYPE &&
+    cmake --build . --target uninstall --config $BUILD_TYPE
 
 after_script:
   - ccache -s || ":"

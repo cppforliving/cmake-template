@@ -3,7 +3,7 @@ set(dll ${lib_name})
 string(TOUPPER ${dll} DLL)
 configure_file(
     "${PROJECT_SOURCE_DIR}/src/Config.h.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/Config.h"
+    "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/Config.h"
 )
 add_library(${lib_name}
     example.cpp
@@ -18,5 +18,5 @@ install(TARGETS ${lib_name}
 install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/"
     DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${lib_name}"
     FILES_MATCHING REGEX "/.*\\.h(pp)?$")
-install(FILES "${CMAKE_CURRENT_BINARY_DIR}/Config.h"
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/Config.h"
     DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${lib_name}")

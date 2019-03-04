@@ -36,6 +36,12 @@ for opt in "$@"; do
     Check=*)
         check=${opt#*=}
         ;;
+    Install)
+        install=1
+        ;;
+    Uninstall)
+        uninstall=1
+        ;;
     *)
         echo "unknown option '$opt'"
         exit 1
@@ -59,3 +65,5 @@ source "$build_dir"/deactivate_run.sh
 source "$build_dir"/activate_run.sh
 [[ -z $memcheck ]] || $make_cmd ExperimentalMemCheck
 source "$build_dir"/deactivate_run.sh
+[[ -z $install ]] || $make_cmd install
+[[ -z $uninstall ]] || $make_cmd uninstall
