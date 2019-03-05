@@ -5,6 +5,7 @@ configure_file(
     "${PROJECT_SOURCE_DIR}/src/Config.h.in"
     "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/${lib_name}/Config.h"
 )
+message(STATUS "Config: ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/${lib_name}/Config.h")
 add_library(${lib_name}
     example.cpp
 )
