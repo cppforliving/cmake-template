@@ -10,7 +10,7 @@ add_library(${lib_name}
 )
 target_include_directories(${lib_name}
     PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>
-    PUBLIC $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/src>
+    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}>
     INTERFACE $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 install(TARGETS ${lib_name}
