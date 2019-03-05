@@ -19,8 +19,8 @@ if(DOXYGEN_FOUND)
         get_filename_component(DOXYGEN_DOT_PATH ${DOXYGEN_DOT_EXECUTABLE} DIRECTORY)
         file(TO_NATIVE_PATH ${DOXYGEN_DOT_PATH} DOXYGEN_DOT_PATH)
     endif()
-    configure_file(Doxyfile.in ${CMAKE_CFG_INTDIR}/Doxyfile @ONLY)
+    configure_file(Doxyfile.in Doxyfile @ONLY)
     add_custom_target(doc
-        COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_CFG_INTDIR}/Doxyfile > ${CMAKE_CFG_INTDIR}/doxygen.log
+        COMMAND ${DOXYGEN_EXECUTABLE} Doxyfile > doxygen.log
         COMMENT "Generating ${PROJECT_NAME} documentation")
 endif()
