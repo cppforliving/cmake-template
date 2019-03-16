@@ -1,5 +1,5 @@
 [requires]
-Catch2/2.6.1@catchorg/stable
+Catch2/2.7.0@catchorg/stable
 boost/1.65.1@conan/stable
 gtest/1.8.1@bincrafters/stable
 
@@ -8,9 +8,9 @@ gtest/1.8.1@bincrafters/stable
 *:short_paths=False
 
 [imports]
-; bin, *.dll -> ./bin
-; lib, *.dylib* -> ./lib
-; lib, *.so* -> ./lib
+# bin, *.dll -> ./bin
+# lib, *.dylib* -> ./lib
+# lib, *.so* -> ./lib
 
 [generators]
 cmake_find_package
