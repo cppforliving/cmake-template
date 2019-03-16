@@ -13,7 +13,7 @@ project(projname
     LANGUAGES C CXX)
 
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-    set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/${PROJECT_NAME}" CACHE PATH
+    set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/dist" CACHE PATH
         "Install path prefix, prepended onto install directories." FORCE)
 endif()
 
@@ -95,5 +95,13 @@ add_subdirectory(src)
 if(BUILD_TESTING)
     add_subdirectory(test)
 endif()
+
+export(EXPORT ${PROJECT_NAME}
+    NAMESPACE ${PROJECT_NAME}::
+    FILE cmake/${PROJECT_NAME}.cmake)
+
+install(EXPORT ${PROJECT_NAME}
+    NAMESPACE ${PROJECT_NAME}::
+    DESTINATION cmake)
 
 unset(CONAN_FOUND_LIBRARY CACHE)
