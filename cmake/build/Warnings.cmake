@@ -13,20 +13,25 @@ if(MSVC)
 else()
     add_compile_options(
         -fno-strict-aliasing
-        -pedantic
         -Wall
         -Wcast-align
         -Wconversion
         -Werror
         -Wextra
+        -Wpedantic
         -Wshadow
         -Wsign-conversion
         $<$<COMPILE_LANGUAGE:CXX>:-Wctor-dtor-privacy>
         $<$<COMPILE_LANGUAGE:CXX>:-Wnon-virtual-dtor>
         $<$<COMPILE_LANGUAGE:CXX>:-Wold-style-cast>
         $<$<COMPILE_LANGUAGE:CXX>:-Woverloaded-virtual>
-        $<$<CXX_COMPILER_ID:GNU>:-Wl,--function-sections>
-        $<$<CXX_COMPILER_ID:GNU>:-Wl,--data-sections>
-        $<$<CXX_COMPILER_ID:GNU>:-Wl,--gc-sections>
     )
+    set(linker_flags
+        #-Wl,--function-sections
+        #-Wl,--data-sections
+        #-Wl,--gc-sections
+    )
+    string(REPLACE ";" " " linker_flags "${linker_flags}")
+    string(APPEND CMAKE_SHARED_LINKER_FLAGS " ${linker_flags}")
+    unset(linker_flags)
 endif()

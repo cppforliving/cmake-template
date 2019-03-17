@@ -50,7 +50,7 @@ find_package(boost REQUIRED COMPONENTS system)
 #find_package(Git REQUIRED)
 
 include(GNUInstallDirs)
-include(build/ColorDiagnostics)
+include(build/Diagnostics)
 include(Valgrind)
 include(uninstall)
 include(CTest)

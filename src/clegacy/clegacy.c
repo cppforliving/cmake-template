@@ -1,4 +1,4 @@
-#include "clegacy/clegacy.h"
+#include "clegacy.h"
 
 #include <stdlib.h>
 
@@ -7,7 +7,7 @@ static int get123(void) {
 }
 
 static int* newInt(void) {
-    return malloc(sizeof(int));
+    return (int*)malloc(sizeof(int));
 }
 
 int* clegacy_newInt123(void) {

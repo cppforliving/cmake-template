@@ -1,4 +1,4 @@
-#include "example/example.hpp"
+#include "example.hpp"
 
 namespace example {
 namespace detail {
