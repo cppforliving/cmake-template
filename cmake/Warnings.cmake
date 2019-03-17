@@ -26,15 +26,28 @@ else()
         -Wcast-align
         -Wcast-qual
         -Wconversion
+        -Wdisabled-optimization
         -Werror
         -Wextra
+        -Wfloat-equal
+        -Winline
+        -Wlogical-not-parentheses
+        -Wpadded
         -Wpedantic
+        -Wredundant-decls
         -Wshadow -Wno-error=shadow
         -Wsign-conversion
         -Wswitch-enum -Wno-error=switch-enum
+        -Wundef
+        -Wunused-macros
         -Wwrite-strings
         $<$<COMPILE_LANGUAGE:C>:-Wbad-function-cast>
         $<$<COMPILE_LANGUAGE:C>:-Wc++-compat>
+        $<$<COMPILE_LANGUAGE:C>:-Wnested-externs>
+        $<$<COMPILE_LANGUAGE:C>:-Wold-style-definition>
+        $<$<COMPILE_LANGUAGE:C>:-Wstrict-prototypes>
+        $<$<COMPILE_LANGUAGE:CXX>:-Wc++11-compat>
+        $<$<COMPILE_LANGUAGE:CXX>:-Wc++14-compat>
         $<$<COMPILE_LANGUAGE:CXX>:-Wc++17-compat>
         $<$<COMPILE_LANGUAGE:CXX>:-Wctor-dtor-privacy>
         $<$<COMPILE_LANGUAGE:CXX>:-Wnon-virtual-dtor>
@@ -44,6 +57,13 @@ else()
     )
     if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         add_compile_options(
+            -Wlogical-op
+            -Wtrampolines
+            -Wunsafe-loop-optimizations
+            -Wvector-operation-performance
+            $<$<COMPILE_LANGUAGE:CXX>:-Wconditionally-supported>
+            $<$<COMPILE_LANGUAGE:CXX>:-Wnoexcept>
+            $<$<COMPILE_LANGUAGE:CXX>:-Wuseless-cast>
             -fcomment-block-commands=startuml,enduml
             -Weverything
             -Wno-c++98-compat
