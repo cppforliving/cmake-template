@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.12)
 
 option(BUILD_SHARED_LIBS
     "Global flag to cause `add_library()` to create shared libraries if on." ON)
@@ -22,7 +22,7 @@ set(CMAKE_MACOSX_RPATH OFF)
 
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 include("${CMAKE_BINARY_DIR}/conan_paths.cmake")
-list(INSERT CMAKE_MODULE_PATH 0 "${CMAKE_BINARY_DIR}")
+#list(INSERT CMAKE_MODULE_PATH 0 "${CMAKE_BINARY_DIR}")
 
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
@@ -46,7 +46,7 @@ set(CMAKE_PDB_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 
 find_package(Threads REQUIRED)
 #set(Boost_NO_SYSTEM_PATHS ON)
-find_package(boost REQUIRED COMPONENTS system)
+find_package(Boost REQUIRED COMPONENTS system)
 #find_package(Git REQUIRED)
 
 include(GNUInstallDirs)
