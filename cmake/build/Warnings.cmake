@@ -21,6 +21,8 @@ else()
         -Wpedantic
         -Wshadow
         -Wsign-conversion
+        $<$<COMPILE_LANGUAGE:C>:-Wc++-compat>
+        $<$<COMPILE_LANGUAGE:CXX>:-Wc++17-compat>
         $<$<COMPILE_LANGUAGE:CXX>:-Wctor-dtor-privacy>
         $<$<COMPILE_LANGUAGE:CXX>:-Wnon-virtual-dtor>
         $<$<COMPILE_LANGUAGE:CXX>:-Wold-style-cast>
