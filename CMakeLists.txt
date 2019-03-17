@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.11)
 
 option(BUILD_SHARED_LIBS
     "Global flag to cause `add_library()` to create shared libraries if on." ON)
