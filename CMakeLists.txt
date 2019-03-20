@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.11)
+cmake_minimum_required(VERSION 3.12)
 message(STATUS "CMake version: ${CMAKE_VERSION}")
 
 option(BUILD_SHARED_LIBS
