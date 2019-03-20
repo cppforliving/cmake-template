@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.11)
+message(STATUS "CMake version: ${CMAKE_VERSION}")
 
 option(BUILD_SHARED_LIBS
     "Global flag to cause `add_library()` to create shared libraries if on." ON)

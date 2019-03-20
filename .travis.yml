@@ -57,6 +57,22 @@ matrix:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
         - CMAKE_EXTRAS="-G Xcode"
 
+    - os: osx
+      compiler: clang
+      osx_image: xcode10.1
+      addons:
+        homebrew:
+          packages:
+            - ccache
+      install:
+        - ccache -M 500M
+        - export PATH="/usr/local/opt/ccache/libexec:$PATH"
+        - export PATH="/Users/travis/Library/Python/2.7/bin:$PATH"
+        - pip install --user conan
+      env:
+        - MATRIX_EVAL="CC=clang && CXX=clang++"
+        - CMAKE_EXTRAS="-G Xcode"
+
     - os: windows
       compiler: cl
       install:
