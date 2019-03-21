@@ -13,7 +13,7 @@ target_link_libraries(${PROJECT_NAME}
     Threads::Threads
     Boost::system
     Boost::diagnostic_definitions
-    #Boost::disable_autolinking
+    Boost::disable_autolinking
     Boost::dynamic_linking
 )
 debug_dynamic_dependencies(${PROJECT_NAME})
