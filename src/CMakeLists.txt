@@ -11,6 +11,9 @@ target_link_libraries(${PROJECT_NAME}
     example
     Threads::Threads
     Boost::system
+    Boost::diagnostic_definitions
+    #Boost::disable_autolinking
+    Boost::dynamic_linking
 )
 debug_dynamic_dependencies(${PROJECT_NAME})
 install(TARGETS ${PROJECT_NAME}
