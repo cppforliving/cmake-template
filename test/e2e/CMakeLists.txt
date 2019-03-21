@@ -6,6 +6,7 @@ target_sources(${test_name}
     example_e2e_test.cpp
 )
 target_link_libraries(${test_name}
+  PRIVATE
     catch_main
     Catch2::Catch2
     clegacy

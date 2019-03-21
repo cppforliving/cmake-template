@@ -7,6 +7,7 @@ target_sources(${PROJECT_NAME}
     main.cpp
 )
 target_link_libraries(${PROJECT_NAME}
+  PRIVATE
     clegacy
     example
     Threads::Threads

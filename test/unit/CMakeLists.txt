@@ -5,6 +5,7 @@ target_sources(${test_name}
     example_unit_test.cpp
 )
 target_link_libraries(${test_name}
+  PRIVATE
     GTest::Main
     GTest::GTest
     example
