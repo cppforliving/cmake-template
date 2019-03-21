@@ -5,7 +5,9 @@ configure_file(
     "${PROJECT_SOURCE_DIR}/src/Config.h.in"
     "${CMAKE_CURRENT_BINARY_DIR}/Config.old.h"
 )
-add_library(${lib_name}
+add_library(${lib_name})
+target_sources(${lib_name}
+  PRIVATE
     clegacy.c
 )
 include(GenerateExportHeader)

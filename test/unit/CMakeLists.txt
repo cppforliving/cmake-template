@@ -1,5 +1,7 @@
 set(test_name unit_test)
-add_executable(${test_name}
+add_executable(${test_name})
+target_sources(${test_name}
+  PRIVATE
     example_unit_test.cpp
 )
 target_link_libraries(${test_name}

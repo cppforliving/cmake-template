@@ -1,4 +1,5 @@
-add_library(catch_main catch_main.cpp)
+add_library(catch_main)
+target_sources(catch_main PRIVATE catch_main.cpp)
 if(MSVC)
     set_property(TARGET catch_main PROPERTY WINDOWS_EXPORT_ALL_SYMBOLS ON)
 else()

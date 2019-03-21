@@ -1,5 +1,7 @@
 set(test_name e2e_test)
-add_executable(${test_name}
+add_executable(${test_name})
+target_sources(${test_name}
+  PRIVATE
     clegacy_e2e_test.cpp
     example_e2e_test.cpp
 )
