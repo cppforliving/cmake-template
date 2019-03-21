@@ -3,10 +3,15 @@ set(dll ${lib_name})
 string(TOUPPER ${dll} DLL)
 configure_file(
     "${PROJECT_SOURCE_DIR}/src/Config.h.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/Config.h"
+    "${CMAKE_CURRENT_BINARY_DIR}/Config.old.h"
 )
 add_library(${lib_name}
     example.cpp
+)
+include(GenerateExportHeader)
+generate_export_header(${lib_name}
+    EXPORT_MACRO_NAME ${DLL}_API
+    EXPORT_FILE_NAME Config.h
 )
 target_include_directories(${lib_name}
   PUBLIC
