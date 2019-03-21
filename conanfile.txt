@@ -13,6 +13,6 @@ gtest/1.8.1@bincrafters/stable
 # lib, *.so* -> ./lib
 
 [generators]
-cmake_find_package
+# cmake_find_package
 cmake_paths
 virtualrunenv
