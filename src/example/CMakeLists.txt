@@ -29,6 +29,7 @@ target_sources(${test_name}
   PRIVATE
     derived_test.cpp
     example_test.cpp
+    lockable_test.cpp
 )
 target_link_libraries(${test_name}
   PRIVATE
