@@ -26,7 +26,7 @@ struct ContinuousGreeter {
     }
 };
 
-int main(int /*argc*/, char** /*argv*/) {
+int main() {
     std::set_new_handler([] { std::terminate(); });
 
     io_service io;
