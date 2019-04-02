@@ -12,7 +12,7 @@ target_link_libraries(${PROJECT_NAME}
     example
     Threads::Threads
     Boost::system
-    Boost::date_time
+    #Boost::date_time
     Boost::diagnostic_definitions
     #Boost::disable_autolinking
     Boost::dynamic_linking
