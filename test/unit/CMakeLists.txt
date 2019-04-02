@@ -10,6 +10,10 @@ target_link_libraries(${test_name}
     GTest::GTest
     example
 )
+target_compile_definitions(${test_name}
+  PRIVATE
+    GTEST_LINKED_AS_SHARED_LIBRARY=1
+)
 debug_dynamic_dependencies(${test_name})
 add_test(NAME ${test_name} COMMAND ${test_name}
     --gtest_color=yes
