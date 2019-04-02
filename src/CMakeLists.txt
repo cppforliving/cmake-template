@@ -14,7 +14,7 @@ target_link_libraries(${PROJECT_NAME}
     Boost::system
     #Boost::date_time
     Boost::diagnostic_definitions
-    #Boost::disable_autolinking
+    Boost::disable_autolinking
     Boost::dynamic_linking
 )
 debug_dynamic_dependencies(${PROJECT_NAME})
