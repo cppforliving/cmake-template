@@ -87,11 +87,11 @@ script:
     cmake --build . --config $BUILD_TYPE &&
     ( cat compile_commands.json || ":" ) &&
     ( cat activate_run.sh || ":" ) &&
-    ( cat activate_run.bat || ":" ) &&
     source activate_run.sh &&
     echo $PATH &&
     ctest -C $BUILD_TYPE -V &&
-    source deactivate_run.sh &&
+    ( cat deactivate_run.sh || ":" ) &&
+    ( source deactivate_run.sh || ":" ) &&
     cmake --build . --target install --config $BUILD_TYPE &&
     cmake --build . --target uninstall --config $BUILD_TYPE
 
