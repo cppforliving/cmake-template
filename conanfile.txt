@@ -1,6 +1,6 @@
 [requires]
 Catch2/2.7.0@catchorg/stable
-boost/1.66.0@conan/stable
+boost/1.65.1@conan/stable
 gtest/1.8.1@bincrafters/stable
 
 [options]
