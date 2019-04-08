@@ -22,3 +22,25 @@ install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/"
     FILES_MATCHING REGEX "/.*\\.h(h|pp|xx)?$")
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/export.h"
     DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${lib_name}")
+
+set(test_name ${lib_name}_test)
+add_executable(${test_name})
+target_sources(${test_name}
+  PRIVATE
+    clegacy_test.cpp
+)
+target_link_libraries(${test_name}
+  PRIVATE
+    GTest::Main
+    GTest::GTest
+    ${lib_name}
+)
+target_compile_definitions(${test_name}
+  PRIVATE
+    GTEST_LINKED_AS_SHARED_LIBRARY=1
+)
+debug_dynamic_dependencies(${test_name})
+add_test(NAME ${test_name} COMMAND ${test_name}
+    --gtest_color=yes
+    --gtest_output=xml:${test_name}.xml
+)
