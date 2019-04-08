@@ -1,7 +1,7 @@
 #ifndef EXAMPLE_DERIVED_HPP_
 #define EXAMPLE_DERIVED_HPP_
 
-#include "example/export.h"
+#include <example/export.h>
 
 /**
  * @startuml
@@ -12,11 +12,11 @@ namespace example {
 
 class Base {
 public:
-    virtual ~Base() = default;
-    virtual void virtualMethod() = 0;
+    EXAMPLE_EXPORT virtual ~Base() = default;
+    EXAMPLE_EXPORT virtual void virtualMethod() = 0;
 
 protected:
-    int protectedMethod() { return ++protectedMember; }
+    EXAMPLE_EXPORT int protectedMethod() { return ++protectedMember; }
     int protectedMember{0};
 
 private:

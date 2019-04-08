@@ -1,7 +1,7 @@
 #ifndef EXAMPLE_EXAMPLE_HPP_
 #define EXAMPLE_EXAMPLE_HPP_
 
-#include "example/export.h"
+#include <example/export.h>
 
 namespace example {
 namespace detail {

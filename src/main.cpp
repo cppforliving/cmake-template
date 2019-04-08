@@ -1,16 +1,16 @@
 #ifdef _WIN32
 #include <SDKDDKVer.h>
 #endif
+#include <clegacy/clegacy.h>
 #include <boost/asio/deadline_timer.hpp>
 #include <boost/asio/io_service.hpp>
-#include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/date_time/posix_time/posix_time_types.hpp>
 #include <boost/system/error_code.hpp>
+#include <example/example.hpp>
 #include <exception>
 #include <iostream>
 #include <new>
 #include <thread>
-#include "clegacy/clegacy.h"
-#include "example/example.hpp"
 
 using boost::asio::deadline_timer;
 using boost::asio::io_service;

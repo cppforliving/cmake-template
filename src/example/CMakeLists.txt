@@ -27,7 +27,7 @@ set(test_name ${lib_name}_test)
 add_executable(${test_name})
 target_sources(${test_name}
   PRIVATE
-    Derived_test.cpp
+    derived_test.cpp
     example_test.cpp
 )
 target_link_libraries(${test_name}

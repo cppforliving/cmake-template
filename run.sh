@@ -52,7 +52,7 @@ for opt in "$@"; do
 done
 
 build_dir=build/$cmake_config
-make_cmd="make -C $build_dir --no-print-directory -j $(nproc)"
+make_cmd="cmake --build $build_dir -j $(nproc) --"
 
 set -e
 [[ -z $clean ]] || rm -rf build
