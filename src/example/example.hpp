@@ -1,21 +1,21 @@
 #ifndef EXAMPLE_EXAMPLE_HPP_
 #define EXAMPLE_EXAMPLE_HPP_
 
-#include "example/Config.h"
+#include "example/export.h"
 
 namespace example {
 namespace detail {
 
-EXAMPLE_API int get123();
+EXAMPLE_EXPORT int get123();
 
-EXAMPLE_API int* newInt();
+EXAMPLE_EXPORT int* newInt();
 
 }  // namespace detail
 
 /**
  * Allocates int 123 on heap and returns its pointer
  */
-EXAMPLE_API int* newInt123();
+EXAMPLE_EXPORT int* newInt123();
 
 }  // namespace example
 

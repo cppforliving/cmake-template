@@ -1,7 +1,7 @@
 #ifndef CLEGACY_CLEGACY_H_
 #define CLEGACY_CLEGACY_H_
 
-#include "clegacy/Config.h"
+#include "clegacy/export.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -10,7 +10,7 @@ extern "C" {
 /**
  * Allocates int 123 on heap and returns its pointer
  */
-CLEGACY_API int* clegacy_newInt123(void);
+CLEGACY_EXPORT int* clegacy_newInt123(void);
 
 #ifdef __cplusplus
 }  // extern "C"

@@ -1,7 +1,7 @@
 #ifndef EXAMPLE_DERIVED_HPP_
 #define EXAMPLE_DERIVED_HPP_
 
-#include "example/Config.h"
+#include "example/export.h"
 
 /**
  * @startuml
