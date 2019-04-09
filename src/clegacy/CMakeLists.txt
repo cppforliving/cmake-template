@@ -4,15 +4,15 @@ target_sources(${lib_name}
   PRIVATE
     clegacy.c
 )
-include(GenerateExportHeader)
-generate_export_header(${lib_name}
-    EXPORT_FILE_NAME export.h
-)
 target_include_directories(${lib_name}
   PUBLIC
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>
     $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/src>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)
+include(GenerateExportHeader)
+generate_export_header(${lib_name}
+    EXPORT_FILE_NAME export.h
 )
 install(TARGETS ${lib_name}
     EXPORT ${PROJECT_NAME}
