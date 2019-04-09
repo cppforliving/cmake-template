@@ -16,6 +16,9 @@ for opt in "$@"; do
     Static)
         cmake_shared=OFF
         ;;
+    Shared)
+        cmake_shared=ON
+        ;;
     Debug)
         conan_config=Debug
         cmake_config=$opt

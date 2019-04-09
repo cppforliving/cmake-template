@@ -10,13 +10,13 @@
  */
 namespace example {
 
-class Base {
+class EXAMPLE_DEPRECATED Base {
 public:
-    EXAMPLE_EXPORT virtual ~Base() = default;
-    EXAMPLE_EXPORT virtual void virtualMethod() = 0;
+    virtual ~Base() = default;
+    virtual void virtualMethod() = 0;
 
 protected:
-    EXAMPLE_EXPORT int protectedMethod() { return ++protectedMember; }
+    int protectedMethod() { return ++protectedMember; }
     int protectedMember{0};
 
 private:
