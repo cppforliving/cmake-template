@@ -10,7 +10,7 @@
  */
 namespace example {
 
-class EXAMPLE_DEPRECATED Base {
+class EXAMPLE_EXPORT Base {
 public:
     virtual ~Base() = default;
     virtual void virtualMethod() = 0;
@@ -24,7 +24,7 @@ private:
     int privateMember{0};
 };
 
-class Derived : public Base {
+class EXAMPLE_EXPORT Derived : public Base {
 public:
     void virtualMethod() override {}
 };
