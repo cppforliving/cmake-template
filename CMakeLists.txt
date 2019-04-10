@@ -91,11 +91,7 @@ function(debug_dynamic_dependencies target_name)
     endif()
 endfunction()
 
-add_subdirectory(doc)
 add_subdirectory(src)
-if(BUILD_TESTING)
-    add_subdirectory(test)
-endif()
 
 export(EXPORT ${PROJECT_NAME}
     NAMESPACE ${PROJECT_NAME}::
@@ -105,4 +101,10 @@ install(EXPORT ${PROJECT_NAME}
     NAMESPACE ${PROJECT_NAME}::
     DESTINATION cmake)
 
-unset(CONAN_FOUND_LIBRARY CACHE)
+if(BUILD_TESTING)
+    add_subdirectory(test)
+endif()
+
+add_subdirectory(doc)
+
+#unset(CONAN_FOUND_LIBRARY CACHE)
