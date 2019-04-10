@@ -23,6 +23,10 @@ install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/"
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/export.h"
     DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${lib_name}")
 
+if(NOT BUILD_TESTING)
+    return()
+endif()
+
 set(test_name ${lib_name}_test)
 add_executable(${test_name})
 target_sources(${test_name}
