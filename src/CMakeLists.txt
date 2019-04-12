@@ -1,3 +1,6 @@
+if(BUILD_TESTING)
+    add_subdirectory(catch)
+endif()
 add_subdirectory(clegacy)
 add_subdirectory(example)
 
