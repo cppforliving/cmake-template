@@ -3,18 +3,18 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-namespace example {
-namespace test {
+namespace {
+
+using namespace example;
 
 using testing::Eq;
 
-TEST(example, test) {
+TEST(ExampleTest, getValue) {
     ASSERT_THAT(detail::get123(), Eq(123));
 }
 
-TEST(example, memory) {
+TEST(ExampleTest, deleteMemory) {
     delete detail::newInt();
 }
 
-}  // namespace test
-}  // namespace example
+}  // namespace

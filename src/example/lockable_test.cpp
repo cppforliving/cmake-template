@@ -4,10 +4,11 @@
 #include <mutex>
 #include <string>
 
-namespace example {
-namespace test {
+namespace {
 
-TEST(Lockable, shouldLock) {
+using namespace example;
+
+TEST(LockableTest, lockAndSwap) {
     Lockable<std::string> s1{"asd"};
     Lockable<std::string> s2{"qwe"};
     std::lock(s1, s2);
@@ -17,5 +18,4 @@ TEST(Lockable, shouldLock) {
     EXPECT_EQ(6u, l1->size() + l2->size());
 }
 
-}  // namespace test
-}  // namespace example
+}  // namespace

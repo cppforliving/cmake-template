@@ -42,8 +42,8 @@ public:
     void unlock() { m_mutex.unlock(); }
 
 private:
-    T m_data{};
-    M m_mutex{};
+    T m_data;
+    M m_mutex;
 };
 
 template <typename T>

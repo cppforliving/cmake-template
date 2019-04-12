@@ -2,13 +2,13 @@
 
 #include <gtest/gtest.h>
 
-namespace example {
-namespace test {
+namespace {
 
-TEST(Derived, virtualMethod) {
+using namespace example;
+
+TEST(DerivedTest, callVirtualMethod) {
     Derived derived;
     ASSERT_NO_THROW(derived.virtualMethod());
 }
 
-}  // namespace test
-}  // namespace example
+}  // namespace

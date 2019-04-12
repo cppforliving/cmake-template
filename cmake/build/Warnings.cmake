@@ -27,6 +27,7 @@ else()
         $<$<COMPILE_LANGUAGE:CXX>:-Wnon-virtual-dtor>
         $<$<COMPILE_LANGUAGE:CXX>:-Wold-style-cast>
         $<$<COMPILE_LANGUAGE:CXX>:-Woverloaded-virtual>
+        $<$<COMPILE_LANGUAGE:CXX>:-Wsuggest-override>
     )
     set(linker_flags
         #-Wl,--function-sections

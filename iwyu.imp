@@ -1,4 +1,5 @@
 [
-  { include: ["@<gmock/(gmock[-_]|internal/).*>", "private", "<gmock/gmock.h>", "public"] },
-  { include: ["@<gtest/(gtest[-_]|internal/).*>", "private", "<gtest/gtest.h>", "public"] }
+  { include: ["@<boost/asio/impl/io_service.[hi]pp>", "private", "<boost/asio/io_service.hpp>", "public"] },
+  { include: ["@<gmock/gmock-.*.h>", "private", "<gmock/gmock.h>", "public"] },
+  { include: ["@<gtest/gtest-.*.h>", "private", "<gtest/gtest.h>", "public"] }
 ]
