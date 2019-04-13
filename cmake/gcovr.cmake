@@ -6,6 +6,7 @@ if(${PROJECT_NAME}_coverage STREQUAL html OR ${PROJECT_NAME}_coverage STREQUAL x
         add_custom_command(TARGET ${coverage_target} POST_BUILD
             COMMAND ${gcovr_command}
                 --root "${PROJECT_SOURCE_DIR}/src"
+                --exclude ".*_test.cpp"
                 --object-directory "${PROJECT_BINARY_DIR}"
                 $<$<STREQUAL:${${PROJECT_NAME}_coverage},xml>:--xml>
                 $<$<STREQUAL:${${PROJECT_NAME}_coverage},html>:--html-details>

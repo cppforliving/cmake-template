@@ -19,12 +19,4 @@ int* newInt123() {
     return x;
 }
 
-struct Local {};
-
-static Local local;
-
-Local& getLocalInstance() {
-    return local;
-}
-
 }  // namespace example
