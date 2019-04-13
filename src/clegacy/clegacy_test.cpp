@@ -1,8 +1,9 @@
 #include "clegacy.h"
 
+#include <cstdlib>
+
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
-#include <stdlib.h>
 
 namespace {
 

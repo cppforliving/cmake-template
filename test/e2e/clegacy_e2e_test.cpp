@@ -1,6 +1,8 @@
-#include <clegacy/clegacy.h>
-#include <stdlib.h>
+#include <cstdlib>
+
 #include <catch2/catch.hpp>
+
+#include <clegacy/clegacy.h>
 
 namespace {
 

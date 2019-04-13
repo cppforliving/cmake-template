@@ -1,4 +1,5 @@
 #include <catch2/catch.hpp>
+
 #include <example/example.hpp>
 
 namespace {

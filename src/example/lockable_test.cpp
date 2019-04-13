@@ -1,8 +1,9 @@
 #include "lockable.hpp"
 
-#include <gtest/gtest.h>
 #include <mutex>
 #include <string>
+
+#include <gtest/gtest.h>
 
 namespace {
 
