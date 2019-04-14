@@ -8,7 +8,7 @@ using namespace example;
 
 TEST(DerivedTest, callVirtualMethod) {
     Derived derived;
-    ASSERT_NO_THROW(derived.virtualMethod());
+    EXPECT_NO_THROW(derived.virtualMethod());
 }
 
 }  // namespace

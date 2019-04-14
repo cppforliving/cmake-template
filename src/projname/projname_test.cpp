@@ -14,7 +14,7 @@ using testing::TestWithParam;
 using testing::Values;
 
 struct ProjnameTest : TestWithParam<std::new_handler> {
-    char const* args[1] = {__FILE__};
+    char const* args[1]{__FILE__};
 };
 
 TEST_P(ProjnameTest, run) {
@@ -25,6 +25,8 @@ TEST_P(ProjnameTest, run) {
 
 INSTANTIATE_TEST_CASE_P(VariousNewHandlers,
                         ProjnameTest,
-                        Values(nullptr, [] { throw std::bad_alloc{}; }, [] { std::terminate(); }));
+                        Values(nullptr,
+                               [] { throw std::bad_alloc{}; },
+                               [] { std::terminate(); }));
 
 }  // namespace

@@ -11,8 +11,11 @@ class Lockable {
 public:
     class Lock {
     public:
-        explicit Lock(Lockable& lockable) : m_lockable{lockable} { m_lockable.m_mutex.lock(); }
-        Lock(Lockable& lockable, std::adopt_lock_t) noexcept : m_lockable(lockable) {}
+        explicit Lock(Lockable& lockable) : m_lockable{lockable} {
+            m_lockable.m_mutex.lock();
+        }
+        Lock(Lockable& lockable, std::adopt_lock_t) noexcept
+            : m_lockable(lockable) {}
         ~Lock() { m_lockable.m_mutex.unlock(); }
 
         Lock(Lock const&) = delete;

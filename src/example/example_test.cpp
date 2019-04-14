@@ -10,7 +10,7 @@ using namespace example;
 using testing::Eq;
 
 TEST(ExampleTest, getValue) {
-    ASSERT_THAT(detail::get123(), Eq(123));
+    EXPECT_THAT(detail::get123(), Eq(123));
 }
 
 TEST(ExampleTest, deleteMemory) {
