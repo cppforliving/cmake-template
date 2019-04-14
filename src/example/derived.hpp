@@ -9,21 +9,21 @@
 namespace example {
 
 class Base {
-public:
+  public:
     virtual ~Base() = default;
     virtual void virtualMethod() = 0;
 
-protected:
+  protected:
     int protectedMethod() { return ++protectedMember; }
     int protectedMember{0};
 
-private:
+  private:
     int privateMethod() { return ++privateMember; }
     int privateMember{0};
 };
 
 class Derived : public Base {
-public:
+  public:
     void virtualMethod() override {}
 };
 

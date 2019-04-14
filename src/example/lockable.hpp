@@ -8,9 +8,9 @@ namespace example {
 
 template <typename T, typename M = std::mutex>
 class Lockable {
-public:
+  public:
     class Lock {
-    public:
+      public:
         explicit Lock(Lockable& lockable) : m_lockable{lockable} {
             m_lockable.m_mutex.lock();
         }
@@ -27,7 +27,7 @@ public:
         T& operator*() noexcept { return m_lockable.m_data; }
         T const& operator*() const noexcept { return m_lockable.m_data; }
 
-    private:
+      private:
         Lockable& m_lockable;
     };
 
@@ -44,7 +44,7 @@ public:
     bool try_lock() noexcept { return m_mutex.try_lock(); }
     void unlock() { m_mutex.unlock(); }
 
-private:
+  private:
     T m_data;
     M m_mutex;
 };
