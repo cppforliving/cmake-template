@@ -3,28 +3,4 @@ if(BUILD_TESTING)
 endif()
 add_subdirectory(clegacy)
 add_subdirectory(example)
-
-add_executable(${PROJECT_NAME})
-target_sources(${PROJECT_NAME}
-  PRIVATE
-    main.cpp
-)
-target_link_libraries(${PROJECT_NAME}
-  PRIVATE
-    clegacy
-    example
-    Threads::Threads
-    Boost::system
-    Boost::date_time
-    Boost::diagnostic_definitions
-    Boost::disable_autolinking
-    Boost::dynamic_linking
-)
-target_include_directories(${PROJECT_NAME}
-  PUBLIC
-    ${GSL_INCLUDE_DIRS}
-)
-debug_dynamic_dependencies(${PROJECT_NAME})
-install(TARGETS ${PROJECT_NAME}
-    EXPORT ${PROJECT_NAME}
-    DESTINATION "${CMAKE_INSTALL_BINDIR}")
+add_subdirectory(${PROJECT_NAME})

@@ -8,7 +8,7 @@ if(${PROJECT_NAME}_valgrind STREQUAL memcheck)
         --leak-check=yes
         --show-reachable=yes
         --num-callers=50
-        --suppressions=${PROJECT_SOURCE_DIR}/valgrind.supp
+        --suppressions=${PROJECT_SOURCE_DIR}/data/valgrind.supp
         --error-exitcode=1
         --read-inline-info=yes
         --xtree-memory=full
