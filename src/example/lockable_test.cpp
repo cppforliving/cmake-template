@@ -14,7 +14,6 @@ TEST(LockableTest, lockAndUnlock) {
     s1.lock();
     Lockable<std::string>::Lock l1{s1, std::adopt_lock};
     EXPECT_EQ("asd", *l1);
-    s1.unlock();
 }
 
 TEST(LockableTest, lockAndSwap) {
