@@ -21,7 +21,7 @@ using boost::posix_time::milliseconds;
 using boost::system::error_code;
 
 void ContinuousGreeter::operator()() const {
-    std::cout << "Hello, Asio!" << std::endl;
+    std::cout << "Hi! ";
     io.post(ContinuousGreeter{*this});
 }
 

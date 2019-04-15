@@ -13,10 +13,7 @@ target_link_libraries(${PROJECT_NAME}_obj
     Boost::diagnostic_definitions
     Boost::disable_autolinking
     Boost::dynamic_linking
-)
-target_include_directories(${PROJECT_NAME}_obj
-  PUBLIC
-    ${GSL_INCLUDE_DIRS}
+    GSL::GSL
 )
 
 add_executable(${PROJECT_NAME})
