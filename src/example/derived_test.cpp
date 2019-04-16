@@ -6,7 +6,7 @@ namespace {
 
 using namespace example;
 
-TEST(DerivedTest, callVirtualMethod) {
+TEST(Derived, callVirtualMethod) {
     Derived derived;
     EXPECT_NO_THROW(derived.virtualMethod());
 }

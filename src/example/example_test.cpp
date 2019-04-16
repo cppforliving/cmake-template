@@ -9,11 +9,11 @@ using namespace example;
 
 using testing::Eq;
 
-TEST(ExampleTest, getValue) {
+TEST(Example, getValue) {
     EXPECT_THAT(detail::get123(), Eq(123));
 }
 
-TEST(ExampleTest, deleteMemory) {
+TEST(Example, deleteMemory) {
     delete detail::newInt();
 }
 
