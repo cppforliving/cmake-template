@@ -5,8 +5,9 @@
 #include <SDKDDKVer.h>
 #endif
 
-#include <boost/asio/io_service.hpp>
 #include <gsl/span>
+
+namespace boost { namespace asio { class io_service; } }
 
 namespace projname {
 

@@ -21,6 +21,7 @@ else()
         -Wpedantic
         -Wshadow
         -Wsign-conversion
+        -Wwrite-strings
         $<$<COMPILE_LANGUAGE:C>:-Wc++-compat>
         $<$<COMPILE_LANGUAGE:CXX>:-Wc++17-compat>
         $<$<COMPILE_LANGUAGE:CXX>:-Wctor-dtor-privacy>
@@ -34,7 +35,13 @@ else()
         )
     elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         add_compile_options(
+            -fcomment-block-commands=startuml,enduml
+            -Weverything
+            -Wno-c++98-compat
+            -Wno-error=documentation
             -Wno-error=gnu-zero-variadic-macro-arguments
+            -Wno-error=weak-vtables
+#            $<$<COMPILE_LANGUAGE:CXX>:-Wno-error=zero-as-null-pointer-constant>
         )
     endif()
     set(linker_flags

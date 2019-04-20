@@ -47,6 +47,12 @@ if(BUILD_TESTING)
       PRIVATE
         GTEST_LINKED_AS_SHARED_LIBRARY=1
     )
+    if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+        target_compile_options(${test_name}
+          PRIVATE
+            -Wno-global-constructors
+        )
+    endif()
     debug_dynamic_dependencies(${test_name})
     add_test(NAME ${test_name} COMMAND ${test_name}
         --gtest_color=yes
