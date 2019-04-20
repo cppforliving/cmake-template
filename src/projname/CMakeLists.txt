@@ -31,32 +31,7 @@ install(TARGETS ${PROJECT_NAME}
     DESTINATION "${CMAKE_INSTALL_BINDIR}")
 
 if(BUILD_TESTING)
-    set(test_name ${PROJECT_NAME}_test)
-    add_executable(${test_name})
-    target_sources(${test_name}
-      PRIVATE
+    add_gtest_test(${PROJECT_NAME}_obj
         projname_test.cpp
-    )
-    target_link_libraries(${test_name}
-      PRIVATE
-        GTest::Main
-        GTest::GTest
-        ${PROJECT_NAME}_obj
-    )
-    target_compile_definitions(${test_name}
-      PRIVATE
-        GTEST_LINKED_AS_SHARED_LIBRARY=1
-    )
-    if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-        target_compile_options(${test_name}
-          PRIVATE
-            -Wno-global-constructors
-            -Wno-error=zero-as-null-pointer-constant
-        )
-    endif()
-    debug_dynamic_dependencies(${test_name})
-    add_test(NAME ${test_name} COMMAND ${test_name}
-        --gtest_color=yes
-        --gtest_output=xml:${test_name}.xml
     )
 endif()
