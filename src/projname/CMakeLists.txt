@@ -50,7 +50,8 @@ if(BUILD_TESTING)
     if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         target_compile_options(${test_name}
           PRIVATE
-            -Wno-global-constructors
+            -Wno-error=global-constructors
+            -Wno-error=zero-as-null-pointer-constant
         )
     endif()
     debug_dynamic_dependencies(${test_name})

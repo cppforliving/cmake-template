@@ -41,7 +41,6 @@ else()
             -Wno-error=documentation
             -Wno-error=gnu-zero-variadic-macro-arguments
             -Wno-error=weak-vtables
-#            $<$<COMPILE_LANGUAGE:CXX>:-Wno-error=zero-as-null-pointer-constant>
         )
     endif()
     set(linker_flags
