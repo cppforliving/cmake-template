@@ -54,3 +54,27 @@ function(add_gtest_test test_name)
         --gtest_output=xml:${test_name}.xml
     )
 endfunction()
+
+function(add_catch_test test_name)
+    set(options)
+    set(one_value_args)
+    set(multi_value_args SOURCES DEPENDS)
+    cmake_parse_arguments(${test_name} "${options}"
+        "${one_value_args}" "${multi_value_args}" ${ARGN})
+
+    add_executable(${test_name})
+    target_sources(${test_name}
+      PRIVATE
+        ${${test_name}_SOURCES}
+    )
+    target_link_libraries(${test_name}
+      PRIVATE
+        catch_main
+        Catch2::Catch2
+        ${${test_name}_DEPENDS}
+    )
+    debug_dynamic_dependencies(${test_name})
+    add_test(NAME ${test_name} COMMAND ${test_name}
+        --use-colour=yes
+    )
+endfunction()
