@@ -39,7 +39,6 @@ else()
             -Weverything
             -Wno-c++98-compat
             -Wno-error=documentation
-            -Wno-error=gnu-zero-variadic-macro-arguments
             -Wno-error=weak-vtables
         )
     endif()

@@ -2,6 +2,7 @@ function(debug_dynamic_dependencies target_name)
     if(NOT debug_dynamic_deps)
         return()
     endif()
+
     set(target_file $<TARGET_FILE:${target_name}>)
     if(APPLE)
         add_custom_command(TARGET ${target_name} POST_BUILD
@@ -17,18 +18,23 @@ function(debug_dynamic_dependencies target_name)
     endif()
 endfunction()
 
-function(add_gtest_test lib_name)
-    set(test_name ${lib_name}_test)
+function(add_gtest_test test_name)
+    set(options)
+    set(one_value_args)
+    set(multi_value_args SOURCES DEPENDS)
+    cmake_parse_arguments(${test_name} "${options}"
+        "${one_value_args}" "${multi_value_args}" ${ARGN})
+
     add_executable(${test_name})
     target_sources(${test_name}
       PRIVATE
-        ${ARGN}
+        ${${test_name}_SOURCES}
     )
     target_link_libraries(${test_name}
       PRIVATE
         GTest::Main
         GTest::GTest
-        ${lib_name}
+        ${${test_name}_DEPENDS}
     )
     target_compile_definitions(${test_name}
       PRIVATE
@@ -38,7 +44,8 @@ function(add_gtest_test lib_name)
         target_compile_options(${test_name}
           PRIVATE
             -Wno-global-constructors
-            -Wno-error=zero-as-null-pointer-constant
+            -Wno-gnu-zero-variadic-macro-arguments
+            -Wno-zero-as-null-pointer-constant
         )
     endif()
     debug_dynamic_dependencies(${test_name})

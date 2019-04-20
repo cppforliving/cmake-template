@@ -25,7 +25,10 @@ install(FILES "${CMAKE_CURRENT_BINARY_DIR}/export.h"
     DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${lib_name}")
 
 if(BUILD_TESTING)
-    add_gtest_test(${lib_name}
+    add_gtest_test(${lib_name}_test
+      SOURCES
         clegacy_test.cpp
+      DEPENDS
+        ${lib_name}
     )
 endif()
