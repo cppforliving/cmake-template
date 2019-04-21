@@ -3,6 +3,8 @@ add_library(${lib_name})
 target_sources(${lib_name}
   PRIVATE
     clegacy.c
+    clegacy.h
+    "${CMAKE_CURRENT_BINARY_DIR}/export.h"
 )
 target_include_directories(${lib_name}
   PUBLIC

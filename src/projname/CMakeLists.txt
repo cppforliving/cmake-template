@@ -2,6 +2,7 @@ add_library(${PROJECT_NAME}_obj OBJECT)
 target_sources(${PROJECT_NAME}_obj
   PRIVATE
     projname.cpp
+    projname.hpp
 )
 target_link_libraries(${PROJECT_NAME}_obj
   PUBLIC

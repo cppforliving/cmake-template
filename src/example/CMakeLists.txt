@@ -2,7 +2,11 @@ get_filename_component(lib_name "${CMAKE_CURRENT_SOURCE_DIR}" NAME)
 add_library(${lib_name})
 target_sources(${lib_name}
   PRIVATE
+    derived.hpp
     example.cpp
+    example.hpp
+    lockable.hpp
+    "${CMAKE_CURRENT_BINARY_DIR}/export.h"
 )
 target_include_directories(${lib_name}
   PUBLIC
