@@ -39,7 +39,6 @@ else()
             -Weverything
             -Wno-c++98-compat
             -Wno-error=documentation
-            -Wno-error=weak-vtables
         )
     endif()
     set(linker_flags

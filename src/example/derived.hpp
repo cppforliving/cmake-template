@@ -1,6 +1,8 @@
 #ifndef EXAMPLE_DERIVED_HPP_
 #define EXAMPLE_DERIVED_HPP_
 
+#include <example/export.h>
+
 /**
  * @startuml
  * component example
@@ -8,9 +10,9 @@
  */
 namespace example {
 
-class Base {
+class EXAMPLE_EXPORT Base {
   public:
-    virtual ~Base() = default;
+    virtual ~Base();
     virtual void virtualMethod() = 0;
 
   protected:
@@ -22,9 +24,9 @@ class Base {
     int privateMember{0};
 };
 
-class Derived : public Base {
+class EXAMPLE_EXPORT Derived : public Base {
   public:
-    void virtualMethod() override {}
+    void virtualMethod() override;
 };
 
 }  // namespace example

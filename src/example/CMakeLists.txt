@@ -2,6 +2,7 @@ get_filename_component(lib_name "${CMAKE_CURRENT_SOURCE_DIR}" NAME)
 add_library(${lib_name})
 target_sources(${lib_name}
   PRIVATE
+    derived.cpp
     derived.hpp
     example.cpp
     example.hpp
