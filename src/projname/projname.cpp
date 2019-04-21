@@ -27,8 +27,9 @@ void ContinuousGreeter::operator()() const {
 
 int run(gsl::span<char const*> args) {
     std::cout << "args:";
-    for (auto& arg : args)
+    for (auto& arg : args) {
         std::cout << ' ' << arg;
+    }
     std::cout << std::endl;
 
     io_service io;

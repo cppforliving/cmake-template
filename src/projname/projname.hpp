@@ -7,7 +7,11 @@
 
 #include <gsl/span>
 
-namespace boost { namespace asio { class io_service; } }
+namespace boost {
+namespace asio {
+class io_service;
+}  // namespace asio
+}  // namespace boost
 
 namespace projname {
 
