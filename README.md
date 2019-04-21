@@ -1,4 +1,4 @@
-# cmake-template
+# README
 
 [![Travis Build Status](https://travis-ci.com/piotrgumienny/cmake-template.svg?branch=master)](https://travis-ci.com/piotrgumienny/cmake-template)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/piotrgumienny/cmake-template?branch=master&svg=true)](https://ci.appveyor.com/project/piotrgumienny/cmake-template)
