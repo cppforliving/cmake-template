@@ -1,5 +1,5 @@
-#ifndef CLEGACY_CLEGACY_H_
-#define CLEGACY_CLEGACY_H_
+#ifndef CLEGACY_CLEGACY_H
+#define CLEGACY_CLEGACY_H
 
 #include <clegacy/export.h>
 
@@ -16,4 +16,4 @@ CLEGACY_EXPORT int* clegacy_newInt123(void);
 }  // extern "C"
 #endif
 
-#endif  // CLEGACY_CLEGACY_H_
+#endif  // CLEGACY_CLEGACY_H

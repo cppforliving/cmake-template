@@ -1,5 +1,5 @@
-#ifndef EXAMPLE_EXAMPLE_HPP_
-#define EXAMPLE_EXAMPLE_HPP_
+#ifndef EXAMPLE_EXAMPLE_HPP
+#define EXAMPLE_EXAMPLE_HPP
 
 #include <example/export.h>
 
@@ -19,4 +19,4 @@ EXAMPLE_EXPORT int* newInt123();
 
 }  // namespace example
 
-#endif  // EXAMPLE_EXAMPLE_HPP_
+#endif  // EXAMPLE_EXAMPLE_HPP

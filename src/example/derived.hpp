@@ -1,5 +1,5 @@
-#ifndef EXAMPLE_DERIVED_HPP_
-#define EXAMPLE_DERIVED_HPP_
+#ifndef EXAMPLE_DERIVED_HPP
+#define EXAMPLE_DERIVED_HPP
 
 #include <example/export.h>
 
@@ -31,4 +31,4 @@ class EXAMPLE_EXPORT Derived : public Base {
 
 }  // namespace example
 
-#endif  // EXAMPLE_DERIVED_HPP_
+#endif  // EXAMPLE_DERIVED_HPP
