@@ -2,6 +2,7 @@
 
 conan_config=Release
 cmake_config=Release
+cmake_generator="Unix Makefiles"
 cmake_shared=ON
 valgrind=memcheck
 
@@ -12,6 +13,9 @@ for opt in "$@"; do
         ;;
     Format)
         format=1
+        ;;
+    Ninja)
+        cmake_generator=Ninja
         ;;
     Static)
         cmake_shared=OFF
@@ -65,7 +69,7 @@ set -e
 [[ -z $clean ]] || rm -rf build
 mkdir -p "$build_dir"
 conan install -s build_type="$conan_config" -s compiler.libcxx=libstdc++11 -if "$build_dir" .
-cmake -DBUILD_SHARED_LIBS="$cmake_shared" -DBUILD_TESTING="$testing" -DCMAKE_BUILD_TYPE="$cmake_config" -Dprojname_coverage="$coverage" -Dprojname_valgrind="$valgrind" -Dprojname_sanitizer="$sanitizer" -Dprojname_check="$check" -B"$build_dir" -H.
+cmake -G"$cmake_generator" -DBUILD_SHARED_LIBS="$cmake_shared" -DBUILD_TESTING="$testing" -DCMAKE_BUILD_TYPE="$cmake_config" -Dprojname_coverage="$coverage" -Dprojname_valgrind="$valgrind" -Dprojname_sanitizer="$sanitizer" -Dprojname_check="$check" -B"$build_dir" -H.
 [[ -z $format ]] || $make_cmd format
 $make_cmd all
 source "$build_dir"/activate_run.sh
