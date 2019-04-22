@@ -23,4 +23,7 @@ if(DOXYGEN_FOUND)
     add_custom_target(doc
         COMMAND ${DOXYGEN_EXECUTABLE} Doxyfile > doxygen.log
         COMMENT "Generating ${PROJECT_NAME} documentation")
+    install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/html"
+        DESTINATION "${CMAKE_INSTALL_DOCDIR}"
+        OPTIONAL)
 endif()
