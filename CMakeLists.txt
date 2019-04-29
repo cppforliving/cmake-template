@@ -82,7 +82,7 @@ export(EXPORT ${PROJECT_NAME}
 
 install(EXPORT ${PROJECT_NAME}
     NAMESPACE ${PROJECT_NAME}::
-    DESTINATION cmake)
+    DESTINATION "${CMAKE_INSTALL_DATADIR}/cmake")
 
 if(BUILD_TESTING)
     add_subdirectory(test)
