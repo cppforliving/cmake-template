@@ -16,6 +16,12 @@ target_link_libraries(${PROJECT_NAME}_obj
     Boost::dynamic_linking
     GSL::GSL
 )
+if(MSVC)
+    target_compile_definitions(${PROJECT_NAME}_obj
+      PRIVATE
+        $<$<COMPILE_LANGUAGE:CXX>:_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING>
+    )
+endif()
 
 add_executable(${PROJECT_NAME})
 target_sources(${PROJECT_NAME}
