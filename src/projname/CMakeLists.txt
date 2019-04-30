@@ -18,8 +18,8 @@ target_link_libraries(${PROJECT_NAME}_obj
 )
 if(MSVC)
     target_compile_definitions(${PROJECT_NAME}_obj
-      PRIVATE
-        $<$<COMPILE_LANGUAGE:CXX>:_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING>
+      PUBLIC
+        $<$<COMPILE_LANGUAGE:CXX>:_SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING>
     )
 endif()
 
