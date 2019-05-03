@@ -30,12 +30,15 @@ install(FILES "${CMAKE_CURRENT_BINARY_DIR}/export.h"
     DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${lib_name}")
 
 if(BUILD_TESTING)
-    add_gtest_test(${lib_name}_test
+    add_custom_test(${lib_name}_test
       SOURCES
         derived_test.cpp
         example_test.cpp
         lockable_test.cpp
       DEPENDS
         ${lib_name}
+        gtest_main
+      TESTARGS
+        --gtest_color=yes
     )
 endif()

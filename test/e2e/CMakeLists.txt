@@ -1,8 +1,11 @@
-add_catch_test(e2e_test
+add_custom_test(e2e_test
   SOURCES
     clegacy_e2e_test.cpp
     example_e2e_test.cpp
   DEPENDS
     clegacy
     example
+    catch_main
+  TESTARGS
+    --use-colour=yes
 )

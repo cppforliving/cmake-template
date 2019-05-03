@@ -38,10 +38,13 @@ install(TARGETS ${PROJECT_NAME}
     DESTINATION "${CMAKE_INSTALL_BINDIR}")
 
 if(BUILD_TESTING)
-    add_gtest_test(${PROJECT_NAME}_test
+    add_custom_test(${PROJECT_NAME}_test
       SOURCES
         projname_test.cpp
       DEPENDS
         ${PROJECT_NAME}_obj
+        gtest_main
+      TESTARGS
+        --gtest_color=yes
     )
 endif()
