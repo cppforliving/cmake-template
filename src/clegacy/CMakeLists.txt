@@ -18,7 +18,7 @@ generate_export_header(${lib_name}
 )
 
 install(TARGETS ${lib_name}
-    EXPORT ${PROJECT_NAME}
+    EXPORT ${PROJECT_NAME}Targets
     DESTINATION "${CMAKE_INSTALL_LIBDIR}")
 install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/"
     DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${lib_name}"

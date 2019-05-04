@@ -34,7 +34,7 @@ target_link_libraries(${PROJECT_NAME}
 )
 debug_dynamic_dependencies(${PROJECT_NAME})
 install(TARGETS ${PROJECT_NAME}
-    EXPORT ${PROJECT_NAME}
+    EXPORT ${PROJECT_NAME}Targets
     DESTINATION "${CMAKE_INSTALL_BINDIR}")
 
 if(BUILD_TESTING)
