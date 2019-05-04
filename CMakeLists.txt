@@ -91,7 +91,9 @@ configure_file(cmake/${PROJECT_NAME}Config.cmake
     "${CMAKE_CURRENT_BINARY_DIR}/cmake/${PROJECT_NAME}Config.cmake"
     @ONLY
 )
-#export(PACKAGE ${PROJECT_NAME})
+
+option(CMAKE_EXPORT_NO_PACKAGE_REGISTRY "Disable the export(PACKAGE) command." ON)
+export(PACKAGE ${PROJECT_NAME})
 
 install(EXPORT ${PROJECT_NAME}Targets
     NAMESPACE ${PROJECT_NAME}::
