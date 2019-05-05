@@ -72,6 +72,8 @@ include(Coverage)
 include(gcovr)
 include(Profiling)
 
+add_subdirectory(external)
+
 include(ProjectHelpers)
 
 add_subdirectory(src)
