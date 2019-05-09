@@ -1,3 +1,10 @@
+find_package(Catch2 CONFIG REQUIRED)
+set_target_properties(
+    Catch2::Catch2
+  PROPERTIES
+    IMPORTED_GLOBAL TRUE
+)
+
 add_library(catch_main)
 target_sources(catch_main PRIVATE catch_main.cpp)
 target_link_libraries(catch_main PUBLIC Catch2::Catch2)
