@@ -4,6 +4,8 @@
 #include <mutex>
 #include <utility>
 
+#include <example/export.h>
+
 namespace example {
 
 template <typename T, typename M = std::mutex>
