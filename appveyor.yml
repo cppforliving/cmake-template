@@ -13,8 +13,9 @@ platform:
   - x64
 
 environment:
-  - BUILD_SHARED_LIBS: ON
-  - BUILD_SHARED_LIBS: OFF
+  matrix:
+    - BUILD_SHARED_LIBS: ON
+    - BUILD_SHARED_LIBS: OFF
 
 matrix:
   exclude:
