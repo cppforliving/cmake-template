@@ -12,6 +12,10 @@ platform:
   - x86
   - x64
 
+environment:
+  - BUILD_SHARED_LIBS: ON
+  - BUILD_SHARED_LIBS: OFF
+
 matrix:
   exclude:
     # - image: Visual Studio 2015
@@ -54,7 +58,7 @@ install:
 build_script:
   - mkdir build && cd build
   - conan install -b missing -s build_type=%CONFIGURATION% -s compiler="Visual Studio" -s compiler.version=%COMPILER_VERSION% -s arch=%CONAN_ARCH% ..
-  - cmake -G %CMAKE_GENERATOR% -A %CMAKE_ARCH% -D debug_dynamic_deps=ON ..
+  - cmake -G %CMAKE_GENERATOR% -A %CMAKE_ARCH% -D debug_dynamic_deps=ON -D BUILD_SHARED_LIBS=%BUILD_SHARED_LIBS% ..
   - cmake --build . --config %CONFIGURATION%
 
 test_script:
