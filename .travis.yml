@@ -66,9 +66,9 @@ matrix:
     - os: windows
       compiler: cl
       install:
-        - choco install conan
+        - choco install conan || ":"
         - export PATH="/c/Program Files/Conan/conan:$PATH"
-        - conan config set general.user_home_short=None
+        - conan config set general.user_home_short=None || ":"
       env:
         - MATRIX_EVAL="CC=cl && CXX=cl"
         - CONAN_EXTRAS="-s compiler='Visual Studio' -s compiler.version=15 -s arch=x86"
