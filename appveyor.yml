@@ -39,6 +39,7 @@ install:
   - pip install conan
   - conan config set general.user_home_short=None
   - conan user
+  - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
   - if "%PLATFORM%"=="x86" (
       set CONAN_ARCH=x86 &
       set CMAKE_ARCH=Win32

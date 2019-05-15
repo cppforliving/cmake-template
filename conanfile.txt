@@ -1,5 +1,6 @@
 [requires]
 Catch2/2.7.2@catchorg/stable
+abseil/20180600@bincrafters/stable
 boost/1.69.0@conan/stable
 gsl_microsoft/2.0.0@bincrafters/stable
 gtest/1.8.1@bincrafters/stable
