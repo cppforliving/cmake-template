@@ -81,7 +81,7 @@ before_install:
 
 before_script:
   - conan user
-  - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
+  - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan || ":"
   - BUILD_TYPE=Release
   - ccache -z || ":"
 
