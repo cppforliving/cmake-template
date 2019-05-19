@@ -44,7 +44,7 @@ if(BUILD_TESTING)
       DEPENDS
         ${PROJECT_NAME}_obj
         gtest_main
-      TESTARGS
+      EXTRA_ARGS
         --gtest_color=yes
     )
 endif()

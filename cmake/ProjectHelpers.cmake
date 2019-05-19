@@ -55,7 +55,7 @@ endfunction()
 function(add_custom_test test_name)
     set(options)
     set(one_value_args)
-    set(multi_value_args SOURCES DEPENDS TESTARGS)
+    set(multi_value_args SOURCES DEPENDS EXTRA_ARGS)
     cmake_parse_arguments(${test_name} "${options}"
         "${one_value_args}" "${multi_value_args}" ${ARGN})
 
@@ -70,6 +70,6 @@ function(add_custom_test test_name)
     )
     debug_dynamic_dependencies(${test_name})
     add_test(NAME ${test_name} COMMAND ${test_name}
-        ${${test_name}_TESTARGS}
+        ${${test_name}_EXTRA_ARGS}
     )
 endfunction()

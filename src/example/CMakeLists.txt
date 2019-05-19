@@ -18,7 +18,7 @@ if(BUILD_TESTING)
       DEPENDS
         ${lib_name}
         gtest_main
-      TESTARGS
+      EXTRA_ARGS
         --gtest_color=yes
     )
 endif()
