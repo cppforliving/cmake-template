@@ -5,7 +5,7 @@ add_custom_test(e2e_test
   DEPENDS
     clegacy
     example
-    catch_main
+    catch2_main
   EXTRA_ARGS
     --use-colour=yes
 )
