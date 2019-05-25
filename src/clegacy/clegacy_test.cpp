@@ -12,7 +12,7 @@ using testing::Eq;
 TEST(Clegacy, all) {
     auto x = clegacy_newInt123();
     EXPECT_THAT(*x, Eq(123));
-    free(x);
+    clegacy_deleteInt123(x);
 }
 
 }  // namespace

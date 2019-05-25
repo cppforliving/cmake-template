@@ -2,7 +2,7 @@ get_filename_component(lib_name "${CMAKE_CURRENT_SOURCE_DIR}" NAME)
 
 add_custom_library(${lib_name}
   SOURCES
-    clegacy.c
+    clegacy.cpp
     clegacy.h
 )
 

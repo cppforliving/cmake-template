@@ -59,7 +59,12 @@ int run(gsl::span<char const*> args) {
 
     Ensures(!thread.joinable());
 
-    return *clegacy_newInt123() + *example::newInt123();
+    auto const c = clegacy_newInt123();
+    auto const e = example::newInt123();
+    auto const x = *c + *e;
+    clegacy_deleteInt123(c);
+    delete e;
+    return x;
 }
 
 }  // namespace projname
