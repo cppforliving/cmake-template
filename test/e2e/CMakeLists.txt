@@ -1,8 +1,10 @@
 add_custom_test(e2e_test
   SOURCES
+    capicpp_e2e_test.cpp
     clegacy_e2e_test.cpp
     example_e2e_test.cpp
   DEPENDS
+    capicpp
     clegacy
     example
     catch2_main

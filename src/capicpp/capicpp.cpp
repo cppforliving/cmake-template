@@ -1,4 +1,4 @@
-#include "clegacy.h"
+#include "capicpp.h"
 
 #include <new>
 
@@ -18,13 +18,13 @@ int* newInt() {
 extern "C" {
 #endif
 
-int* clegacy_newInt123(void) {
+int* capicpp_newInt123(void) {
     int* x = newInt();
     *x = get123();
     return x;
 }
 
-void clegacy_deleteInt123(int* x) {
+void capicpp_deleteInt123(int* x) {
     delete x;
 }
 

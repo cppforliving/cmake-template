@@ -1,5 +1,3 @@
-#include <cstdlib>
-
 #include <catch2/catch.hpp>
 
 #include <clegacy/clegacy.h>

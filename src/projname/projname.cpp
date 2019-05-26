@@ -10,6 +10,7 @@
 #include <gsl/gsl_assert>
 #include <gsl/span>
 
+#include <capicpp/capicpp.h>
 #include <clegacy/clegacy.h>
 #include <example/example.hpp>
 
@@ -59,9 +60,11 @@ int run(gsl::span<char const*> args) {
 
     Ensures(!thread.joinable());
 
+    auto const p = capicpp_newInt123();
     auto const c = clegacy_newInt123();
     auto const e = example::newInt123();
-    auto const x = *c + *e;
+    auto const x = *p + *c + *e;
+    capicpp_deleteInt123(p);
     clegacy_deleteInt123(c);
     delete e;
     return x;

@@ -20,7 +20,7 @@ struct ProjnameTest : TestWithParam<std::new_handler> {
 TEST_P(ProjnameTest, run) {
     std::set_new_handler(GetParam());
     auto const finalize = gsl::finally([] { std::set_new_handler(nullptr); });
-    EXPECT_EQ(246, run(args));
+    EXPECT_EQ(369, run(args));
 }
 
 INSTANTIATE_TEST_CASE_P(VariousNewHandlers,
