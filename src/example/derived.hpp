@@ -16,12 +16,12 @@ class EXAMPLE_EXPORT Base {
     virtual void virtualMethod() = 0;
 
   protected:
-    int protectedMethod() { return ++protectedMember; }
-    int protectedMember{0};
+    int protectedMethod();
+    static int protectedMember;
 
   private:
-    int privateMethod() { return ++privateMember; }
-    int privateMember{0};
+    EXAMPLE_NO_EXPORT int privateMethod();
+    EXAMPLE_NO_EXPORT static const int privateMember{42};
 };
 
 class EXAMPLE_EXPORT Derived : public Base {
