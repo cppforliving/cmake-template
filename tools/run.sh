@@ -65,11 +65,23 @@ done
 build_dir=build/$cmake_config
 make_cmd="cmake --build $build_dir -j $(nproc) --"
 
-set -e
+set -eo pipefail
 [[ -z $clean ]] || rm -rf build
 mkdir -p "$build_dir"
-conan install -s build_type="$conan_config" -s compiler.libcxx=libstdc++11 -if "$build_dir" .
-cmake -G"$cmake_generator" -DBUILD_SHARED_LIBS="$cmake_shared" -DBUILD_TESTING="$testing" -DCMAKE_BUILD_TYPE="$cmake_config" -Dprojname_coverage="$coverage" -Dprojname_valgrind="$valgrind" -Dprojname_sanitizer="$sanitizer" -Dprojname_check="$check" -B"$build_dir" -H.
+conan install . \
+    -if "$build_dir" \
+    -s build_type="$conan_config" \
+    -s compiler.libcxx=libstdc++11
+cmake . \
+    -B"$build_dir" \
+    -G"$cmake_generator" \
+    -DBUILD_SHARED_LIBS="$cmake_shared" \
+    -DBUILD_TESTING="$testing" \
+    -DCMAKE_BUILD_TYPE="$cmake_config" \
+    -Dprojname_coverage="$coverage" \
+    -Dprojname_valgrind="$valgrind" \
+    -Dprojname_sanitizer="$sanitizer" \
+    -Dprojname_check="$check"
 [[ -z $format ]] || $make_cmd format
 $make_cmd all
 source "$build_dir"/activate_run.sh
