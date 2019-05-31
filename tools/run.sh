@@ -101,6 +101,7 @@ cmake . \
     -Dprojname_sanitizer="$sanitizer" \
     -Dprojname_check="$check"
 
+ccache -z
 [[ -z $format ]] || $make_cmd format
 $make_cmd all
 [[ -f "$build_dir"/activate_run.sh ]] && . "$build_dir"/activate_run.sh
@@ -113,3 +114,4 @@ $make_cmd all
 [[ -z $doc ]] || $make_cmd doc
 [[ -z $install ]] || $make_cmd install
 [[ -z $uninstall ]] || $make_cmd uninstall
+ccache -s
