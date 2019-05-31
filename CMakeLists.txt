@@ -10,7 +10,7 @@ option(CMAKE_INTERPROCEDURAL_OPTIMIZATION
 
 project(projname
     VERSION 0.1
-    DESCRIPTION "CMake & Conan based template for C/C++ projects."
+    DESCRIPTION "CMake & Conan/Vcpkg based template for C/C++ projects."
     LANGUAGES C CXX)
 
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
@@ -21,8 +21,8 @@ endif()
 set(CMAKE_SKIP_RPATH OFF)
 set(CMAKE_MACOSX_RPATH OFF)
 
-list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
-#list(INSERT CMAKE_MODULE_PATH 0 "${CMAKE_BINARY_DIR}")
+#list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
+list(INSERT CMAKE_MODULE_PATH 0 "${PROJECT_SOURCE_DIR}/cmake")
 
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
@@ -63,10 +63,9 @@ include(Sanitizers)
 include(Coverage)
 include(gcovr)
 include(Profiling)
+include(ProjectHelpers)
 
 add_subdirectory(external)
-
-include(ProjectHelpers)
 
 add_subdirectory(src)
 
@@ -75,5 +74,3 @@ if(BUILD_TESTING)
 endif()
 
 add_subdirectory(doc)
-
-#unset(CONAN_FOUND_LIBRARY CACHE)

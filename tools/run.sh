@@ -103,13 +103,13 @@ cmake . \
 
 [[ -z $format ]] || $make_cmd format
 $make_cmd all
-source "$build_dir"/activate_run.sh
+[[ -f "$build_dir"/activate_run.sh ]] && . "$build_dir"/activate_run.sh
 [[ -z $testing && -z $coverage ]] || $make_cmd ExperimentalTest
-source "$build_dir"/deactivate_run.sh
+[[ -f "$build_dir"/deactivate_run.sh ]] && . "$build_dir"/deactivate_run.sh
 [[ -z $coverage ]] || $make_cmd ExperimentalCoverage
-source "$build_dir"/activate_run.sh
+[[ -f "$build_dir"/activate_run.sh ]] && . "$build_dir"/activate_run.sh
 [[ -z $memcheck ]] || $make_cmd ExperimentalMemCheck
-source "$build_dir"/deactivate_run.sh
+[[ -f "$build_dir"/deactivate_run.sh ]] && . "$build_dir"/deactivate_run.sh
 [[ -z $doc ]] || $make_cmd doc
 [[ -z $install ]] || $make_cmd install
 [[ -z $uninstall ]] || $make_cmd uninstall

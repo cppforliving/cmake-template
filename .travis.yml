@@ -72,7 +72,7 @@ matrix:
       env:
         - MATRIX_EVAL="CC=cl && CXX=cl"
         - CONAN_EXTRAS="-s compiler='Visual Studio' -s compiler.version=15 -s arch=x86"
-        - CMAKE_EXTRAS="-G 'Visual Studio 15 2017' -A Win32"
+        - CMAKE_EXTRAS="-G 'Visual Studio 15 2017' -A Win32 --trace-source=cmake/FindGTest.cmake"
 
 before_install:
   - printenv | sort | grep -E '^TRAVIS.*$' -v
@@ -81,7 +81,6 @@ before_install:
 
 before_script:
   - conan user
-  # - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan || ":"
   - BUILD_TYPE=Release
   - ccache -z || ":"
 
@@ -91,13 +90,13 @@ script:
       -b missing
       -s build_type=$BUILD_TYPE
       $CONAN_EXTRAS" &&
+    ( cp "/c/Program Files/CMake/share/cmake-3.12/Modules/FindGTest.cmake" ../cmake/ || ":" ) &&
     eval "cmake ..
       -B.
       -DCMAKE_BUILD_TYPE=$BUILD_TYPE
       -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
       -Ddebug_dynamic_deps=ON
       $CMAKE_EXTRAS" &&
-    ( cat "/c/Program Files/CMake/share/cmake-3.12/Modules/FindGTest.cmake" || ":" ) &&
     cmake -LA | grep '=(.*-NOTFOUND)?$' -Ev &&
     cmake -LA | grep '=(.*-NOTFOUND)?$' -E &&
     cmake --build . --config $BUILD_TYPE &&
