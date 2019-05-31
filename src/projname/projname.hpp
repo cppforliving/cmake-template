@@ -6,7 +6,7 @@
 #endif
 
 #include <boost/asio/io_service.hpp>
-#include <gsl/span>
+#include <boost/beast/core/span.hpp>
 
 namespace projname {
 
@@ -16,7 +16,7 @@ struct ContinuousGreeter {
     void operator()() const;
 };
 
-int run(gsl::span<char const*> args);
+int run(boost::beast::span<char const*> args);
 
 }  // namespace projname
 

@@ -1,14 +1,14 @@
 #include "projname.hpp"
 
+#include <cassert>
 #include <iostream>
 #include <thread>
 
 #include <boost/asio/deadline_timer.hpp>
 #include <boost/asio/io_service.hpp>
+#include <boost/beast/core/span.hpp>
 #include <boost/date_time/posix_time/posix_time_duration.hpp>
 #include <boost/system/error_code.hpp>
-#include <gsl/gsl_assert>
-#include <gsl/span>
 
 #include <capicpp/capicpp.h>
 #include <clegacy/clegacy.h>
@@ -26,7 +26,7 @@ void ContinuousGreeter::operator()() const {
     io.post(ContinuousGreeter{*this});
 }
 
-int run(gsl::span<char const*> args) {
+int run(boost::beast::span<char const*> args) {
     std::cout << "args:";
     for (auto& arg : args) {
         std::cout << ' ' << arg;
@@ -58,7 +58,7 @@ int run(gsl::span<char const*> args) {
 
     thread.join();
 
-    Ensures(!thread.joinable());
+    assert(!thread.joinable());
 
     auto const p = capicpp_newInt123();
     auto const c = clegacy_newInt123();

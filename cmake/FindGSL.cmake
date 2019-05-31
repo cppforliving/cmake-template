@@ -1,8 +1,6 @@
 find_path(GSL_INCLUDE_DIRS
   NAMES
     gsl/gsl
-  PATH_SUFFIXES
-    include
 )
 
 include(FindPackageHandleStandardArgs)
@@ -13,10 +11,10 @@ find_package_handle_standard_args(GSL
     GSL_VERSION
 )
 
-if(GSL_FOUND AND NOT TARGET GSL::GSL)
-    add_library(GSL::GSL INTERFACE IMPORTED)
+if(GSL_FOUND AND NOT TARGET GSL::gsl)
+    add_library(GSL::gsl INTERFACE IMPORTED)
     set_target_properties(
-        GSL::GSL
+        GSL::gsl
       PROPERTIES
         INTERFACE_INCLUDE_DIRECTORIES "${GSL_INCLUDE_DIRS}"
     )
