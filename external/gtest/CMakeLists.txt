@@ -1,4 +1,8 @@
 find_package(GTest MODULE REQUIRED)
+get_target_property(gtest_gtest_type GTest::GTest TYPE)
+message(STATUS "GTest::GTest TYPE: ${gtest_gtest_type}")
+get_target_property(gtest_ifcdefs GTest::GTest INTERFACE_COMPILE_DEFINITIONS)
+message(STATUS "GTest::GTest INTERFACE_COMPILE_DEFINITIONS: ${gtest_ifcdefs}")
 set_target_properties(
     GTest::Main
     GTest::GTest
