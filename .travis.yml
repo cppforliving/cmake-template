@@ -81,14 +81,18 @@ before_install:
 
 before_script:
   - conan user
-  - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan || ":"
+  # - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan || ":"
   - BUILD_TYPE=Release
   - ccache -z || ":"
 
 script:
   - mkdir build && cd build
   - eval "conan install -b missing -s build_type=$BUILD_TYPE $CONAN_EXTRAS .." &&
-    eval "cmake -D CMAKE_BUILD_TYPE=$BUILD_TYPE -D CMAKE_TOOLCHAIN_FILE=conan_paths.cmake $CMAKE_EXTRAS -D debug_dynamic_deps=ON -B. .." &&
+    eval "cmake .. \
+      -D CMAKE_BUILD_TYPE=$BUILD_TYPE \
+      -D CMAKE_TOOLCHAIN_FILE=conan_paths.cmake \
+      -D debug_dynamic_deps=ON \
+      $CMAKE_EXTRAS" &&
     ( cat "/c/Program Files/CMake/share/cmake-3.12/Modules/FindGTest.cmake" || ":" ) &&
     cmake -LA | grep '=(.*-NOTFOUND)?$' -Ev &&
     cmake -LA | grep '=(.*-NOTFOUND)?$' -E &&
@@ -100,8 +104,8 @@ script:
     ctest -C $BUILD_TYPE -V &&
     ( cat deactivate_run.sh || ":" ) &&
     ( source deactivate_run.sh || ":" ) &&
-    cmake --build . --target install --config $BUILD_TYPE &&
-    cmake --build . --target uninstall --config $BUILD_TYPE
+    cmake --build . --config $BUILD_TYPE --target install &&
+    cmake --build . --config $BUILD_TYPE --target uninstall
 
 after_script:
   - ccache -s || ":"
