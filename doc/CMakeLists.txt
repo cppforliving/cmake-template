@@ -16,12 +16,12 @@ if(DOXYGEN_FOUND)
         file(TO_NATIVE_PATH "${PLANTUML_JAR_PATH}" PLANTUML_JAR_PATH)
     endif()
     if(DOXYGEN_DOT_FOUND)
-        get_filename_component(DOXYGEN_DOT_PATH ${DOXYGEN_DOT_EXECUTABLE} DIRECTORY)
+        get_filename_component(DOXYGEN_DOT_PATH Doxygen::dot DIRECTORY)
         file(TO_NATIVE_PATH ${DOXYGEN_DOT_PATH} DOXYGEN_DOT_PATH)
     endif()
     configure_file(Doxyfile.in Doxyfile @ONLY)
     add_custom_target(doc
-        COMMAND ${DOXYGEN_EXECUTABLE} Doxyfile > doxygen.log
+        COMMAND Doxygen::doxygen Doxyfile > doxygen.log
         COMMENT "Generating ${PROJECT_NAME} documentation")
     install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/html"
         DESTINATION "${CMAKE_INSTALL_DOCDIR}"

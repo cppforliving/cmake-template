@@ -26,6 +26,7 @@ function(add_custom_library lib_name)
         "${one_value_args}" "${multi_value_args}" ${ARGN})
 
     add_library(${lib_name})
+    add_library(${PROJECT_NAME}::${lib_name} ALIAS ${lib_name})
     target_sources(${lib_name}
       PRIVATE
         ${${lib_name}_SOURCES}

@@ -4,9 +4,9 @@ add_custom_test(e2e_test
     clegacy_e2e_test.cpp
     example_e2e_test.cpp
   DEPENDS
-    capicpp
-    clegacy
-    example
+    projname::capicpp
+    projname::clegacy
+    projname::example
     catch2_main
   EXTRA_ARGS
     --use-colour=yes
