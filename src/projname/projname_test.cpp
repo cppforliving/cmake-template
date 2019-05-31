@@ -4,7 +4,6 @@
 #include <new>
 
 #include <gtest/gtest.h>
-#include <boost/scope_exit.hpp>
 
 namespace {
 
@@ -19,9 +18,8 @@ struct ProjnameTest : TestWithParam<std::new_handler> {
 
 TEST_P(ProjnameTest, run) {
     std::set_new_handler(GetParam());
-    BOOST_SCOPE_EXIT(void) { std::set_new_handler(nullptr); }
-    BOOST_SCOPE_EXIT_END
     EXPECT_EQ(369, run({args, 1}));
+    std::set_new_handler(nullptr);
 }
 
 INSTANTIATE_TEST_CASE_P(VariousNewHandlers,
