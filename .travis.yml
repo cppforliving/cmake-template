@@ -87,11 +87,14 @@ before_script:
 
 script:
   - mkdir build && cd build
-  - eval "conan install -b missing -s build_type=$BUILD_TYPE $CONAN_EXTRAS .." &&
-    eval "cmake .. \
-      -D CMAKE_BUILD_TYPE=$BUILD_TYPE \
-      -D CMAKE_TOOLCHAIN_FILE=conan_paths.cmake \
-      -D debug_dynamic_deps=ON \
+  - eval "conan install ..
+      -b missing
+      -s build_type=$BUILD_TYPE
+      $CONAN_EXTRAS" &&
+    eval "cmake ..
+      -D CMAKE_BUILD_TYPE=$BUILD_TYPE
+      -D CMAKE_TOOLCHAIN_FILE=conan_paths.cmake
+      -D debug_dynamic_deps=ON
       $CMAKE_EXTRAS" &&
     ( cat "/c/Program Files/CMake/share/cmake-3.12/Modules/FindGTest.cmake" || ":" ) &&
     cmake -LA | grep '=(.*-NOTFOUND)?$' -Ev &&

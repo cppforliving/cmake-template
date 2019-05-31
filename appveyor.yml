@@ -59,17 +59,17 @@ install:
 
 build_script:
   - mkdir build && cd build
-  - conan install .. \
-      -b missing \
-      -s build_type=%CONFIGURATION% \
-      -s compiler="Visual Studio" \
-      -s compiler.version=%COMPILER_VERSION% \
+  - conan install ..
+      -b missing
+      -s build_type=%CONFIGURATION%
+      -s compiler="Visual Studio"
+      -s compiler.version=%COMPILER_VERSION%
       -s arch=%CONAN_ARCH%
-  - cmake .. \
-      -G %CMAKE_GENERATOR% \
-      -A %CMAKE_ARCH% \
-      -D BUILD_SHARED_LIBS=%BUILD_SHARED_LIBS% \
-      -D CMAKE_TOOLCHAIN_FILE=conan_paths.cmake \
+  - cmake ..
+      -G %CMAKE_GENERATOR%
+      -A %CMAKE_ARCH%
+      -D BUILD_SHARED_LIBS=%BUILD_SHARED_LIBS%
+      -D CMAKE_TOOLCHAIN_FILE=conan_paths.cmake
       -D debug_dynamic_deps=ON
   - cmake --build . --config %CONFIGURATION%
 
