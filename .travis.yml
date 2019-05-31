@@ -90,7 +90,6 @@ script:
       -b missing
       -s build_type=$BUILD_TYPE
       $CONAN_EXTRAS" &&
-    ( mv ../cmake/FindGTest.cmake "/c/Program Files/CMake/share/cmake-3.12/Modules/" || ":" ) &&
     eval "cmake ..
       -B.
       -DCMAKE_BUILD_TYPE=$BUILD_TYPE
