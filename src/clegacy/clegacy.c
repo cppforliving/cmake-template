@@ -2,6 +2,8 @@
 
 #include <stdlib.h>
 
+#include <sqlite3.h>
+
 static int get123(void) {
     return 123;
 }

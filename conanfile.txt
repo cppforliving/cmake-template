@@ -2,9 +2,11 @@
 boost/[>=1.70.0]@conan/stable
 Catch2/[>=2.9.2]@catchorg/stable
 gtest/[>=1.8.1]@bincrafters/stable
+sqlite3/[>=3.28.0]@bincrafters/stable
 
 [generators]
 cmake_paths
+cmake  # required by sqlite3
 virtualrunenv
 
 [options]

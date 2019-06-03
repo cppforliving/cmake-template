@@ -4,3 +4,4 @@ boost-date-time
 boost-system
 catch2
 gtest
+sqlite3

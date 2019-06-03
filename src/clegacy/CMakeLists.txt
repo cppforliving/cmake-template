@@ -4,6 +4,8 @@ add_custom_library(${lib_name}
   SOURCES
     clegacy.c
     clegacy.h
+  DEPENDS
+    SQLite3::SQLite3
 )
 
 if(BUILD_TESTING)
