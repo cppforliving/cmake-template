@@ -105,7 +105,7 @@ script:
     echo $PATH &&
     ctest -C $BUILD_TYPE -V &&
     ( cat deactivate_run.sh || ":" ) &&
-    source deactivate_run.sh &&
+    ( source deactivate_run.sh || ":" ) &&
     cmake --build . --config $BUILD_TYPE --target install &&
     cmake --build . --config $BUILD_TYPE --target uninstall
 
