@@ -21,7 +21,7 @@ endfunction()
 function(add_custom_library lib_name)
     set(options)
     set(one_value_args)
-    set(multi_value_args SOURCES)
+    set(multi_value_args SOURCES DEPENDS)
     cmake_parse_arguments(${lib_name} "${options}"
         "${one_value_args}" "${multi_value_args}" ${ARGN})
 
@@ -38,6 +38,11 @@ function(add_custom_library lib_name)
         $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/src>
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
     )
+    target_link_libraries(${lib_name}
+      PRIVATE
+        ${${lib_name}_DEPENDS}
+    )
+    debug_dynamic_dependencies(${lib_name})
     include(GenerateExportHeader)
     generate_export_header(${lib_name}
         EXPORT_FILE_NAME export.h

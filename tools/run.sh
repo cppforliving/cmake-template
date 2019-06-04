@@ -96,6 +96,7 @@ cmake . \
     -DBUILD_TESTING="$testing" \
     -DCMAKE_BUILD_TYPE="$cmake_config" \
     -DCMAKE_TOOLCHAIN_FILE="$cmake_toolchain" \
+    -Ddebug_dynamic_deps=ON \
     -Dprojname_coverage="$coverage" \
     -Dprojname_valgrind="$valgrind" \
     -Dprojname_sanitizer="$sanitizer" \
