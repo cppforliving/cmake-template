@@ -101,7 +101,7 @@ script:
     cmake --build . --config $BUILD_TYPE &&
     ( cat compile_commands.json || ":" ) &&
     ( cat activate_run.sh || ":" ) &&
-    source activate_run.sh &&
+    ( source activate_run.sh || ":" ) &&
     echo $PATH &&
     ctest -C $BUILD_TYPE -V &&
     ( cat deactivate_run.sh || ":" ) &&
