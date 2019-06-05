@@ -6,8 +6,6 @@ cache:
     - $HOME/.conan
 
 matrix:
-  allow_failures:
-    - os: windows
   fast_finish: true
   include:
 
