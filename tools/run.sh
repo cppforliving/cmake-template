@@ -64,6 +64,9 @@ for opt in "$@"; do
     Doc)
         doc=1
         ;;
+    Stats)
+        stats=1
+        ;;
     *)
         echo "unknown option '$opt'"
         exit 1
@@ -82,7 +85,7 @@ case "$cmake_toolchain" in
     conan install . \
         -if "$build_dir" \
         -s build_type="$conan_config" \
-        -s compiler.libcxx=libstdc++11
+        -pr conan/any-linux-gcc
     ;;
 "$vcpkg_toolchain")
     vcpkg install $(cat vcpkgfile.txt)
@@ -102,7 +105,7 @@ cmake . \
     -Dprojname_sanitizer="$sanitizer" \
     -Dprojname_check="$check"
 
-ccache -z
+[[ -z $stats ]] || ccache -z
 [[ -z $format ]] || $make_cmd format
 $make_cmd all
 [[ -f "$build_dir"/activate_run.sh ]] && . "$build_dir"/activate_run.sh
@@ -115,4 +118,4 @@ $make_cmd all
 [[ -z $doc ]] || $make_cmd doc
 [[ -z $install ]] || $make_cmd install
 [[ -z $uninstall ]] || $make_cmd uninstall
-ccache -s
+[[ -z $stats ]] || ccache -s

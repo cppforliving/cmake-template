@@ -3,6 +3,7 @@ language: cpp
 cache:
   ccache: true
   directories:
+    - $HOME/.cache/pip
     - $HOME/.conan
 
 matrix:
@@ -22,7 +23,8 @@ matrix:
         - pip install --user conan
       env:
         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
-        - CONAN_EXTRAS="-s compiler.libcxx=libstdc++11"
+        - CONAN_PROFILE="$PWD/conan/any-linux-gcc"
+        - CMAKE_GENERATOR="Unix Makefiles"
 
     - os: linux
       compiler: clang
@@ -33,6 +35,7 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - libstdc++-8-dev
+            - ninja-build
       install:
         - sudo update-alternatives
             --install /usr/bin/clang clang /usr/local/clang-7.0.0/bin/clang 70
@@ -43,11 +46,12 @@ matrix:
         - pip install --user conan
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
-        - CONAN_EXTRAS="-s compiler.libcxx=libstdc++11"
+        - CONAN_PROFILE="$PWD/conan/any-linux-clang"
+        - CMAKE_GENERATOR="Ninja"
 
     - os: osx
       compiler: clang
-      osx_image: xcode10.1
+      osx_image: xcode10.2
       addons:
         homebrew:
           packages:
@@ -59,7 +63,8 @@ matrix:
         - pip install --user conan
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
-        - CMAKE_EXTRAS="-G Xcode"
+        - CONAN_PROFILE="$PWD/conan/any-macos-clang"
+        - CMAKE_GENERATOR="Xcode"
 
     - os: windows
       compiler: cl
@@ -69,43 +74,38 @@ matrix:
         - conan config set general.user_home_short=None
       env:
         - MATRIX_EVAL="CC=cl && CXX=cl"
-        - CONAN_EXTRAS="-s compiler='Visual Studio' -s compiler.version=15 -s arch=x86"
-        - CMAKE_EXTRAS="-G 'Visual Studio 15 2017' -A Win32"
+        - CONAN_PROFILE="$PWD/conan/x86-windows-msvc"
+        - CMAKE_GENERATOR="Visual Studio 15 2017"
 
 before_install:
-  - printenv | sort | grep -E '^TRAVIS.*$' -v
-  - printenv | sort | grep -E '^TRAVIS.*$'
   - eval "$MATRIX_EVAL"
 
 before_script:
   - conan user
   - BUILD_TYPE=Release
-  - ccache -z || ":"
+  - ccache -z || true
 
 script:
-  - mkdir build && cd build
-  - eval "conan install ..
+  - set -x &&
+    mkdir build && cd build &&
+    conan install ..
+      -if .
       -b missing
       -s build_type=$BUILD_TYPE
-      $CONAN_EXTRAS" &&
-    eval "cmake ..
+      -pr $CONAN_PROFILE &&
+    cmake ..
       -B.
+      -G"$CMAKE_GENERATOR"
       -DCMAKE_BUILD_TYPE=$BUILD_TYPE
       -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
-      -Ddebug_dynamic_deps=ON
-      $CMAKE_EXTRAS" &&
-    cmake -LA | grep '=(.*-NOTFOUND)?$' -Ev &&
-    cmake -LA | grep '=(.*-NOTFOUND)?$' -E &&
+      -Ddebug_dynamic_deps=ON &&
     cmake --build . --config $BUILD_TYPE &&
-    ( cat compile_commands.json || ":" ) &&
-    ( cat activate_run.sh || ":" ) &&
     source activate_run.sh &&
-    echo $PATH &&
     ctest -C $BUILD_TYPE -V &&
-    ( cat deactivate_run.sh || ":" ) &&
-    ( source deactivate_run.sh || ":" ) &&
+    ( source deactivate_run.sh || true ) &&
     cmake --build . --config $BUILD_TYPE --target install &&
-    cmake --build . --config $BUILD_TYPE --target uninstall
+    cmake --build . --config $BUILD_TYPE --target uninstall &&
+    set +x
 
 after_script:
-  - ccache -s || ":"
+  - ccache -s || true

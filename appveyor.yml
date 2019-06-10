@@ -33,6 +33,7 @@ matrix:
       platform: x86
 
 cache:
+  - '%USERPROFILE%\.cache\pip'
   - '%USERPROFILE%\.conan'
 
 install:
@@ -59,6 +60,7 @@ install:
 build_script:
   - mkdir build && cd build
   - conan install ..
+      -if .
       -b missing
       -s build_type=%CONFIGURATION%
       -s compiler="Visual Studio"
@@ -75,7 +77,6 @@ build_script:
 
 test_script:
   - activate_run.bat
-  - echo %PATH%
   - ctest -C %CONFIGURATION% -V
   - deactivate_run.bat
   - cmake --build . --config %CONFIGURATION% --target install

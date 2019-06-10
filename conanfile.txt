@@ -4,6 +4,10 @@ boost/1.69.0@conan/stable
 gsl_microsoft/2.0.0@bincrafters/stable
 gtest/1.8.1@bincrafters/stable
 
+[generators]
+cmake_paths
+virtualrunenv
+
 [options]
 *:shared=True
 *:short_paths=False
@@ -12,7 +16,3 @@ gtest/1.8.1@bincrafters/stable
 # bin, *.dll -> ./bin
 # lib, *.dylib* -> ./lib
 # lib, *.so* -> ./lib
-
-[generators]
-cmake_paths
-virtualrunenv

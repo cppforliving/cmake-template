@@ -1,18 +1,8 @@
-# This is a sample build configuration for C++ – Make.
-# Check our guides at https://confluence.atlassian.com/x/5Q4SMw for more examples.
-# Only use spaces to indent your .yml configuration.
-# -----
-# You can specify a custom docker image from Docker Hub as your build environment.
 image: gumienny/gcc:6
 
 pipelines:
   custom:
     run-ci:
-      - step:
-          name: Print some info about system
-          script:
-            - uname -a
-            - lscpu
       - parallel:
           # - step:
           #     name: Build and test
