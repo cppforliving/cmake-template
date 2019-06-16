@@ -37,7 +37,7 @@ cache:
   - '%USERPROFILE%\.conan'
 
 install:
-  - pip install conan
+  - pip install cmake conan
   - conan config set general.user_home_short=None
   - conan user
   - if "%PLATFORM%"=="x86" (
