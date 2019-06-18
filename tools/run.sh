@@ -88,7 +88,7 @@ case "$cmake_toolchain" in
         -pr conan/any-linux-gcc
     ;;
 "$vcpkg_toolchain")
-    vcpkg install $(cat vcpkgfile.txt)
+    vcpkg install @vcpkgfile.txt
     ;;
 esac
 
