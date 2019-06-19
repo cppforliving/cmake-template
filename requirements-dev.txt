@@ -1,4 +1,5 @@
 -r requirements.txt
+cmake-format
 cpplint
 gcovr
 yamllint
