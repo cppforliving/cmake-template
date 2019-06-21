@@ -1,6 +1,6 @@
 [requires]
-Catch2/2.9.0@catchorg/stable
 boost/1.70.0@conan/stable
+Catch2/2.9.0@catchorg/stable
 gsl_microsoft/2.0.0@bincrafters/stable
 gtest/1.8.1@bincrafters/stable
 
