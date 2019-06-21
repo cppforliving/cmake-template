@@ -16,9 +16,10 @@ ctest -V
 
 ## Project structure
 * [cmake](cmake) - `CMake` modules
-* [doc](doc) - documentation
+* [conan](conan) - `Conan` profiles
+* [docs](docs) - documentation
 * [src](src) - sources and unit tests
-* [test](test) - integration/e2e tests
+* [tests](tests) - integration tests
 
 ## Requirements
 * CMake

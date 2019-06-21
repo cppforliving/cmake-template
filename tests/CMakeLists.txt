@@ -1,8 +1,8 @@
-add_custom_test(e2e_test
+add_custom_test(integration_test
   SOURCES
-    capicpp_e2e_test.cpp
-    clegacy_e2e_test.cpp
-    example_e2e_test.cpp
+    capicpp_int_test.cpp
+    clegacy_int_test.cpp
+    example_int_test.cpp
   DEPENDS
     projname::capicpp
     projname::clegacy
