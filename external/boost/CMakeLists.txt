@@ -5,6 +5,7 @@ find_package(Boost MODULE REQUIRED
     date_time
 )
 set_target_properties(
+    Boost::boost
     Boost::system
     Boost::date_time
     Boost::diagnostic_definitions
