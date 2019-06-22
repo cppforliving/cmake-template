@@ -25,7 +25,7 @@ ctest -V
 * CMake
 * Git
 * Python
-* GoogleTest (downloads automatically from web during testing build)
+* GoogleTest
 * Valgrind (optional)
 * Clang-Tidy (optional)
 * Clang-Format (optional)
