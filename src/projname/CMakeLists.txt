@@ -15,7 +15,6 @@ target_link_libraries(${PROJECT_NAME}_obj
     Boost::diagnostic_definitions
     Boost::disable_autolinking
     Boost::dynamic_linking
-    #GSL::gsl
 )
 if(MSVC)
     target_compile_definitions(${PROJECT_NAME}_obj

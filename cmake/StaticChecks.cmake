@@ -14,6 +14,7 @@ elseif("${${PROJECT_NAME}_check}" STREQUAL cppcheck)
     mark_as_advanced(cppcheck_command)
     set(CMAKE_C_CPPCHECK ${cppcheck_command}
         --enable=all
+        --check-config
     )
     set(CMAKE_CXX_CPPCHECK ${CMAKE_C_CPPCHECK})
 elseif("${${PROJECT_NAME}_check}" STREQUAL cpplint)

@@ -67,6 +67,9 @@ for opt in "$@"; do
     Stats)
         stats=1
         ;;
+    Rpaths)
+        rpaths=1
+        ;;
     *)
         echo "unknown option '$opt'"
         exit 1
@@ -99,7 +102,7 @@ cmake . \
     -DBUILD_TESTING="$testing" \
     -DCMAKE_BUILD_TYPE="$cmake_config" \
     -DCMAKE_TOOLCHAIN_FILE="$cmake_toolchain" \
-    -Ddebug_dynamic_deps=ON \
+    -Ddebug_dynamic_deps="$rpaths" \
     -Dprojname_coverage="$coverage" \
     -Dprojname_valgrind="$valgrind" \
     -Dprojname_sanitizer="$sanitizer" \
