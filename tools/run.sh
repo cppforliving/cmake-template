@@ -5,15 +5,11 @@ cmake_config=Release
 cmake_generator="Unix Makefiles"
 cmake_shared=ON
 valgrind=memcheck
-python=python
 conan_toolchain=conan_paths.cmake
 vcpkg_toolchain="$VCPKG_ROOT"/scripts/buildsystems/vcpkg.cmake
 
 for opt in "$@"; do
     case $opt in
-    Python2|Python3)
-        python=python${opt#Python}
-        ;;
     Conan)
         cmake_toolchain="$conan_toolchain"
         ;;
@@ -86,10 +82,10 @@ make_cmd="cmake --build $build_dir -j $(nproc) --"
 [[ -z $clean ]] || rm -rf build
 mkdir -p "$build_dir"
 
-virtualenv -p $(which $python) build/venv
+[[ -f build/venv/bin/activate ]] || python3 -m virtualenv build/venv
 source build/venv/bin/activate
 
-pip install -r requirements.txt -r requirements-dev.txt
+pip install -r requirements-dev.txt
 
 case "$cmake_toolchain" in
 "$conan_toolchain")

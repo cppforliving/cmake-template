@@ -1,3 +1,5 @@
+-r requirements.txt
+
 cpplint==1.4.4
 gcovr==4.1
 yamllint==1.16.0
