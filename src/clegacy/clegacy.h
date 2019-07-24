@@ -12,7 +12,7 @@ extern "C" {
  */
 CLEGACY_EXPORT int* clegacy_newInt123(void);
 
-CLEGACY_EXPORT void clegacy_deleteInt123(int*);
+CLEGACY_EXPORT void clegacy_deleteInt123(int* x);
 
 #ifdef __cplusplus
 }  // extern "C"

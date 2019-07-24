@@ -4,10 +4,7 @@ set(${PROJECT_NAME}_check "" CACHE STRING
 if("${${PROJECT_NAME}_check}" STREQUAL clang-tidy)
     find_program(clang_tidy_command clang-tidy)
     mark_as_advanced(clang_tidy_command)
-    set(CMAKE_C_CLANG_TIDY ${clang_tidy_command}
-        -checks=*,-cert-err58-cpp,-cppcoreguidelines-owning-memory,-cppcoreguidelines-special-member-functions,-fuchsia-default-arguments,-hicpp-special-member-functions,-llvm-header-guard,-llvm-include-order,-clang-diagnostic-unused-command-line-argument,-clang-diagnostic-ignored-optimization-argument,-readability-implicit-bool-conversion,-fuchsia-overloaded-operator,-cppcoreguidelines-no-malloc,-hicpp-no-malloc
-        -warnings-as-errors=*
-    )
+    set(CMAKE_C_CLANG_TIDY ${clang_tidy_command})
     set(CMAKE_CXX_CLANG_TIDY ${CMAKE_C_CLANG_TIDY})
 elseif("${${PROJECT_NAME}_check}" STREQUAL cppcheck)
     find_program(cppcheck_command cppcheck)

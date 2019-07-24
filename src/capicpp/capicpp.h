@@ -12,7 +12,7 @@ extern "C" {
  */
 CAPICPP_EXPORT int* capicpp_newInt123(void);
 
-CAPICPP_EXPORT void capicpp_deleteInt123(int*);
+CAPICPP_EXPORT void capicpp_deleteInt123(int* x);
 
 #ifdef __cplusplus
 }  // extern "C"

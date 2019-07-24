@@ -82,8 +82,9 @@ make_cmd="cmake --build $build_dir -j $(nproc) --"
 [[ -z $clean ]] || rm -rf build
 mkdir -p "$build_dir"
 
-[[ -f build/venv/bin/activate ]] || python3 -m virtualenv build/venv
-source build/venv/bin/activate
+venv_dir=~/.virtualenvs/"$(basename $PWD)"
+[[ -f "$venv_dir"/bin/activate ]] || python3 -m virtualenv "$venv_dir"
+source "$venv_dir"/bin/activate
 
 pip install -r requirements-dev.txt
 
