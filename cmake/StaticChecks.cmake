@@ -12,15 +12,18 @@ elseif("${${PROJECT_NAME}_check}" STREQUAL cppcheck)
     set(CMAKE_C_CPPCHECK ${cppcheck_command}
         --enable=all
         --check-config
+        --suppress=missingIncludeSystem
     )
     set(CMAKE_CXX_CPPCHECK ${CMAKE_C_CPPCHECK})
 elseif("${${PROJECT_NAME}_check}" STREQUAL cpplint)
     find_program(cpplint_command cpplint)
     mark_as_advanced(cpplint_command)
     set(CMAKE_C_CPPLINT ${cpplint_command}
-        --filter=-legal/copyright
+        --filter=-build/include_subdir,-legal/copyright,-readability/casting
     )
-    set(CMAKE_CXX_CPPLINT ${CMAKE_C_CPPLINT})
+    set(CMAKE_CXX_CPPLINT ${cpplint_command}
+        --filter=-build/c++11,-build/include_order,-build/include_subdir,-build/namespaces,-legal/copyright
+    )
 elseif("${${PROJECT_NAME}_check}" STREQUAL iwyu)
     find_program(iwyu_command iwyu)
     mark_as_advanced(iwyu_command)
