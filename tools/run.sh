@@ -1,4 +1,5 @@
 #!/bin/bash
+set -eo pipefail
 
 conan_config=Release
 cmake_config=Release
@@ -35,7 +36,7 @@ for opt in "$@"; do
         conan_config=Debug
         cmake_config=$opt
         ;;
-    Release|MinSizeRel|RelWithDebInfo)
+    Release | MinSizeRel | RelWithDebInfo)
         conan_config=Release
         cmake_config=$opt
         ;;
@@ -73,6 +74,7 @@ for opt in "$@"; do
     *)
         echo "unknown option '$opt'"
         exit 1
+        ;;
     esac
 done
 
