@@ -5,7 +5,9 @@
 [![License](https://img.shields.io/github/license/piotrgumienny/cmake-template.svg)](LICENSE)
 
 ## How to build and test
+
 Linux workflow:
+
 ```sh
 mkdir build && cd build
 conan install -b missing -s compiler.libcxx=libstdc++11 ..
@@ -15,6 +17,7 @@ ctest -V
 ```
 
 ## Project structure
+
 * [cmake](cmake) - `CMake` modules
 * [conan](conan) - `Conan` profiles
 * [docs](docs) - documentation
@@ -22,6 +25,7 @@ ctest -V
 * [tests](tests) - integration tests
 
 ## Requirements
+
 * CMake
 * Git
 * Python
@@ -34,11 +38,13 @@ ctest -V
 * PlantUML (optional)
 
 ## Supported platforms
+
 * Linux
 * Windows
 * macOS
 
 ## Supported compilers
+
 * Clang
 * GCC
 * MSVC
