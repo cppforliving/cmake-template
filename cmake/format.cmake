@@ -3,8 +3,11 @@
 file(GLOB_RECURSE format_source_files *.c *.cpp *.h *.hpp)
 foreach(source_file ${format_source_files})
     string(FIND ${source_file} /CMakeFiles/ cmake_files_found)
-    string(FIND ${source_file} "${PROJECT_SOURCE_DIR}/build" build_dir_found)
-    if(NOT ${cmake_files_found} EQUAL -1 OR ${build_dir_found} EQUAL 0)
+    string(FIND ${source_file} /external/ external_dir_found)
+    string(FIND ${source_file} "${PROJECT_BINARY_DIR}" build_dir_found)
+    if(NOT ${cmake_files_found} EQUAL -1
+      OR NOT ${external_dir_found} EQUAL -1
+      OR ${build_dir_found} EQUAL 0)
         list(REMOVE_ITEM format_source_files ${source_file})
     endif()
 endforeach()
