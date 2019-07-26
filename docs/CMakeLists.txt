@@ -20,8 +20,12 @@ if(DOXYGEN_FOUND)
         file(TO_NATIVE_PATH ${DOXYGEN_DOT_PATH} DOXYGEN_DOT_PATH)
     endif()
     configure_file(Doxyfile.in Doxyfile @ONLY)
+    find_program(sphinx_build sphinx-build)
+    mark_as_advanced(sphinx_build)
+    configure_file(conf.py.in "${CMAKE_CURRENT_SOURCE_DIR}/conf.py" @ONLY)
     add_custom_target(doc
         COMMAND Doxygen::doxygen Doxyfile > doxygen.log
+        COMMAND "${sphinx_build}" -M html "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_BINARY_DIR}" > sphinx-build.log
         COMMENT "Generating ${PROJECT_NAME} documentation")
     install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/html"
         DESTINATION "${CMAKE_INSTALL_DOCDIR}"

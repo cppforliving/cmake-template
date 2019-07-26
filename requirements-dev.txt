@@ -1,5 +1,7 @@
 -r requirements.txt
 
+breathe
 cpplint
 gcovr
+sphinx-rtd-theme
 yamllint

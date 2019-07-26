@@ -12,6 +12,8 @@ project(projname
     VERSION 0.1
     DESCRIPTION "CMake & Conan/Vcpkg based template for C/C++ projects."
     LANGUAGES C CXX)
+set(PROJECT_AUTHOR "Piotr Gumienny")
+set(${PROJECT_NAME}_AUTHOR "${PROJECT_AUTHOR}")
 
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
     set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/dist" CACHE PATH
