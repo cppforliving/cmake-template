@@ -3,13 +3,12 @@ language: cpp
 cache:
   ccache: true
   directories:
-    - $HOME/.cache/pip
     - $HOME/.conan
+    - $HOME/.cache/pip
+    - $HOME/Library/Caches/pip
+    - $HOME/AppData/Local/pip/Cache
 
 matrix:
-  fast_finish: true
-  allow_failures:
-    - os: windows
   include:
 
     - os: linux
@@ -22,7 +21,7 @@ matrix:
           packages:
             - g++-8
       install:
-        - pip install --user -r requirements.txt
+        - python -m pip install --user -r requirements.txt
       env:
         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
         - CONAN_PROFILE="$PWD/conan/any-linux-gcc"
@@ -45,7 +44,7 @@ matrix:
             --slave /usr/bin/ld ld /usr/local/clang-7.0.0/bin/lld
         - export LD_LIBRARY_PATH="/usr/local/clang-7.0.0/lib:$LD_LIBRARY_PATH"
         - sudo update-ccache-symlinks
-        - pip install --user -r requirements.txt
+        - python -m pip install --user -r requirements.txt
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
         - CONAN_PROFILE="$PWD/conan/any-linux-clang"
@@ -61,8 +60,8 @@ matrix:
       install:
         - ccache -M 500M
         - export PATH="/usr/local/opt/ccache/libexec:$PATH"
-        - export PATH="/Users/travis/Library/Python/2.7/bin:$PATH"
-        - pip install --user -r requirements.txt
+        - export PATH="$HOME/Library/Python/2.7/bin:$PATH"
+        - python -m pip install --user -r requirements.txt
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
         - CONAN_PROFILE="$PWD/conan/any-macos-clang"
@@ -72,9 +71,8 @@ matrix:
       compiler: cl
       install:
         - choco install python
-        - curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-        - python get-pip.py
-        - pip install --user -r requirements.txt
+        - export PATH="/c/Python37:$HOME/AppData/Roaming/Python/Python37/Scripts:$PATH"
+        - python -m pip install --user -r requirements.txt
         - conan config set general.user_home_short=None
       env:
         - MATRIX_EVAL="CC=cl && CXX=cl"

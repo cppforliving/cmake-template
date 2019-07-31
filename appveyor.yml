@@ -33,11 +33,10 @@ matrix:
       platform: x86
 
 cache:
-  - '%USERPROFILE%\.cache\pip'
   - '%USERPROFILE%\.conan'
 
 install:
-  - pip install -r requirements.txt
+  - python -m pip install -r requirements.txt
   - conan config set general.user_home_short=None
   - conan user
   - if "%PLATFORM%"=="x86" (
