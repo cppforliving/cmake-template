@@ -1,4 +1,4 @@
-version: 1.0.{build}
+version: "{build}"
 
 image:
   # - Visual Studio 2015
@@ -13,6 +13,7 @@ platform:
   - x64
 
 environment:
+  VCPKG_ROOT: c:\tools\vcpkg
   matrix:
     - BUILD_SHARED_LIBS: ON
     - BUILD_SHARED_LIBS: OFF
@@ -33,50 +34,42 @@ matrix:
       platform: x86
 
 cache:
-  - '%USERPROFILE%\.conan'
+  - '%VCPKG_ROOT%\installed'
+  - '%LOCALAPPDATA%\pip\Cache'
 
 install:
   - python -m pip install -r requirements.txt
-  - conan config set general.user_home_short=None
-  - conan user
   - if "%PLATFORM%"=="x86" (
-      set CONAN_ARCH=x86 &
-      set CMAKE_ARCH=Win32
+      set "VCPKG_ARCH=x86" &
+      set "CMAKE_ARCH=Win32"
     )
   - if "%PLATFORM%"=="x64" (
-      set CONAN_ARCH=x86_64 &
-      set CMAKE_ARCH=x64
+      set "VCPKG_ARCH=x64" &
+      set "CMAKE_ARCH=x64"
     )
   # - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2015" (
-  #     set COMPILER_VERSION=14 &
+  #     set "COMPILER_VERSION=14" &
   #     set CMAKE_GENERATOR="Visual Studio 14 2015"
   #   )
   - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" (
-      set COMPILER_VERSION=15 &
+      set "COMPILER_VERSION=15" &
       set CMAKE_GENERATOR="Visual Studio 15 2017"
     )
 
 build_script:
   - mkdir build && cd build
-  - conan install ..
-      -if .
-      -b missing
-      -s build_type=%CONFIGURATION%
-      -s compiler="Visual Studio"
-      -s compiler.version=%COMPILER_VERSION%
-      -s arch=%CONAN_ARCH%
+  - vcpkg install @..\vcpkgfile.txt
+      --triplet %VCPKG_ARCH%-windows
   - cmake ..
       -B.
       -G%CMAKE_GENERATOR%
       -A%CMAKE_ARCH%
       -DBUILD_SHARED_LIBS=%BUILD_SHARED_LIBS%
-      -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
+      -DCMAKE_TOOLCHAIN_FILE=%VCPKG_ROOT%\scripts\buildsystems\vcpkg.cmake
       -Ddebug_dynamic_deps=ON
   - cmake --build . --config %CONFIGURATION%
 
 test_script:
-  - activate_run.bat
   - ctest -C %CONFIGURATION% -V
-  - deactivate_run.bat
   - cmake --build . --config %CONFIGURATION% --target install
   - cmake --build . --config %CONFIGURATION% --target uninstall
