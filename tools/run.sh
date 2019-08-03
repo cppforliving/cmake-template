@@ -89,7 +89,8 @@ case "$cmake_toolchain" in
     conan install . \
         -if "$build_dir" \
         -s build_type="$conan_config" \
-        -pr conan/any-linux-gcc
+        -pr conan/any-linux-gcc \
+        -b
     ;;
 "$vcpkg_toolchain")
     vcpkg install @vcpkgfile.txt
