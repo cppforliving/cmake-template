@@ -88,7 +88,7 @@ venv_dir=~/.virtualenvs/"$(basename $PWD)"
 [[ -f "$venv_dir"/bin/activate ]] || python3 -m virtualenv "$venv_dir"
 source "$venv_dir"/bin/activate
 
-pip install -r requirements-dev.txt
+pip install -U -r requirements-dev.txt
 
 case "$cmake_toolchain" in
 "$conan_toolchain")

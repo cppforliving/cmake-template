@@ -38,7 +38,7 @@ cache:
   - '%LOCALAPPDATA%\pip\Cache'
 
 install:
-  - python -m pip install -r requirements.txt
+  - python -m pip install -U -r requirements.txt
   - if "%PLATFORM%"=="x86" (
       set "VCPKG_ARCH=x86" &
       set "CMAKE_ARCH=Win32"
