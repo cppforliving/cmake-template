@@ -21,7 +21,7 @@ matrix:
           packages:
             - g++-8
       install:
-        - python -m pip install --user -U -r requirements.txt
+        - python -m pip install --user -U -r requirements.txt conan
       env:
         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
         - CONAN_PROFILE="$PWD/conan/any-linux-gcc"
@@ -44,7 +44,7 @@ matrix:
             --slave /usr/bin/ld ld /usr/local/clang-7.0.0/bin/lld
         - export LD_LIBRARY_PATH="/usr/local/clang-7.0.0/lib:$LD_LIBRARY_PATH"
         - sudo update-ccache-symlinks
-        - python -m pip install --user -U -r requirements.txt
+        - python -m pip install --user -U -r requirements.txt conan
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
         - CONAN_PROFILE="$PWD/conan/any-linux-clang"
@@ -61,7 +61,7 @@ matrix:
         - ccache -M 500M
         - export PATH="/usr/local/opt/ccache/libexec:$PATH"
         - export PATH="$HOME/Library/Python/2.7/bin:$PATH"
-        - python -m pip install --user -U -r requirements.txt
+        - python -m pip install --user -U -r requirements.txt conan
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
         - CONAN_PROFILE="$PWD/conan/any-macos-clang"
@@ -72,7 +72,7 @@ matrix:
       install:
         - choco install python
         - export PATH="/c/Python37:$HOME/AppData/Roaming/Python/Python37/Scripts:$PATH"
-        - python -m pip install --user -U -r requirements.txt
+        - python -m pip install --user -U -r requirements.txt conan
         - conan config set general.user_home_short=None
       env:
         - MATRIX_EVAL="CC=cl && CXX=cl"

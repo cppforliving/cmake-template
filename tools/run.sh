@@ -92,6 +92,7 @@ pip install -U -r requirements-dev.txt
 
 case "$cmake_toolchain" in
 "$conan_toolchain")
+    pip install -U conan
     conan install . \
         -if "$build_dir" \
         -s build_type="$conan_config" \

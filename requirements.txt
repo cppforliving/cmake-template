@@ -1,2 +1,1 @@
-cmake>=3.14.4
-conan>=1.17.1
+cmake
