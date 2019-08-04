@@ -273,9 +273,7 @@ script:
       -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
       -Ddebug_dynamic_deps=ON &&
     cmake --build . --config $BUILD_TYPE &&
-    source activate_run.sh &&
     ctest -V -C $BUILD_TYPE &&
-    ( source deactivate_run.sh || true ) &&
     cmake --build . --config $BUILD_TYPE --target install &&
     set +x
 

@@ -112,13 +112,9 @@ cmake . \
 [[ -z $stats ]] || ccache -z
 [[ -z $format ]] || $make_cmd format
 $make_cmd all
-[[ -f "$build_dir"/activate_run.sh ]] && source "$build_dir"/activate_run.sh
 [[ -z $testing && -z $coverage ]] || CTEST_OUTPUT_ON_FAILURE=1 $make_cmd ExperimentalTest
-[[ -f "$build_dir"/deactivate_run.sh ]] && source "$build_dir"/deactivate_run.sh
 [[ -z $coverage ]] || CTEST_OUTPUT_ON_FAILURE=1 $make_cmd ExperimentalCoverage
-[[ -f "$build_dir"/activate_run.sh ]] && source "$build_dir"/activate_run.sh
 [[ -z $memcheck ]] || CTEST_OUTPUT_ON_FAILURE=1 $make_cmd ExperimentalMemCheck
-[[ -f "$build_dir"/deactivate_run.sh ]] && source "$build_dir"/deactivate_run.sh
 [[ -z $doc ]] || $make_cmd doc
 [[ -z $install ]] || $make_cmd install
 [[ -z $stats ]] || ccache -s

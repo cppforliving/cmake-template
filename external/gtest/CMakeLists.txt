@@ -6,6 +6,11 @@ set_target_properties(
     IMPORTED_GLOBAL TRUE
 )
 
+get_property(GTest_Main_INSTALL_NAME_DIR TARGET GTest::Main PROPERTY INSTALL_NAME_DIR)
+get_property(GTest_INSTALL_NAME_DIR TARGET GTest::GTest PROPERTY INSTALL_NAME_DIR)
+message(STATUS "GTest_Main_INSTALL_NAME_DIR: ${GTest_Main_INSTALL_NAME_DIR}")
+message(STATUS "GTest_INSTALL_NAME_DIR: ${GTest_INSTALL_NAME_DIR}")
+
 add_library(gtest_main INTERFACE)
 target_link_libraries(gtest_main INTERFACE GTest::Main GTest::GTest)
 target_compile_definitions(gtest_main INTERFACE GTEST_LINKED_AS_SHARED_LIBRARY=1)
