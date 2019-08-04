@@ -4,10 +4,8 @@
 
 namespace {
 
-using namespace example;
-
 TEST(Derived, callVirtualMethod) {
-    Derived derived;
+    example::Derived derived;
     EXPECT_NO_THROW(derived.virtualMethod());
 }
 

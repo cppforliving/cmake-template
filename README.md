@@ -20,9 +20,12 @@ ctest -V
 
 * [cmake](cmake) - `CMake` modules
 * [conan](conan) - `Conan` profiles
+* [data](data) - various data files
 * [docs](docs) - documentation
+* [external](external) - dependencies
 * [src](src) - sources and unit tests
 * [tests](tests) - integration tests
+* [tools](tools) - scripts and tools
 
 ## Requirements
 

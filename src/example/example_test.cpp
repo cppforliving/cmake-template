@@ -5,16 +5,14 @@
 
 namespace {
 
-using namespace example;
-
 using testing::Eq;
 
 TEST(Example, getValue) {
-    EXPECT_THAT(detail::get123(), Eq(123));
+    EXPECT_THAT(example::detail::get123(), Eq(123));
 }
 
 TEST(Example, deleteMemory) {
-    delete detail::newInt();
+    delete example::detail::newInt();
 }
 
 }  // namespace

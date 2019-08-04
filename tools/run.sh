@@ -85,7 +85,7 @@ make_cmd="cmake --build $build_dir -j $(nproc) --"
 mkdir -p "$build_dir"
 
 venv_dir=~/.virtualenvs/"$(basename $PWD)"
-[[ -f "$venv_dir"/bin/activate ]] || python3 -m virtualenv "$venv_dir"
+[[ -f "$venv_dir"/bin/activate ]] || python -m virtualenv "$venv_dir"
 source "$venv_dir"/bin/activate
 
 pip install -U -r requirements-dev.txt
@@ -120,11 +120,11 @@ cmake . \
 [[ -z $format ]] || $make_cmd format
 $make_cmd all
 [[ -f "$build_dir"/activate_run.sh ]] && source "$build_dir"/activate_run.sh
-[[ -z $testing && -z $coverage ]] || $make_cmd ExperimentalTest
+[[ -z $testing && -z $coverage ]] || CTEST_OUTPUT_ON_FAILURE=1 $make_cmd ExperimentalTest
 [[ -f "$build_dir"/deactivate_run.sh ]] && source "$build_dir"/deactivate_run.sh
-[[ -z $coverage ]] || $make_cmd ExperimentalCoverage
+[[ -z $coverage ]] || CTEST_OUTPUT_ON_FAILURE=1 $make_cmd ExperimentalCoverage
 [[ -f "$build_dir"/activate_run.sh ]] && source "$build_dir"/activate_run.sh
-[[ -z $memcheck ]] || $make_cmd ExperimentalMemCheck
+[[ -z $memcheck ]] || CTEST_OUTPUT_ON_FAILURE=1 $make_cmd ExperimentalMemCheck
 [[ -f "$build_dir"/deactivate_run.sh ]] && source "$build_dir"/deactivate_run.sh
 [[ -z $doc ]] || $make_cmd doc
 [[ -z $install ]] || $make_cmd install

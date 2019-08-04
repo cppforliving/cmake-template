@@ -13,6 +13,7 @@ if(MSVC)
 else()
     add_compile_options(
         -fno-strict-aliasing
+        $<$<CONFIG:Debug>:-fno-omit-frame-pointer>
         -Wall
         -Wcast-align
         -Wconversion
@@ -29,11 +30,7 @@ else()
         $<$<COMPILE_LANGUAGE:CXX>:-Wold-style-cast>
         $<$<COMPILE_LANGUAGE:CXX>:-Woverloaded-virtual>
     )
-    if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-        add_compile_options(
-            $<$<COMPILE_LANGUAGE:CXX>:-Wsuggest-override>
-        )
-    elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         add_compile_options(
             -fcomment-block-commands=startuml,enduml
             -Weverything

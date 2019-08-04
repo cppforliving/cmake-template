@@ -11,8 +11,8 @@ if(${PROJECT_NAME}_valgrind STREQUAL memcheck)
         --suppressions=${PROJECT_SOURCE_DIR}/data/valgrind.supp
         --error-exitcode=1
         --read-inline-info=yes
-        --xtree-memory=full
-        --xtree-memory-file=memcheck-xtmemory.kcg
+        # --xtree-memory=full
+        # --xtree-memory-file=memcheck-xtmemory.kcg
         --child-silent-after-fork=yes
         --xml=yes
         --xml-file=valgrind.xml)

@@ -7,8 +7,6 @@
 
 namespace {
 
-using namespace projname;
-
 using testing::TestWithParam;
 using testing::Values;
 
@@ -18,7 +16,7 @@ struct ProjnameTest : TestWithParam<std::new_handler> {
 
 TEST_P(ProjnameTest, run) {
     std::set_new_handler(GetParam());
-    EXPECT_EQ(369, run({args, 1}));
+    EXPECT_EQ(369, projname::run({args, 1}));
     std::set_new_handler(nullptr);
 }
 

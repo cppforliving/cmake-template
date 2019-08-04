@@ -8,10 +8,49 @@ cache:
     - $HOME/Library/Caches/pip
     - $HOME/AppData/Local/pip/Cache
 
+stages:
+  - test
+  - check
+
 matrix:
+  exclude:
+
+    - stage: test
+      os: windows
+      compiler: cl
+      install:
+        - choco install python
+        - export PATH="/c/Python37:$PATH"
+        - export PATH="$HOME/AppData/Roaming/Python/Python37/Scripts:$PATH"
+        - python -m pip install --user -U -r requirements.txt conan
+        - conan config set general.user_home_short=None
+      env:
+        - MATRIX_EVAL="CC=cl && CXX=cl"
+        - CONAN_PROFILE="$PWD/conan/x86-windows-msvc"
+        - CMAKE_GENERATOR="Visual Studio 15 2017"
+
   include:
 
-    - os: linux
+    - stage: test
+      os: osx
+      compiler: clang
+      osx_image: xcode10.2
+      addons:
+        homebrew:
+          packages:
+            - ccache
+      install:
+        - ccache -M 500M
+        - export PATH="/usr/local/opt/ccache/libexec:$PATH"
+        - export PATH="$HOME/Library/Python/2.7/bin:$PATH"
+        - python -m pip install --user -U -r requirements.txt conan
+      env:
+        - MATRIX_EVAL="CC=clang && CXX=clang++"
+        - CONAN_PROFILE="$PWD/conan/any-macos-clang"
+        - CMAKE_GENERATOR="Xcode"
+
+    - stage: test
+      os: linux
       compiler: gcc
       dist: xenial
       addons:
@@ -27,7 +66,8 @@ matrix:
         - CONAN_PROFILE="$PWD/conan/any-linux-gcc"
         - CMAKE_GENERATOR="Unix Makefiles"
 
-    - os: linux
+    - stage: test
+      os: linux
       compiler: clang
       dist: xenial
       addons:
@@ -50,34 +90,166 @@ matrix:
         - CONAN_PROFILE="$PWD/conan/any-linux-clang"
         - CMAKE_GENERATOR="Ninja"
 
-    - os: osx
+    - stage: check
+      os: linux
       compiler: clang
-      osx_image: xcode10.2
+      dist: xenial
       addons:
-        homebrew:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
           packages:
-            - ccache
+            - libstdc++-8-dev
+            - ninja-build
       install:
-        - ccache -M 500M
-        - export PATH="/usr/local/opt/ccache/libexec:$PATH"
-        - export PATH="$HOME/Library/Python/2.7/bin:$PATH"
+        - sudo update-alternatives
+            --install /usr/bin/clang clang /usr/local/clang-7.0.0/bin/clang 70
+            --slave /usr/bin/clang++ clang++ /usr/local/clang-7.0.0/bin/clang++
+            --slave /usr/bin/ld ld /usr/local/clang-7.0.0/bin/lld
+        - export LD_LIBRARY_PATH="/usr/local/clang-7.0.0/lib:$LD_LIBRARY_PATH"
+        - sudo update-ccache-symlinks
         - python -m pip install --user -U -r requirements.txt conan
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
-        - CONAN_PROFILE="$PWD/conan/any-macos-clang"
-        - CMAKE_GENERATOR="Xcode"
+        - CONAN_PROFILE="$PWD/conan/any-linux-clang"
+        - CMAKE_GENERATOR="Ninja"
+      script:
+        - set -x &&
+          mkdir build && cd build &&
+          conan install ..
+            -if .
+            -b missing
+            -s build_type=Debug
+            -pr $CONAN_PROFILE &&
+          cmake ..
+            -B.
+            -G"$CMAKE_GENERATOR"
+            -DCMAKE_BUILD_TYPE=Debug
+            -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
+            -Ddebug_dynamic_deps=ON
+            -Dprojname_check=clang-tidy &&
+          cmake --build . --config Debug &&
+          set +x
 
-    - os: windows
-      compiler: cl
+    - stage: check
+      os: linux
+      compiler: gcc
+      dist: xenial
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-7
       install:
-        - choco install python
-        - export PATH="/c/Python37:$HOME/AppData/Roaming/Python/Python37/Scripts:$PATH"
         - python -m pip install --user -U -r requirements.txt conan
-        - conan config set general.user_home_short=None
       env:
-        - MATRIX_EVAL="CC=cl && CXX=cl"
-        - CONAN_PROFILE="$PWD/conan/x86-windows-msvc"
-        - CMAKE_GENERATOR="Visual Studio 15 2017"
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+        - CONAN_PROFILE="$PWD/conan/any-linux-gcc"
+        - CMAKE_GENERATOR="Unix Makefiles"
+      script:
+        - set -x &&
+          mkdir build && cd build &&
+          conan install ..
+            -if .
+            -b missing
+            -s build_type=Debug
+            -pr $CONAN_PROFILE &&
+          cmake ..
+            -B.
+            -G"$CMAKE_GENERATOR"
+            -DCMAKE_BUILD_TYPE=Debug
+            -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
+            -Ddebug_dynamic_deps=ON
+            -Dprojname_coverage=xml &&
+          cmake --build . --config Debug &&
+          source activate_run.sh &&
+          ctest -V -C Debug -D ExperimentalTest &&
+          ctest -V -C Debug -D ExperimentalCoverage &&
+          ( source deactivate_run.sh || true ) &&
+          set +x
+
+    - stage: check
+      os: linux
+      compiler: gcc
+      dist: xenial
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-8
+            - valgrind
+      install:
+        - python -m pip install --user -U -r requirements.txt conan
+      env:
+        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
+        - CONAN_PROFILE="$PWD/conan/any-linux-gcc"
+        - CMAKE_GENERATOR="Unix Makefiles"
+      script:
+        - set -x &&
+          mkdir build && cd build &&
+          conan install ..
+            -if .
+            -b missing
+            -s build_type=Debug
+            -pr $CONAN_PROFILE &&
+          cmake ..
+            -B.
+            -G"$CMAKE_GENERATOR"
+            -DCMAKE_BUILD_TYPE=Debug
+            -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
+            -Ddebug_dynamic_deps=ON
+            -Dprojname_valgrind=memcheck &&
+          cmake --build . --config Debug &&
+          source activate_run.sh &&
+          ctest -V -C Debug -D ExperimentalMemCheck &&
+          ( source deactivate_run.sh || true ) &&
+          set +x
+
+    - stage: check
+      os: linux
+      compiler: clang
+      dist: xenial
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - libstdc++-8-dev
+            - ninja-build
+      install:
+        - sudo update-alternatives
+            --install /usr/bin/clang clang /usr/local/clang-7.0.0/bin/clang 70
+            --slave /usr/bin/clang++ clang++ /usr/local/clang-7.0.0/bin/clang++
+            --slave /usr/bin/ld ld /usr/local/clang-7.0.0/bin/lld
+        - export LD_LIBRARY_PATH="/usr/local/clang-7.0.0/lib:$LD_LIBRARY_PATH"
+        - sudo update-ccache-symlinks
+        - python -m pip install --user -U -r requirements.txt conan
+      env:
+        - MATRIX_EVAL="CC=clang && CXX=clang++"
+        - CONAN_PROFILE="$PWD/conan/any-linux-clang"
+        - CMAKE_GENERATOR="Ninja"
+      script:
+        - set -x &&
+          mkdir build && cd build &&
+          conan install ..
+            -if .
+            -b missing
+            -s build_type=Debug
+            -pr $CONAN_PROFILE &&
+          cmake ..
+            -B.
+            -G"$CMAKE_GENERATOR"
+            -DCMAKE_BUILD_TYPE=Debug
+            -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
+            -Ddebug_dynamic_deps=ON
+            -Dprojname_sanitizer=undefined &&
+          cmake --build . --config Debug &&
+          source activate_run.sh &&
+          ctest -V -C Debug -D ExperimentalTest &&
+          ( source deactivate_run.sh || true ) &&
+          set +x
 
 before_install:
   - eval "$MATRIX_EVAL"
@@ -103,7 +275,7 @@ script:
       -Ddebug_dynamic_deps=ON &&
     cmake --build . --config $BUILD_TYPE &&
     source activate_run.sh &&
-    ctest -C $BUILD_TYPE -V &&
+    ctest -V -C $BUILD_TYPE &&
     ( source deactivate_run.sh || true ) &&
     cmake --build . --config $BUILD_TYPE --target install &&
     cmake --build . --config $BUILD_TYPE --target uninstall &&

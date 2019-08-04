@@ -1,11 +1,19 @@
 ---
 Checks:          '*,
+-cert-err58-cpp,
 -clang-diagnostic-documentation,
+-cppcoreguidelines-avoid-goto,
 -cppcoreguidelines-owning-memory,
+-cppcoreguidelines-pro-bounds-array-to-pointer-decay,
+-cppcoreguidelines-pro-type-vararg,
 -cppcoreguidelines-special-member-functions,
 -fuchsia-default-arguments,
 -fuchsia-overloaded-operator,
+-fuchsia-statically-constructed-objects,
+-hicpp-avoid-goto,
+-hicpp-no-array-decay,
 -hicpp-special-member-functions,
+-hicpp-vararg,
 -llvm-header-guard,
 -readability-non-const-parameter'  # 'clang-diagnostic-*,clang-analyzer-*'
 WarningsAsErrors: '*'  # ''
