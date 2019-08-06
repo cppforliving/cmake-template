@@ -173,44 +173,6 @@ matrix:
 
     - stage: check
       os: linux
-      compiler: gcc
-      dist: xenial
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-8
-            - valgrind
-      install:
-        - python -m pip install --user -U -r requirements.txt conan
-      env:
-        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
-        - CONAN_PROFILE="$PWD/conan/any-linux-gcc"
-        - CMAKE_GENERATOR="Unix Makefiles"
-      script:
-        - set -x &&
-          mkdir build && cd build &&
-          conan install ..
-            -if .
-            -b missing
-            -s build_type=Debug
-            -pr $CONAN_PROFILE &&
-          cmake ..
-            -B.
-            -G"$CMAKE_GENERATOR"
-            -DCMAKE_BUILD_TYPE=Debug
-            -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
-            -Ddebug_dynamic_deps=ON
-            -Dprojname_valgrind=memcheck &&
-          cmake --build . --config Debug &&
-          source activate_run.sh &&
-          ctest -V -C Debug -D ExperimentalMemCheck &&
-          ( source deactivate_run.sh || true ) &&
-          set +x
-
-    - stage: check
-      os: linux
       compiler: clang
       dist: xenial
       addons:
@@ -246,10 +208,48 @@ matrix:
             -DCMAKE_BUILD_TYPE=Debug
             -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
             -Ddebug_dynamic_deps=ON
-            -Dprojname_sanitizer=undefined &&
+            -Dprojname_sanitizer=address &&
           cmake --build . --config Debug &&
           source activate_run.sh &&
           ctest -V -C Debug -D ExperimentalTest &&
+          ( source deactivate_run.sh || true ) &&
+          set +x
+
+    - stage: check
+      os: linux
+      compiler: gcc
+      dist: xenial
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-8
+            - valgrind
+      install:
+        - python -m pip install --user -U -r requirements.txt conan
+      env:
+        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
+        - CONAN_PROFILE="$PWD/conan/any-linux-gcc"
+        - CMAKE_GENERATOR="Unix Makefiles"
+      script:
+        - set -x &&
+          mkdir build && cd build &&
+          conan install ..
+            -if .
+            -b missing
+            -s build_type=Debug
+            -pr $CONAN_PROFILE &&
+          cmake ..
+            -B.
+            -G"$CMAKE_GENERATOR"
+            -DCMAKE_BUILD_TYPE=Debug
+            -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
+            -Ddebug_dynamic_deps=ON
+            -Dprojname_valgrind=memcheck &&
+          cmake --build . --config Debug &&
+          source activate_run.sh &&
+          ctest -V -C Debug -D ExperimentalMemCheck &&
           ( source deactivate_run.sh || true ) &&
           set +x
 
