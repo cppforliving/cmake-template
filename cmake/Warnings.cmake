@@ -16,6 +16,7 @@ else()
         $<$<CONFIG:Debug>:-fno-omit-frame-pointer>
         -Wall
         -Wcast-align
+        -Wcast-qual
         -Wconversion
         -Werror
         -Wextra
@@ -23,12 +24,14 @@ else()
         -Wshadow
         -Wsign-conversion
         -Wwrite-strings
+        $<$<COMPILE_LANGUAGE:C>:-Wbad-function-cast>
         $<$<COMPILE_LANGUAGE:C>:-Wc++-compat>
         $<$<COMPILE_LANGUAGE:CXX>:-Wc++17-compat>
         $<$<COMPILE_LANGUAGE:CXX>:-Wctor-dtor-privacy>
         $<$<COMPILE_LANGUAGE:CXX>:-Wnon-virtual-dtor>
         $<$<COMPILE_LANGUAGE:CXX>:-Wold-style-cast>
         $<$<COMPILE_LANGUAGE:CXX>:-Woverloaded-virtual>
+        $<$<COMPILE_LANGUAGE:CXX>:-Wzero-as-null-pointer-constant>
     )
     if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         add_compile_options(

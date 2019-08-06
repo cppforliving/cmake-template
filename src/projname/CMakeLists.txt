@@ -21,6 +21,11 @@ if(MSVC)
       PUBLIC
         $<$<COMPILE_LANGUAGE:CXX>:_SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING>
     )
+else()
+    target_compile_options(${PROJECT_NAME}_obj
+      PUBLIC
+        $<$<COMPILE_LANGUAGE:CXX>:-Wno-zero-as-null-pointer-constant>
+    )
 endif()
 
 add_executable(${PROJECT_NAME})
