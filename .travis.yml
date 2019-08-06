@@ -168,6 +168,8 @@ matrix:
           ctest -V -C Debug -D ExperimentalCoverage &&
           ( source deactivate_run.sh || true ) &&
           set +x
+      after_success:
+        - bash <(curl -s https://codecov.io/bash)
 
     - stage: check
       os: linux
