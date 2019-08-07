@@ -7,10 +7,24 @@
 
 namespace {
 
-TEST(Lockable, lockAndUnlock) {
+TEST(Lockable, lockAndUnlockManually) {
     example::Lockable<std::string> s1{"asd"};
     s1.lock();
-    example::Lockable<std::string>::Lock l1{s1, std::adopt_lock};
+    s1.unlock();
+}
+
+TEST(Lockable, lockGuard) {
+    example::Lockable<std::string> s1{"asd"};
+    example::Lockable<std::string>::Lock l1{s1};
+    EXPECT_EQ("asd", *l1);
+}
+
+TEST(Lockable, initializeByCopy) {
+    std::string s0{"qwe"};
+    example::Lockable<std::string> s1{s0};
+    example::Lockable<std::string>::Lock l1{s1};
+    *l1 = "asd";
+    EXPECT_EQ("qwe", s0);
     EXPECT_EQ("asd", *l1);
 }
 
