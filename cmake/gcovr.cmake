@@ -5,7 +5,7 @@ if(${PROJECT_NAME}_coverage STREQUAL html OR ${PROJECT_NAME}_coverage STREQUAL x
     foreach(coverage_target ExperimentalCoverage ContinuousCoverage NightlyCoverage)
         add_custom_command(TARGET ${coverage_target} POST_BUILD
             COMMAND ${gcovr_command}
-                --root "${PROJECT_SOURCE_DIR}/src"
+                --root "${PROJECT_SOURCE_DIR}"
                 --exclude ".*_test.cpp"
                 --object-directory "${PROJECT_BINARY_DIR}"
                 $<$<STREQUAL:${${PROJECT_NAME}_coverage},xml>:--xml>
