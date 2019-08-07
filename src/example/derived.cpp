@@ -7,7 +7,7 @@ Base::~Base() = default;
 int Base::protectedMember{13};
 
 int Base::protectedMethod() {
-    return ++protectedMember;
+    return ++protectedMember + privateMethod();
 }
 
 const int Base::privateMember;

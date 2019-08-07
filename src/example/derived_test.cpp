@@ -9,4 +9,12 @@ TEST(Derived, callVirtualMethod) {
     EXPECT_NO_THROW(derived.virtualMethod());
 }
 
+TEST(Derived, callProtectedMethod) {
+    struct TestDerived : example::Derived {
+        int publicMethod() { return protectedMethod(); }
+    };
+    TestDerived test_derived;
+    EXPECT_NO_THROW(test_derived.publicMethod());
+}  // namespace
+
 }  // namespace
