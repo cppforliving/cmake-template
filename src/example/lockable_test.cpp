@@ -8,15 +8,16 @@
 namespace {
 
 TEST(Lockable, lockAndUnlockManually) {
-    example::Lockable<std::string> s1{"asd"};
+    example::Lockable<std::string> s1;
     s1.lock();
     s1.unlock();
 }
 
 TEST(Lockable, lockGuard) {
     example::Lockable<std::string> s1{"asd"};
-    example::Lockable<std::string>::Lock l1{s1};
+    const example::Lockable<std::string>::Lock l1{s1};
     EXPECT_EQ("asd", *l1);
+    EXPECT_EQ(3, l1->size());
 }
 
 TEST(Lockable, initializeByCopy) {

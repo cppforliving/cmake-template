@@ -15,6 +15,6 @@ TEST(Derived, callProtectedMethod) {
     };
     TestDerived test_derived;
     EXPECT_NO_THROW(test_derived.publicMethod());
-}  // namespace
+}
 
 }  // namespace
