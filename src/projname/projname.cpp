@@ -5,7 +5,8 @@
 #include <thread>
 
 #include <boost/asio/deadline_timer.hpp>
-#include <boost/asio/io_service.hpp>
+#include <boost/asio/io_context.hpp>
+#include <boost/asio/post.hpp>
 #include <boost/beast/core/span.hpp>
 #include <boost/date_time/posix_time/posix_time_duration.hpp>
 #include <boost/system/error_code.hpp>
@@ -17,13 +18,14 @@
 namespace projname {
 
 using boost::asio::deadline_timer;
-using boost::asio::io_service;
+using boost::asio::io_context;
+using boost::asio::post;
 using boost::posix_time::milliseconds;
 using boost::system::error_code;
 
 void ContinuousGreeter::operator()() const {
     std::cout << "Hi! ";
-    io.post(ContinuousGreeter{*this});
+    post(io, ContinuousGreeter{*this});
 }
 
 int run(boost::beast::span<char const*> args) {
@@ -33,7 +35,7 @@ int run(boost::beast::span<char const*> args) {
     }
     std::cout << std::endl;
 
-    io_service io;
+    io_context io;
     deadline_timer timer{io, milliseconds{1}};
 
     timer.async_wait([&io](error_code const& ec) {
@@ -42,18 +44,13 @@ int run(boost::beast::span<char const*> args) {
         }
     });
 
-    io.post(ContinuousGreeter{io});
+    post(io, ContinuousGreeter{io});
 
     std::thread thread{[&io] {
-        error_code ec;
-        while (!ec && !io.stopped()) {
-            io.run(ec);
+        while (!io.stopped()) {
+            io.run();
         }
-        if (ec) {
-            std::cout << "Aborted! " << ec << std::endl;
-        } else {
-            std::cout << "Stopped!" << std::endl;
-        }
+        std::cout << "Stopped!" << std::endl;
     }};
 
     thread.join();

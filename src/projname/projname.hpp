@@ -5,13 +5,13 @@
 #include <SDKDDKVer.h>
 #endif
 
-#include <boost/asio/io_service.hpp>
+#include <boost/asio/io_context.hpp>
 #include <boost/beast/core/span.hpp>
 
 namespace projname {
 
 struct ContinuousGreeter {
-    boost::asio::io_service& io;
+    boost::asio::io_context& io;
 
     void operator()() const;
 };
