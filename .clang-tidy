@@ -2,6 +2,7 @@
 Checks:          '*,
 -cert-err58-cpp,
 -clang-diagnostic-documentation,
+-clang-diagnostic-gnu-zero-variadic-macro-arguments,
 -cppcoreguidelines-avoid-goto,
 -cppcoreguidelines-owning-memory,
 -cppcoreguidelines-pro-bounds-array-to-pointer-decay,

@@ -24,7 +24,7 @@ int* capicpp_newInt123(void) {
     return x;
 }
 
-void capicpp_deleteInt123(int* x) {
+void capicpp_deleteInt123(int* const x) {
     delete x;
 }
 

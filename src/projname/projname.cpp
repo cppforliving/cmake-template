@@ -17,7 +17,10 @@
 
 namespace projname {
 
-using namespace boost;
+namespace asio = boost::asio;
+namespace beast = boost::beast;
+namespace posix_time = boost::posix_time;
+namespace system = boost::system;
 
 void ContinuousGreeter::operator()() const {
     std::cout << "Hi! ";
