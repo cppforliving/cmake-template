@@ -17,28 +17,24 @@
 
 namespace projname {
 
-using boost::asio::deadline_timer;
-using boost::asio::io_context;
-using boost::asio::post;
-using boost::posix_time::milliseconds;
-using boost::system::error_code;
+using namespace boost;
 
 void ContinuousGreeter::operator()() const {
     std::cout << "Hi! ";
     post(io, ContinuousGreeter{*this});
 }
 
-int run(boost::beast::span<char const*> args) {
-    std::cout << "args:";
+int run(beast::span<char const*> args) {
+    std::cout << __func__ << " args:";
     for (auto& arg : args) {
         std::cout << ' ' << arg;
     }
     std::cout << std::endl;
 
-    io_context io;
-    deadline_timer timer{io, milliseconds{1}};
+    asio::io_context io;
+    asio::deadline_timer timer{io, posix_time::milliseconds{1}};
 
-    timer.async_wait([&io](error_code const& ec) {
+    timer.async_wait([&io](system::error_code const ec) {
         if (!ec) {
             io.stop();
         }
