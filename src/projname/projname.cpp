@@ -24,9 +24,9 @@ void ContinuousGreeter::operator()() const {
     post(io, ContinuousGreeter{*this});
 }
 
-int run(beast::span<char const*> args) {
+int run(beast::span<char const*> const args) {
     std::cout << __func__ << " args:";
-    for (auto& arg : args) {
+    for (auto const arg : args) {
         std::cout << ' ' << arg;
     }
     std::cout << std::endl;
