@@ -6,7 +6,7 @@ namespace {
 
 TEST(Derived, callVirtualMethod) {
     example::Derived derived;
-    EXPECT_NO_THROW(derived.virtualMethod());
+    EXPECT_NO_FATAL_FAILURE(derived.virtualMethod());
 }
 
 TEST(Derived, callProtectedMethod) {
@@ -14,7 +14,7 @@ TEST(Derived, callProtectedMethod) {
         int publicMethod() { return protectedMethod(); }
     };
     TestDerived test_derived;
-    EXPECT_NO_THROW(test_derived.publicMethod());
+    EXPECT_NO_FATAL_FAILURE(test_derived.publicMethod());
 }
 
 }  // namespace

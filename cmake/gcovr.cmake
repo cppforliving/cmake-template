@@ -1,7 +1,8 @@
 find_program(gcovr_command gcovr)
 mark_as_advanced(gcovr_command)
 
-if(${PROJECT_NAME}_coverage STREQUAL html OR ${PROJECT_NAME}_coverage STREQUAL xml)
+set(coverage_types html xml)
+if(${PROJECT_NAME}_coverage IN_LIST coverage_types)
     foreach(coverage_target ExperimentalCoverage ContinuousCoverage NightlyCoverage)
         add_custom_command(TARGET ${coverage_target} POST_BUILD
             COMMAND ${gcovr_command}
@@ -12,6 +13,8 @@ if(${PROJECT_NAME}_coverage STREQUAL html OR ${PROJECT_NAME}_coverage STREQUAL x
                 --object-directory "${PROJECT_BINARY_DIR}"
                 $<$<STREQUAL:${${PROJECT_NAME}_coverage},xml>:--xml>
                 $<$<STREQUAL:${${PROJECT_NAME}_coverage},html>:--html-details>
+                $<$<STREQUAL:${${PROJECT_NAME}_coverage},html>:--html-title>
+                $<$<STREQUAL:${${PROJECT_NAME}_coverage},html>:${PROJECT_NAME}>
                 --output "${PROJECT_BINARY_DIR}/coverage.${${PROJECT_NAME}_coverage}"
                 --print-summary
             COMMENT "Generating gcovr ${${PROJECT_NAME}_coverage} reports")
