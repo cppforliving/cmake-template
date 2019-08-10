@@ -16,6 +16,6 @@ int* clegacy_newInt123(void) {
     return x;
 }
 
-void clegacy_deleteInt123(int* const x) {
+void clegacy_deleteInt123(int* x) {
     free(x);
 }

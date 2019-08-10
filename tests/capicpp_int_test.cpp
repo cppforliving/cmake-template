@@ -5,7 +5,7 @@
 namespace {
 
 TEST_CASE("capicpp.all") {
-    auto x = capicpp_newInt123();
+    auto const x = capicpp_newInt123();
     REQUIRE(*x == 123);
     capicpp_deleteInt123(x);
 }

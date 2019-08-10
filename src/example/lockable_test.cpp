@@ -15,7 +15,7 @@ TEST(Lockable, lockAndUnlockManually) {
 
 TEST(Lockable, lockGuard) {
     example::Lockable<std::string> s1{"asd"};
-    const example::Lockable<std::string>::Lock l1{s1};
+    example::Lockable<std::string>::Lock const l1{s1};
     EXPECT_EQ("asd", *l1);
     EXPECT_EQ(3u, l1->size());
 }

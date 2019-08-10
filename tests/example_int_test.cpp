@@ -5,7 +5,7 @@
 namespace {
 
 TEST_CASE("Example.all") {
-    auto x = example::newInt123();
+    auto const x = example::newInt123();
     REQUIRE(*x == 123);
     delete x;
 }

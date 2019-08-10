@@ -8,7 +8,7 @@ namespace {
 using testing::Eq;
 
 TEST(capicpp, all) {
-    auto x = capicpp_newInt123();
+    auto const x = capicpp_newInt123();
     EXPECT_THAT(*x, Eq(123));
     capicpp_deleteInt123(x);
 }
