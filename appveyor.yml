@@ -13,6 +13,8 @@ platform:
   - x64
 
 environment:
+  CC: '%VCINSTALLDIR%\bin\cl.exe'
+  CXX: '%VCINSTALLDIR%\bin\cl.exe'
   VCPKG_ROOT: c:\tools\vcpkg
   matrix:
     - BUILD_SHARED_LIBS: ON
@@ -48,16 +50,13 @@ install:
       set "CMAKE_ARCH=x64"
     )
   # - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2015" (
-  #     set "COMPILER_VERSION=14" &
   #     set CMAKE_GENERATOR="Visual Studio 14 2015"
   #   )
   - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" (
-      set "COMPILER_VERSION=15" &
       set CMAKE_GENERATOR="Visual Studio 15 2017"
     )
 
 build_script:
-  - echo %VCINSTALLDIR%
   - mkdir build && cd build
   - vcpkg install @..\vcpkgfile.txt
       --triplet %VCPKG_ARCH%-windows

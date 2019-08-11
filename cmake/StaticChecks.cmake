@@ -19,10 +19,10 @@ elseif("${${PROJECT_NAME}_check}" STREQUAL cpplint)
     find_program(cpplint_command cpplint)
     mark_as_advanced(cpplint_command)
     set(CMAKE_C_CPPLINT ${cpplint_command}
-        --filter=-build/include_subdir,-legal/copyright,-readability/casting
+        --filter=-build/include_order,-build/include_subdir,-legal/copyright,-readability/casting
     )
     set(CMAKE_CXX_CPPLINT ${cpplint_command}
-        --filter=-build/c++11,-build/include_order,-build/include_subdir,-build/namespaces,-legal/copyright
+        --filter=-build/c++11,-build/include_order,-build/include_subdir,-legal/copyright
     )
 elseif("${${PROJECT_NAME}_check}" STREQUAL iwyu)
     find_program(iwyu_command iwyu)
