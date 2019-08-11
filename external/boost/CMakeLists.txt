@@ -34,6 +34,11 @@ if(${PROJECT_NAME}_coverage)
       PRIVATE
         Boost::boost
     )
+    install(TARGETS boost_throw_exception
+        EXPORT ${PROJECT_NAME}Targets
+        DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+        OPTIONAL
+    )
 
     set_target_properties(
         Boost::system
