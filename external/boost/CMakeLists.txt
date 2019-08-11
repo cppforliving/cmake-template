@@ -19,16 +19,9 @@ set_target_properties(
 
 if(${PROJECT_NAME}_coverage)
     add_library(boost_throw_exception OBJECT)
-    include(GenerateExportHeader)
-    generate_export_header(boost_throw_exception)
     target_sources(boost_throw_exception
       PRIVATE
         boost_throw_exception.cpp
-        "${CMAKE_CURRENT_BINARY_DIR}/boost_throw_exception_export.h"
-    )
-    target_include_directories(boost_throw_exception
-      PRIVATE
-        "${CMAKE_CURRENT_BINARY_DIR}"
     )
     target_link_libraries(boost_throw_exception
       PRIVATE
