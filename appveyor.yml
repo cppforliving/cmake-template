@@ -72,7 +72,6 @@ build_script:
 test_script:
   - ctest -C %CONFIGURATION% -V
   - cmake --build . --config %CONFIGURATION% --target install
-  - cmake --build . --config %CONFIGURATION% --target uninstall
 
 artifacts:
   - path: 'build/**/*.log'

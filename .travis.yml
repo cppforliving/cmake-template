@@ -280,7 +280,6 @@ script:
     ctest -V -C $BUILD_TYPE &&
     ( source deactivate_run.sh || true ) &&
     cmake --build . --config $BUILD_TYPE --target install &&
-    cmake --build . --config $BUILD_TYPE --target uninstall &&
     set +x
 
 after_script:

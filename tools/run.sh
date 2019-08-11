@@ -59,9 +59,6 @@ for opt in "$@"; do
     Install)
         install=1
         ;;
-    Uninstall)
-        uninstall=1
-        ;;
     Doc)
         doc=1
         ;;
@@ -128,7 +125,6 @@ $make_cmd all
 [[ -f "$build_dir"/deactivate_run.sh ]] && source "$build_dir"/deactivate_run.sh
 [[ -z $doc ]] || $make_cmd doc
 [[ -z $install ]] || $make_cmd install
-[[ -z $uninstall ]] || $make_cmd uninstall
 [[ -z $stats ]] || ccache -s
 
 deactivate
