@@ -36,6 +36,7 @@ target_sources(${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME}
   PRIVATE
     ${PROJECT_NAME}_obj
+    $<$<TARGET_EXISTS:boost_throw_exception>:boost_throw_exception>
 )
 debug_dynamic_dependencies(${PROJECT_NAME})
 install(TARGETS ${PROJECT_NAME}
@@ -49,6 +50,7 @@ if(BUILD_TESTING)
       DEPENDS
         ${PROJECT_NAME}_obj
         gtest_main
+        $<$<TARGET_EXISTS:boost_throw_exception>:boost_throw_exception>
       EXTRA_ARGS
         --gtest_color=yes
     )

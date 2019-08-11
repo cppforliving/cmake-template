@@ -18,7 +18,7 @@ set_target_properties(
 )
 
 if(${PROJECT_NAME}_coverage)
-    add_library(boost_throw_exception)
+    add_library(boost_throw_exception OBJECT)
     include(GenerateExportHeader)
     generate_export_header(boost_throw_exception)
     target_sources(boost_throw_exception
@@ -33,18 +33,5 @@ if(${PROJECT_NAME}_coverage)
     target_link_libraries(boost_throw_exception
       PRIVATE
         Boost::boost
-    )
-    install(TARGETS boost_throw_exception
-        EXPORT ${PROJECT_NAME}Targets
-        DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-        OPTIONAL
-    )
-
-    set_target_properties(
-        Boost::system
-        Boost::date_time
-        Boost::boost
-      PROPERTIES
-        INTERFACE_LINK_LIBRARIES boost_throw_exception
     )
 endif()
