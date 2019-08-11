@@ -1,5 +1,6 @@
 #include "projname.hpp"
 
+#include <cstddef>
 #include <exception>
 #include <new>
 

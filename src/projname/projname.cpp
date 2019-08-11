@@ -24,7 +24,7 @@ namespace system = boost::system;
 
 void ContinuousGreeter::operator()() const {
     std::cout << "Hi! ";
-    post(io, ContinuousGreeter{*this});
+    asio::post(io, ContinuousGreeter{*this});
 }
 
 int run(beast::span<char const*> const args) {
@@ -45,7 +45,7 @@ int run(beast::span<char const*> const args) {
         }
     });
 
-    post(io, ContinuousGreeter{io});
+    asio::post(io, ContinuousGreeter{io});
 
     std::thread thread{[&io] {
         while (!io.stopped()) {

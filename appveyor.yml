@@ -57,6 +57,7 @@ install:
     )
 
 build_script:
+  - echo %VCINSTALLDIR%
   - mkdir build && cd build
   - vcpkg install @..\vcpkgfile.txt
       --triplet %VCPKG_ARCH%-windows

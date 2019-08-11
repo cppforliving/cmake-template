@@ -1,5 +1,6 @@
 [
-  { include: ["@<boost/asio/impl/io_service.[hi]pp>", "private", "<boost/asio/io_service.hpp>", "public"] },
+  { include: ["@<boost/asio/impl/io_context.[hi]pp>", "private", "<boost/asio/io_context.hpp>", "public"] },
+  { include: ["@<boost/asio/impl/post.[hi]pp>", "private", "<boost/asio/post.hpp>", "public"] },
   { include: ["@<gmock/gmock-.*.h>", "private", "<gmock/gmock.h>", "public"] },
   { include: ["@<gtest/gtest-.*.h>", "private", "<gtest/gtest.h>", "public"] }
 ]

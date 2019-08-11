@@ -51,7 +51,6 @@ include(StaticChecks)
 include(Sanitizers)
 include(Coverage)
 include(gcovr)
-include(Profiling)
 include(ProjectHelpers)
 
 add_subdirectory(external)
