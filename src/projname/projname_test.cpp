@@ -8,10 +8,10 @@
 namespace {
 
 using testing::TestWithParam;
-using testing::Values;
+using testing::ValuesIn;
 
 struct ProjnameTest : TestWithParam<std::new_handler> {
-    char const* args[1]{__FILE__};
+    char const* args[1] = {__FILE__};
 };
 
 TEST_P(ProjnameTest, run) {
@@ -20,10 +20,13 @@ TEST_P(ProjnameTest, run) {
     std::set_new_handler(nullptr);
 }
 
+std::new_handler const various_new_handlers[] = {
+    nullptr,
+    [] { std::terminate(); },
+};
+
 INSTANTIATE_TEST_CASE_P(VariousNewHandlers,
                         ProjnameTest,
-                        Values(nullptr,
-                               [] { throw std::bad_alloc{}; },
-                               [] { std::terminate(); }));
+                        ValuesIn(various_new_handlers));
 
 }  // namespace

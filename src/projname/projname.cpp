@@ -40,6 +40,8 @@ int run(beast::span<char const*> const args) {
     timer.async_wait([&io](system::error_code const ec) {
         if (!ec) {
             io.stop();
+        } else {
+            std::cerr << ec.message() << std::endl;
         }
     });
 
@@ -53,8 +55,6 @@ int run(beast::span<char const*> const args) {
     }};
 
     thread.join();
-
-    assert(!thread.joinable());
 
     auto const p = capicpp_newInt123();
     auto const c = clegacy_newInt123();
