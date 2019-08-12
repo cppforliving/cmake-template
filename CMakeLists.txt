@@ -50,7 +50,6 @@ include(format)
 include(StaticChecks)
 include(Sanitizers)
 include(Coverage)
-include(gcovr)
 include(ProjectHelpers)
 
 add_subdirectory(external)

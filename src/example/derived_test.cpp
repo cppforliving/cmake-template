@@ -5,8 +5,8 @@
 namespace {
 
 TEST(Derived, callVirtualMethod) {
-    example::Derived derived;
-    EXPECT_NO_FATAL_FAILURE(derived.virtualMethod());
+    auto const derived = std::make_unique<example::Derived>();
+    EXPECT_NO_FATAL_FAILURE(derived->virtualMethod());
 }
 
 TEST(Derived, callProtectedMethod) {
