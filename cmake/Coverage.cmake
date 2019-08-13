@@ -39,12 +39,13 @@ elseif(${PROJECT_NAME}_coverage IN_LIST lcov_coverage_types)
     find_program(genhtml_command genhtml)
     mark_as_advanced(lcov_command genhtml_command)
     foreach(coverage_target IN LISTS coverage_targets)
+        set(lcov_options -q -o coverage.info --rc lcov_branch_coverage=1)
         add_custom_command(TARGET ${coverage_target} POST_BUILD
-            COMMAND ${lcov_command} -q -c -d "${PROJECT_BINARY_DIR}" -b "${PROJECT_SOURCE_DIR}" --no-external -o coverage.info
-            COMMAND ${lcov_command} -q -r coverage.info "*/external/*" -o coverage.info
-            COMMAND ${lcov_command} -q -r coverage.info "*/tests/*" -o coverage.info
-            COMMAND ${lcov_command} -q -r coverage.info "*_test.cpp" -o coverage.info
-            COMMAND ${genhtml_command} -o coverage -t ${PROJECT_NAME} --branch-coverage --function-coverage --demangle-cpp coverage.info
+            COMMAND ${lcov_command} ${lcov_options} -c -d "${PROJECT_BINARY_DIR}" -b "${PROJECT_SOURCE_DIR}" --no-external
+            COMMAND ${lcov_command} ${lcov_options} -r coverage.info "*/external/*"
+            COMMAND ${lcov_command} ${lcov_options} -r coverage.info "*/tests/*"
+            COMMAND ${lcov_command} ${lcov_options} -r coverage.info "*_test.cpp"
+            COMMAND ${genhtml_command} -o coverage -t ${PROJECT_NAME} --branch-coverage --demangle-cpp coverage.info
             COMMENT "Generating ${${PROJECT_NAME}_coverage} report")
     endforeach()
 elseif(NOT ${PROJECT_NAME}_coverage STREQUAL "")
