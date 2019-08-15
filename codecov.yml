@@ -1,4 +1,0 @@
-ignore:
-  - "external/.*"
-  - "tests/.*"
-  - ".*_test.cpp"
