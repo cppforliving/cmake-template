@@ -161,7 +161,7 @@ matrix:
             -DCMAKE_BUILD_TYPE=Debug
             -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
             -Ddebug_dynamic_deps=ON
-            -Dprojname_coverage=xml &&
+            -Dprojname_coverage=lcov-html &&
           cmake --build . --config Debug &&
           source activate_run.sh &&
           ctest -V -C Debug -D ExperimentalTest &&
@@ -169,7 +169,7 @@ matrix:
           ( source deactivate_run.sh || true ) &&
           set +x
       after_success:
-        - bash <(curl -s https://codecov.io/bash)
+        - bash <(curl -s https://codecov.io/bash) -f coverage.info
 
     - stage: check
       os: linux
