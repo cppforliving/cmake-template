@@ -142,9 +142,9 @@ matrix:
           packages:
             - g++-7
       install:
-        - python -m pip install --user -U -r requirements-dev.txt conan
+        - python -m pip install --user -U -r requirements.txt conan
       env:
-        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7 && GCOV=gcov-7"
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
         - CONAN_PROFILE="$PWD/conan/any-linux-gcc"
         - CMAKE_GENERATOR="Unix Makefiles"
       script:
@@ -165,7 +165,7 @@ matrix:
           cmake --build . --config Debug &&
           source activate_run.sh &&
           ctest -V -C Debug -D ExperimentalTest &&
-          cmake --build . --config Debug -- ExperimentalCoverage &&
+          ctest -V -C Debug -D ExperimentalCoverage &&
           ( source deactivate_run.sh || true ) &&
           set +x
       after_success:
