@@ -142,7 +142,7 @@ matrix:
           packages:
             - g++-7
       install:
-        - python -m pip install --user -U -r requirements.txt conan
+        - python -m pip install --user -U -r requirements-dev.txt conan
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7 && GCOV=gcov-7"
         - CONAN_PROFILE="$PWD/conan/any-linux-gcc"
