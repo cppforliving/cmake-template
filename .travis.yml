@@ -76,7 +76,6 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - libstdc++-8-dev
-            - ninja-build
       install:
         - sudo update-alternatives
             --install /usr/bin/clang clang /usr/local/clang-7.0.0/bin/clang 70
@@ -100,7 +99,6 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - libstdc++-8-dev
-            - ninja-build
       install:
         - sudo update-alternatives
             --install /usr/bin/clang clang /usr/local/clang-7.0.0/bin/clang 70
@@ -181,7 +179,6 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - libstdc++-8-dev
-            - ninja-build
       install:
         - sudo update-alternatives
             --install /usr/bin/clang clang /usr/local/clang-7.0.0/bin/clang 70

@@ -3,7 +3,6 @@ set -eo pipefail
 
 conan_config=Release
 cmake_config=Release
-cmake_generator="Unix Makefiles"
 cmake_shared=ON
 valgrind=memcheck
 conan_toolchain=conan_paths.cmake
@@ -22,9 +21,6 @@ for opt in "$@"; do
         ;;
     Format)
         format=1
-        ;;
-    Ninja)
-        cmake_generator=Ninja
         ;;
     Static)
         cmake_shared=OFF
@@ -82,7 +78,7 @@ make_cmd="cmake --build $build_dir -j $(nproc) --"
 mkdir -p "$build_dir"
 
 venv_dir=~/.virtualenvs/"$(basename $PWD)"
-[[ -f "$venv_dir"/bin/activate ]] || python -m virtualenv "$venv_dir"
+python -m virtualenv "$venv_dir"
 source "$venv_dir"/bin/activate
 
 pip install -U -r requirements-dev.txt
@@ -102,7 +98,7 @@ esac
 
 cmake . \
     -B"$build_dir" \
-    -G"$cmake_generator" \
+    -GNinja \
     -DBUILD_SHARED_LIBS="$cmake_shared" \
     -DBUILD_TESTING="$testing" \
     -DCMAKE_BUILD_TYPE="$cmake_config" \
