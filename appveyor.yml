@@ -17,8 +17,8 @@ environment:
   CXX: '%VCINSTALLDIR%\bin\cl.exe'
   VCPKG_ROOT: c:\tools\vcpkg
   matrix:
-    - BUILD_SHARED_LIBS: ON
-    - BUILD_SHARED_LIBS: OFF
+    - BUILD_SHARED_LIBS: "ON"
+    - BUILD_SHARED_LIBS: "OFF"
 
 matrix:
   exclude:
