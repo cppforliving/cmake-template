@@ -78,7 +78,7 @@ make_cmd="cmake --build $build_dir -j $(nproc) --"
 mkdir -p "$build_dir"
 
 venv_dir=~/.virtualenvs/"$(basename $PWD)"
-python -m virtualenv "$venv_dir"
+[[ -z $clean ]] || python -m virtualenv "$venv_dir"
 source "$venv_dir"/bin/activate
 
 pip install -U -r requirements-dev.txt
