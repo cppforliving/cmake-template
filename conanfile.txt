@@ -1,6 +1,6 @@
 [requires]
 boost/[>=1.70.0]@conan/stable
-Catch2/[>=2.9.1]@catchorg/stable
+Catch2/[>=2.9.2]@catchorg/stable
 gtest/[>=1.8.1]@bincrafters/stable
 
 [generators]

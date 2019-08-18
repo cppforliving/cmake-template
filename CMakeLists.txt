@@ -42,17 +42,19 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 set(CMAKE_PDB_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 
 include(GNUInstallDirs)
-include(Diagnostics)
-include(Valgrind)
 include(CTest)
+
+include(Diagnostics)
 include(Warnings)
-include(format)
+
+add_subdirectory(external)
+
+include(Valgrind)
+include(Format)
 include(StaticChecks)
 include(Sanitizers)
 include(Coverage)
 include(ProjectHelpers)
-
-add_subdirectory(external)
 
 add_subdirectory(src)
 

@@ -19,6 +19,7 @@ if(${PROJECT_NAME}_sanitizer)
     elseif(${PROJECT_NAME}_sanitizer STREQUAL undefined)
         set(MEMORYCHECK_TYPE UndefinedBehaviorSanitizer)
     else()
-        message(FATAL_ERROR "${PROJECT_NAME}_sanitizer=${${PROJECT_NAME}_sanitizer} not supported yet")
+        message(FATAL_ERROR
+            "${PROJECT_NAME}_sanitizer=${${PROJECT_NAME}_sanitizer} not supported yet")
     endif()
 endif()
