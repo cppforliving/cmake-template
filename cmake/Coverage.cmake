@@ -71,7 +71,6 @@ elseif(${PROJECT_NAME}_coverage IN_LIST lcov_coverage_types)
                 --title ${PROJECT_NAME}
                 --branch-coverage
                 --demangle-cpp
-                --legend
             COMMENT "Generating ${${PROJECT_NAME}_coverage} report")
     endforeach()
 elseif(NOT ${PROJECT_NAME}_coverage STREQUAL "")
