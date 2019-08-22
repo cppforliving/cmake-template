@@ -21,7 +21,7 @@ class EXAMPLE_EXPORT Base {
 
   private:
     EXAMPLE_NO_EXPORT int privateMethod();
-    EXAMPLE_NO_EXPORT static const int privateMember{42};
+    EXAMPLE_NO_EXPORT static int const privateMember{42};
 };
 
 class EXAMPLE_EXPORT Derived : public Base {

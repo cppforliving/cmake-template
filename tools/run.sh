@@ -98,7 +98,7 @@ esac
 
 cmake . \
     -B"$build_dir" \
-    -GNinja \
+    -G"Unix Makefiles" \
     -DBUILD_SHARED_LIBS="$cmake_shared" \
     -DBUILD_TESTING="$testing" \
     -DCMAKE_BUILD_TYPE="$cmake_config" \

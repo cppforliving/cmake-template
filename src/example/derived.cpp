@@ -10,7 +10,7 @@ int Base::protectedMethod() {
     return ++protectedMember + privateMethod();
 }
 
-const int Base::privateMember;
+int const Base::privateMember;
 
 int Base::privateMethod() {
     return privateMember;

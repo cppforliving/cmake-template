@@ -27,7 +27,7 @@ void ContinuousGreeter::operator()() const {
     asio::post(io, ContinuousGreeter{*this});
 }
 
-int run(beast::span<char const*> const args) {
+int run(beast::span<char const* const> const args) {
     std::cout << __func__ << " args:";
     for (auto const arg : args) {
         std::cout << ' ' << arg;

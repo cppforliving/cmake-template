@@ -12,7 +12,7 @@ struct ContinuousGreeter {
     void operator()() const;
 };
 
-int run(boost::beast::span<char const*> args);
+int run(boost::beast::span<char const* const> args);
 
 }  // namespace projname
 
