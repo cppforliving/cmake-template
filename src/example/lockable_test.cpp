@@ -20,7 +20,7 @@ TEST(Lockable, lockGuard) {
     example::Lockable s1{"asd"s};
     EXPECT_TRUE((std::is_same_v<example::Lockable<std::string>, decltype(s1)>));
 
-    example::Lock const l1{s1};
+    example::Lock l1{s1};
     EXPECT_TRUE((std::is_same_v<example::Lock<example::Lockable<std::string>>,
                                 decltype(l1)>));
 
