@@ -10,7 +10,7 @@ option(CMAKE_INTERPROCEDURAL_OPTIMIZATION
 
 project(projname
     VERSION 0.1
-    DESCRIPTION "CMake & Conan/Vcpkg based template for C/C++ projects."
+    DESCRIPTION "C/C++ ⨯ GTest/Catch2 ⨯ GCC/Clang/MSVC ⨯ CMake ⨯ Conan/Vcpkg ⨯ Linux/macOS/Windows"
     LANGUAGES C CXX)
 
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
