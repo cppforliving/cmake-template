@@ -17,27 +17,22 @@
 
 namespace projname {
 
-namespace asio = boost::asio;
-namespace beast = boost::beast;
-namespace posix_time = boost::posix_time;
-namespace system = boost::system;
-
 void ContinuousGreeter::operator()() const {
     std::cout << "Hi! ";
-    asio::post(io, ContinuousGreeter{*this});
+    boost::asio::post(io, ContinuousGreeter{*this});
 }
 
-int run(beast::span<char const* const> const args) {
+int run(boost::beast::span<char const* const> const args) {
     std::cout << __func__ << " args:";
     for (auto const arg : args) {
         std::cout << ' ' << arg;
     }
     std::cout << std::endl;
 
-    asio::io_context io;
-    asio::deadline_timer timer{io, posix_time::milliseconds{1}};
+    boost::asio::io_context io;
+    boost::asio::deadline_timer timer{io, boost::posix_time::milliseconds{1}};
 
-    timer.async_wait([&io](system::error_code const ec) {
+    timer.async_wait([&io](boost::system::error_code const ec) {
         if (!ec) {
             io.stop();
         } else {
@@ -45,7 +40,7 @@ int run(beast::span<char const* const> const args) {
         }
     });
 
-    asio::post(io, ContinuousGreeter{io});
+    boost::asio::post(io, ContinuousGreeter{io});
 
     std::thread thread{[&io] {
         while (!io.stopped()) {
