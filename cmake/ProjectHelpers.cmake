@@ -32,30 +32,74 @@ function(add_custom_library lib_name)
         ${${lib_name}_SOURCES}
         "${CMAKE_CURRENT_BINARY_DIR}/export.h"
     )
+    get_filename_component(parent_source_dir "${CMAKE_CURRENT_SOURCE_DIR}" DIRECTORY)
+    get_filename_component(parent_binary_dir "${CMAKE_CURRENT_BINARY_DIR}" DIRECTORY)
     target_include_directories(${lib_name}
       PUBLIC
-        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>
-        $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/src>
+        $<BUILD_INTERFACE:${parent_source_dir}>
+        $<BUILD_INTERFACE:${parent_binary_dir}>
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
     )
     target_link_libraries(${lib_name}
-      PRIVATE
+      PUBLIC
         ${${lib_name}_DEPENDS}
     )
     debug_dynamic_dependencies(${lib_name})
     include(GenerateExportHeader)
     generate_export_header(${lib_name}
         EXPORT_FILE_NAME export.h
+        DEFINE_NO_DEPRECATED
     )
 
-    install(TARGETS ${lib_name}
-        EXPORT ${PROJECT_NAME}Targets
-        DESTINATION "${CMAKE_INSTALL_LIBDIR}")
-    install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/"
-        DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${lib_name}"
-        FILES_MATCHING REGEX "/.*\\.h(h|pp|xx)?$")
-    install(FILES "${CMAKE_CURRENT_BINARY_DIR}/export.h"
-        DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${lib_name}")
+    get_filename_component(parent_source_dir_name "${parent_source_dir}" NAME)
+    if(NOT "${parent_source_dir_name}" STREQUAL "examples")
+        install(TARGETS ${lib_name}
+            EXPORT ${PROJECT_NAME}Targets
+            DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+        install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/"
+            DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${lib_name}"
+            FILES_MATCHING REGEX "/.*\\.h(h|pp|xx)?$")
+        install(FILES "${CMAKE_CURRENT_BINARY_DIR}/export.h"
+            DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${lib_name}")
+    endif()
+endfunction()
+
+function(add_custom_executable exe_name)
+    set(options)
+    set(one_value_args)
+    set(multi_value_args SOURCES DEPENDS)
+    cmake_parse_arguments(${exe_name} "${options}"
+        "${one_value_args}" "${multi_value_args}" ${ARGN})
+
+    add_executable(${exe_name}_app)
+    set_target_properties(${exe_name}_app
+      PROPERTIES
+        OUTPUT_NAME ${exe_name}
+    )
+    target_sources(${exe_name}_app
+      PRIVATE
+        ${${exe_name}_SOURCES}
+    )
+    get_filename_component(parent_source_dir "${CMAKE_CURRENT_SOURCE_DIR}" DIRECTORY)
+    get_filename_component(parent_binary_dir "${CMAKE_CURRENT_BINARY_DIR}" DIRECTORY)
+    target_include_directories(${exe_name}_app
+      PUBLIC
+        $<BUILD_INTERFACE:${parent_source_dir}>
+        $<BUILD_INTERFACE:${parent_binary_dir}>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+    )
+    target_link_libraries(${exe_name}_app
+      PUBLIC
+        ${${exe_name}_DEPENDS}
+    )
+    debug_dynamic_dependencies(${exe_name}_app)
+
+    get_filename_component(parent_source_dir_name "${parent_source_dir}" NAME)
+    if(NOT "${parent_source_dir_name}" STREQUAL "examples")
+        install(TARGETS ${exe_name}_app
+            EXPORT ${PROJECT_NAME}Targets
+            DESTINATION "${CMAKE_INSTALL_BINDIR}")
+    endif()
 endfunction()
 
 function(add_custom_test test_name)
@@ -71,7 +115,7 @@ function(add_custom_test test_name)
         ${${test_name}_SOURCES}
     )
     target_link_libraries(${test_name}
-      PRIVATE
+      PUBLIC
         ${${test_name}_DEPENDS}
     )
     debug_dynamic_dependencies(${test_name})

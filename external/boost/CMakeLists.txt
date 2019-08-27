@@ -27,4 +27,10 @@ if(${PROJECT_NAME}_coverage)
       PRIVATE
         Boost::boost
     )
+    if(BUILD_SHARED_LIBS)
+        set_target_properties(boost_throw_exception
+          PROPERTIES
+            POSITION_INDEPENDENT_CODE ON
+        )
+    endif()
 endif()

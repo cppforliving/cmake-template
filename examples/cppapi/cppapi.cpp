@@ -1,6 +1,6 @@
-#include "example.hpp"
+#include "cppapi.hpp"
 
-namespace example {
+namespace cppapi {
 namespace detail {
 
 int get123() {
@@ -19,4 +19,4 @@ int* newInt123() {
     return x;
 }
 
-}  // namespace example
+}  // namespace cppapi

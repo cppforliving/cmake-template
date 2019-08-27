@@ -5,12 +5,12 @@
 namespace {
 
 TEST(Derived, callVirtualMethod) {
-    auto const derived = std::make_unique<example::Derived>();
+    auto const derived = std::make_unique<derived::Derived>();
     EXPECT_NO_FATAL_FAILURE(derived->virtualMethod());
 }
 
 TEST(Derived, callProtectedMethod) {
-    struct TestDerived : example::Derived {
+    struct TestDerived : derived::Derived {
         int publicMethod() { return protectedMethod(); }
     };
     TestDerived test_derived;

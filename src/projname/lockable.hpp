@@ -1,12 +1,10 @@
-#ifndef EXAMPLE_LOCKABLE_HPP
-#define EXAMPLE_LOCKABLE_HPP
+#ifndef PROJNAME_LOCKABLE_HPP
+#define PROJNAME_LOCKABLE_HPP
 
 #include <mutex>
 #include <utility>
 
-#include <example/export.h>
-
-namespace example {
+namespace projname {
 
 template <typename L>
 class Lock {
@@ -66,6 +64,6 @@ explicit Lockable(T)->Lockable<T>;
 template <typename T>
 using RecursiveLockable = Lockable<T, std::recursive_mutex>;
 
-}  // namespace example
+}  // namespace projname
 
-#endif  // EXAMPLE_LOCKABLE_HPP
+#endif  // PROJNAME_LOCKABLE_HPP

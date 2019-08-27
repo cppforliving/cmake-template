@@ -36,8 +36,8 @@ matrix:
       platform: x86
 
 cache:
-  - '%VCPKG_ROOT%\installed'
-  - '%LOCALAPPDATA%\pip\Cache'
+  - '%VCPKG_ROOT%\installed -> vcpkgfile.txt'
+  - '%LOCALAPPDATA%\pip\Cache -> requirements.txt'
 
 install:
   - python -m pip install -U -r requirements.txt
@@ -66,6 +66,7 @@ build_script:
       -A%CMAKE_ARCH%
       -DBUILD_SHARED_LIBS=%BUILD_SHARED_LIBS%
       -DCMAKE_TOOLCHAIN_FILE=%VCPKG_ROOT%\scripts\buildsystems\vcpkg.cmake
+      -DBUILD_EXAMPLES=ON
       -Ddebug_dynamic_deps=ON
   - cmake --build . --config %CONFIGURATION%
 

@@ -5,8 +5,6 @@ option(BUILD_SHARED_LIBS
     "Global flag to cause `add_library()` to create shared libraries if on." ON)
 option(CMAKE_EXPORT_COMPILE_COMMANDS
     "Enable/Disable output of compile commands during generation." ON)
-option(CMAKE_INTERPROCEDURAL_OPTIMIZATION
-    "Enable interprocedural optimization if supported by the compiler." OFF)
 
 project(projname
     VERSION 0.1
@@ -62,4 +60,10 @@ if(BUILD_TESTING)
     add_subdirectory(tests)
 endif()
 
-add_subdirectory(docs)
+if(BUILD_EXAMPLES)
+    add_subdirectory(examples)
+endif()
+
+if(BUILD_DOCS)
+    add_subdirectory(docs)
+endif()

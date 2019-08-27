@@ -1,4 +1,4 @@
-#include "example.hpp"
+#include "cppapi.hpp"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -8,11 +8,11 @@ namespace {
 using testing::Eq;
 
 TEST(Example, getValue) {
-    EXPECT_THAT(example::detail::get123(), Eq(123));
+    EXPECT_THAT(cppapi::detail::get123(), Eq(123));
 }
 
 TEST(Example, deleteMemory) {
-    delete example::detail::newInt();
+    delete cppapi::detail::newInt();
 }
 
 }  // namespace

@@ -1,6 +1,6 @@
 #include "derived.hpp"
 
-namespace example {
+namespace derived {
 
 Base::~Base() = default;
 
@@ -18,4 +18,4 @@ int Base::privateMethod() {
 
 void Derived::virtualMethod() {}
 
-}  // namespace example
+}  // namespace derived

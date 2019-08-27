@@ -11,17 +11,18 @@ namespace {
 using namespace std::string_literals;
 
 TEST(Lockable, lockAndUnlockManually) {
-    example::Lockable<std::string> s1;
+    projname::Lockable<std::string> s1;
     s1.lock();
     s1.unlock();
 }
 
 TEST(Lockable, lockGuard) {
-    example::Lockable s1{"asd"s};
-    EXPECT_TRUE((std::is_same_v<example::Lockable<std::string>, decltype(s1)>));
+    projname::Lockable s1{"asd"s};
+    EXPECT_TRUE(
+        (std::is_same_v<projname::Lockable<std::string>, decltype(s1)>));
 
-    example::Lock l1{s1};
-    EXPECT_TRUE((std::is_same_v<example::Lock<example::Lockable<std::string>>,
+    projname::Lock l1{s1};
+    EXPECT_TRUE((std::is_same_v<projname::Lock<projname::Lockable<std::string>>,
                                 decltype(l1)>));
 
     EXPECT_EQ("asd", *l1);
@@ -30,11 +31,12 @@ TEST(Lockable, lockGuard) {
 
 TEST(Lockable, initializeByCopy) {
     auto s0{"qwe"s};
-    example::Lockable s1{s0};
-    EXPECT_TRUE((std::is_same_v<example::Lockable<std::string>, decltype(s1)>));
+    projname::Lockable s1{s0};
+    EXPECT_TRUE(
+        (std::is_same_v<projname::Lockable<std::string>, decltype(s1)>));
 
-    example::Lock l1{s1};
-    EXPECT_TRUE((std::is_same_v<example::Lock<example::Lockable<std::string>>,
+    projname::Lock l1{s1};
+    EXPECT_TRUE((std::is_same_v<projname::Lock<projname::Lockable<std::string>>,
                                 decltype(l1)>));
 
     *l1 = "asd";
@@ -43,11 +45,11 @@ TEST(Lockable, initializeByCopy) {
 }
 
 TEST(Lockable, lockAndSwap) {
-    example::Lockable s1{"asd"s};
-    example::Lockable s2{"qwe"s};
+    projname::Lockable s1{"asd"s};
+    projname::Lockable s2{"qwe"s};
     std::lock(s1, s2);
-    example::Lock l1{s1, std::adopt_lock};
-    example::Lock l2{s2, std::adopt_lock};
+    projname::Lock l1{s1, std::adopt_lock};
+    projname::Lock l2{s2, std::adopt_lock};
     std::swap(*l1, *l2);
     EXPECT_EQ(6u, l1->size() + l2->size());
 }

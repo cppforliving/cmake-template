@@ -11,10 +11,6 @@
 #include <boost/date_time/posix_time/posix_time_duration.hpp>
 #include <boost/system/error_code.hpp>
 
-#include <capicpp/capicpp.h>
-#include <clegacy/clegacy.h>
-#include <example/example.hpp>
-
 namespace projname {
 
 void ContinuousGreeter::operator()() const {
@@ -51,14 +47,7 @@ int run(boost::beast::span<char const* const> const args) {
 
     thread.join();
 
-    auto const p = capicpp_newInt123();
-    auto const c = clegacy_newInt123();
-    auto const e = example::newInt123();
-    auto const x = *p + *c + *e;
-    capicpp_deleteInt123(p);
-    clegacy_deleteInt123(c);
-    delete e;
-    return x;
+    return 0;
 }
 
 }  // namespace projname

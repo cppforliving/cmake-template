@@ -1,6 +1,3 @@
-add_subdirectory(capicpp)
-add_subdirectory(clegacy)
-add_subdirectory(example)
 add_subdirectory(${PROJECT_NAME})
 
 set(PROJECT_CONFIG_DIR "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/cmake/${PROJECT_NAME}")

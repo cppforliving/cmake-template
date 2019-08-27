@@ -55,6 +55,9 @@ for opt in "$@"; do
     Install)
         install=1
         ;;
+    Examples)
+        examples=1
+        ;;
     Doc)
         doc=1
         ;;
@@ -101,6 +104,8 @@ cmake . \
     -G"Unix Makefiles" \
     -DBUILD_SHARED_LIBS="$cmake_shared" \
     -DBUILD_TESTING="$testing" \
+    -DBUILD_EXAMPLES="$examples" \
+    -DBUILD_DOCS="$doc" \
     -DCMAKE_BUILD_TYPE="$cmake_config" \
     -DCMAKE_TOOLCHAIN_FILE="$cmake_toolchain" \
     -Ddebug_dynamic_deps="$rpaths" \

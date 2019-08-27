@@ -124,6 +124,7 @@ matrix:
             -G"$CMAKE_GENERATOR"
             -DCMAKE_BUILD_TYPE=Debug
             -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
+            -DBUILD_EXAMPLES=ON
             -Ddebug_dynamic_deps=ON
             -Dprojname_check=clang-tidy &&
           cmake --build . --config Debug &&
@@ -158,6 +159,7 @@ matrix:
             -G"$CMAKE_GENERATOR"
             -DCMAKE_BUILD_TYPE=Debug
             -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
+            -DBUILD_EXAMPLES=ON
             -Ddebug_dynamic_deps=ON
             -Dprojname_coverage=xml &&
           cmake --build . --config Debug &&
@@ -204,6 +206,7 @@ matrix:
             -G"$CMAKE_GENERATOR"
             -DCMAKE_BUILD_TYPE=Debug
             -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
+            -DBUILD_EXAMPLES=ON
             -Ddebug_dynamic_deps=ON
             -Dprojname_sanitizer=address &&
           cmake --build . --config Debug &&
@@ -242,6 +245,7 @@ matrix:
             -G"$CMAKE_GENERATOR"
             -DCMAKE_BUILD_TYPE=Debug
             -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
+            -DBUILD_EXAMPLES=ON
             -Ddebug_dynamic_deps=ON
             -Dprojname_valgrind=memcheck &&
           cmake --build . --config Debug &&
@@ -271,6 +275,7 @@ script:
       -G"$CMAKE_GENERATOR"
       -DCMAKE_BUILD_TYPE=$BUILD_TYPE
       -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
+      -DBUILD_EXAMPLES=ON
       -Ddebug_dynamic_deps=ON &&
     cmake --build . --config $BUILD_TYPE &&
     source activate_run.sh &&

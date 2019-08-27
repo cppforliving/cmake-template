@@ -1,12 +1,8 @@
 add_custom_test(integration_test
   SOURCES
-    capicpp_int_test.cpp
-    clegacy_int_test.cpp
-    example_int_test.cpp
+    projname_test.cpp
   DEPENDS
-    projname::capicpp
-    projname::clegacy
-    projname::example
+    ${PROJECT_NAME}
     catch2_main
   EXTRA_ARGS
     --use-colour=yes
