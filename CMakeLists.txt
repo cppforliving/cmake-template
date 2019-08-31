@@ -60,10 +60,10 @@ if(BUILD_TESTING)
     add_subdirectory(tests)
 endif()
 
-if(BUILD_EXAMPLES)
+if(${PROJECT_NAME}_examples)
     add_subdirectory(examples)
 endif()
 
-if(BUILD_DOCS)
+if(${PROJECT_NAME}_docs)
     add_subdirectory(docs)
 endif()

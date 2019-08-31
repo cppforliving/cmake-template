@@ -104,11 +104,11 @@ cmake . \
     -G"Unix Makefiles" \
     -DBUILD_SHARED_LIBS="$cmake_shared" \
     -DBUILD_TESTING="$testing" \
-    -DBUILD_EXAMPLES="$examples" \
-    -DBUILD_DOCS="$doc" \
     -DCMAKE_BUILD_TYPE="$cmake_config" \
     -DCMAKE_TOOLCHAIN_FILE="$cmake_toolchain" \
     -Ddebug_dynamic_deps="$rpaths" \
+    -Dprojname_examples="$examples" \
+    -Dprojname_docs="$doc" \
     -Dprojname_coverage="$coverage" \
     -Dprojname_valgrind="$valgrind" \
     -Dprojname_sanitizer="$sanitizer" \
