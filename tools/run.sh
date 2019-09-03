@@ -74,10 +74,10 @@ for opt in "$@"; do
     esac
 done
 
-build_dir=build/$cmake_config
+build_dir=./build/$cmake_config
 make_cmd="cmake --build $build_dir -j $(nproc) --"
 
-[[ -z $clean ]] || rm -rf build
+[[ -z $clean ]] || rm -rf ./build
 mkdir -p "$build_dir"
 
 venv_dir=~/.virtualenvs/"$(basename $PWD)"
@@ -89,10 +89,15 @@ pip install -U -r requirements-dev.txt
 case "$cmake_toolchain" in
 "$conan_toolchain")
     pip install -U conan
+    CC=gcc CXX=g++ conan profile new "$build_dir"/conan/gcc --detect --force
+    CC=clang CXX=clang++ conan profile new "$build_dir"/conan/clang --detect --force
+    conan profile update settings.compiler.libcxx=libstdc++11 "$build_dir"/conan/gcc
+    conan profile update settings.compiler.libcxx=libstdc++11 "$build_dir"/conan/clang
     conan install . \
         -if "$build_dir" \
         -s build_type="$conan_config" \
-        -pr conan/any-linux-gcc
+        -pr "$build_dir"/conan/gcc \
+        -b missing
     ;;
 "$vcpkg_toolchain")
     vcpkg install @vcpkgfile.txt
