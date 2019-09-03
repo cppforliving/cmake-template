@@ -6,6 +6,7 @@ cmake_config=Release
 cmake_shared=ON
 valgrind=memcheck
 conan_toolchain=conan_paths.cmake
+conan_profile=any-linux-gcc
 vcpkg_toolchain="$VCPKG_ROOT"/scripts/buildsystems/vcpkg.cmake
 
 for opt in "$@"; do
@@ -15,6 +16,9 @@ for opt in "$@"; do
         ;;
     Vcpkg)
         cmake_toolchain="$vcpkg_toolchain"
+        ;;
+    Clang)
+        conan_profile=any-linux-clang
         ;;
     Clean)
         clean=1
@@ -92,7 +96,8 @@ case "$cmake_toolchain" in
     conan install . \
         -if "$build_dir" \
         -s build_type="$conan_config" \
-        -pr conan/any-linux-gcc
+        -pr conan/"$conan_profile" \
+        -b missing
     ;;
 "$vcpkg_toolchain")
     vcpkg install @vcpkgfile.txt

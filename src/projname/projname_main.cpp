@@ -1,4 +1,4 @@
-#include "projname.hpp"
+import projname;
 
 #include <cstddef>
 #include <exception>

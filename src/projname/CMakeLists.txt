@@ -20,6 +20,7 @@ if(MSVC)
 else()
     target_compile_options(${PROJECT_NAME}
       PUBLIC
+        $<$<COMPILE_LANGUAGE:CXX>:-fprebuilt-module-path=${CMAKE_CURRENT_BINARY_DIR}>
         $<$<COMPILE_LANGUAGE:CXX>:-Wno-zero-as-null-pointer-constant>
     )
 endif()

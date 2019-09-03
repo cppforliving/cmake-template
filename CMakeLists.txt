@@ -11,6 +11,8 @@ project(projname
     DESCRIPTION "C/C++ ⨯ GTest/Catch2 ⨯ GCC/Clang/MSVC ⨯ CMake ⨯ Conan/Vcpkg ⨯ Linux/macOS/Windows"
     LANGUAGES C CXX)
 
+#option(${PROJECT_NAME}_standalone "" $<STREQUAL:${PROJECT_SOURCE_DIR},${PROJECT_SOURCE_DIR}>)
+
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
     set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/dist" CACHE PATH
         "Install path prefix, prepended onto install directories." FORCE)

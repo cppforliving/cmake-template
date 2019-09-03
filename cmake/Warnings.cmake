@@ -36,10 +36,13 @@ else()
     if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         add_compile_options(
             -fcomment-block-commands=startuml,enduml
+            -std=c++2a
+            -fmodules-ts
             -Weverything
             -Wno-c++98-compat
             -Wno-error=documentation
         )
+        string(APPEND CMAKE_CXX_FLAGS " -stdlib=libc++")
     endif()
     set(linker_flags
         #-Wl,--function-sections

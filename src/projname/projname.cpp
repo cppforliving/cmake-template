@@ -1,5 +1,3 @@
-#include "projname.hpp"
-
 #include <cassert>
 #include <iostream>
 #include <thread>
@@ -10,6 +8,10 @@
 #include <boost/beast/core/span.hpp>
 #include <boost/date_time/posix_time/posix_time_duration.hpp>
 #include <boost/system/error_code.hpp>
+
+export module projname;
+
+#include "projname.hpp"
 
 namespace projname {
 
