@@ -114,7 +114,7 @@ matrix:
       script:
         - set -x &&
           mkdir build && cd build &&
-          conan install ..
+          conan install .. -u
             -if .
             -b missing
             -s build_type=Debug
@@ -149,7 +149,7 @@ matrix:
       script:
         - set -x &&
           mkdir build && cd build &&
-          conan install ..
+          conan install .. -u
             -if .
             -b missing
             -s build_type=Debug
@@ -196,7 +196,7 @@ matrix:
       script:
         - set -x &&
           mkdir build && cd build &&
-          conan install ..
+          conan install .. -u
             -if .
             -b missing
             -s build_type=Debug
@@ -235,7 +235,7 @@ matrix:
       script:
         - set -x &&
           mkdir build && cd build &&
-          conan install ..
+          conan install .. -u
             -if .
             -b missing
             -s build_type=Debug
@@ -265,7 +265,7 @@ before_script:
 script:
   - set -x &&
     mkdir build && cd build &&
-    conan install ..
+    conan install .. -u
       -if .
       -b missing
       -s build_type=$BUILD_TYPE

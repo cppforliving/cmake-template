@@ -57,9 +57,13 @@ install:
     )
 
 build_script:
-  - mkdir build && cd build
-  - vcpkg install @..\vcpkgfile.txt
+  - vcpkg update
       --triplet %VCPKG_ARCH%-windows
+  - vcpkg upgrade --no-dry-run
+      --triplet %VCPKG_ARCH%-windows
+  - vcpkg install @vcpkgfile.txt
+      --triplet %VCPKG_ARCH%-windows
+  - mkdir build && cd build
   - cmake ..
       -B.
       -G%CMAKE_GENERATOR%

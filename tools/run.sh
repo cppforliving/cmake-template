@@ -93,13 +93,15 @@ case "$cmake_toolchain" in
     CC=clang CXX=clang++ conan profile new "$build_dir"/conan/clang --detect --force
     conan profile update settings.compiler.libcxx=libstdc++11 "$build_dir"/conan/gcc
     conan profile update settings.compiler.libcxx=libstdc++11 "$build_dir"/conan/clang
-    conan install . \
+    conan install . -u \
         -if "$build_dir" \
         -s build_type="$conan_config" \
         -pr "$build_dir"/conan/gcc \
         -b missing
     ;;
 "$vcpkg_toolchain")
+    vcpkg update
+    vcpkg upgrade --no-dry-run
     vcpkg install @vcpkgfile.txt
     ;;
 esac

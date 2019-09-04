@@ -1,5 +1,5 @@
 set(Boost_NO_SYSTEM_PATHS ON)
-find_package(Boost MODULE REQUIRED
+find_package(Boost 1.70 EXACT MODULE REQUIRED
   COMPONENTS
     system
     date_time
