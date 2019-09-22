@@ -1,7 +1,7 @@
 #ifndef CLEGACY_CLEGACY_H
 #define CLEGACY_CLEGACY_H
 
-#include <clegacy/export.h>
+#include <clegacy/config.h>
 
 #ifdef __cplusplus
 extern "C" {

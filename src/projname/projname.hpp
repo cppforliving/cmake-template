@@ -8,7 +8,7 @@
 #include <boost/asio/io_context.hpp>
 #include <boost/beast/core/span.hpp>
 
-#include <projname/export.h>
+#include <projname/config.h>
 
 namespace projname {
 

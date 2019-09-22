@@ -1,7 +1,7 @@
 #ifndef CAPICPP_CAPICPP_H
 #define CAPICPP_CAPICPP_H
 
-#include <capicpp/export.h>
+#include <capicpp/config.h>
 
 #ifdef __cplusplus
 extern "C" {

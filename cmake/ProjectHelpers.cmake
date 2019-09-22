@@ -30,7 +30,7 @@ function(add_custom_library lib_name)
     target_sources(${lib_name}
       PRIVATE
         ${${lib_name}_SOURCES}
-        "${CMAKE_CURRENT_BINARY_DIR}/export.h"
+        "${CMAKE_CURRENT_BINARY_DIR}/config.h"
     )
     get_filename_component(parent_source_dir "${CMAKE_CURRENT_SOURCE_DIR}" DIRECTORY)
     get_filename_component(parent_binary_dir "${CMAKE_CURRENT_BINARY_DIR}" DIRECTORY)
@@ -47,7 +47,7 @@ function(add_custom_library lib_name)
     debug_dynamic_dependencies(${lib_name})
     include(GenerateExportHeader)
     generate_export_header(${lib_name}
-        EXPORT_FILE_NAME export.h
+        EXPORT_FILE_NAME config.h
         DEFINE_NO_DEPRECATED
     )
 
@@ -59,7 +59,7 @@ function(add_custom_library lib_name)
         install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/"
             DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${lib_name}"
             FILES_MATCHING REGEX "/.*\\.h(h|pp|xx)?$")
-        install(FILES "${CMAKE_CURRENT_BINARY_DIR}/export.h"
+        install(FILES "${CMAKE_CURRENT_BINARY_DIR}/config.h"
             DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${lib_name}")
     endif()
 endfunction()

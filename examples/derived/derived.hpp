@@ -1,7 +1,7 @@
 #ifndef DERIVED_DERIVED_HPP
 #define DERIVED_DERIVED_HPP
 
-#include <derived/export.h>
+#include <derived/config.h>
 
 /**
  * @startuml

@@ -1,7 +1,7 @@
 #ifndef CPPAPI_CPPAPI_HPP
 #define CPPAPI_CPPAPI_HPP
 
-#include <cppapi/export.h>
+#include <cppapi/config.h>
 
 namespace cppapi {
 namespace detail {

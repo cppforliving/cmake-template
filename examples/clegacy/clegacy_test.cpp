@@ -7,7 +7,7 @@ namespace {
 
 using testing::Eq;
 
-TEST(Clegacy, all) {
+TEST(clegacy, all) {
     auto const x = clegacy_newInt123();
     EXPECT_THAT(*x, Eq(123));
     clegacy_deleteInt123(x);
