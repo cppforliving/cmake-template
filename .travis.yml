@@ -112,8 +112,7 @@ matrix:
         - CONAN_PROFILE="$PWD/conan/any-linux-clang"
         - CMAKE_GENERATOR="Ninja"
       script:
-        - set -x &&
-          mkdir build && cd build &&
+        - mkdir build && cd build &&
           conan install .. -u
             -if .
             -b missing
@@ -127,8 +126,7 @@ matrix:
             -DBUILD_EXAMPLES=ON
             -Ddebug_dynamic_deps=ON
             -Dprojname_check=clang-tidy &&
-          cmake --build . --config Debug &&
-          set +x
+          cmake --build . --config Debug
 
     - stage: check
       os: linux
@@ -147,8 +145,7 @@ matrix:
         - CONAN_PROFILE="$PWD/conan/any-linux-gcc"
         - CMAKE_GENERATOR="Unix Makefiles"
       script:
-        - set -x &&
-          mkdir build && cd build &&
+        - mkdir build && cd build &&
           conan install .. -u
             -if .
             -b missing
@@ -166,8 +163,7 @@ matrix:
           source activate_run.sh &&
           ctest -V -C Debug -D ExperimentalTest &&
           ctest -V -C Debug -D ExperimentalCoverage &&
-          ( source deactivate_run.sh || true ) &&
-          set +x
+          ( source deactivate_run.sh || true )
       after_success:
         - bash <(curl -s https://codecov.io/bash)
 
@@ -194,8 +190,7 @@ matrix:
         - CONAN_PROFILE="$PWD/conan/any-linux-clang"
         - CMAKE_GENERATOR="Ninja"
       script:
-        - set -x &&
-          mkdir build && cd build &&
+        - mkdir build && cd build &&
           conan install .. -u
             -if .
             -b missing
@@ -212,8 +207,7 @@ matrix:
           cmake --build . --config Debug &&
           source activate_run.sh &&
           ctest -V -C Debug -D ExperimentalTest &&
-          ( source deactivate_run.sh || true ) &&
-          set +x
+          ( source deactivate_run.sh || true )
 
     - stage: check
       os: linux
@@ -233,8 +227,7 @@ matrix:
         - CONAN_PROFILE="$PWD/conan/any-linux-gcc"
         - CMAKE_GENERATOR="Unix Makefiles"
       script:
-        - set -x &&
-          mkdir build && cd build &&
+        - mkdir build && cd build &&
           conan install .. -u
             -if .
             -b missing
@@ -251,8 +244,7 @@ matrix:
           cmake --build . --config Debug &&
           source activate_run.sh &&
           ctest -V -C Debug -D ExperimentalMemCheck &&
-          ( source deactivate_run.sh || true ) &&
-          set +x
+          ( source deactivate_run.sh || true )
 
 before_install:
   - eval "$MATRIX_EVAL"
@@ -264,8 +256,7 @@ before_script:
   - ccache -z || true
 
 script:
-  - set -x &&
-    mkdir build && cd build &&
+  - mkdir build && cd build &&
     conan install .. -u
       -if .
       -b missing
@@ -282,8 +273,7 @@ script:
     source activate_run.sh &&
     ctest -V -C $BUILD_TYPE &&
     ( source deactivate_run.sh || true ) &&
-    cmake --build . --config $BUILD_TYPE --target install &&
-    set +x
+    cmake --build . --config $BUILD_TYPE --target install
 
 after_script:
   - ccache -s || true
