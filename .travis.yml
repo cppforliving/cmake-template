@@ -258,6 +258,7 @@ before_install:
   - eval "$MATRIX_EVAL"
 
 before_script:
+  - conan config set general.non_interactive=True
   - conan user
   - BUILD_TYPE=Release
   - ccache -z || true
