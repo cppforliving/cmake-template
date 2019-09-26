@@ -13,8 +13,6 @@ stages:
   - check
 
 matrix:
-  allow_failures:
-    - os: osx
   exclude:
 
     - stage: test
