@@ -29,13 +29,17 @@ add_custom_executable(${PROJECT_NAME}
     projname_main.cpp
   DEPENDS
     ${PROJECT_NAME}
+    $<$<TARGET_EXISTS:boost_throw_exception>:boost_throw_exception>
 )
 
 if(BUILD_TESTING)
     add_custom_test(${PROJECT_NAME}_test
       SOURCES
         lockable_test.cpp
+        projname_test.cpp
       DEPENDS
+        ${PROJECT_NAME}
+        $<$<TARGET_EXISTS:boost_throw_exception>:boost_throw_exception>
         gtest_main
       EXTRA_ARGS
         --gtest_color=yes

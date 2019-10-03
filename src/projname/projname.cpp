@@ -28,13 +28,7 @@ int run(boost::beast::span<char const* const> const args) {
     boost::asio::io_context io;
     boost::asio::deadline_timer timer{io, boost::posix_time::milliseconds{1}};
 
-    timer.async_wait([&io](boost::system::error_code const ec) {
-        if (!ec) {
-            io.stop();
-        } else {
-            std::cerr << ec.message() << std::endl;
-        }
-    });
+    timer.async_wait(stop_io_context(io));
 
     boost::asio::post(io, ContinuousGreeter{io});
 
