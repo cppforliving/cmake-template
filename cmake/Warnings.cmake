@@ -21,7 +21,7 @@ else()
         -Werror
         -Wextra
         -Wpedantic
-        -Wshadow
+        #-Wshadow
         -Wsign-conversion
         -Wwrite-strings
         $<$<COMPILE_LANGUAGE:C>:-Wbad-function-cast>

@@ -21,15 +21,17 @@ struct ContinuousGreeter {
     void operator()() const;
 };
 
-auto stop_io_context(boost::asio::io_context& io) noexcept {
-    return [&io](boost::system::error_code const& ec) {
+struct StopIoContext {
+    boost::asio::io_context& io;
+
+    void operator()(boost::system::error_code const& ec) {
         if (!ec) {
             io.stop();
         } else {
             std::cerr << ec.message() << std::endl;
         }
-    };
-}
+    }
+};
 
 PROJNAME_EXPORT int run(boost::beast::span<char const* const> args);
 
