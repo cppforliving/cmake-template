@@ -14,7 +14,6 @@ stages:
 
 matrix:
   exclude:
-
     - stage: test
       os: windows
       compiler: cl
@@ -30,7 +29,6 @@ matrix:
         - CMAKE_GENERATOR="Visual Studio 15 2017"
 
   include:
-
     - stage: test
       os: osx
       compiler: clang
@@ -78,9 +76,9 @@ matrix:
             - libstdc++-8-dev
       install:
         - sudo update-alternatives
-            --install /usr/bin/clang clang /usr/local/clang-7.0.0/bin/clang 70
-            --slave /usr/bin/clang++ clang++ /usr/local/clang-7.0.0/bin/clang++
-            --slave /usr/bin/ld ld /usr/local/clang-7.0.0/bin/lld
+          --install /usr/bin/clang clang /usr/local/clang-7.0.0/bin/clang 70
+          --slave /usr/bin/clang++ clang++ /usr/local/clang-7.0.0/bin/clang++
+          --slave /usr/bin/ld ld /usr/local/clang-7.0.0/bin/lld
         - export LD_LIBRARY_PATH="/usr/local/clang-7.0.0/lib:$LD_LIBRARY_PATH"
         - sudo update-ccache-symlinks
         - python -m pip install --user -U -r requirements.txt conan
@@ -101,9 +99,9 @@ matrix:
             - libstdc++-8-dev
       install:
         - sudo update-alternatives
-            --install /usr/bin/clang clang /usr/local/clang-7.0.0/bin/clang 70
-            --slave /usr/bin/clang++ clang++ /usr/local/clang-7.0.0/bin/clang++
-            --slave /usr/bin/ld ld /usr/local/clang-7.0.0/bin/lld
+          --install /usr/bin/clang clang /usr/local/clang-7.0.0/bin/clang 70
+          --slave /usr/bin/clang++ clang++ /usr/local/clang-7.0.0/bin/clang++
+          --slave /usr/bin/ld ld /usr/local/clang-7.0.0/bin/lld
         - export LD_LIBRARY_PATH="/usr/local/clang-7.0.0/lib:$LD_LIBRARY_PATH"
         - sudo update-ccache-symlinks
         - python -m pip install --user -U -r requirements.txt conan
@@ -114,18 +112,18 @@ matrix:
       script:
         - mkdir build && cd build &&
           conan install .. -u
-            -if .
-            -b missing
-            -s build_type=Debug
-            -pr $CONAN_PROFILE &&
+          -if .
+          -b missing
+          -s build_type=Debug
+          -pr $CONAN_PROFILE &&
           cmake ..
-            -B.
-            -G"$CMAKE_GENERATOR"
-            -DCMAKE_BUILD_TYPE=Debug
-            -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
-            -DBUILD_EXAMPLES=ON
-            -Ddebug_dynamic_deps=ON
-            -Dprojname_check=clang-tidy &&
+          -B.
+          -G"$CMAKE_GENERATOR"
+          -DCMAKE_BUILD_TYPE=Debug
+          -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
+          -DBUILD_EXAMPLES=ON
+          -Ddebug_dynamic_deps=ON
+          -Dprojname_check=clang-tidy &&
           cmake --build . --config Debug
 
     - stage: check
@@ -147,18 +145,18 @@ matrix:
       script:
         - mkdir build && cd build &&
           conan install .. -u
-            -if .
-            -b missing
-            -s build_type=Debug
-            -pr $CONAN_PROFILE &&
+          -if .
+          -b missing
+          -s build_type=Debug
+          -pr $CONAN_PROFILE &&
           cmake ..
-            -B.
-            -G"$CMAKE_GENERATOR"
-            -DCMAKE_BUILD_TYPE=Debug
-            -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
-            -DBUILD_EXAMPLES=ON
-            -Ddebug_dynamic_deps=ON
-            -Dprojname_coverage=xml &&
+          -B.
+          -G"$CMAKE_GENERATOR"
+          -DCMAKE_BUILD_TYPE=Debug
+          -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
+          -DBUILD_EXAMPLES=ON
+          -Ddebug_dynamic_deps=ON
+          -Dprojname_coverage=xml &&
           cmake --build . --config Debug &&
           source activate_run.sh &&
           ctest -V -C Debug -D ExperimentalTest &&
@@ -179,9 +177,9 @@ matrix:
             - libstdc++-8-dev
       install:
         - sudo update-alternatives
-            --install /usr/bin/clang clang /usr/local/clang-7.0.0/bin/clang 70
-            --slave /usr/bin/clang++ clang++ /usr/local/clang-7.0.0/bin/clang++
-            --slave /usr/bin/ld ld /usr/local/clang-7.0.0/bin/lld
+          --install /usr/bin/clang clang /usr/local/clang-7.0.0/bin/clang 70
+          --slave /usr/bin/clang++ clang++ /usr/local/clang-7.0.0/bin/clang++
+          --slave /usr/bin/ld ld /usr/local/clang-7.0.0/bin/lld
         - export LD_LIBRARY_PATH="/usr/local/clang-7.0.0/lib:$LD_LIBRARY_PATH"
         - sudo update-ccache-symlinks
         - python -m pip install --user -U -r requirements.txt conan
@@ -192,18 +190,18 @@ matrix:
       script:
         - mkdir build && cd build &&
           conan install .. -u
-            -if .
-            -b missing
-            -s build_type=Debug
-            -pr $CONAN_PROFILE &&
+          -if .
+          -b missing
+          -s build_type=Debug
+          -pr $CONAN_PROFILE &&
           cmake ..
-            -B.
-            -G"$CMAKE_GENERATOR"
-            -DCMAKE_BUILD_TYPE=Debug
-            -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
-            -DBUILD_EXAMPLES=ON
-            -Ddebug_dynamic_deps=ON
-            -Dprojname_sanitizer=address &&
+          -B.
+          -G"$CMAKE_GENERATOR"
+          -DCMAKE_BUILD_TYPE=Debug
+          -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
+          -DBUILD_EXAMPLES=ON
+          -Ddebug_dynamic_deps=ON
+          -Dprojname_sanitizer=address &&
           cmake --build . --config Debug &&
           source activate_run.sh &&
           ctest -V -C Debug -D ExperimentalTest &&
@@ -229,18 +227,18 @@ matrix:
       script:
         - mkdir build && cd build &&
           conan install .. -u
-            -if .
-            -b missing
-            -s build_type=Debug
-            -pr $CONAN_PROFILE &&
+          -if .
+          -b missing
+          -s build_type=Debug
+          -pr $CONAN_PROFILE &&
           cmake ..
-            -B.
-            -G"$CMAKE_GENERATOR"
-            -DCMAKE_BUILD_TYPE=Debug
-            -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
-            -DBUILD_EXAMPLES=ON
-            -Ddebug_dynamic_deps=ON
-            -Dprojname_valgrind=memcheck &&
+          -B.
+          -G"$CMAKE_GENERATOR"
+          -DCMAKE_BUILD_TYPE=Debug
+          -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
+          -DBUILD_EXAMPLES=ON
+          -Ddebug_dynamic_deps=ON
+          -Dprojname_valgrind=memcheck &&
           cmake --build . --config Debug &&
           source activate_run.sh &&
           ctest -V -C Debug -D ExperimentalMemCheck &&
@@ -258,17 +256,17 @@ before_script:
 script:
   - mkdir build && cd build &&
     conan install .. -u
-      -if .
-      -b missing
-      -s build_type=$BUILD_TYPE
-      -pr $CONAN_PROFILE &&
+    -if .
+    -b missing
+    -s build_type=$BUILD_TYPE
+    -pr $CONAN_PROFILE &&
     cmake ..
-      -B.
-      -G"$CMAKE_GENERATOR"
-      -DCMAKE_BUILD_TYPE=$BUILD_TYPE
-      -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
-      -DBUILD_EXAMPLES=ON
-      -Ddebug_dynamic_deps=ON &&
+    -B.
+    -G"$CMAKE_GENERATOR"
+    -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+    -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
+    -DBUILD_EXAMPLES=ON
+    -Ddebug_dynamic_deps=ON &&
     cmake --build . --config $BUILD_TYPE &&
     source activate_run.sh &&
     ctest -V -C $BUILD_TYPE &&

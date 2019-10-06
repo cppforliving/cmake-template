@@ -89,14 +89,12 @@ pip install -U -r requirements-dev.txt
 case "$cmake_toolchain" in
 "$conan_toolchain")
     pip install -U conan
-    CC=gcc CXX=g++ conan profile new "$build_dir"/conan/gcc --detect --force
-    CC=clang CXX=clang++ conan profile new "$build_dir"/conan/clang --detect --force
-    conan profile update settings.compiler.libcxx=libstdc++11 "$build_dir"/conan/gcc
-    conan profile update settings.compiler.libcxx=libstdc++11 "$build_dir"/conan/clang
+    conan profile new "$build_dir"/conan/detected --detect --force
+    conan profile update settings.compiler.libcxx=libstdc++11 "$build_dir"/conan/detected
     conan install . -u \
         -if "$build_dir" \
         -s build_type="$conan_config" \
-        -pr "$build_dir"/conan/gcc \
+        -pr "$build_dir"/conan/detected \
         -b missing
     ;;
 "$vcpkg_toolchain")
