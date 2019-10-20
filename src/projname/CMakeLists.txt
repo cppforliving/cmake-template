@@ -12,7 +12,12 @@ add_custom_library(${PROJECT_NAME}
     Boost::dynamic_linking
     $<$<TARGET_EXISTS:boost_throw_exception>:boost_throw_exception>
 )
-if(NOT MSVC)
+if(MSVC)
+    target_compile_definitions(${PROJECT_NAME}
+      PUBLIC
+        _SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING
+    )
+else()
     target_compile_options(${PROJECT_NAME}
       PUBLIC
         -Wno-error=zero-as-null-pointer-constant
