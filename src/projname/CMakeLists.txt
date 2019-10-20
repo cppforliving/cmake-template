@@ -15,8 +15,7 @@ add_custom_library(${PROJECT_NAME}
 if(NOT MSVC)
     target_compile_options(${PROJECT_NAME}
       PUBLIC
-        # for boost::asio headers
-        $<$<COMPILE_LANGUAGE:CXX>:-Wno-zero-as-null-pointer-constant>
+        -Wno-error=zero-as-null-pointer-constant
     )
 endif()
 
