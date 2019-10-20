@@ -12,14 +12,10 @@ add_custom_library(${PROJECT_NAME}
     Boost::dynamic_linking
     $<$<TARGET_EXISTS:boost_throw_exception>:boost_throw_exception>
 )
-if(MSVC)
-    target_compile_definitions(${PROJECT_NAME}
-      PUBLIC
-        $<$<COMPILE_LANGUAGE:CXX>:_SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING>
-    )
-else()
+if(NOT MSVC)
     target_compile_options(${PROJECT_NAME}
       PUBLIC
+        # for boost::asio headers
         $<$<COMPILE_LANGUAGE:CXX>:-Wno-zero-as-null-pointer-constant>
     )
 endif()

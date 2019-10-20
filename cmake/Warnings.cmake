@@ -21,7 +21,7 @@ else()
         -Werror
         -Wextra
         -Wpedantic
-        #-Wshadow
+        -Wshadow
         -Wsign-conversion
         -Wwrite-strings
         $<$<COMPILE_LANGUAGE:C>:-Wbad-function-cast>
@@ -41,12 +41,4 @@ else()
             -Wno-error=documentation
         )
     endif()
-    set(linker_flags
-        #-Wl,--function-sections
-        #-Wl,--data-sections
-        #-Wl,--gc-sections
-    )
-    string(REPLACE ";" " " linker_flags "${linker_flags}")
-    string(APPEND CMAKE_SHARED_LINKER_FLAGS " ${linker_flags}")
-    unset(linker_flags)
 endif()

@@ -1,8 +1,16 @@
 #include "derived.hpp"
 
+#include <type_traits>
+
 #include <gtest/gtest.h>
 
 namespace {
+
+TEST(Derived, stackDestruction) {
+    std::aligned_storage_t<sizeof(derived::Derived)> storage;
+    derived::Base* base = new (&storage) derived::Derived{};
+    base->~Base();
+}
 
 TEST(Derived, callVirtualMethod) {
     auto const derived = std::make_unique<derived::Derived>();

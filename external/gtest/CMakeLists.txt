@@ -13,7 +13,6 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     target_compile_options(gtest_main
       INTERFACE
         -Wno-global-constructors
-        -Wno-gnu-zero-variadic-macro-arguments
         -Wno-zero-as-null-pointer-constant
     )
 endif()
