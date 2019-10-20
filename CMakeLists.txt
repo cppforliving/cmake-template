@@ -54,6 +54,10 @@ include(Sanitizers)
 include(Coverage)
 include(ProjectHelpers)
 
+add_definitions(
+    -DTHROWS=noexcept\(false\)
+)
+
 add_subdirectory(src)
 
 if(BUILD_TESTING)

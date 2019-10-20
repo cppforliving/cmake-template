@@ -16,6 +16,6 @@ int Base::privateMethod() {
     return privateMember;
 }
 
-void Derived::virtualMethod() {}
+void Derived::virtualMethod() noexcept {}
 
 }  // namespace derived

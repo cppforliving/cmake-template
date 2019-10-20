@@ -13,7 +13,7 @@ namespace derived {
 class DERIVED_EXPORT Base {
   public:
     virtual ~Base();
-    virtual void virtualMethod() = 0;
+    virtual void virtualMethod() noexcept = 0;
 
   protected:
     int protectedMethod();
@@ -26,7 +26,7 @@ class DERIVED_EXPORT Base {
 
 class DERIVED_EXPORT Derived : public Base {
   public:
-    void virtualMethod() override;
+    void virtualMethod() noexcept override;
 };
 
 }  // namespace derived
