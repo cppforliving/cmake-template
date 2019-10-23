@@ -24,6 +24,7 @@ WarningsAsErrors: '*'  # ''
 HeaderFilterRegex: '.*'  # ''
 AnalyzeTemporaryDtors: true  # false
 FormatStyle:     none
+ShowColor:       true  #
 User:            user
 CheckOptions:
   - key:             google-readability-braces-around-statements.ShortStatementLines
