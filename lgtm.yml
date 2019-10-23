@@ -1,4 +1,4 @@
 extraction:
   cpp:
     after_prepare:
-      - python -m pip install --user requirements.txt
+      - python -m pip install --user -r requirements.txt
