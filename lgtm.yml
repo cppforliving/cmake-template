@@ -1,4 +1,13 @@
 extraction:
   cpp:
+    prepare:
+      packages:
+        - python-virtualenv
     after_prepare:
-      - python -m pip install --user -r requirements.txt
+      - python -m virtualenv $LGTM_WORKSPACE/venv
+      - source $LGTM_WORKSPACE/venv/bin/activate
+      - python -m pip install -U cmake conan
+      - conan user
+      - conan profile new --detect default
+      - conan profile update settings.compiler.libcxx=libstdc++11 default
+      - conan install -b missing -if $LGTM_SRC/_lgtm_build_dir $LGTM_SRC
