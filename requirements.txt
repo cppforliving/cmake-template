@@ -1,2 +1,2 @@
-cmake
+cmake>=3.13
 ninja
