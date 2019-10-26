@@ -1,3 +1,11 @@
+include(CheckCXXSymbolExists)
+
+if(NOT HAVE_CPPLIB AND NOT HAVE_LIBCPP AND NOT HAVE_GLIBCXX)
+    check_cxx_symbol_exists(_CPPLIB_VER "ciso646" HAVE_CPPLIB)
+    check_cxx_symbol_exists(_LIBCPP_VERSION "ciso646" HAVE_LIBCPP)
+    check_cxx_symbol_exists(__GLIBCXX__ "ciso646" HAVE_GLIBCXX)
+endif()
+
 if(MSVC)
     add_compile_options(
         /EHsc
@@ -7,8 +15,8 @@ if(MSVC)
         /nologo
         /permissive-
     )
-    add_definitions(
-        /D_HAS_EXCEPTIONS=1
+    add_compile_definitions(
+        _HAS_EXCEPTIONS=1
     )
 else()
     add_compile_options(
@@ -39,6 +47,14 @@ else()
             -Weverything
             -Wno-c++98-compat
             -Wno-error=documentation
+        )
+    endif()
+    if(HAVE_GLIBCXX)
+        add_compile_definitions(
+            _GLIBCXX_ASSERTIONS
+            $<$<CONFIG:Debug>:_GLIBCXX_CONCEPT_CHECKS>
+            $<$<CONFIG:Debug>:_GLIBCXX_DEBUG>
+            $<$<CONFIG:Debug>:_GLIBCXX_DEBUG_PEDANTIC>
         )
     endif()
 endif()
