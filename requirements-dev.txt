@@ -1,5 +1,5 @@
 -r requirements.txt
-cmake-format
+cmake_format[YAML]
 cpplint
 gcovr
 yamllint
