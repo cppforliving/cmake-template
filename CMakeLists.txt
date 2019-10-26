@@ -42,7 +42,6 @@ set(CMAKE_PDB_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 include(GNUInstallDirs)
 include(CTest)
 
-include(Diagnostics)
 include(Warnings)
 
 add_subdirectory(external)
