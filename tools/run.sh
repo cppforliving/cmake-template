@@ -67,6 +67,11 @@ for opt in "$@"; do
     Rpaths)
         rpaths=1
         ;;
+    Upgrade)
+        pip_upgrade=-U
+        conan_update=-u
+        vcpkg_upgrade=1
+        ;;
     *)
         echo "unknown option '$opt'"
         exit 1
@@ -84,22 +89,22 @@ venv_dir=~/.virtualenvs/"$(basename $PWD)"
 [[ -z $clean ]] || python -m virtualenv "$venv_dir"
 source "$venv_dir"/bin/activate
 
-pip install -U -r requirements-dev.txt
+pip install ${pip_upgrade} -r requirements-dev.txt
 
 case "$cmake_toolchain" in
 "$conan_toolchain")
-    pip install -U conan
+    pip install ${pip_upgrade} conan
     conan profile new "$build_dir"/conan/detected --detect --force
     conan profile update settings.compiler.libcxx=libstdc++11 "$build_dir"/conan/detected
-    conan install . -u \
+    conan install . ${conan_update} \
         -if "$build_dir" \
         -s build_type="$conan_config" \
         -pr "$build_dir"/conan/detected \
         -b missing
     ;;
 "$vcpkg_toolchain")
-    vcpkg update
-    vcpkg upgrade --no-dry-run
+    [[ -z $vcpkg_upgrade ]] || vcpkg update
+    [[ -z $vcpkg_upgrade ]] || vcpkg upgrade --no-dry-run
     vcpkg install @vcpkgfile.txt
     ;;
 esac
