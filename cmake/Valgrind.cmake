@@ -21,7 +21,9 @@ elseif(${PROJECT_NAME}_valgrind STREQUAL callgrind)
         --dump-instr=yes
         --collect-jumps=yes
         --callgrind-out-file=callgrind.out)
-# helgrind --xtree-memory=full --xtree-memory-file=helgrind-xtmemory.kcg
+# helgrind
+# --xtree-memory=full
+# --xtree-memory-file=helgrind-xtmemory.kcg
 # drd
 elseif(${PROJECT_NAME}_valgrind STREQUAL massif)
     list(APPEND VALGRIND_COMMAND_OPTIONS

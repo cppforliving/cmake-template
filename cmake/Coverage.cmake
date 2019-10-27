@@ -19,11 +19,12 @@ if(${PROJECT_NAME}_coverage IN_LIST gcovr_coverage_types)
     mark_as_advanced(gcovr_command)
     foreach(coverage_target IN LISTS coverage_targets)
         set(gcovr_options
-            --root "${PROJECT_SOURCE_DIR}"
-            --exclude-directories "external"
-            --exclude-directories "tests"
-            --exclude ".*_test.cpp"
-            --object-directory "${PROJECT_BINARY_DIR}"
+            --root="${PROJECT_SOURCE_DIR}"
+            --exclude-directories="external"
+            --exclude-directories="tests"
+            --exclude=".*_test\.cpp"
+            --exclude="\(.*_\)?main\.c\(pp\)?"
+            --object-directory="${PROJECT_BINARY_DIR}"
         )
         add_custom_command(TARGET ${coverage_target} POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E make_directory coverage
@@ -33,9 +34,8 @@ if(${PROJECT_NAME}_coverage IN_LIST gcovr_coverage_types)
             COMMAND ${gcovr_command} ${gcovr_options}
                 $<$<STREQUAL:${${PROJECT_NAME}_coverage},xml>:--xml>
                 $<$<STREQUAL:${${PROJECT_NAME}_coverage},html>:--html-details>
-                $<$<STREQUAL:${${PROJECT_NAME}_coverage},html>:--html-title>
-                $<$<STREQUAL:${${PROJECT_NAME}_coverage},html>:${PROJECT_NAME}>
-                --output coverage/index.${${PROJECT_NAME}_coverage}
+                $<$<STREQUAL:${${PROJECT_NAME}_coverage},html>:--html-title=${PROJECT_NAME}>
+                --output=coverage/index.${${PROJECT_NAME}_coverage}
                 --print-summary
             COMMENT "Generating gcovr-${${PROJECT_NAME}_coverage} report")
     endforeach()
@@ -45,30 +45,30 @@ elseif(${PROJECT_NAME}_coverage IN_LIST lcov_coverage_types)
     mark_as_advanced(lcov_command genhtml_command)
     foreach(coverage_target IN LISTS coverage_targets)
         set(lcov_options
-            --output-file coverage.info
-            --rc lcov_branch_coverage=1
+            --output-file=coverage.info
+            --rc=lcov_branch_coverage=1
         )
         add_custom_command(TARGET ${coverage_target} POST_BUILD
             COMMAND ${lcov_command} ${lcov_options}
                 --quiet
                 --capture
-                --directory "${PROJECT_BINARY_DIR}"
-                --base-directory "${PROJECT_SOURCE_DIR}"
+                --directory="${PROJECT_BINARY_DIR}"
+                --base-directory="${PROJECT_SOURCE_DIR}"
                 --no-external
             COMMAND ${lcov_command} ${lcov_options}
                 --quiet
-                --remove coverage.info
+                --remove=coverage.info
                     "*/external/*"
                     "*/tests/*"
                     "*_test.cpp"
             COMMAND ${lcov_command} ${lcov_options}
-                --list coverage.info
+                --list=coverage.info
             COMMAND ${lcov_command} ${lcov_options}
-                --summary coverage.info
+                --summary=coverage.info
             COMMAND ${genhtml_command} coverage.info
                 --quiet
-                --output-directory coverage
-                --title ${PROJECT_NAME}
+                --output-directory=coverage
+                --title=${PROJECT_NAME}
                 --branch-coverage
                 --demangle-cpp
             COMMENT "Generating ${${PROJECT_NAME}_coverage} report")
