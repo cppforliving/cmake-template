@@ -72,8 +72,8 @@ function(add_custom_executable exe_name)
         "${one_value_args}" "${multi_value_args}" ${ARGN})
 
     add_executable(${exe_name}_app)
-    set_target_properties(${exe_name}_app
-      PROPERTIES
+    set_property(TARGET ${exe_name}_app
+      PROPERTY
         OUTPUT_NAME ${exe_name}
     )
     target_sources(${exe_name}_app

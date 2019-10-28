@@ -1,7 +1,7 @@
 find_package(Catch2 CONFIG REQUIRED)
-set_target_properties(
+set_property(TARGET
     Catch2::Catch2
-  PROPERTIES
+  PROPERTY
     IMPORTED_GLOBAL TRUE
 )
 

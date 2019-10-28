@@ -4,18 +4,27 @@ find_package(Boost 1.70 EXACT MODULE REQUIRED
     system
     date_time
 )
-set_target_properties(
+set(boost_targets
     Boost::system
     Boost::date_time
     Boost::boost
     Boost::diagnostic_definitions
     Boost::disable_autolinking
     Boost::dynamic_linking
-  PROPERTIES
-    IMPORTED_GLOBAL TRUE
-    INTERFACE_COMPILE_DEFINITIONS BOOST_ASIO_NO_DEPRECATED
-    INTERFACE_COMPILE_DEFINITIONS BOOST_SYSTEM_NO_DEPRECATED
 )
+set_property(TARGET
+    ${boost_targets}
+  PROPERTY
+    IMPORTED_GLOBAL TRUE
+)
+set_property(TARGET
+    ${boost_targets}
+  APPEND PROPERTY
+    INTERFACE_COMPILE_DEFINITIONS
+      BOOST_ASIO_NO_DEPRECATED
+      BOOST_SYSTEM_NO_DEPRECATED
+)
+unset(boost_targets)
 
 if(${PROJECT_NAME}_coverage)
     add_library(boost_throw_exception OBJECT)
@@ -28,8 +37,8 @@ if(${PROJECT_NAME}_coverage)
         Boost::boost
     )
     if(BUILD_SHARED_LIBS)
-        set_target_properties(boost_throw_exception
-          PROPERTIES
+        set_property(TARGET boost_throw_exception
+          PROPERTY
             POSITION_INDEPENDENT_CODE ON
         )
     endif()

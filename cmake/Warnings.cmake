@@ -51,10 +51,9 @@ else()
     endif()
     if(HAVE_GLIBCXX)
         add_compile_definitions(
-            _GLIBCXX_ASSERTIONS
-            $<$<CONFIG:Debug>:_GLIBCXX_CONCEPT_CHECKS>
-            $<$<CONFIG:Debug>:_GLIBCXX_DEBUG>
-            $<$<CONFIG:Debug>:_GLIBCXX_DEBUG_PEDANTIC>
+            $<$<COMPILE_LANGUAGE:CXX>:_GLIBCXX_ASSERTIONS>
+            $<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CONFIG:Debug>>:_GLIBCXX_DEBUG>
+            $<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CONFIG:Debug>>:_GLIBCXX_DEBUG_PEDANTIC>
         )
     endif()
 endif()

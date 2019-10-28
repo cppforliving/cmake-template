@@ -1,7 +1,7 @@
 option(THREADS_PREFER_PTHREAD_FLAG "Prefer use of the -pthread flag" ON)
 find_package(Threads MODULE REQUIRED)
-set_target_properties(
+set_property(TARGET
     Threads::Threads
-  PROPERTIES
+  PROPERTY
     IMPORTED_GLOBAL TRUE
 )

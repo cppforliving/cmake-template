@@ -1,8 +1,8 @@
 find_package(GTest MODULE REQUIRED)
-set_target_properties(
+set_property(TARGET
     GTest::Main
     GTest::GTest
-  PROPERTIES
+  PROPERTY
     IMPORTED_GLOBAL TRUE
 )
 
