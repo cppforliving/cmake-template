@@ -1,3 +1,5 @@
+include_guard(GLOBAL)
+
 function(debug_dynamic_dependencies target_name)
     if(NOT debug_dynamic_deps)
         return()

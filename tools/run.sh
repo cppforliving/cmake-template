@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eo pipefail
+set -euo pipefail
 
 conan_config=Release
 cmake_config=Release
@@ -7,70 +7,81 @@ cmake_shared=ON
 valgrind=memcheck
 conan_toolchain=conan_paths.cmake
 vcpkg_toolchain="$VCPKG_ROOT"/scripts/buildsystems/vcpkg.cmake
+check=
+clean=
+conan_update=
+coverage=
+doc=
+install=
+memcheck=
+pip_upgrade=
+rpaths=
+sanitizer=
+stats=
 
 for opt in "$@"; do
     case $opt in
     Conan)
-        cmake_toolchain="$conan_toolchain"
+        readonly cmake_toolchain="$conan_toolchain"
         ;;
     Vcpkg)
-        cmake_toolchain="$vcpkg_toolchain"
+        readonly cmake_toolchain="$vcpkg_toolchain"
         ;;
     Clean)
-        clean=1
+        readonly clean=1
         ;;
     Format)
-        format=1
+        readonly format=1
         ;;
     Static)
-        cmake_shared=OFF
+        readonly cmake_shared=OFF
         ;;
     Shared)
-        cmake_shared=ON
+        readonly cmake_shared=ON
         ;;
     Debug)
-        conan_config=Debug
-        cmake_config=$opt
+        readonly conan_config=Debug
+        readonly cmake_config=$opt
         ;;
     Release | MinSizeRel | RelWithDebInfo)
-        conan_config=Release
-        cmake_config=$opt
+        readonly conan_config=Release
+        readonly cmake_config=$opt
         ;;
     Test)
-        testing=1
+        readonly testing=1
         ;;
     Coverage=*)
-        coverage=${opt#*=}
+        readonly coverage=${opt#*=}
         ;;
     MemCheck=*)
-        memcheck=1
-        valgrind=${opt#*=}
+        readonly memcheck=1
+        readonly valgrind=${opt#*=}
         ;;
     Sanitizer=*)
-        sanitizer=${opt#*=}
+        readonly sanitizer=${opt#*=}
         ;;
     Check=*)
-        check=${opt#*=}
+        readonly check=${opt#*=}
         ;;
     Install)
-        install=1
+        readonly install=1
         ;;
     Examples)
-        examples=1
+        readonly examples=1
         ;;
     Doc)
-        doc=1
+        readonly doc=1
         ;;
     Stats)
-        stats=1
+        readonly stats=1
         ;;
     Rpaths)
-        rpaths=1
+        readonly rpaths=1
         ;;
     Upgrade)
-        pip_upgrade=-U
-        conan_update=-u
-        vcpkg_upgrade=1
+        readonly pip_upgrade=-U
+        readonly conan_update=-u
+        readonly vcpkg_upgrade=1
         ;;
     *)
         echo "unknown option '$opt'"
@@ -79,13 +90,13 @@ for opt in "$@"; do
     esac
 done
 
-build_dir=./build/$cmake_config
-make_cmd="cmake --build $build_dir -j $(nproc) --"
+readonly build_dir=./build/$cmake_config
+readonly make_cmd="cmake --build $build_dir -j $(nproc) --"
 
 [[ -z $clean ]] || rm -rf ./build
 mkdir -p "$build_dir"
 
-venv_dir=~/.virtualenvs/"$(basename $PWD)"
+readonly venv_dir=~/.virtualenvs/"$(basename "$PWD")"
 [[ -z $clean ]] || python -m virtualenv "$venv_dir"
 source "$venv_dir"/bin/activate
 
