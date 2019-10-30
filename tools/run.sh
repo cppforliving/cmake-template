@@ -12,12 +12,16 @@ clean=
 conan_update=
 coverage=
 doc=
+examples=
+format=
 install=
 memcheck=
 pip_upgrade=
 rpaths=
 sanitizer=
 stats=
+testing=
+vcpkg_upgrade=
 
 for opt in "$@"; do
     case $opt in
@@ -97,7 +101,7 @@ readonly make_cmd="cmake --build $build_dir -j $(nproc) --"
 mkdir -p "$build_dir"
 
 readonly venv_dir=~/.virtualenvs/"$(basename "$PWD")"
-[[ -z $clean ]] || python -m virtualenv "$venv_dir"
+[[ -z $pip_upgrade ]] || python -m virtualenv "$venv_dir"
 source "$venv_dir"/bin/activate
 
 pip install ${pip_upgrade} -r requirements-dev.txt
@@ -114,9 +118,9 @@ case "$cmake_toolchain" in
         -b missing
     ;;
 "$vcpkg_toolchain")
-    [[ -z $vcpkg_upgrade ]] || vcpkg update
-    [[ -z $vcpkg_upgrade ]] || vcpkg upgrade --no-dry-run
-    vcpkg install @vcpkgfile.txt
+    [[ -z $vcpkg_upgrade ]] || "$VCPKG_ROOT"/vcpkg update
+    [[ -z $vcpkg_upgrade ]] || "$VCPKG_ROOT"/vcpkg upgrade --no-dry-run
+    "$VCPKG_ROOT"/vcpkg install @vcpkgfile.txt
     ;;
 esac
 
