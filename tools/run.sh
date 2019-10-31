@@ -5,23 +5,24 @@ conan_config=Release
 cmake_config=Release
 cmake_shared=1
 valgrind=memcheck
+silenced=1
 
-check=
-clean=
-cmake_toolchain=
-conan_update=
-coverage=
-doc=
-examples=
-format=
-install=
-memcheck=
-pip_upgrade=
-rpaths=
-sanitizer=
-stats=
-testing=
-vcpkg_upgrade=
+check=''
+clean=0
+cmake_toolchain=''
+conan_update=''
+coverage=''
+doc=0
+examples=0
+format=0
+install=0
+memcheck=0
+pip_upgrade=''
+rpaths=0
+sanitizer=''
+stats=0
+testing=0
+vcpkg_upgrade=0
 
 for opt in "$@"; do
     case $opt in
@@ -38,7 +39,7 @@ for opt in "$@"; do
         readonly format=1
         ;;
     Static)
-        readonly cmake_shared=
+        readonly cmake_shared=0
         ;;
     Shared)
         readonly cmake_shared=1
@@ -87,6 +88,9 @@ for opt in "$@"; do
         readonly conan_update=-u
         readonly vcpkg_upgrade=1
         ;;
+    Verbose)
+        readonly silenced=0
+        ;;
     *)
         echo "unknown option '$opt'" >&2
         exit 1
@@ -94,15 +98,29 @@ for opt in "$@"; do
     esac
 done
 
+silent() {
+    ((silenced)) || set +x
+    "$@"
+    ((silenced)) || set -x
+}
+readonly -f silent
+
+source_if_exists() {
+    [[ ! -f $1 ]] || source "$@"
+}
+readonly -f source_if_exists
+
+((silenced)) || set -x
+
 readonly build_dir=./build/$cmake_config
 readonly make_cmd="cmake --build $build_dir -j $(nproc) --"
 
-[[ -z $clean ]] || rm -rf "$build_dir"
+((clean)) && rm -rf "$build_dir"
 mkdir -p "$build_dir"
 
 readonly venv_dir=~/.virtualenvs/"$(basename "$PWD")"
-[[ -z $pip_upgrade ]] || python -m virtualenv "$venv_dir"
-source "$venv_dir"/bin/activate
+[[ $pip_upgrade ]] && python -m virtualenv "$venv_dir"
+silent source "$venv_dir"/bin/activate
 
 pip install $pip_upgrade -r requirements-dev.txt
 
@@ -118,8 +136,10 @@ conan_paths.cmake)
         -b missing
     ;;
 vcpkg.cmake)
-    [[ -z $vcpkg_upgrade ]] || "$VCPKG_ROOT"/vcpkg update
-    [[ -z $vcpkg_upgrade ]] || "$VCPKG_ROOT"/vcpkg upgrade --no-dry-run
+    if ((vcpkg_upgrade)); then
+        "$VCPKG_ROOT"/vcpkg update
+        "$VCPKG_ROOT"/vcpkg upgrade --no-dry-run
+    fi
     "$VCPKG_ROOT"/vcpkg install @vcpkgfile.txt
     ;;
 esac
@@ -139,23 +159,22 @@ cmake . \
     -Dprojname_sanitizer="$sanitizer" \
     -Dprojname_check="$check"
 
-source_if_exists() {
-    [[ ! -f "$1" ]] || source "$@"
-}
-readonly -f source_if_exists
-
-[[ -z $stats ]] || ccache -z
-[[ -z $format ]] || $make_cmd format
+((stats)) && ccache -z
+((format)) && $make_cmd format
 $make_cmd all
-source_if_exists "$build_dir"/activate_run.sh
-[[ -z $testing && -z $coverage ]] || CTEST_OUTPUT_ON_FAILURE=1 $make_cmd ExperimentalTest
-source_if_exists "$build_dir"/deactivate_run.sh
-[[ -z $coverage ]] || CTEST_OUTPUT_ON_FAILURE=1 $make_cmd ExperimentalCoverage
-source_if_exists "$build_dir"/activate_run.sh
-[[ -z $memcheck ]] || CTEST_OUTPUT_ON_FAILURE=1 $make_cmd ExperimentalMemCheck
-source_if_exists "$build_dir"/deactivate_run.sh
-[[ -z $doc ]] || $make_cmd doc
-[[ -z $install ]] || $make_cmd install
-[[ -z $stats ]] || ccache -s
+if ((testing)) || [[ $coverage ]]; then
+    silent source_if_exists "$build_dir"/activate_run.sh
+    CTEST_OUTPUT_ON_FAILURE=1 $make_cmd ExperimentalTest
+    silent source_if_exists "$build_dir"/deactivate_run.sh
+fi
+[[ $coverage ]] && CTEST_OUTPUT_ON_FAILURE=1 $make_cmd ExperimentalCoverage
+if ((memcheck)); then
+    silent source_if_exists "$build_dir"/activate_run.sh
+    CTEST_OUTPUT_ON_FAILURE=1 $make_cmd ExperimentalMemCheck
+    silent source_if_exists "$build_dir"/deactivate_run.sh
+fi
+((doc)) && $make_cmd doc
+((install)) && $make_cmd install
+((stats)) && ccache -s
 
-deactivate
+silent deactivate
