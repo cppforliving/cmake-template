@@ -5,10 +5,10 @@ conan_config=Release
 cmake_config=Release
 cmake_shared=ON
 valgrind=memcheck
-conan_toolchain=conan_paths.cmake
-vcpkg_toolchain="$VCPKG_ROOT"/scripts/buildsystems/vcpkg.cmake
+
 check=
 clean=
+cmake_toolchain=
 conan_update=
 coverage=
 doc=
@@ -26,10 +26,10 @@ vcpkg_upgrade=
 for opt in "$@"; do
     case $opt in
     Conan)
-        readonly cmake_toolchain="$conan_toolchain"
+        readonly cmake_toolchain=conan_paths.cmake
         ;;
     Vcpkg)
-        readonly cmake_toolchain="$vcpkg_toolchain"
+        readonly cmake_toolchain="$VCPKG_ROOT"/scripts/buildsystems/vcpkg.cmake
         ;;
     Clean)
         readonly clean=1
@@ -88,7 +88,7 @@ for opt in "$@"; do
         readonly vcpkg_upgrade=1
         ;;
     *)
-        echo "unknown option '$opt'"
+        echo "unknown option '$opt'" >&2
         exit 1
         ;;
     esac
@@ -104,20 +104,20 @@ readonly venv_dir=~/.virtualenvs/"$(basename "$PWD")"
 [[ -z $pip_upgrade ]] || python -m virtualenv "$venv_dir"
 source "$venv_dir"/bin/activate
 
-pip install ${pip_upgrade} -r requirements-dev.txt
+pip install $pip_upgrade -r requirements-dev.txt
 
-case "$cmake_toolchain" in
-"$conan_toolchain")
-    pip install ${pip_upgrade} conan
+case $(basename "$cmake_toolchain") in
+conan_paths.cmake)
+    pip install $pip_upgrade conan
     conan profile new "$build_dir"/conan/detected --detect --force
     conan profile update settings.compiler.libcxx=libstdc++11 "$build_dir"/conan/detected
-    conan install . ${conan_update} \
+    conan install . $conan_update \
         -if "$build_dir" \
         -s build_type="$conan_config" \
         -pr "$build_dir"/conan/detected \
         -b missing
     ;;
-"$vcpkg_toolchain")
+vcpkg.cmake)
     [[ -z $vcpkg_upgrade ]] || "$VCPKG_ROOT"/vcpkg update
     [[ -z $vcpkg_upgrade ]] || "$VCPKG_ROOT"/vcpkg upgrade --no-dry-run
     "$VCPKG_ROOT"/vcpkg install @vcpkgfile.txt
@@ -139,16 +139,21 @@ cmake . \
     -Dprojname_sanitizer="$sanitizer" \
     -Dprojname_check="$check"
 
+source_if_exists() {
+    [[ ! -f "$1" ]] || source "$@"
+}
+readonly -f source_if_exists
+
 [[ -z $stats ]] || ccache -z
 [[ -z $format ]] || $make_cmd format
 $make_cmd all
-[[ -f "$build_dir"/activate_run.sh ]] && source "$build_dir"/activate_run.sh
+source_if_exists "$build_dir"/activate_run.sh
 [[ -z $testing && -z $coverage ]] || CTEST_OUTPUT_ON_FAILURE=1 $make_cmd ExperimentalTest
-[[ -f "$build_dir"/deactivate_run.sh ]] && source "$build_dir"/deactivate_run.sh
+source_if_exists "$build_dir"/deactivate_run.sh
 [[ -z $coverage ]] || CTEST_OUTPUT_ON_FAILURE=1 $make_cmd ExperimentalCoverage
-[[ -f "$build_dir"/activate_run.sh ]] && source "$build_dir"/activate_run.sh
+source_if_exists "$build_dir"/activate_run.sh
 [[ -z $memcheck ]] || CTEST_OUTPUT_ON_FAILURE=1 $make_cmd ExperimentalMemCheck
-[[ -f "$build_dir"/deactivate_run.sh ]] && source "$build_dir"/deactivate_run.sh
+source_if_exists "$build_dir"/deactivate_run.sh
 [[ -z $doc ]] || $make_cmd doc
 [[ -z $install ]] || $make_cmd install
 [[ -z $stats ]] || ccache -s
