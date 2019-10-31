@@ -52,8 +52,8 @@ elseif(${PROJECT_NAME}_coverage IN_LIST lcov_coverage_types)
             COMMAND ${lcov_command} ${lcov_options}
                 --quiet
                 --capture
-                --directory="${PROJECT_BINARY_DIR}"
-                --base-directory="${PROJECT_SOURCE_DIR}"
+                --directory="${PROJECT_SOURCE_DIR}"
+                --base-directory="${PROJECT_BINARY_DIR}"
                 --no-external
             COMMAND ${lcov_command} ${lcov_options}
                 --quiet

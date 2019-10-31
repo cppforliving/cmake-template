@@ -8,7 +8,7 @@ option(CMAKE_EXPORT_COMPILE_COMMANDS
 
 project(projname
     VERSION 0.1
-    DESCRIPTION "C/C++ ⨯ GTest/Catch2 ⨯ GCC/Clang/MSVC ⨯ CMake ⨯ Conan/Vcpkg ⨯ Linux/macOS/Windows"
+    DESCRIPTION "C/C++ x GTest/Catch2 x GCC/Clang/MSVC x CMake x Conan/Vcpkg x Linux/macOS/Windows"
     LANGUAGES C CXX)
 
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
@@ -55,6 +55,8 @@ include(Coverage)
 include(ProjectHelpers)
 
 add_subdirectory(src)
+
+include(ProjectConfig)
 
 if(BUILD_TESTING)
     add_subdirectory(tests)

@@ -56,7 +56,7 @@ function(add_custom_library lib_name)
     get_filename_component(parent_source_dir_name "${parent_source_dir}" NAME)
     if(NOT "${parent_source_dir_name}" STREQUAL "examples")
         install(TARGETS ${lib_name}
-            EXPORT ${PROJECT_NAME}Targets
+            EXPORT ${PROJECT_NAME}-targets
             DESTINATION "${CMAKE_INSTALL_LIBDIR}")
         install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/"
             DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${lib_name}"
@@ -99,7 +99,7 @@ function(add_custom_executable exe_name)
     get_filename_component(parent_source_dir_name "${parent_source_dir}" NAME)
     if(NOT "${parent_source_dir_name}" STREQUAL "examples")
         install(TARGETS ${exe_name}_app
-            EXPORT ${PROJECT_NAME}Targets
+            EXPORT ${PROJECT_NAME}-targets
             DESTINATION "${CMAKE_INSTALL_BINDIR}")
     endif()
 endfunction()
