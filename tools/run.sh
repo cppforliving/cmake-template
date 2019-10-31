@@ -3,7 +3,7 @@ set -euo pipefail
 
 conan_config=Release
 cmake_config=Release
-cmake_shared=ON
+cmake_shared=1
 valgrind=memcheck
 
 check=
@@ -38,10 +38,10 @@ for opt in "$@"; do
         readonly format=1
         ;;
     Static)
-        readonly cmake_shared=OFF
+        readonly cmake_shared=
         ;;
     Shared)
-        readonly cmake_shared=ON
+        readonly cmake_shared=1
         ;;
     Debug)
         readonly conan_config=Debug
@@ -97,7 +97,7 @@ done
 readonly build_dir=./build/$cmake_config
 readonly make_cmd="cmake --build $build_dir -j $(nproc) --"
 
-[[ -z $clean ]] || rm -rf ./build
+[[ -z $clean ]] || rm -rf "$build_dir"
 mkdir -p "$build_dir"
 
 readonly venv_dir=~/.virtualenvs/"$(basename "$PWD")"
