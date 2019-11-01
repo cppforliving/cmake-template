@@ -9,22 +9,22 @@ main() {
     declare -i silenced=1
 
     declare check=
-    declare -i clean=0
+    declare -i clean=
     declare cmake_generator=
     declare cmake_toolchain=
     declare conan_update=
     declare coverage=
-    declare -i doc=0
-    declare -i examples=0
-    declare -i format=0
-    declare -i install=0
-    declare -i memcheck=0
+    declare -i doc=
+    declare -i examples=
+    declare -i format=
+    declare -i install=
+    declare -i memcheck=
     declare pip_upgrade=
-    declare -i rpaths=0
+    declare -i rpaths=
     declare sanitizer=
-    declare -i stats=0
-    declare -i testing=0
-    declare -i vcpkg_upgrade=0
+    declare -i stats=
+    declare -i testing=
+    declare -i vcpkg_upgrade=
 
     declare opt
     for opt in "$@"; do
