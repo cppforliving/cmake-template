@@ -28,7 +28,6 @@ elseif("${${PROJECT_NAME}_check}" STREQUAL iwyu)
     find_program(iwyu_command iwyu)
     mark_as_advanced(iwyu_command)
     set(CMAKE_C_INCLUDE_WHAT_YOU_USE ${iwyu_command}
-        -Xiwyu --no_fwd_decls
         -Xiwyu --mapping_file=${PROJECT_SOURCE_DIR}/external/boost/iwyu.imp
         -Xiwyu --mapping_file=${PROJECT_SOURCE_DIR}/external/gtest/iwyu.imp
     )
