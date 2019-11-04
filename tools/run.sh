@@ -119,7 +119,7 @@ main() {
     ((silenced)) || set -x
 
     declare -r build_dir=./build/$cmake_config
-    ((clean)) && rm -r "$build_dir"
+    ((clean)) && [[ -d $build_dir ]] && rm -r "$build_dir"
     mkdir -p "$build_dir"
 
     declare -r venv_dir=./build/venv

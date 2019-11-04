@@ -6,6 +6,7 @@
 #endif
 
 #include <iostream>
+#include <string>
 
 #include <boost/asio/io_context.hpp>
 #include <boost/beast/core/span.hpp>

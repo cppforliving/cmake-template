@@ -1,5 +1,7 @@
 #include "derived.hpp"
 
+#include <memory>
+#include <new>
 #include <type_traits>
 
 #include <gtest/gtest.h>

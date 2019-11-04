@@ -1,4 +1,5 @@
 #include <exception>
+#include <memory>
 #include <new>
 
 #include <catch2/catch.hpp>

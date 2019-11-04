@@ -1,0 +1,5 @@
+[
+  {include: ["@<boost/asio/impl/io_context\\.[hi]pp>", private, "<boost/asio/io_context.hpp>", public]},
+  {include: ["@<boost/asio/impl/executor\\.[hi]pp>", private, "<boost/asio/executor.hpp>", public]},
+  {include: ["@<boost/asio/impl/post\\.[hi]pp>", private, "<boost/asio/post.hpp>", public]},
+]
