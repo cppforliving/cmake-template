@@ -1,4 +1,5 @@
 # See https://github.com/github/linguist#overrides
 *.imp linguist-language=YAML
+.cmake-format linguist-language=YAML
 Doxyfile* linguist-language=INI
 conan*.txt linguist-language=INI
