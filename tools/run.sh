@@ -109,12 +109,12 @@ main() {
         "$@"
         ((silenced)) || set -x
     }
-    readonly -f silent
+    declare -fr silent
 
     source_if_exists() {
         [[ ! -f $1 ]] || source "$@"
     }
-    readonly -f source_if_exists
+    declare -fr source_if_exists
 
     ((silenced)) || set -x
 
@@ -122,7 +122,7 @@ main() {
     ((clean)) && [[ -d $build_dir ]] && rm -r "$build_dir"
     mkdir -p "$build_dir"
 
-    declare -r venv_dir=./build/venv
+    declare -r venv_dir=./venv
     [[ ! -d $venv_dir || $pip_upgrade ]] && python -m virtualenv "$venv_dir"
     silent source "$venv_dir"/bin/activate
 
@@ -163,7 +163,9 @@ main() {
         -Dprojname_sanitizer="$sanitizer" \
         -Dprojname_check="$check"
 
-    declare -r make_cmd="cmake --build $build_dir -j $(nproc) --"
+    declare make_cmd
+    make_cmd="cmake --build $build_dir -j $(nproc) --"
+    declare -r make_cmd
 
     ((stats)) && ccache -z
     ((format)) && $make_cmd format
@@ -184,6 +186,7 @@ main() {
 
     silent deactivate
 }
+declare -fr main
 
 if [[ "$0" == "${BASH_SOURCE[0]}" ]]; then
     main "$@"

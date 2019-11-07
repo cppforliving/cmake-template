@@ -1,3 +1,16 @@
-/build*/
-/.*
-/*.user
+# CMake
+/build/
+
+# Virtualenv
+/venv/
+
+# Eclipse
+/.cproject
+/.project
+/.settings/
+
+# Visual Studio Code
+/.vscode/
+
+# QtCreator
+/CMakeLists.txt.user
