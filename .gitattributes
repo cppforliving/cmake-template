@@ -1,2 +1,3 @@
 # See https://github.com/github/linguist#overrides
 *.imp linguist-language=YAML
+Doxyfile* linguist-language=INI
