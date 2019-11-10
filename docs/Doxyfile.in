@@ -113,9 +113,9 @@ EXCLUDE_PATTERNS       = */CMakeFiles/* \
                          DartConfiguration.tcl
 EXCLUDE_SYMBOLS        = detail \
                          internal
-EXAMPLE_PATH           = "@PROJECT_SOURCE_DIR@/examples"
+EXAMPLE_PATH           =
 EXAMPLE_PATTERNS       =
-EXAMPLE_RECURSIVE      = YES
+EXAMPLE_RECURSIVE      = NO
 IMAGE_PATH             =
 INPUT_FILTER           =
 FILTER_PATTERNS        =
