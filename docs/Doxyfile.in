@@ -109,12 +109,13 @@ RECURSIVE              = YES
 EXCLUDE                =
 EXCLUDE_SYMLINKS       = NO
 EXCLUDE_PATTERNS       = */CMakeFiles/* \
+                         */venv/* \
                          DartConfiguration.tcl
 EXCLUDE_SYMBOLS        = detail \
                          internal
-EXAMPLE_PATH           =
+EXAMPLE_PATH           = "@PROJECT_SOURCE_DIR@/examples"
 EXAMPLE_PATTERNS       =
-EXAMPLE_RECURSIVE      = NO
+EXAMPLE_RECURSIVE      = YES
 IMAGE_PATH             =
 INPUT_FILTER           =
 FILTER_PATTERNS        =
