@@ -10,7 +10,6 @@ main() {
 
     declare check=
     declare -i clean=
-    declare cmake_generator=
     declare cmake_toolchain=
     declare conan_update=
     declare coverage=
@@ -95,11 +94,11 @@ main() {
             declare -r silenced=0
             ;;
         Ninja)
-            declare -r cmake_generator=-GNinja
+            declare -rx CMAKE_GENERATOR=Ninja
             ;;
         *)
             echo "unknown option '$opt'" >&2
-            exit 1
+            exit 2
             ;;
         esac
     done
@@ -150,7 +149,6 @@ main() {
 
     cmake . \
         -B"$build_dir" \
-        "$cmake_generator" \
         -DBUILD_SHARED_LIBS="$cmake_shared" \
         -DBUILD_TESTING="$testing" \
         -DBUILD_EXAMPLES="$examples" \
