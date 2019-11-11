@@ -57,10 +57,10 @@ install:
     )
 
 build_script:
-  - vcpkg update
-      --triplet %VCPKG_ARCH%-windows
-  - vcpkg upgrade --no-dry-run
-      --triplet %VCPKG_ARCH%-windows
+  # - vcpkg update
+  #     --triplet %VCPKG_ARCH%-windows
+  # - vcpkg upgrade --no-dry-run
+  #     --triplet %VCPKG_ARCH%-windows
   - vcpkg install @vcpkgfile.txt
       --triplet %VCPKG_ARCH%-windows
   - mkdir build && cd build
