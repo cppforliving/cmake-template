@@ -45,7 +45,8 @@ matrix:
         - CONAN_PROFILE="$PWD/conan/any-macos-clang"
         - CMAKE_GENERATOR="Xcode"
 
-    - os: linux
+    - &linux_gcc
+      os: linux
       compiler: gcc
       dist: xenial
       addons:
@@ -54,7 +55,10 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-8
+            - valgrind
       install:
+        - sudo update-alternatives
+          --install /usr/bin/gcov gcov /usr/bin/gcov-8 80
         - python -m pip install --user -U -r requirements.txt conan
       env:
         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
@@ -104,23 +108,7 @@ matrix:
           cmake --build . --config Debug
 
     - stage: check
-      os: linux
-      compiler: gcc
-      dist: xenial
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-8
-      install:
-        - sudo update-alternatives
-          --install /usr/bin/gcov gcov /usr/bin/gcov-8 80
-        - python -m pip install --user -U -r requirements.txt conan
-      env:
-        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
-        - CONAN_PROFILE="$PWD/conan/any-linux-gcc"
-        - CMAKE_GENERATOR="Unix Makefiles"
+      <<: *linux_gcc
       script:
         - mkdir build && cd build &&
           conan install .. -u
@@ -167,25 +155,7 @@ matrix:
           ( source deactivate_run.sh || true )
 
     - stage: check
-      os: linux
-      compiler: gcc
-      dist: xenial
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-8
-      addons:
-        apt:
-          packages:
-            - valgrind
-      install:
-        - python -m pip install --user -U -r requirements.txt conan
-      env:
-        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
-        - CONAN_PROFILE="$PWD/conan/any-linux-gcc"
-        - CMAKE_GENERATOR="Unix Makefiles"
+      <<: *linux_gcc
       script:
         - mkdir build && cd build &&
           conan install .. -u
