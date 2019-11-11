@@ -1,7 +1,7 @@
 version: "{build}"
 
 image:
-  # - Visual Studio 2015
+  - Visual Studio 2019
   - Visual Studio 2017
 
 configuration:
@@ -22,18 +22,22 @@ environment:
 
 matrix:
   exclude:
-    # - image: Visual Studio 2015
-    #   configuration: Release
-    #   platform: x86
-    # - image: Visual Studio 2015
-    #   configuration: Debug
-    #   platform: x64
+    - image: Visual Studio 2019
+      configuration: Release
+      platform: x86
+    - image: Visual Studio 2019
+      configuration: Debug
+      platform: x64
     - image: Visual Studio 2017
       configuration: Release
       platform: x64
     - image: Visual Studio 2017
       configuration: Debug
       platform: x86
+    - configuration: Debug
+      BUILD_SHARED_LIBS: "ON"
+    - configuration: Release
+      BUILD_SHARED_LIBS: "OFF"
 
 cache:
   - '%VCPKG_ROOT%\installed -> vcpkgfile.txt'
@@ -42,32 +46,27 @@ cache:
 install:
   - python -m pip install -U -r requirements.txt
   - if "%PLATFORM%"=="x86" (
-      set "VCPKG_ARCH=x86" &
-      set "CMAKE_ARCH=Win32"
+      set "VCPKG_DEFAULT_TRIPLET=x86-windows" &
+      set "CMAKE_GENERATOR_PLATFORM=Win32"
     )
   - if "%PLATFORM%"=="x64" (
-      set "VCPKG_ARCH=x64" &
-      set "CMAKE_ARCH=x64"
+      set "VCPKG_DEFAULT_TRIPLET=x64-windows" &
+      set "CMAKE_GENERATOR_PLATFORM=x64"
     )
-  # - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2015" (
-  #     set CMAKE_GENERATOR="Visual Studio 14 2015"
-  #   )
+  - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" (
+      set CMAKE_GENERATOR="Visual Studio 16 2019"
+    )
   - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" (
       set CMAKE_GENERATOR="Visual Studio 15 2017"
     )
 
 build_script:
-  # - vcpkg update
-  #     --triplet %VCPKG_ARCH%-windows
-  # - vcpkg upgrade --no-dry-run
-  #     --triplet %VCPKG_ARCH%-windows
-  - vcpkg install @vcpkgfile.txt
-      --triplet %VCPKG_ARCH%-windows
+  # - '%VCPKG_ROOT%/vcpkg update'
+  # - '%VCPKG_ROOT%/vcpkg upgrade --no-dry-run'
+  - '%VCPKG_ROOT%/vcpkg install @vcpkgfile.txt'
   - mkdir build && cd build
   - cmake ..
       -B.
-      -G%CMAKE_GENERATOR%
-      -A%CMAKE_ARCH%
       -DBUILD_SHARED_LIBS=%BUILD_SHARED_LIBS%
       -DCMAKE_TOOLCHAIN_FILE=%VCPKG_ROOT%\scripts\buildsystems\vcpkg.cmake
       -DBUILD_EXAMPLES=ON
@@ -79,7 +78,7 @@ test_script:
   - cmake --build . --config %CONFIGURATION% --target install
 
 artifacts:
-  - path: 'build/**/*.log'
+  - path: "build/**/*.log"
     name: logs
-  - path: 'build/**/*.xml'
+  - path: "build/**/*.xml"
     name: test_results
