@@ -10,8 +10,3 @@ virtualrunenv
 [options]
 *:shared=True
 *:short_paths=False
-
-[imports]
-# bin, *.dll -> ./bin
-# lib, *.dylib* -> ./lib
-# lib, *.so* -> ./lib
