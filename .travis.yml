@@ -14,8 +14,7 @@ stages:
 
 matrix:
   exclude:
-    - stage: test
-      os: windows
+    - os: windows
       compiler: cl
       install:
         - choco install python
@@ -29,8 +28,7 @@ matrix:
         - CMAKE_GENERATOR="Visual Studio 15 2017"
 
   include:
-    - stage: test
-      os: osx
+    - os: osx
       compiler: clang
       osx_image: xcode10.2
       addons:
@@ -47,8 +45,7 @@ matrix:
         - CONAN_PROFILE="$PWD/conan/any-macos-clang"
         - CMAKE_GENERATOR="Xcode"
 
-    - stage: test
-      os: linux
+    - os: linux
       compiler: gcc
       dist: xenial
       addons:
@@ -64,7 +61,7 @@ matrix:
         - CONAN_PROFILE="$PWD/conan/any-linux-gcc"
         - CMAKE_GENERATOR="Unix Makefiles"
 
-    - stage: test
+    - &linux_clang
       os: linux
       compiler: clang
       dist: xenial
@@ -88,27 +85,7 @@ matrix:
         - CMAKE_GENERATOR="Ninja"
 
     - stage: check
-      os: linux
-      compiler: clang
-      dist: xenial
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - libstdc++-8-dev
-      install:
-        - sudo update-alternatives
-          --install /usr/bin/clang clang /usr/local/clang-7.0.0/bin/clang 70
-          --slave /usr/bin/clang++ clang++ /usr/local/clang-7.0.0/bin/clang++
-          --slave /usr/bin/ld ld /usr/local/clang-7.0.0/bin/lld
-        - export LD_LIBRARY_PATH="/usr/local/clang-7.0.0/lib:$LD_LIBRARY_PATH"
-        - sudo update-ccache-symlinks
-        - python -m pip install --user -U -r requirements.txt conan
-      env:
-        - MATRIX_EVAL="CC=clang && CXX=clang++"
-        - CONAN_PROFILE="$PWD/conan/any-linux-clang"
-        - CMAKE_GENERATOR="Ninja"
+      <<: *linux_clang
       script:
         - mkdir build && cd build &&
           conan install .. -u
@@ -166,27 +143,7 @@ matrix:
         - bash <(curl -s https://codecov.io/bash)
 
     - stage: check
-      os: linux
-      compiler: clang
-      dist: xenial
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - libstdc++-8-dev
-      install:
-        - sudo update-alternatives
-          --install /usr/bin/clang clang /usr/local/clang-7.0.0/bin/clang 70
-          --slave /usr/bin/clang++ clang++ /usr/local/clang-7.0.0/bin/clang++
-          --slave /usr/bin/ld ld /usr/local/clang-7.0.0/bin/lld
-        - export LD_LIBRARY_PATH="/usr/local/clang-7.0.0/lib:$LD_LIBRARY_PATH"
-        - sudo update-ccache-symlinks
-        - python -m pip install --user -U -r requirements.txt conan
-      env:
-        - MATRIX_EVAL="CC=clang && CXX=clang++"
-        - CONAN_PROFILE="$PWD/conan/any-linux-clang"
-        - CMAKE_GENERATOR="Ninja"
+      <<: *linux_clang
       script:
         - mkdir build && cd build &&
           conan install .. -u
