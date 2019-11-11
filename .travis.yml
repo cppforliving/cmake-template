@@ -23,9 +23,8 @@ matrix:
         - python -m pip install --user -U -r requirements.txt conan
         - conan config set general.user_home_short=None
       env:
-        - MATRIX_EVAL="CC=cl && CXX=cl"
+        - MATRIX_EVAL="CC=cl && CXX=cl && CMAKE_GENERATOR='Visual Studio 15 2017'"
         - CONAN_PROFILE="$PWD/conan/x86-windows-msvc"
-        - CMAKE_GENERATOR="Visual Studio 15 2017"
 
   include:
     - os: osx
@@ -41,9 +40,8 @@ matrix:
         - export PATH="$HOME/Library/Python/2.7/bin:$PATH"
         - python -m pip install --user -U -r requirements.txt conan
       env:
-        - MATRIX_EVAL="CC=clang && CXX=clang++"
+        - MATRIX_EVAL="CC=clang && CXX=clang++ && CMAKE_GENERATOR='Xcode'"
         - CONAN_PROFILE="$PWD/conan/any-macos-clang"
-        - CMAKE_GENERATOR="Xcode"
 
     - &linux_gcc
       os: linux
@@ -61,9 +59,8 @@ matrix:
           --install /usr/bin/gcov gcov /usr/bin/gcov-8 80
         - python -m pip install --user -U -r requirements.txt conan
       env:
-        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
+        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8 && CMAKE_GENERATOR='Unix Makefiles'"
         - CONAN_PROFILE="$PWD/conan/any-linux-gcc"
-        - CMAKE_GENERATOR="Unix Makefiles"
 
     - &linux_clang
       os: linux
@@ -84,9 +81,8 @@ matrix:
         - sudo update-ccache-symlinks
         - python -m pip install --user -U -r requirements.txt conan
       env:
-        - MATRIX_EVAL="CC=clang && CXX=clang++"
+        - MATRIX_EVAL="CC=clang && CXX=clang++ && CMAKE_GENERATOR='Ninja'"
         - CONAN_PROFILE="$PWD/conan/any-linux-clang"
-        - CMAKE_GENERATOR="Ninja"
 
     - stage: check
       <<: *linux_clang
@@ -99,7 +95,6 @@ matrix:
           -pr $CONAN_PROFILE &&
           cmake ..
           -B.
-          -G"$CMAKE_GENERATOR"
           -DCMAKE_BUILD_TYPE=Debug
           -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
           -DBUILD_EXAMPLES=ON
@@ -118,7 +113,6 @@ matrix:
           -pr $CONAN_PROFILE &&
           cmake ..
           -B.
-          -G"$CMAKE_GENERATOR"
           -DCMAKE_BUILD_TYPE=Debug
           -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
           -DBUILD_EXAMPLES=ON
@@ -143,7 +137,6 @@ matrix:
           -pr $CONAN_PROFILE &&
           cmake ..
           -B.
-          -G"$CMAKE_GENERATOR"
           -DCMAKE_BUILD_TYPE=Debug
           -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
           -DBUILD_EXAMPLES=ON
@@ -165,7 +158,6 @@ matrix:
           -pr $CONAN_PROFILE &&
           cmake ..
           -B.
-          -G"$CMAKE_GENERATOR"
           -DCMAKE_BUILD_TYPE=Debug
           -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
           -DBUILD_EXAMPLES=ON
@@ -194,7 +186,6 @@ script:
     -pr $CONAN_PROFILE &&
     cmake ..
     -B.
-    -G"$CMAKE_GENERATOR"
     -DCMAKE_BUILD_TYPE=$BUILD_TYPE
     -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
     -DBUILD_EXAMPLES=ON
