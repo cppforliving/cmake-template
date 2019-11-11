@@ -112,11 +112,13 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - g++-7
+            - g++-8
       install:
+        - sudo update-alternatives
+          --install /usr/bin/gcov gcov /usr/bin/gcov-8 80
         - python -m pip install --user -U -r requirements.txt conan
       env:
-        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
         - CONAN_PROFILE="$PWD/conan/any-linux-gcc"
         - CMAKE_GENERATOR="Unix Makefiles"
       script:
@@ -174,6 +176,9 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-8
+      addons:
+        apt:
+          packages:
             - valgrind
       install:
         - python -m pip install --user -U -r requirements.txt conan
