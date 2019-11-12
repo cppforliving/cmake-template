@@ -162,7 +162,7 @@ main() {
         -Dprojname_check="$check"
 
     declare make_cmd
-    make_cmd="cmake --build $build_dir -j $(nproc) --"
+    make_cmd="cmake --build $build_dir --parallel $(nproc) --verbose --target"
     declare -r make_cmd
 
     ((stats)) && ccache -z
