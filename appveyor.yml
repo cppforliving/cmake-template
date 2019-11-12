@@ -15,7 +15,7 @@ platform:
 environment:
   CC: '%VCINSTALLDIR%\bin\cl.exe'
   CXX: '%VCINSTALLDIR%\bin\cl.exe'
-  VCPKG_ROOT: c:\tools\vcpkg
+  VCPKG_ROOT: C:\Tools\vcpkg
   matrix:
     - BUILD_SHARED_LIBS: "ON"
     - BUILD_SHARED_LIBS: "OFF"
@@ -59,14 +59,14 @@ install:
   - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" (
       set "CMAKE_GENERATOR=Visual Studio 15 2017"
     )
+  - set
 
 build_script:
-  # - '%VCPKG_ROOT%/vcpkg update'
-  # - '%VCPKG_ROOT%/vcpkg upgrade --no-dry-run'
-  - '%VCPKG_ROOT%/vcpkg install @vcpkgfile.txt'
+  # - '%VCPKG_ROOT%\vcpkg update'
+  # - '%VCPKG_ROOT%\vcpkg upgrade --no-dry-run'
+  - '%VCPKG_ROOT%\vcpkg install @vcpkgfile.txt'
   - mkdir build && cd build
   - cmake ..
-      -B.
       -DBUILD_SHARED_LIBS=%BUILD_SHARED_LIBS%
       -DCMAKE_TOOLCHAIN_FILE=%VCPKG_ROOT%\scripts\buildsystems\vcpkg.cmake
       -DBUILD_EXAMPLES=ON
