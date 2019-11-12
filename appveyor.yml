@@ -21,6 +21,7 @@ environment:
     - BUILD_SHARED_LIBS: "OFF"
 
 matrix:
+  fast_finish: true
   exclude:
     - image: Visual Studio 2019
       configuration: Release
@@ -78,7 +79,7 @@ test_script:
   - cmake --build . --config %CONFIGURATION% --target install
 
 artifacts:
-  - path: "build/**/*.log"
+  - path: build\**\*.log
     name: logs
-  - path: "build/**/*.xml"
+  - path: build\**\*.xml
     name: test_results
