@@ -180,6 +180,7 @@ before_script:
   - conan user
   - BUILD_TYPE=Release
   - ccache -z || true
+  - declare -p
 
 script:
   - mkdir build && cd build &&
