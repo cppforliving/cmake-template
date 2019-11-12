@@ -73,11 +73,11 @@ build_script:
       -DBUILD_TESTING=ON
       -DBUILD_EXAMPLES=ON
       -Ddebug_dynamic_deps=ON
-  - cmake --build . --config %CONFIGURATION%
+  - cmake --build . --verbose --config %CONFIGURATION%
 
 test_script:
   - ctest -C %CONFIGURATION% -V
-  - cmake --build . --config %CONFIGURATION% --target install
+  - cmake --build . --verbose --config %CONFIGURATION% --target install
 
 artifacts:
   - path: build\**\*.log

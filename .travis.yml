@@ -93,36 +93,32 @@ matrix:
       script:
         - mkdir build && cd build &&
           conan install .. -u
-          -if .
           -b missing
           -s build_type=Debug
           -pr $CONAN_PROFILE &&
           cmake ..
-          -B.
           -DCMAKE_BUILD_TYPE=Debug
           -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
           -DBUILD_EXAMPLES=ON
           -Ddebug_dynamic_deps=ON
           -Dprojname_check=clang-tidy &&
-          cmake --build . --config Debug
+          cmake --build . --verbose --config Debug
 
     - stage: check
       <<: *linux_gcc
       script:
         - mkdir build && cd build &&
           conan install .. -u
-          -if .
           -b missing
           -s build_type=Debug
           -pr $CONAN_PROFILE &&
           cmake ..
-          -B.
           -DCMAKE_BUILD_TYPE=Debug
           -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
           -DBUILD_EXAMPLES=ON
           -Ddebug_dynamic_deps=ON
           -Dprojname_coverage=xml &&
-          cmake --build . --config Debug &&
+          cmake --build . --verbose --config Debug &&
           source activate_run.sh &&
           ctest -V -C Debug -D ExperimentalTest &&
           ctest -V -C Debug -D ExperimentalCoverage &&
@@ -135,18 +131,16 @@ matrix:
       script:
         - mkdir build && cd build &&
           conan install .. -u
-          -if .
           -b missing
           -s build_type=Debug
           -pr $CONAN_PROFILE &&
           cmake ..
-          -B.
           -DCMAKE_BUILD_TYPE=Debug
           -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
           -DBUILD_EXAMPLES=ON
           -Ddebug_dynamic_deps=ON
           -Dprojname_sanitizer=address &&
-          cmake --build . --config Debug &&
+          cmake --build . --verbose --config Debug &&
           source activate_run.sh &&
           ctest -V -C Debug -D ExperimentalTest &&
           ( source deactivate_run.sh || true )
@@ -156,18 +150,16 @@ matrix:
       script:
         - mkdir build && cd build &&
           conan install .. -u
-          -if .
           -b missing
           -s build_type=Debug
           -pr $CONAN_PROFILE &&
           cmake ..
-          -B.
           -DCMAKE_BUILD_TYPE=Debug
           -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
           -DBUILD_EXAMPLES=ON
           -Ddebug_dynamic_deps=ON
           -Dprojname_valgrind=memcheck &&
-          cmake --build . --config Debug &&
+          cmake --build . --verbose --config Debug &&
           source activate_run.sh &&
           ctest -V -C Debug -D ExperimentalMemCheck &&
           ( source deactivate_run.sh || true )
@@ -185,21 +177,19 @@ before_script:
 script:
   - mkdir build && cd build &&
     conan install .. -u
-    -if .
     -b missing
     -s build_type=$BUILD_TYPE
     -pr $CONAN_PROFILE &&
     cmake ..
-    -B.
     -DCMAKE_BUILD_TYPE=$BUILD_TYPE
     -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
     -DBUILD_EXAMPLES=ON
     -Ddebug_dynamic_deps=ON &&
-    cmake --build . --config $BUILD_TYPE &&
+    cmake --build . --verbose --config $BUILD_TYPE &&
     source activate_run.sh &&
     ctest -V -C $BUILD_TYPE &&
     ( source deactivate_run.sh || true ) &&
-    cmake --build . --config $BUILD_TYPE --target install
+    cmake --build . --verbose --config $BUILD_TYPE --target install
 
 after_script:
   - ccache -s || true
