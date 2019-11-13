@@ -13,8 +13,6 @@ platform:
   - x64
 
 environment:
-  CC: '%VCINSTALLDIR%\bin\cl.exe'
-  CXX: '%VCINSTALLDIR%\bin\cl.exe'
   VCPKG_ROOT: C:\Tools\vcpkg
   matrix:
     - BUILD_SHARED_LIBS: "ON"
