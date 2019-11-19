@@ -61,7 +61,6 @@ install:
   - set
 
 build_script:
-  - sh: declare -p
   - '%VCPKG_ROOT%\vcpkg update'
   - '%VCPKG_ROOT%\vcpkg upgrade --no-dry-run'
   - '%VCPKG_ROOT%\vcpkg install @vcpkgfile.txt'
