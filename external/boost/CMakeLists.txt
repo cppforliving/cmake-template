@@ -1,4 +1,5 @@
 set(Boost_NO_SYSTEM_PATHS ON)
+set(Boost_NO_BOOST_CMAKE ON)
 find_package(Boost MODULE REQUIRED
   COMPONENTS
     system
