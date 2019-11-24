@@ -37,6 +37,7 @@ matrix:
             - ccache
       install:
         - ccache -M 500M
+        - echo $PATH
         - export PATH="/usr/local/opt/ccache/libexec:$PATH"
         - export PATH="$HOME/Library/Python/2.7/bin:$PATH"
         - python -m pip install --user -U -r requirements.txt conan
@@ -54,14 +55,26 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-8
+            - python-pip
+            - python-setuptools
+            - python-wheel
             - valgrind
       install:
         - sudo update-alternatives
           --install /usr/bin/gcov gcov /usr/bin/gcov-8 80
-        - python -m pip install --user -U -r requirements.txt conan
+        - echo $PATH
+        - export PATH=$HOME/.local/bin:$PATH
+        - hash -r
+        - python -m pip install --user -U pip setuptools wheel
+        - hash -r
+        - pip --version
+        - pip install --user -U scikit-build -r requirements.txt conan
       env:
         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
         - CMAKE_GENERATOR='Unix Makefiles'
+
+    - <<: *linux_gcc
+      arch: arm64
 
     - &linux_clang
       os: linux
@@ -72,18 +85,31 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
+            - clang-6.0
             - libstdc++-8-dev
+            - python-pip
+            - python-setuptools
+            - python-wheel
       install:
-        - sudo update-alternatives
-          --install /usr/bin/clang clang /usr/local/clang-7.0.0/bin/clang 70
-          --slave /usr/bin/clang++ clang++ /usr/local/clang-7.0.0/bin/clang++
-          --slave /usr/bin/ld ld /usr/local/clang-7.0.0/bin/lld
-        - export LD_LIBRARY_PATH="/usr/local/clang-7.0.0/lib:$LD_LIBRARY_PATH"
-        - sudo update-ccache-symlinks
-        - python -m pip install --user -U -r requirements.txt conan
+        # - sudo update-alternatives
+        #   --install /usr/bin/clang clang /usr/local/clang-7.0.0/bin/clang 70
+        #   --slave /usr/bin/clang++ clang++ /usr/local/clang-7.0.0/bin/clang++
+        #   --slave /usr/bin/ld ld /usr/local/clang-7.0.0/bin/lld
+        # - export LD_LIBRARY_PATH="/usr/local/clang-7.0.0/lib:$LD_LIBRARY_PATH"
+        # - sudo update-ccache-symlinks
+        - echo $PATH
+        - export PATH=$HOME/.local/bin:$PATH
+        - hash -r
+        - python -m pip install --user -U pip setuptools wheel
+        - hash -r
+        - pip --version
+        - pip install --user -U scikit-build -r requirements.txt conan
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
         - CMAKE_GENERATOR='Ninja'
+
+    - <<: *linux_clang
+      arch: arm64
 
     - stage: check
       <<: *linux_clang
