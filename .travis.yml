@@ -14,9 +14,7 @@ stages:
 
 matrix:
   fast_finish: true
-  allow_failures:
-    - os: windows
-  include:
+  exclude:
     - os: windows
       compiler: cl
       install:
@@ -29,6 +27,7 @@ matrix:
         - MATRIX_EVAL="CC=cl && CXX=cl"
         - CMAKE_GENERATOR='Visual Studio 15 2017'
 
+  include:
     - os: osx
       compiler: clang
       osx_image: xcode10.2
