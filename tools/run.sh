@@ -129,7 +129,6 @@ main() {
 
     case $(basename "$cmake_toolchain") in
     conan_paths.cmake)
-        pip install $pip_upgrade conan
         conan profile new "$build_dir"/conan/detected --detect --force
         conan profile update settings.compiler.libcxx=libstdc++11 "$build_dir"/conan/detected
         conan install . $conan_update \
@@ -141,7 +140,6 @@ main() {
     vcpkg.cmake)
         if ((vcpkg_upgrade)); then
             "$VCPKG_ROOT"/vcpkg update
-            "$VCPKG_ROOT"/vcpkg upgrade --no-dry-run
         fi
         "$VCPKG_ROOT"/vcpkg install @vcpkgfile.txt
         ;;
