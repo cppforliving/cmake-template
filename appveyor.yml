@@ -81,3 +81,7 @@ artifacts:
     name: logs
   - path: build\**\*.xml
     name: test_results
+
+skip_commits:
+  files:
+    - .travis.yml
