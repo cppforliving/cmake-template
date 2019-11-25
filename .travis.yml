@@ -14,20 +14,27 @@ stages:
 
 matrix:
   fast_finish: true
-  exclude:
+  allow_failures:
     - os: windows
-      compiler: cl
+  include:
+    - os: windows
       install:
         - choco install python --version 3.8.0
+        - echo $PATH
+        - find '/c/Program Files (x86)/Microsoft Visual Studio/2017/BuildTools/VC/Tools/MSVC/14.16.27023/bin' -name '*.exe'
         - export PATH="/c/Python38:/c/Python38/Scripts:$PATH"
         - export PATH="$HOME/AppData/Roaming/Python/Python38/Scripts:$PATH"
+        - python --version
+        - pip --version || true
+        - hash -r
+        - python --version
+        - pip --version || true
         - python -m pip install --user -U -r requirements.txt conan
         - conan config set general.user_home_short=None
       env:
-        - MATRIX_EVAL="CC=cl && CXX=cl"
+        - MATRIX_EVAL="CC='/c/Program Files (x86)/Microsoft Visual Studio/2017/BuildTools/VC/Tools/MSVC/14.16.27023/bin/Hostx86/x86/cl.exe' && CXX='/c/Program Files (x86)/Microsoft Visual Studio/2017/BuildTools/VC/Tools/MSVC/14.16.27023/bin/Hostx86/x86/cl.exe'"
         - CMAKE_GENERATOR='Visual Studio 15 2017'
 
-  include:
     - os: osx
       compiler: clang
       osx_image: xcode10.3
@@ -37,8 +44,21 @@ matrix:
             - ccache
       install:
         - ccache -M 500M
+        - echo $PATH
+        - which python || true
+        - python --version
+        - which python3 || true
+        - python --version
+        - pip --version || true
         - export PATH="/usr/local/opt/ccache/libexec:$PATH"
-        - export PATH="$HOME/Library/Python/2.7/bin:$PATH"
+        - export PATH="$HOME/Library/Python/3.7/bin:$PATH"
+        - find "$HOME/Library/Python" -type f -name 'python*' || true
+        - find "$HOME/Library/Python" -type f -name 'pip*' || true
+        - hash -r
+        - python --version
+        - pip --version || true
+        - python3 --version
+        - pip3 --version || true
         - python -m pip install --user -U -r requirements.txt conan
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
@@ -56,6 +76,9 @@ matrix:
             - g++-8
             - valgrind
       install:
+        - echo $PATH
+        - python --version
+        - pip --version || true
         - sudo update-alternatives
           --install /usr/bin/gcov gcov /usr/bin/gcov-8 80
         - python -m pip install --user -U -r requirements.txt conan
@@ -74,6 +97,9 @@ matrix:
           packages:
             - libstdc++-8-dev
       install:
+        - echo $PATH
+        - python --version
+        - pip --version || true
         - sudo update-alternatives
           --install /usr/bin/clang clang /usr/local/clang-7.0.0/bin/clang 70
           --slave /usr/bin/clang++ clang++ /usr/local/clang-7.0.0/bin/clang++
