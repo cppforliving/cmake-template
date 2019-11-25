@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-main() {
+run_main() {
     declare conan_config=Release
     declare cmake_config=Release
     declare -i cmake_shared=1
@@ -10,7 +10,10 @@ main() {
 
     declare check=
     declare -i clean=
-    declare cmake_toolchain=
+    declare -Ar cmake_toolchains=(
+        [conan]=conan_paths.cmake
+        [vcpkg]=vcpkg.cmake
+    )
     declare conan_update=
     declare coverage=
     declare -i doc=
@@ -28,11 +31,8 @@ main() {
     declare opt
     for opt in "$@"; do
         case $opt in
-        Conan)
-            declare -r cmake_toolchain=conan_paths.cmake
-            ;;
-        Vcpkg)
-            declare -r cmake_toolchain=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake
+        Conan | Vcpkg)
+            declare -r package_manager=${opt,,}
             ;;
         Clean)
             declare -r clean=1
@@ -46,11 +46,11 @@ main() {
         Shared)
             declare -r cmake_shared=1
             ;;
-        Debug)
-            declare -r conan_config=Debug
+        Debug | Release)
+            declare -r conan_config=$opt
             declare -r cmake_config=$opt
             ;;
-        Release | MinSizeRel | RelWithDebInfo)
+        MinSizeRel | RelWithDebInfo)
             declare -r conan_config=Release
             declare -r cmake_config=$opt
             ;;
@@ -88,7 +88,6 @@ main() {
         Upgrade)
             declare -r pip_upgrade=-U
             declare -r conan_update=-u
-            declare -r vcpkg_upgrade=1
             ;;
         Verbose)
             declare -r silenced=0
@@ -127,23 +126,11 @@ main() {
 
     pip install $pip_upgrade -r requirements-dev.txt
 
-    case $(basename "$cmake_toolchain") in
-    conan_paths.cmake)
-        conan profile new "$build_dir"/conan/detected --detect --force
-        conan profile update settings.compiler.libcxx=libstdc++11 "$build_dir"/conan/detected
-        conan install . $conan_update \
-            -if "$build_dir" \
-            -s build_type="$conan_config" \
-            -pr "$build_dir"/conan/detected \
-            -b missing
-        ;;
-    vcpkg.cmake)
-        if ((vcpkg_upgrade)); then
-            "$VCPKG_ROOT"/vcpkg update
-        fi
-        "$VCPKG_ROOT"/vcpkg install @vcpkgfile.txt
-        ;;
-    esac
+    tools/setup.sh \
+        --package_manager="$package_manager" \
+        --build_type="$conan_config" \
+        --build_dir="$build_dir" \
+        "${conan_update:+--update}"
 
     cmake . \
         -B"$build_dir" \
@@ -152,7 +139,7 @@ main() {
         -DBUILD_EXAMPLES="$examples" \
         -DBUILD_DOCS="$doc" \
         -DCMAKE_BUILD_TYPE="$cmake_config" \
-        -DCMAKE_TOOLCHAIN_FILE="$cmake_toolchain" \
+        -DCMAKE_TOOLCHAIN_FILE="${cmake_toolchains[$package_manager]}" \
         -Ddebug_dynamic_deps="$rpaths" \
         -Dprojname_coverage="$coverage" \
         -Dprojname_valgrind="$valgrind" \
@@ -185,5 +172,5 @@ main() {
 declare -fr main
 
 if [[ "$0" == "${BASH_SOURCE[0]}" ]]; then
-    main "$@"
+    run_main "$@"
 fi
