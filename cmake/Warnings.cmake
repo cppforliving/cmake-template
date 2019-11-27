@@ -29,8 +29,9 @@ else()
         -Werror
         -Wextra
         -Wpedantic
-        -Wshadow
+        -Wshadow -Wno-error=shadow
         -Wsign-conversion
+        -Wswitch-enum -Wno-error=switch-enum
         -Wwrite-strings
         $<$<COMPILE_LANGUAGE:C>:-Wbad-function-cast>
         $<$<COMPILE_LANGUAGE:C>:-Wc++-compat>
