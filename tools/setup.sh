@@ -59,9 +59,11 @@ setup_main() {
         conan profile new \
             --detect --force \
             "$build_dir"/conan_profile
-        declare -r conan_detected_libcxx=$(
-            conan profile get settings.compiler.libcxx "$build_dir"/conan_profile
+        declare conan_detected_libcxx
+        conan_detected_libcxx=$(
+            conan profile get settings.compiler.libcxx "$build_dir"/conan_profile || :
         )
+        declare -r conan_detected_libcxx
         if [[ $conan_detected_libcxx == libstdc++ ]]; then
             conan profile update \
                 settings.compiler.libcxx=libstdc++11 \

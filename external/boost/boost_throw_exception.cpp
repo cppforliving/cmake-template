@@ -4,7 +4,7 @@
 
 namespace boost {
 
-void throw_exception(std::exception const& /*unused*/) noexcept {
+void throw_exception(std::exception const& /*unused*/) {
     std::terminate();
 }
 

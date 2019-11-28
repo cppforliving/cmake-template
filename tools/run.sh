@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-main() {
+source_if_exists() {
+    [[ ! -f $1 ]] || source "$@"
+}
+declare -fr source_if_exists
+
+run_main() {
     declare conan_config=Release
     declare cmake_config=Release
     declare -i cmake_shared=1
@@ -110,11 +115,6 @@ main() {
     }
     declare -fr silent
 
-    source_if_exists() {
-        [[ ! -f $1 ]] || source "$@"
-    }
-    declare -fr source_if_exists
-
     ((silenced)) || set -x
 
     declare -r build_dir=./build/$cmake_config
@@ -160,7 +160,11 @@ main() {
         -Dprojname_check="$check"
 
     declare make_cmd
-    make_cmd="cmake --build $build_dir --parallel $(nproc) --verbose --target"
+    make_cmd="cmake --build $build_dir --parallel $(nproc) --verbose --$(
+        if [[ ! -v CMAKE_GENERATOR || $CMAKE_GENERATOR == 'Unix Makefiles' ]]; then
+            echo -n ' --no-print-directory'
+        fi
+    )"
     declare -r make_cmd
 
     ((stats)) && ccache -z
@@ -182,8 +186,8 @@ main() {
 
     silent deactivate
 }
-declare -fr main
+declare -fr run_main
 
 if [[ "$0" == "${BASH_SOURCE[0]}" ]]; then
-    main "$@"
+    run_main "$@"
 fi
