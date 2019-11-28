@@ -49,14 +49,18 @@ else()
             -fcomment-block-commands=startuml,enduml
             -Weverything
             -Wno-c++98-compat
+            -Wno-c++98-compat-pedantic
+            -Wno-error=covered-switch-default
             -Wno-error=documentation
+            -Wno-error=padded
         )
     endif()
     if(HAVE_GLIBCXX)
         add_compile_definitions(
             $<$<COMPILE_LANGUAGE:CXX>:_GLIBCXX_ASSERTIONS>
-            $<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CONFIG:Debug>>:_GLIBCXX_DEBUG>
-            $<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CONFIG:Debug>>:_GLIBCXX_DEBUG_PEDANTIC>
+            # requires building all the dependencies with below flags
+            # $<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CONFIG:Debug>>:_GLIBCXX_DEBUG>
+            # $<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CONFIG:Debug>>:_GLIBCXX_DEBUG_PEDANTIC>
         )
     endif()
 endif()
