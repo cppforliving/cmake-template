@@ -1,5 +1,7 @@
 include_guard(GLOBAL)
 
+include(GNUInstallDirs)
+
 function(debug_dynamic_dependencies target_name)
     if(NOT debug_dynamic_deps)
         return()
@@ -29,10 +31,21 @@ function(add_custom_library lib_name)
 
     add_library(${lib_name})
     add_library(${PROJECT_NAME}::${lib_name} ALIAS ${lib_name})
+    set_target_properties(${lib_name}
+      PROPERTIES
+        SOVERSION ${PROJECT_VERSION_MAJOR}
+        VERSION ${PROJECT_VERSION}
+    )
+    if(UNIX AND NOT APPLE)
+        set_target_properties(${lib_name}
+          PROPERTIES
+            INSTALL_RPATH "$ORIGIN"
+        )
+    endif()
     target_sources(${lib_name}
       PRIVATE
         ${${lib_name}_SOURCES}
-        "${CMAKE_CURRENT_BINARY_DIR}/config.h"
+        "${CMAKE_CURRENT_BINARY_DIR}/export.h"
     )
     get_filename_component(parent_source_dir "${CMAKE_CURRENT_SOURCE_DIR}" DIRECTORY)
     get_filename_component(parent_binary_dir "${CMAKE_CURRENT_BINARY_DIR}" DIRECTORY)
@@ -49,7 +62,7 @@ function(add_custom_library lib_name)
     debug_dynamic_dependencies(${lib_name})
     include(GenerateExportHeader)
     generate_export_header(${lib_name}
-        EXPORT_FILE_NAME config.h
+        EXPORT_FILE_NAME export.h
         DEFINE_NO_DEPRECATED
     )
 
@@ -57,11 +70,17 @@ function(add_custom_library lib_name)
     if(NOT "${parent_source_dir_name}" STREQUAL "examples")
         install(TARGETS ${lib_name}
             EXPORT ${PROJECT_NAME}-targets
-            DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+            RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+                    COMPONENT ${PROJECT_NAME}_Runtime
+            LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+                    COMPONENT ${PROJECT_NAME}_Runtime
+                    NAMELINK_COMPONENT ${PROJECT_NAME}_Development
+            ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+                    COMPONENT ${PROJECT_NAME}_Development)
         install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/"
             DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${lib_name}"
             FILES_MATCHING REGEX "/.*\\.h(h|pp|xx)?$")
-        install(FILES "${CMAKE_CURRENT_BINARY_DIR}/config.h"
+        install(FILES "${CMAKE_CURRENT_BINARY_DIR}/export.h"
             DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${lib_name}")
     endif()
 endfunction()
@@ -74,10 +93,18 @@ function(add_custom_executable exe_name)
         "${one_value_args}" "${multi_value_args}" ${ARGN})
 
     add_executable(${exe_name}_app)
-    set_property(TARGET ${exe_name}_app
-      PROPERTY
+    add_executable(${PROJECT_NAME}::${exe_name}_app ALIAS ${exe_name}_app)
+    set_target_properties(${exe_name}_app
+      PROPERTIES
         OUTPUT_NAME ${exe_name}
+        VERSION ${PROJECT_VERSION}
     )
+    if(UNIX AND NOT APPLE)
+        set_target_properties(${exe_name}_app
+          PROPERTIES
+            INSTALL_RPATH "$ORIGIN/../${CMAKE_INSTALL_LIBDIR}"
+        )
+    endif()
     target_sources(${exe_name}_app
       PRIVATE
         ${${exe_name}_SOURCES}
@@ -100,7 +127,8 @@ function(add_custom_executable exe_name)
     if(NOT "${parent_source_dir_name}" STREQUAL "examples")
         install(TARGETS ${exe_name}_app
             EXPORT ${PROJECT_NAME}-targets
-            DESTINATION "${CMAKE_INSTALL_BINDIR}")
+            RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+                    COMPONENT ${PROJECT_NAME}_Runtime)
     endif()
 endfunction()
 

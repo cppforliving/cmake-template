@@ -7,7 +7,7 @@ option(CMAKE_EXPORT_COMPILE_COMMANDS
     "Enable/Disable output of compile commands during generation." ON)
 
 project(projname
-    VERSION 0.1
+    VERSION 0.1.0
     DESCRIPTION "C/C++ x GTest/Catch2 x GCC/Clang/MSVC x CMake x Conan/Vcpkg x Linux/macOS/Windows"
     LANGUAGES C CXX)
 
@@ -16,10 +16,6 @@ if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
         "Install path prefix, prepended onto install directories." FORCE)
 endif()
 
-set(CMAKE_SKIP_RPATH OFF)
-set(CMAKE_MACOSX_RPATH ON)
-
-#list(INSERT CMAKE_MODULE_PATH 0 "${PROJECT_SOURCE_DIR}/cmake")
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
 set(CMAKE_C_STANDARD 11)

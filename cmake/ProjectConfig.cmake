@@ -6,7 +6,7 @@ include(GNUInstallDirs)
 write_basic_package_version_file(
     "${PROJECT_BINARY_DIR}/cmake/${PROJECT_NAME}-config-version.cmake"
     VERSION ${PROJECT_VERSION}
-    COMPATIBILITY AnyNewerVersion
+    COMPATIBILITY SameMajorVersion
 )
 configure_package_config_file(
     "${PROJECT_SOURCE_DIR}/cmake/project-config.cmake.in"

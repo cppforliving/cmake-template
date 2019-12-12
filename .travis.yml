@@ -50,8 +50,6 @@ matrix:
       dist: bionic
       addons:
         apt:
-          sources:
-            - ubuntu-toolchain-r-test
           packages:
             - g++-8
             - valgrind
@@ -69,8 +67,6 @@ matrix:
       dist: bionic
       addons:
         apt:
-          sources:
-            - ubuntu-toolchain-r-test
           packages:
             - libstdc++-8-dev
       install:
@@ -173,7 +169,6 @@ before_script:
   - conan user
   - BUILD_TYPE=Release
   - "[[ $TRAVIS_OS_NAME == windows ]] || ccache -z"
-  - declare -p
 
 script:
   - tools/setup.sh
@@ -194,4 +189,14 @@ script:
     cmake --build . --verbose --config $BUILD_TYPE --target install
 
 after_script:
+  - >
+    for f in dist/bin/* dist/lib/lib*; do
+      if [[ ! -L $f ]]; then
+        if [[ $TRAVIS_OS_NAME == linux ]]; then
+          echo $f:; ldd $f;
+        elif [[ $TRAVIS_OS_NAME == osx ]]; then
+          otool -L $f;
+        fi;
+      fi;
+    done
   - "[[ $TRAVIS_OS_NAME == windows ]] || ccache -s"

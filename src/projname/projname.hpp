@@ -12,7 +12,7 @@
 #include <boost/beast/core/span.hpp>
 #include <boost/system/error_code.hpp>
 
-#include <projname/config.h>
+#include <projname/export.h>
 
 namespace projname {
 
