@@ -114,10 +114,8 @@ matrix:
           -Ddebug_dynamic_deps=ON
           -Dprojname_coverage=xml &&
           cmake --build . --verbose --config Debug &&
-          source activate_run.sh &&
           ctest -V -C Debug -D ExperimentalTest &&
-          ctest -V -C Debug -D ExperimentalCoverage &&
-          source deactivate_run.sh
+          ctest -V -C Debug -D ExperimentalCoverage
       after_success:
         - bash <(curl -s https://codecov.io/bash)
 
@@ -137,9 +135,7 @@ matrix:
           -Ddebug_dynamic_deps=ON
           -Dprojname_sanitizer=address &&
           cmake --build . --verbose --config Debug &&
-          source activate_run.sh &&
-          ctest -V -C Debug -D ExperimentalTest &&
-          source deactivate_run.sh
+          ctest -V -C Debug -D ExperimentalTest
 
     - stage: check
       <<: *linux_gcc
@@ -157,9 +153,7 @@ matrix:
           -Ddebug_dynamic_deps=ON
           -Dprojname_valgrind=memcheck &&
           cmake --build . --verbose --config Debug &&
-          source activate_run.sh &&
-          ctest -V -C Debug -D ExperimentalMemCheck &&
-          source deactivate_run.sh
+          ctest -V -C Debug -D ExperimentalMemCheck
 
 before_install:
   - eval "$MATRIX_EVAL"
@@ -183,9 +177,7 @@ script:
     -DBUILD_EXAMPLES=ON
     -Ddebug_dynamic_deps=ON &&
     cmake --build . --verbose --config $BUILD_TYPE &&
-    source activate_run.sh &&
     ctest -V -C $BUILD_TYPE &&
-    source deactivate_run.sh &&
     cmake --build . --verbose --config $BUILD_TYPE --target install
 
 after_script:

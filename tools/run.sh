@@ -171,13 +171,11 @@ run_main() {
     ((format)) && $make_cmd format
     $make_cmd all
     if ((testing)); then
-        silent source_if_exists "$build_dir"/activate_run.sh
         if ((memcheck)); then
             CTEST_OUTPUT_ON_FAILURE=1 $make_cmd ExperimentalMemCheck
         else
             CTEST_OUTPUT_ON_FAILURE=1 $make_cmd ExperimentalTest
         fi
-        silent source_if_exists "$build_dir"/deactivate_run.sh
     fi
     [[ $coverage ]] && CTEST_OUTPUT_ON_FAILURE=1 $make_cmd ExperimentalCoverage
     ((doc)) && $make_cmd doc
