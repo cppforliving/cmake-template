@@ -160,9 +160,13 @@ run_main() {
         -Dprojname_check="$check"
 
     declare make_cmd
-    make_cmd="cmake --build $build_dir --parallel $(nproc) --verbose --$(
+    make_cmd="cmake --build $build_dir --parallel $(nproc) $(
+        if [[ $silenced == 0 ]]; then
+            echo ' --verbose'
+        fi
+    ) -- $(
         if [[ ! -v CMAKE_GENERATOR || $CMAKE_GENERATOR == 'Unix Makefiles' ]]; then
-            echo -n ' --no-print-directory'
+            echo ' --no-print-directory'
         fi
     )"
     declare -r make_cmd
