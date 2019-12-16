@@ -45,12 +45,12 @@ if(BUILD_TESTING)
         --gtest_color=yes
     )
     if(MSVC)
-        target_compile_definitions(${PROJECT_NAME}
+        target_compile_definitions(${PROJECT_NAME}_test
           PRIVATE
             _SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING
         )
     else()
-        target_compile_options(${PROJECT_NAME}
+        target_compile_options(${PROJECT_NAME}_test
           PRIVATE
             -Wno-error=zero-as-null-pointer-constant
         )
