@@ -44,8 +44,13 @@ if(BUILD_TESTING)
       EXTRA_ARGS
         --gtest_color=yes
     )
-    if(NOT MSVC)
-        target_compile_options(${PROJECT_NAME}_test
+    if(MSVC)
+        target_compile_definitions(${PROJECT_NAME}
+          PRIVATE
+            _SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING
+        )
+    else()
+        target_compile_options(${PROJECT_NAME}
           PRIVATE
             -Wno-error=zero-as-null-pointer-constant
         )
