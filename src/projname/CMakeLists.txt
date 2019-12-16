@@ -44,8 +44,10 @@ if(BUILD_TESTING)
       EXTRA_ARGS
         --gtest_color=yes
     )
-    target_compile_options(${PROJECT_NAME}_test
-      PRIVATE
-        -Wno-error=zero-as-null-pointer-constant
-    )
+    if(NOT MSVC)
+        target_compile_options(${PROJECT_NAME}_test
+          PRIVATE
+            -Wno-error=zero-as-null-pointer-constant
+        )
+    endif()
 endif()
