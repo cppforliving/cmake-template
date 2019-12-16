@@ -30,7 +30,11 @@ function(add_custom_library lib_name)
     cmake_parse_arguments(${lib_name} "${options}"
         "${one_value_args}" "${multi_value_args}" ${ARGN})
 
-    set(header_regex ".+\\.h(h|pp|xx|\\+\\+)?$")
+    set(header_regex ".*\\.h(h|pp|xx|\\+\\+)?$")
+    list(TRANSFORM ${lib_name}_SOURCES
+        PREPEND "${CMAKE_CURRENT_SOURCE_DIR}/"
+        REGEX "^[^\/].*"
+    )
     set(${lib_name}_HEADERS ${${lib_name}_SOURCES})
     list(FILTER ${lib_name}_SOURCES EXCLUDE REGEX ${header_regex})
     list(FILTER ${lib_name}_HEADERS INCLUDE REGEX ${header_regex})
@@ -50,34 +54,38 @@ function(add_custom_library lib_name)
             DEFINE_NO_DEPRECATED
         )
         list(APPEND ${lib_name}_HEADERS "${CMAKE_CURRENT_BINARY_DIR}/export.h")
-        set_target_properties(${lib_name} ${lib_type}
+        set_target_properties(${lib_name}
           PROPERTIES
             SOVERSION ${PROJECT_VERSION_MAJOR}
             VERSION ${PROJECT_VERSION}
         )
         if(UNIX AND NOT APPLE)
-            set_target_properties(${lib_name} ${lib_type}
+            set_target_properties(${lib_name}
               PROPERTIES
                 INSTALL_RPATH "$ORIGIN"
             )
         endif()
-        target_sources(${lib_name} ${lib_type}
+        target_sources(${lib_name}
           PRIVATE
             ${${lib_name}_SOURCES}
-          # FIXME Target INTERFACE_SOURCES property contains path which is prefixed in the source/build directory.
-          # ${visibility}
-            ${${lib_name}_HEADERS}
         )
     endif()
+    target_sources(${lib_name}
+      ${visibility}
+        "$<BUILD_INTERFACE:${${lib_name}_HEADERS}>"
+    )
     get_filename_component(parent_source_dir "${CMAKE_CURRENT_SOURCE_DIR}" DIRECTORY)
     get_filename_component(parent_binary_dir "${CMAKE_CURRENT_BINARY_DIR}" DIRECTORY)
-    target_include_directories(${lib_name} ${lib_type}
+    target_include_directories(${lib_name}
       ${visibility}
         $<BUILD_INTERFACE:${parent_source_dir}>
         $<BUILD_INTERFACE:${parent_binary_dir}>
+    )
+    target_include_directories(${lib_name} SYSTEM
+      INTERFACE
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
     )
-    target_link_libraries(${lib_name} ${lib_type}
+    target_link_libraries(${lib_name}
       ${visibility}
         ${${lib_name}_DEPENDS}
     )
