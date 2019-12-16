@@ -139,10 +139,9 @@ function(add_custom_executable exec_name)
     get_filename_component(parent_source_dir "${CMAKE_CURRENT_SOURCE_DIR}" DIRECTORY)
     get_filename_component(parent_binary_dir "${CMAKE_CURRENT_BINARY_DIR}" DIRECTORY)
     target_include_directories(${exec_name}
-      PUBLIC
-        $<BUILD_INTERFACE:${parent_source_dir}>
-        $<BUILD_INTERFACE:${parent_binary_dir}>
-        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+      PRIVATE
+        ${parent_source_dir}
+        ${parent_binary_dir}
     )
     target_link_libraries(${exec_name}
       PUBLIC

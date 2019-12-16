@@ -14,12 +14,12 @@ add_custom_library(${PROJECT_NAME}
 )
 if(MSVC)
     target_compile_definitions(${PROJECT_NAME}
-      PUBLIC
+      PRIVATE
         _SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING
     )
 else()
     target_compile_options(${PROJECT_NAME}
-      PUBLIC
+      PRIVATE
         -Wno-error=zero-as-null-pointer-constant
     )
 endif()
@@ -43,5 +43,9 @@ if(BUILD_TESTING)
         gtest_main
       EXTRA_ARGS
         --gtest_color=yes
+    )
+    target_compile_options(${PROJECT_NAME}_test
+      PRIVATE
+        -Wno-error=zero-as-null-pointer-constant
     )
 endif()
