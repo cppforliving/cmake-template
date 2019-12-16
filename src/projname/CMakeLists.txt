@@ -24,7 +24,7 @@ else()
     )
 endif()
 
-add_custom_executable(${PROJECT_NAME}
+add_custom_executable(${PROJECT_NAME}_tool
   SOURCES
     projname_main.cpp
   DEPENDS
