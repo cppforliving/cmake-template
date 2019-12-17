@@ -1,13 +1,3 @@
-if(MSVC)
-    add_compile_definitions(
-        _SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING
-    )
-else()
-    add_compile_options(
-        -Wno-error=zero-as-null-pointer-constant
-    )
-endif()
-
 add_custom_library(${PROJECT_NAME}
   SOURCES
     lockable.hpp

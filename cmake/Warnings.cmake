@@ -17,6 +17,7 @@ if(MSVC)
     )
     add_compile_definitions(
         _HAS_EXCEPTIONS=1
+        _SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING
     )
 else()
     add_compile_options(
@@ -41,6 +42,7 @@ else()
         $<$<COMPILE_LANGUAGE:CXX>:-Wold-style-cast>
         $<$<COMPILE_LANGUAGE:CXX>:-Woverloaded-virtual>
         $<$<COMPILE_LANGUAGE:CXX>:-Wzero-as-null-pointer-constant>
+        $<$<COMPILE_LANGUAGE:CXX>:-Wno-error=zero-as-null-pointer-constant>
     )
     if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         add_compile_options(
