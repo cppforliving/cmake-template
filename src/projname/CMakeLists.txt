@@ -1,3 +1,13 @@
+if(MSVC)
+    add_compile_definitions(
+        _SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING
+    )
+else()
+    add_compile_options(
+        -Wno-error=zero-as-null-pointer-constant
+    )
+endif()
+
 add_custom_library(${PROJECT_NAME}
   SOURCES
     lockable.hpp
@@ -12,17 +22,6 @@ add_custom_library(${PROJECT_NAME}
     Boost::dynamic_linking
     $<$<TARGET_EXISTS:boost_throw_exception>:boost_throw_exception>
 )
-if(MSVC)
-    target_compile_definitions(${PROJECT_NAME}
-      PRIVATE
-        _SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING
-    )
-else()
-    target_compile_options(${PROJECT_NAME}
-      PRIVATE
-        -Wno-error=zero-as-null-pointer-constant
-    )
-endif()
 
 add_custom_executable(${PROJECT_NAME}_tool
   SOURCES
@@ -31,17 +30,6 @@ add_custom_executable(${PROJECT_NAME}_tool
     ${PROJECT_NAME}
     $<$<TARGET_EXISTS:boost_throw_exception>:boost_throw_exception>
 )
-if(MSVC)
-    target_compile_definitions(${PROJECT_NAME}_tool
-      PRIVATE
-        _SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING
-    )
-else()
-    target_compile_options(${PROJECT_NAME}_tool
-      PRIVATE
-        -Wno-error=zero-as-null-pointer-constant
-    )
-endif()
 
 if(BUILD_TESTING)
     add_custom_test(${PROJECT_NAME}_test
@@ -55,15 +43,4 @@ if(BUILD_TESTING)
       EXTRA_ARGS
         --gtest_color=yes
     )
-    if(MSVC)
-        target_compile_definitions(${PROJECT_NAME}_test
-          PRIVATE
-            _SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING
-        )
-    else()
-        target_compile_options(${PROJECT_NAME}_test
-          PRIVATE
-            -Wno-error=zero-as-null-pointer-constant
-        )
-    endif()
 endif()
