@@ -49,6 +49,9 @@ for opt in "$@"; do
     Sanitizer=*)
         sanitizer=${opt#*=}
         ;;
+    Fuzzer)
+        fuzzer=fuzzer
+        ;;
     Check=*)
         check=${opt#*=}
         ;;
@@ -117,6 +120,7 @@ cmake . \
     -Dprojname_coverage="$coverage" \
     -Dprojname_valgrind="$valgrind" \
     -Dprojname_sanitizer="$sanitizer" \
+    -Dprojname_fuzzer="$fuzzer" \
     -Dprojname_check="$check"
 
 [[ -z $stats ]] || ccache -z

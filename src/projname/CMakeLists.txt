@@ -33,6 +33,17 @@ add_custom_executable(${PROJECT_NAME}
 )
 
 if(BUILD_TESTING)
+    if(${PROJECT_NAME}_fuzzer)
+#        add_custom_test(${PROJECT_NAME}_fuzz
+#          SOURCES
+#            projname_fuzz.cpp
+#          DEPENDS
+#            ${PROJECT_NAME}
+#            $<$<TARGET_EXISTS:boost_throw_exception>:boost_throw_exception>
+#        )
+#        return()
+    endif()
+
     add_custom_test(${PROJECT_NAME}_test
       SOURCES
         lockable_test.cpp

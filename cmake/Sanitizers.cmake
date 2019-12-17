@@ -1,12 +1,19 @@
 set(${PROJECT_NAME}_sanitizer "" CACHE STRING
     "Sanitizer types: thread, address, leak, memory, undefined.")
 
+set(${PROJECT_NAME}_fuzzer "" CACHE STRING
+    "Fuzzer types: fuzzer.")
+
 if(${PROJECT_NAME}_sanitizer)
+    if(${PROJECT_NAME}_fuzzer)
+        list(APPEND sanitizers ${${PROJECT_NAME}_fuzzer})
+    endif()
+    list(APPEND sanitizers ${${PROJECT_NAME}_sanitizer})
     if(MSVC)
         message(FATAL_ERROR "${PROJECT_NAME}_sanitizer not supported yet for MSVC")
     else()
-        string(APPEND CMAKE_C_FLAGS " -fsanitize=${${PROJECT_NAME}_sanitizer}")
-        string(APPEND CMAKE_CXX_FLAGS " -fsanitize=${${PROJECT_NAME}_sanitizer}")
+        string(APPEND CMAKE_C_FLAGS " -fsanitize=$<JOIN:${sanitizers},$<COMMA>>")
+        string(APPEND CMAKE_CXX_FLAGS " -fsanitize=$<JOIN:${sanitizers},$<COMMA>>")
     endif()
     if(${PROJECT_NAME}_sanitizer STREQUAL thread)
         set(MEMORYCHECK_TYPE ThreadSanitizer)
@@ -20,6 +27,6 @@ if(${PROJECT_NAME}_sanitizer)
         set(MEMORYCHECK_TYPE UndefinedBehaviorSanitizer)
     else()
         message(FATAL_ERROR
-            "${PROJECT_NAME}_sanitizer=${${PROJECT_NAME}_sanitizer} not supported yet")
+            "${PROJECT_NAME}_sanitizer=$<JOIN:${sanitizers},$<COMMA>> not supported yet")
     endif()
 endif()
