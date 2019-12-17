@@ -31,6 +31,17 @@ add_custom_executable(${PROJECT_NAME}_tool
     ${PROJECT_NAME}
     $<$<TARGET_EXISTS:boost_throw_exception>:boost_throw_exception>
 )
+if(MSVC)
+    target_compile_definitions(${PROJECT_NAME}_tool
+      PRIVATE
+        _SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING
+    )
+else()
+    target_compile_options(${PROJECT_NAME}_tool
+      PRIVATE
+        -Wno-error=zero-as-null-pointer-constant
+    )
+endif()
 
 if(BUILD_TESTING)
     add_custom_test(${PROJECT_NAME}_test
