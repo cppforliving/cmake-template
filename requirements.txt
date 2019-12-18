@@ -1,3 +1,4 @@
 cmake
 jinja2
 ninja
+pyyaml

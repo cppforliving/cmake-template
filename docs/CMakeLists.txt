@@ -1,3 +1,5 @@
+include(GNUInstallDirs)
+
 find_package(Doxygen MODULE COMPONENTS doxygen dot)
 if(DOXYGEN_FOUND)
     find_package(Java MODULE COMPONENTS Runtime)

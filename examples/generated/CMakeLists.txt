@@ -5,9 +5,11 @@ add_custom_command(OUTPUT
   COMMAND Python2::Interpreter
     "${CMAKE_CURRENT_SOURCE_DIR}/generator.py"
     "${CMAKE_CURRENT_SOURCE_DIR}/templates"
+    "${CMAKE_CURRENT_SOURCE_DIR}/data_types.yml"
   DEPENDS
     generator.py
     templates/enum.hpp.jinja2
+    data_types.yml
 )
 
 add_custom_library(${lib_name} INTERFACE

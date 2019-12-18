@@ -1,0 +1,12 @@
+type: namespace
+name:
+  - my
+  - numbers
+children:
+  - type: enum
+    name: Number
+    underlying: unsigned char
+    values:
+      - One
+      - Two
+      - Tree
