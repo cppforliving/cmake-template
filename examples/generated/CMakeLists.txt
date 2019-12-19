@@ -6,6 +6,8 @@ add_custom_command(OUTPUT
     "${CMAKE_CURRENT_SOURCE_DIR}/generator.py"
     "${CMAKE_CURRENT_SOURCE_DIR}/templates"
     "${CMAKE_CURRENT_SOURCE_DIR}/data_types.yml"
+    "${PROJECT_SOURCE_DIR}"
+    "${PROJECT_NAME}"
   DEPENDS
     generator.py
     templates/enum.hpp.jinja2

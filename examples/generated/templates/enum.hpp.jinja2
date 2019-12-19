@@ -1,11 +1,10 @@
+/// @file generated from {{ input_file }}
+
 #ifndef {{ header_guard }}
 #define {{ header_guard }}
 
-{% if enum_values %}
-// #include <cassert>
-{% endif %}
+#include <cassert>
 #include <ostream>
-#include <type_traits>
 
 {% for ns in enum_ns %}
 namespace {{ ns }} {
@@ -28,10 +27,8 @@ std::basic_ostream<T>& operator<<(std::basic_ostream<T>& os, {{ enum_name }} con
         break;
 {% endfor %}
     default:
-{% if enum_values %}
-        // assert(false);
-{% endif %}
-        os << +static_cast<std::underlying_type_t<{{ enum_name }}>>(value);
+        assert(false);
+        os << '?';
     }
     return os;
 }

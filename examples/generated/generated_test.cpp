@@ -25,11 +25,21 @@ std::initializer_list<NumberTestParam> const NumberTestParams = {
     {"One", my::numbers::Number::One},
     {"Two", my::numbers::Number::Two},
     {"Tree", my::numbers::Number::Tree},
-    {"255", my::numbers::Number{0xff}},
 };
 
 INSTANTIATE_TEST_CASE_P(NumberTests,
                         NumberTest,
                         testing::ValuesIn(NumberTestParams));
+
+TEST(NumberTest, ostreamOperatorOutOfRange) {
+    NumberTestParam const param = {"?", my::numbers::Number{0xff}};
+    std::ostringstream oss;
+#ifdef NDEBUG
+    oss << param.given_number;
+    EXPECT_EQ(param.expected_string, oss.str());
+#else
+    EXPECT_DEATH(oss << param.given_number, "");
+#endif
+}
 
 }  // namespace
