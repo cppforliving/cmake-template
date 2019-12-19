@@ -23,13 +23,13 @@ else()
     add_compile_options(
         -fno-strict-aliasing
         $<$<CONFIG:Debug>:-fno-omit-frame-pointer>
+        -pedantic
         -Wall
         -Wcast-align
         -Wcast-qual
         -Wconversion
         -Werror
         -Wextra
-        -Wpedantic
         -Wshadow -Wno-error=shadow
         -Wsign-conversion
         -Wswitch-enum -Wno-error=switch-enum
