@@ -23,14 +23,11 @@ std::basic_ostream<T>& operator<<(std::basic_ostream<T>& os, {{ enum_name }} con
     {
 {% for item in enum_values %}
     case {{ enum_name }}::{{ item }}:
-        os << "{{ item }}";
-        break;
+        return os << "{{ item }}";
 {% endfor %}
-    default:
-        assert(false);
-        os << '?';
     }
-    return os;
+    assert(false);
+    return os << '?';
 }
 
 {% for ns in enum_ns %}

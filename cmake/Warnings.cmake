@@ -30,9 +30,11 @@ else()
         -Wconversion
         -Werror
         -Wextra
-        -Wshadow -Wno-error=shadow
+        -Wshadow
+        -Wno-error=shadow
         -Wsign-conversion
-        -Wswitch-enum -Wno-error=switch-enum
+        -Wswitch-enum
+        -Wno-error=switch-enum
         -Wwrite-strings
         $<$<COMPILE_LANGUAGE:C>:-Wbad-function-cast>
         $<$<COMPILE_LANGUAGE:C>:-Wc++-compat>
@@ -50,7 +52,6 @@ else()
             -Weverything
             -Wno-c++98-compat
             -Wno-c++98-compat-pedantic
-            -Wno-error=covered-switch-default
             -Wno-error=documentation
             -Wno-error=padded
         )
@@ -58,9 +59,6 @@ else()
     if(HAVE_GLIBCXX)
         add_compile_definitions(
             $<$<COMPILE_LANGUAGE:CXX>:_GLIBCXX_ASSERTIONS>
-            # requires building all the dependencies with below flags
-            # $<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CONFIG:Debug>>:_GLIBCXX_DEBUG>
-            # $<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CONFIG:Debug>>:_GLIBCXX_DEBUG_PEDANTIC>
         )
     endif()
 endif()

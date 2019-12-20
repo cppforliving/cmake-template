@@ -15,6 +15,5 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         -Wno-error=global-constructors
         -Wno-error=gnu-zero-variadic-macro-arguments
         -Wno-error=used-but-marked-unused
-        -Wno-error=zero-as-null-pointer-constant
     )
 endif()
