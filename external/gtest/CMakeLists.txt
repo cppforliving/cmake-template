@@ -12,6 +12,7 @@ target_compile_definitions(gtest_main INTERFACE GTEST_LINKED_AS_SHARED_LIBRARY=1
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     target_compile_options(gtest_main
       INTERFACE
+        -Wno-error=covered-switch-default
         -Wno-error=global-constructors
         -Wno-error=gnu-zero-variadic-macro-arguments
         -Wno-error=used-but-marked-unused
