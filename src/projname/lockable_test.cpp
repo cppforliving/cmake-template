@@ -1,10 +1,9 @@
 #include "lockable.hpp"
 
+#include <gtest/gtest.h>
 #include <mutex>
 #include <string>
 #include <type_traits>
-
-#include <gtest/gtest.h>
 
 namespace projname {
 namespace {

@@ -1,9 +1,8 @@
 #include "cppapi.hpp"
 
-#include <memory>
-
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include <memory>
 
 namespace cppapi {
 namespace {

@@ -1,10 +1,9 @@
 #include "derived.hpp"
 
+#include <gtest/gtest.h>
 #include <memory>
 #include <new>
 #include <type_traits>
-
-#include <gtest/gtest.h>
 
 namespace derived {
 namespace {
