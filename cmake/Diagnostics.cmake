@@ -1,5 +1,5 @@
 function(enable_diagnostics_color)
-    foreach(language IN ITEMS ${ARGN})
+    foreach(language IN LISTS ARGN)
         if(CMAKE_${language}_COMPILER_ID STREQUAL "GNU")
             if(CMAKE_GENERATOR STREQUAL "Ninja")
                 add_compile_options($<$<COMPILE_LANGUAGE:${language}>:-fdiagnostics-color>)

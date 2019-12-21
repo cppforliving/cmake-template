@@ -13,7 +13,9 @@ if(${PROJECT_NAME}_sanitizer)
     elseif(${PROJECT_NAME}_sanitizer STREQUAL address)
         set(MEMORYCHECK_TYPE AddressSanitizer)
         if(HAVE_GLIBCXX)
-            add_compile_definitions($<$<COMPILE_LANGUAGE:CXX>:_GLIBCXX_SANITIZE_VECTOR>)
+            add_compile_definitions(
+                $<$<COMPILE_LANGUAGE:CXX>:_GLIBCXX_SANITIZE_VECTOR>
+            )
         endif()
     elseif(${PROJECT_NAME}_sanitizer STREQUAL leak)
         set(MEMORYCHECK_TYPE LeakSanitizer)

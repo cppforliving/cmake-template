@@ -5,7 +5,7 @@ if("${${PROJECT_NAME}_check}" STREQUAL clang-tidy)
     find_program(clang_tidy_command clang-tidy)
     mark_as_advanced(clang_tidy_command)
     set(CMAKE_C_CLANG_TIDY ${clang_tidy_command})
-    set(CMAKE_CXX_CLANG_TIDY ${CMAKE_C_CLANG_TIDY})
+    set(CMAKE_CXX_CLANG_TIDY ${clang_tidy_command})
 elseif("${${PROJECT_NAME}_check}" STREQUAL cppcheck)
     find_program(cppcheck_command cppcheck)
     mark_as_advanced(cppcheck_command)
@@ -27,11 +27,11 @@ elseif("${${PROJECT_NAME}_check}" STREQUAL cpplint)
 elseif("${${PROJECT_NAME}_check}" STREQUAL iwyu)
     find_program(iwyu_command iwyu)
     mark_as_advanced(iwyu_command)
-    set(CMAKE_C_INCLUDE_WHAT_YOU_USE ${iwyu_command}
+    set(CMAKE_C_INCLUDE_WHAT_YOU_USE ${iwyu_command})
+    set(CMAKE_CXX_INCLUDE_WHAT_YOU_USE ${iwyu_command}
         -Xiwyu --mapping_file=${PROJECT_SOURCE_DIR}/external/boost/iwyu.imp
         -Xiwyu --mapping_file=${PROJECT_SOURCE_DIR}/external/gtest/iwyu.imp
     )
-    set(CMAKE_CXX_INCLUDE_WHAT_YOU_USE ${CMAKE_C_INCLUDE_WHAT_YOU_USE})
 elseif("${${PROJECT_NAME}_check}" STREQUAL lwyu)
     set(CMAKE_LINK_WHAT_YOU_USE ON)
 elseif(NOT "${${PROJECT_NAME}_check}" STREQUAL "")
