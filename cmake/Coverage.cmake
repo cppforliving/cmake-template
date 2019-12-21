@@ -23,7 +23,6 @@ if(${PROJECT_NAME}_coverage IN_LIST gcovr_coverage_types)
             --exclude-directories="external"
             --exclude-directories="tests"
             --exclude=".*_test\.cpp"
-            --exclude="\(.*_\)?main\.c\(pp\)?"
             --object-directory="${PROJECT_BINARY_DIR}"
         )
         add_custom_command(TARGET ${coverage_target} POST_BUILD
