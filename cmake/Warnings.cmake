@@ -23,16 +23,18 @@ else()
     add_compile_options(
         -fno-strict-aliasing
         $<$<CONFIG:Debug>:-fno-omit-frame-pointer>
+        -pedantic
         -Wall
         -Wcast-align
         -Wcast-qual
         -Wconversion
         -Werror
         -Wextra
-        -Wpedantic
-        -Wshadow -Wno-error=shadow
+        -Wshadow
+        -Wno-error=shadow
         -Wsign-conversion
-        -Wswitch-enum -Wno-error=switch-enum
+        -Wswitch-enum
+        -Wno-error=switch-enum
         -Wwrite-strings
         $<$<COMPILE_LANGUAGE:C>:-Wbad-function-cast>
         $<$<COMPILE_LANGUAGE:C>:-Wc++-compat>
@@ -49,14 +51,13 @@ else()
             -fcomment-block-commands=startuml,enduml
             -Weverything
             -Wno-c++98-compat
+            -Wno-c++98-compat-pedantic
             -Wno-error=documentation
         )
     endif()
     if(HAVE_GLIBCXX)
         add_compile_definitions(
             $<$<COMPILE_LANGUAGE:CXX>:_GLIBCXX_ASSERTIONS>
-            $<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CONFIG:Debug>>:_GLIBCXX_DEBUG>
-            $<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CONFIG:Debug>>:_GLIBCXX_DEBUG_PEDANTIC>
         )
     endif()
 endif()

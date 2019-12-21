@@ -117,11 +117,15 @@ run_main() {
 
     ((silenced)) || set -x
 
-    declare -r build_dir=./build/$cmake_config
+    declare proj_dir_hash
+    proj_dir_hash=$(echo -n "$PWD" | md5sum | cut -f1 -d' ')
+    declare -r proj_dir_hash
+
+    declare -r build_dir=/tmp/$proj_dir_hash/$cmake_config
     ((clean)) && [[ -d $build_dir ]] && rm -r "$build_dir"
     mkdir -p "$build_dir"
 
-    declare -r venv_dir=./venv
+    declare -r venv_dir=/tmp/$proj_dir_hash/venv
     [[ ! -d $venv_dir || $pip_upgrade ]] && python -m virtualenv "$venv_dir"
     silent source "$venv_dir"/bin/activate
 
