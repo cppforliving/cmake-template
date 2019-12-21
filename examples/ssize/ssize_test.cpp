@@ -17,7 +17,7 @@ struct SsizeTest : Test {};
 using SsizeTestContainers =
     Types<std::string, std::vector<char>, std::array<char, 8>, char[8]>;
 
-TYPED_TEST_CASE(SsizeTest, SsizeTestContainers);
+TYPED_TEST_SUITE(SsizeTest, SsizeTestContainers);
 
 TYPED_TEST(SsizeTest, getContainerSsize) {
     TypeParam c = {};

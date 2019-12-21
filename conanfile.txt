@@ -1,7 +1,7 @@
 [requires]
 boost/[>=1.71.0]@conan/stable
 Catch2/[>=2.11.0]@catchorg/stable
-gtest/[>=1.8.1]@bincrafters/stable
+gtest/[>=1.10.0]
 
 [generators]
 cmake_paths
@@ -9,4 +9,4 @@ virtualrunenv
 
 [options]
 *:shared=True
-*:short_paths=False
+gtest*:debug_postfix=
