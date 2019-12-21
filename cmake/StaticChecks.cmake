@@ -10,8 +10,10 @@ elseif("${${PROJECT_NAME}_check}" STREQUAL cppcheck)
     find_program(cppcheck_command cppcheck)
     mark_as_advanced(cppcheck_command)
     set(CMAKE_C_CPPCHECK ${cppcheck_command}
-        --enable=all
-        --check-config
+        --enable=warning,performance,portability,information,missingInclude
+        --error-exitcode=1
+        --library=${PROJECT_SOURCE_DIR}/external/catch2/cppcheck.cfg
+        --library=${PROJECT_SOURCE_DIR}/external/gtest/cppcheck.cfg
         --suppress=missingIncludeSystem
     )
     set(CMAKE_CXX_CPPCHECK ${CMAKE_C_CPPCHECK})
