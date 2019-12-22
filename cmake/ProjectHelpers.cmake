@@ -176,7 +176,10 @@ function(add_custom_test test_name)
         ${test_DEPENDS}
     )
     debug_dynamic_dependencies(${test_name})
-    add_test(NAME ${test_name} COMMAND ${test_name}
+    string(REPLACE "${PROJECT_SOURCE_DIR}/" "" full_test_name
+        "${CMAKE_CURRENT_SOURCE_DIR}/${test_name}"
+    )
+    add_test(NAME ${full_test_name} COMMAND ${test_name}
         ${test_EXTRA_ARGS}
     )
 endfunction()

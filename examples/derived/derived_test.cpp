@@ -1,26 +1,26 @@
 #include "derived.hpp"
 
+#include <gtest/gtest.h>
 #include <memory>
 #include <new>
 #include <type_traits>
 
-#include <gtest/gtest.h>
-
+namespace derived {
 namespace {
 
 TEST(Derived, stackDestruction) {
-    std::aligned_storage_t<sizeof(derived::Derived)> storage;
-    derived::Base* base = new (&storage) derived::Derived{};
+    std::aligned_storage_t<sizeof(Derived)> storage;
+    Base* base = new (&storage) Derived{};
     base->~Base();
 }
 
 TEST(Derived, callVirtualMethod) {
-    auto const derived = std::make_unique<derived::Derived>();
+    auto const derived = std::make_unique<Derived>();
     EXPECT_NO_FATAL_FAILURE(derived->virtualMethod());
 }
 
 TEST(Derived, callProtectedMethod) {
-    struct TestDerived : derived::Derived {
+    struct TestDerived : Derived {
         int publicMethod() { return protectedMethod(); }
     };
     TestDerived test_derived;
@@ -28,3 +28,4 @@ TEST(Derived, callProtectedMethod) {
 }
 
 }  // namespace
+}  // namespace derived

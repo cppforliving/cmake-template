@@ -1,7 +1,7 @@
 # Source https://arcanis.me/en/2015/10/17/cppcheck-and-clang-format
 
 file(GLOB_RECURSE format_source_files *.c *.cpp *.h *.hpp)
-foreach(source_file ${format_source_files})
+foreach(source_file IN LISTS format_source_files)
     string(FIND ${source_file} /CMakeFiles/ cmake_files_found)
     #string(FIND ${source_file} /external/ external_dir_found)
     string(FIND ${source_file} /venv/ venv_dir_found)

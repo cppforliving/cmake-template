@@ -8,7 +8,9 @@ add_custom_test(integration_test
     --use-colour=yes
 )
 
-add_test(
-  NAME ${PROJECT_NAME}_tool_test
-  COMMAND ${PROJECT_NAME}_tool
+string(REPLACE "${PROJECT_SOURCE_DIR}/" "" full_test_name
+    "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}_tool_test"
+)
+add_test(NAME ${full_test_name}
+    COMMAND ${PROJECT_NAME}_tool
 )
