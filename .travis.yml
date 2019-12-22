@@ -177,6 +177,7 @@ before_script:
   - conan user
   - BUILD_TYPE=Release
   - "[[ $TRAVIS_OS_NAME == windows ]] || ccache -z"
+  - printenv
 
 script:
   - tools/setup.sh
