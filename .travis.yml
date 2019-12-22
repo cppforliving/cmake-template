@@ -37,7 +37,8 @@ matrix:
             - ccache
       install:
         - ccache -M 500M
-        - export PATH="/usr/local/opt/ccache/libexec:$PATH"
+        - export PATH=/usr/local/opt/ccache/libexec:$PATH
+        - export PATH=$HOME/Library/Python/3.7/bin:$PATH
         - python3 -m pip install --user -U -r requirements.txt conan
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
@@ -52,6 +53,7 @@ matrix:
           packages:
             - g++-8
             - python3-pip
+            - python3-setuptools
             - valgrind
       install:
         - sudo update-alternatives
@@ -70,6 +72,7 @@ matrix:
           packages:
             - libstdc++-8-dev
             - python3-pip
+            - python3-setuptools
       install:
         - sudo update-alternatives
           --install /usr/bin/clang clang /usr/local/clang-7.0.0/bin/clang 70
