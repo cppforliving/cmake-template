@@ -1,5 +1,5 @@
+from argparse import ArgumentParser
 from jinja2 import Environment, FileSystemLoader
-import argparse
 from yaml import safe_load
 
 
@@ -10,7 +10,6 @@ def remove_prefix(s, p):
 def generate(args):
     with open(args.input, "r") as file:
         input_file = safe_load(file)
-
     env = Environment(
         loader=FileSystemLoader(args.templates),
         trim_blocks=True,
@@ -34,7 +33,7 @@ def generate(args):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
+    parser = ArgumentParser()
     parser.add_argument("templates", help="path to the templates directory")
     parser.add_argument("input", help="path to the data types yaml")
     parser.add_argument("project_dir", help="project root directory path")
