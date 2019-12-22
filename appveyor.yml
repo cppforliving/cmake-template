@@ -43,7 +43,7 @@ cache:
   - '%LOCALAPPDATA%\pip\Cache -> requirements.txt'
 
 install:
-  - python -m pip install -U -r requirements.txt
+  - python3 -m pip install -U -r requirements.txt
   - if "%PLATFORM%"=="x86" (
       set "VCPKG_DEFAULT_TRIPLET=x86-windows" &
       set "CMAKE_GENERATOR_PLATFORM=Win32"

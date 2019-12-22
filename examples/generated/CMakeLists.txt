@@ -2,7 +2,7 @@ get_filename_component(lib_name "${CMAKE_CURRENT_SOURCE_DIR}" NAME)
 
 add_custom_command(OUTPUT
     enum.hpp
-  COMMAND Python2::Interpreter
+  COMMAND Python3::Interpreter
     "${CMAKE_CURRENT_SOURCE_DIR}/generator.py"
     "${CMAKE_CURRENT_SOURCE_DIR}/templates"
     "${CMAKE_CURRENT_SOURCE_DIR}/data_types.yml"

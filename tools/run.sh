@@ -126,7 +126,7 @@ run_main() {
     mkdir -p "$build_dir"
 
     declare -r venv_dir=/tmp/$proj_dir_hash/venv
-    [[ ! -d $venv_dir || $pip_upgrade ]] && python -m virtualenv "$venv_dir"
+    [[ ! -d $venv_dir || $pip_upgrade ]] && python3 -m virtualenv "$venv_dir"
     silent source "$venv_dir"/bin/activate
 
     pip install $pip_upgrade -r requirements-dev.txt
