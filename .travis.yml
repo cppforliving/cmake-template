@@ -185,6 +185,9 @@ script:
     --build_dir=build
     --update &&
     cd build &&
+    which -a python &&
+    which -a python2 &&
+    which -a python3 &&
     cmake ..
     -DCMAKE_BUILD_TYPE=$BUILD_TYPE
     -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
