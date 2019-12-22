@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 from jinja2 import Environment, FileSystemLoader
 import argparse
 from yaml import safe_load
@@ -10,7 +8,8 @@ def remove_prefix(s, p):
 
 
 def generate(args):
-    input_file = safe_load(file(args.input, "r"))
+    with open(args.input, "r") as file:
+        input_file = safe_load(file)
 
     env = Environment(
         loader=FileSystemLoader(args.templates),
