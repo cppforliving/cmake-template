@@ -1,5 +1,5 @@
 add_subdirectory(threads)
-add_subdirectory(python3)
+add_subdirectory(python)
 add_subdirectory(boost)
 
 if(BUILD_TESTING)

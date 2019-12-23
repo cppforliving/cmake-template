@@ -38,8 +38,9 @@ matrix:
       install:
         - ccache -M 500M
         - export PATH="/usr/local/opt/ccache/libexec:$PATH"
+        - export PATH="$HOME/Library/Python/2.7/bin:$PATH"
         - export PATH="$HOME/Library/Python/3.7/bin:$PATH"
-        - python3 -m pip install --user -U -r requirements.txt conan
+        - python -m pip install --user -U -r requirements.txt conan
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
         - CMAKE_GENERATOR='Xcode'
@@ -60,7 +61,7 @@ matrix:
         - sudo update-alternatives
           --install /usr/bin/gcov gcov /usr/bin/gcov-8 80
         - python3 -m pip install --user -U pip setuptools wheel
-        - python3 -m pip install --user -U -r requirements.txt conan
+        - python -m pip install --user -U -r requirements.txt conan
       env:
         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
         - CMAKE_GENERATOR='Unix Makefiles'
@@ -84,7 +85,7 @@ matrix:
         - export LD_LIBRARY_PATH="/usr/local/clang-7.0.0/lib:$LD_LIBRARY_PATH"
         - sudo update-ccache-symlinks
         - python3 -m pip install --user -U pip setuptools wheel
-        - python3 -m pip install --user -U -r requirements.txt conan
+        - python -m pip install --user -U -r requirements.txt conan
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
         - CMAKE_GENERATOR='Ninja'
