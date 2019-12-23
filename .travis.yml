@@ -60,7 +60,7 @@ matrix:
         - sudo update-alternatives
           --install /usr/bin/gcov gcov /usr/bin/gcov-8 80
         - python3 -m pip install --user -U pip setuptools wheel
-        - python -m pip install --user -U -r requirements.txt conan
+        - python3 -m pip install --user -U -r requirements.txt conan
       env:
         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
         - CMAKE_GENERATOR='Unix Makefiles'
@@ -84,7 +84,7 @@ matrix:
         - export LD_LIBRARY_PATH=/usr/local/clang-7.0.0/lib:$LD_LIBRARY_PATH
         - sudo update-ccache-symlinks
         - python3 -m pip install --user -U pip setuptools wheel
-        - python -m pip install --user -U -r requirements.txt conan
+        - python3 -m pip install --user -U -r requirements.txt conan
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
         - CMAKE_GENERATOR='Ninja'
@@ -186,9 +186,6 @@ script:
     --build_dir=build
     --update &&
     cd build &&
-    which -a python &&
-    which -a python2 &&
-    which -a python3 &&
     cmake ..
     -DCMAKE_BUILD_TYPE=$BUILD_TYPE
     -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
