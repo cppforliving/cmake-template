@@ -27,9 +27,9 @@ std::initializer_list<NumberTestParam> const NumberTestParams = {
     {"Tree", my::numbers::Number::Tree},
 };
 
-INSTANTIATE_TEST_CASE_P(NumberTests,
-                        NumberTest,
-                        testing::ValuesIn(NumberTestParams));
+INSTANTIATE_TEST_SUITE_P(NumberTests,
+                         NumberTest,
+                         testing::ValuesIn(NumberTestParams));
 
 TEST(NumberTest, ostreamOperatorOutOfRange) {
     NumberTestParam const param = {"?", my::numbers::Number{0xff}};
