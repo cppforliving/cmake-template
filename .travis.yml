@@ -38,9 +38,8 @@ matrix:
       install:
         - ccache -M 500M
         - export PATH=/usr/local/opt/ccache/libexec:$PATH
-        - export PATH=$HOME/Library/Python/2.7/bin:$PATH
         - export PATH=$HOME/Library/Python/3.7/bin:$PATH
-        - python -m pip install --user -U -r requirements.txt conan
+        - python3 -m pip install --user -U -r requirements.txt conan
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
         - CMAKE_GENERATOR='Xcode'
