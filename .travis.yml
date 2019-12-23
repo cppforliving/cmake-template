@@ -19,9 +19,9 @@ matrix:
       compiler: cl
       install:
         - choco install python --version 3.8.0
-        - export PATH="/c/Python38:/c/Python38/Scripts:$PATH"
-        - export PATH="$HOME/AppData/Roaming/Python/Python38/Scripts:$PATH"
-        - python -m pip install --user -U -r requirements.txt conan
+        - export PATH=/c/Python38:/c/Python38/Scripts:$PATH
+        - export PATH=$HOME/AppData/Roaming/Python/Python38/Scripts:$PATH
+        - python3 -m pip install --user -U -r requirements.txt conan
         - conan config set general.user_home_short=None
       env:
         - MATRIX_EVAL="CC=cl && CXX=cl"
@@ -37,9 +37,9 @@ matrix:
             - ccache
       install:
         - ccache -M 500M
-        - export PATH="/usr/local/opt/ccache/libexec:$PATH"
-        - export PATH="$HOME/Library/Python/2.7/bin:$PATH"
-        - python -m pip install --user -U -r requirements.txt conan
+        - export PATH=/usr/local/opt/ccache/libexec:$PATH
+        - export PATH=$HOME/Library/Python/3.7/bin:$PATH
+        - python3 -m pip install --user -U -r requirements.txt conan
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
         - CMAKE_GENERATOR='Xcode'
@@ -74,7 +74,7 @@ matrix:
           --install /usr/bin/clang clang /usr/local/clang-7.0.0/bin/clang 70
           --slave /usr/bin/clang++ clang++ /usr/local/clang-7.0.0/bin/clang++
           --slave /usr/bin/ld ld /usr/local/clang-7.0.0/bin/lld
-        - export LD_LIBRARY_PATH="/usr/local/clang-7.0.0/lib:$LD_LIBRARY_PATH"
+        - export LD_LIBRARY_PATH=/usr/local/clang-7.0.0/lib:$LD_LIBRARY_PATH
         - sudo update-ccache-symlinks
         - python -m pip install --user -U -r requirements.txt conan
       env:
@@ -169,6 +169,7 @@ before_script:
   - conan user
   - BUILD_TYPE=Release
   - "[[ $TRAVIS_OS_NAME == windows ]] || ccache -z"
+  - printenv
 
 script:
   - tools/setup.sh
