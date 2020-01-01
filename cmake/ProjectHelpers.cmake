@@ -51,6 +51,15 @@ function(add_custom_library lib_name)
     add_library(${lib_name} ${lib_type})
     add_library(${PROJECT_NAME}::${lib_name} ALIAS ${lib_name})
     if(NOT lib_INTERFACE)
+        get_target_property(lib_target_type ${lib_name} TYPE)
+        if(lib_target_type STREQUAL SHARED_LIBRARY
+          AND NOT ${PROJECT_NAME}_sanitizer
+          AND NOT WIN32)
+            target_link_options(${lib_name}
+              PRIVATE
+                LINKER:-z,defs
+            )
+        endif()
         generate_export_header(${lib_name}
             EXPORT_FILE_NAME export.h
             DEFINE_NO_DEPRECATED

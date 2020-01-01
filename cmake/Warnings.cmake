@@ -60,7 +60,4 @@ else()
             $<$<COMPILE_LANGUAGE:CXX>:_GLIBCXX_ASSERTIONS>
         )
     endif()
-    if(NOT APPLE AND NOT ${PROJECT_NAME}_sanitizer)
-        list(APPEND CMAKE_SHARED_LINKER_FLAGS " -Wl,--no-undefined")
-    endif()
 endif()
