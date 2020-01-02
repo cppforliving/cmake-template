@@ -4,32 +4,26 @@ set(${PROJECT_NAME}_check "" CACHE STRING
 if("${${PROJECT_NAME}_check}" STREQUAL clang-tidy)
     find_program(clang_tidy_command clang-tidy)
     mark_as_advanced(clang_tidy_command)
-    set(CMAKE_C_CLANG_TIDY ${clang_tidy_command})
     set(CMAKE_CXX_CLANG_TIDY ${clang_tidy_command})
 elseif("${${PROJECT_NAME}_check}" STREQUAL cppcheck)
     find_program(cppcheck_command cppcheck)
     mark_as_advanced(cppcheck_command)
-    set(CMAKE_C_CPPCHECK ${cppcheck_command}
+    set(CMAKE_CXX_CPPCHECK ${cppcheck_command}
         --enable=warning,performance,portability,information,missingInclude
         --error-exitcode=1
         --library=${PROJECT_SOURCE_DIR}/external/catch2/cppcheck.cfg
         --library=${PROJECT_SOURCE_DIR}/external/gtest/cppcheck.cfg
         --suppress=missingIncludeSystem
     )
-    set(CMAKE_CXX_CPPCHECK ${CMAKE_C_CPPCHECK})
 elseif("${${PROJECT_NAME}_check}" STREQUAL cpplint)
     find_program(cpplint_command cpplint)
     mark_as_advanced(cpplint_command)
-    set(CMAKE_C_CPPLINT ${cpplint_command}
-        --filter=-build/include_order,-build/include_subdir,-legal/copyright,-readability/casting
-    )
     set(CMAKE_CXX_CPPLINT ${cpplint_command}
         --filter=-build/c++11,-build/include_order,-build/include_subdir,-legal/copyright
     )
 elseif("${${PROJECT_NAME}_check}" STREQUAL iwyu)
     find_program(iwyu_command iwyu)
     mark_as_advanced(iwyu_command)
-    set(CMAKE_C_INCLUDE_WHAT_YOU_USE ${iwyu_command})
     set(CMAKE_CXX_INCLUDE_WHAT_YOU_USE ${iwyu_command}
         -Xiwyu --mapping_file=${PROJECT_SOURCE_DIR}/external/boost/iwyu.imp
         -Xiwyu --mapping_file=${PROJECT_SOURCE_DIR}/external/gtest/iwyu.imp

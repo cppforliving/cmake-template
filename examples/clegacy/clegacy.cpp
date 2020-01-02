@@ -1,13 +1,17 @@
 #include "clegacy.h"
 
-#include <stdlib.h>
+#include <cstdlib>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 static int get123(void) {
     return 123;
 }
 
 static int* newInt(void) {
-    return (int*)malloc(sizeof(int));
+    return static_cast<int*>(std::malloc(sizeof(int)));
 }
 
 int* clegacy_newInt123(void) {
@@ -17,5 +21,9 @@ int* clegacy_newInt123(void) {
 }
 
 void clegacy_deleteInt123(int* x) {
-    free(x);
+    std::free(x);
 }
+
+#ifdef __cplusplus
+}  // extern "C"
+#endif

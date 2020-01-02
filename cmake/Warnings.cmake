@@ -36,8 +36,6 @@ else()
         -Wswitch-enum
         -Wno-error=switch-enum
         -Wwrite-strings
-        $<$<COMPILE_LANGUAGE:C>:-Wbad-function-cast>
-        $<$<COMPILE_LANGUAGE:C>:-Wc++-compat>
         $<$<COMPILE_LANGUAGE:CXX>:-Wc++17-compat>
         $<$<COMPILE_LANGUAGE:CXX>:-Wctor-dtor-privacy>
         $<$<COMPILE_LANGUAGE:CXX>:-Wnon-virtual-dtor>

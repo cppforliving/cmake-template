@@ -14,4 +14,4 @@ function(enable_diagnostics_color)
     endforeach()
 endfunction()
 
-enable_diagnostics_color(C CXX)
+enable_diagnostics_color(CXX)
