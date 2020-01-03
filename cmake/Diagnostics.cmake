@@ -1,5 +1,6 @@
 function(enable_diagnostics_color)
-    foreach(language IN LISTS ARGN)
+    get_property(languages GLOBAL PROPERTY ENABLED_LANGUAGES)
+    foreach(language IN LISTS languages)
         if(CMAKE_${language}_COMPILER_ID STREQUAL "GNU")
             if(CMAKE_GENERATOR STREQUAL "Ninja")
                 add_compile_options($<$<COMPILE_LANGUAGE:${language}>:-fdiagnostics-color>)
@@ -14,4 +15,4 @@ function(enable_diagnostics_color)
     endforeach()
 endfunction()
 
-enable_diagnostics_color(CXX)
+enable_diagnostics_color()

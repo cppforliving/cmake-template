@@ -93,6 +93,7 @@ matrix:
           cmake ..
           -DCMAKE_BUILD_TYPE=Debug
           -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
+          -DBUILD_TESTING=ON
           -DBUILD_EXAMPLES=ON
           -Ddebug_dynamic_deps=ON
           -Dprojname_check=clang-tidy &&
@@ -110,6 +111,7 @@ matrix:
           cmake ..
           -DCMAKE_BUILD_TYPE=Debug
           -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
+          -DBUILD_TESTING=ON
           -DBUILD_EXAMPLES=ON
           -Ddebug_dynamic_deps=ON
           -Dprojname_coverage=xml &&
@@ -133,6 +135,7 @@ matrix:
           cmake ..
           -DCMAKE_BUILD_TYPE=Debug
           -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
+          -DBUILD_TESTING=ON
           -DBUILD_EXAMPLES=ON
           -Ddebug_dynamic_deps=ON
           -Dprojname_sanitizer=address &&
@@ -153,6 +156,7 @@ matrix:
           cmake ..
           -DCMAKE_BUILD_TYPE=Debug
           -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
+          -DBUILD_TESTING=ON
           -DBUILD_EXAMPLES=ON
           -Ddebug_dynamic_deps=ON
           -Dprojname_valgrind=memcheck &&
@@ -167,27 +171,28 @@ before_install:
 before_script:
   - conan config set general.non_interactive=True
   - conan user
-  - BUILD_TYPE=Release
   - "[[ $TRAVIS_OS_NAME == windows ]] || ccache -z"
   - printenv
 
 script:
   - tools/setup.sh
     --package_manager=conan
-    --build_type=$BUILD_TYPE
+    --build_type=Release
     --build_dir=build
     --update &&
     cd build &&
     cmake ..
-    -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+    -DCMAKE_BUILD_TYPE=Release
     -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
+    -DBUILD_TESTING=ON
+    -DBUILD_BENCHMARKS=ON
     -DBUILD_EXAMPLES=ON
     -Ddebug_dynamic_deps=ON &&
-    cmake --build . --verbose --config $BUILD_TYPE &&
+    cmake --build . --verbose --config Release &&
     source activate_run.sh &&
-    ctest -V -C $BUILD_TYPE &&
+    ctest -V -C Release &&
     source deactivate_run.sh &&
-    cmake --build . --verbose --config $BUILD_TYPE --target install
+    cmake --build . --verbose --config Release --target install
 
 after_script:
   - >

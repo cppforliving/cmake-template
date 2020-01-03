@@ -59,6 +59,12 @@ install:
   - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" (
       set "CMAKE_GENERATOR=Visual Studio 15 2017"
     )
+  - if "%CONFIGURATION%"=="Debug" (
+      set "BUILD_BENCHMARKS=OFF"
+    )
+  - if "%CONFIGURATION%"=="Release" (
+      set "BUILD_BENCHMARKS=ON"
+    )
   - set
 
 build_script:
@@ -69,6 +75,7 @@ build_script:
       -DBUILD_SHARED_LIBS=%BUILD_SHARED_LIBS%
       -DCMAKE_TOOLCHAIN_FILE=%VCPKG_ROOT%\scripts\buildsystems\vcpkg.cmake
       -DBUILD_TESTING=ON
+      -DBUILD_BENCHMARKS=%BUILD_BENCHMARKS%
       -DBUILD_EXAMPLES=ON
       -Ddebug_dynamic_deps=ON
   - cmake --build . --verbose --config %CONFIGURATION%

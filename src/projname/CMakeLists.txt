@@ -33,4 +33,15 @@ if(BUILD_TESTING)
       EXTRA_ARGS
         --gtest_color=yes
     )
+
+    if(BUILD_BENCHMARKS)
+        add_custom_test(${PROJECT_NAME}_bench
+          SOURCES
+            lockable_bench.cpp
+          DEPENDS
+            ${PROJECT_NAME}
+            $<$<TARGET_EXISTS:boost_throw_exception>:boost_throw_exception>
+            benchmark_main
+        )
+    endif()
 endif()

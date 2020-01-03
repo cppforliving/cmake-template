@@ -28,6 +28,7 @@ run_main() {
     declare sanitizer=
     declare -i stats=
     declare -i testing=
+    declare -i benchmark=
     declare -i vcpkg_upgrade=
 
     declare opt
@@ -61,6 +62,9 @@ run_main() {
             ;;
         Test)
             declare -r testing=1
+            ;;
+        Benchmark)
+            declare -r benchmark=1
             ;;
         Coverage=*)
             declare -r coverage=${opt#*=}
@@ -149,6 +153,7 @@ run_main() {
         -B"$build_dir" \
         -DBUILD_SHARED_LIBS="$cmake_shared" \
         -DBUILD_TESTING="$testing" \
+        -DBUILD_BENCHMARKS="$benchmark" \
         -DBUILD_EXAMPLES="$examples" \
         -DBUILD_DOCS="$doc" \
         -DCMAKE_BUILD_TYPE="$cmake_config" \

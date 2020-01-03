@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
-message(STATUS "CMake version: ${CMAKE_VERSION}")
+include(CMakePrintHelpers)
+cmake_print_variables(CMAKE_VERSION)
 
 option(BUILD_SHARED_LIBS
     "Global flag to cause `add_library()` to create shared libraries if on." ON)
@@ -18,6 +19,8 @@ endif()
 
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
+set(CMAKE_FIND_PACKAGE_PREFER_CONFIG ON)
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -28,7 +31,6 @@ set(CMAKE_VISIBILITY_INLINES_HIDDEN ON)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
-set(CMAKE_PDB_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 
 include(CTest)
 
