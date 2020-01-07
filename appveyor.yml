@@ -65,12 +65,16 @@ install:
   - if "%CONFIGURATION%"=="Release" (
       set "BUILD_BENCHMARKS=ON"
     )
-  - set
+  - cmake -E environment
 
 build_script:
-  - '%VCPKG_ROOT%\vcpkg update'
-  - '%VCPKG_ROOT%\vcpkg install @vcpkgfile.txt'
-  - mkdir build && cd build
+  - cmake --warn-uninitialized
+      -D package_manager=vcpkg
+      -D build_type=%CONFIGURATION%
+      -D build_dir=build
+      -D update=ON
+      -P tools/setup.cmake
+  - cd build
   - cmake ..
       -DBUILD_SHARED_LIBS=%BUILD_SHARED_LIBS%
       -DCMAKE_TOOLCHAIN_FILE=%VCPKG_ROOT%\scripts\buildsystems\vcpkg.cmake
@@ -81,8 +85,8 @@ build_script:
   - cmake --build . --verbose --config %CONFIGURATION%
 
 test_script:
-  - ctest -C %CONFIGURATION% -V
-  - cmake --build . --verbose --config %CONFIGURATION% --target install
+  - ctest -V -C %CONFIGURATION%
+  - cmake --install . --verbose --config %CONFIGURATION%
 
 artifacts:
   - path: build\**\*.log

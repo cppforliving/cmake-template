@@ -1,0 +1,74 @@
+cmake_minimum_required(VERSION 3.15)
+
+include(CMakePrintHelpers)
+
+macro(eval)
+    string(REPLACE ";" " " argn "${ARGN}")
+    message(STATUS "${argn}")
+    execute_process(COMMAND ${ARGN} RESULT_VARIABLE ret)
+    if(ret)
+        string(REPLACE ";" " " msg "'${ARGN}' failed with error code ${ret}")
+        message(FATAL_ERROR "${msg}")
+    endif()
+endmacro()
+
+macro(eval_out output)
+    eval(${ARGN} OUTPUT_STRIP_TRAILING_WHITESPACE OUTPUT_VARIABLE ${output})
+    cmake_print_variables(${output})
+endmacro()
+
+set(package_managers conan vcpkg)
+if(NOT package_manager)
+    message(FATAL_ERROR "'package_manager' unspecified")
+elseif(NOT package_manager IN_LIST package_managers)
+    message(FATAL_ERROR "unknown 'package_manager' value '${package_manager}'")
+endif()
+cmake_print_variables(package_manager)
+
+set(build_types Debug Release)
+if(NOT build_type)
+    set(build_type Release)
+elseif(NOT build_type IN_LIST build_types)
+    message(FATAL_ERROR "unknown 'build_type' value '${build_type}'")
+endif()
+cmake_print_variables(build_type)
+
+if(NOT build_dir)
+    set(build_dir ./build/${build_type})
+endif()
+cmake_print_variables(build_dir)
+
+if(update)
+    set(update_flag -u)
+else()
+    set(update_flag)
+    set(update OFF)
+endif()
+cmake_print_variables(update)
+
+eval(${CMAKE_COMMAND} -E make_directory "${build_dir}")
+
+if(package_manager STREQUAL "conan")
+    eval(conan profile new
+        --detect --force
+        "${build_dir}/conan_profile")
+    eval_out(conan_detected_libcxx
+        conan profile get settings.compiler.libcxx "${build_dir}/conan_profile")
+    if(conan_detected_libcxx STREQUAL "libstdc++")
+        eval(conan profile update
+            settings.compiler.libcxx=libstdc++11
+            "${build_dir}/conan_profile")
+    endif()
+    eval(conan install . "${update_flag}"
+        -if "${build_dir}"
+        -s "build_type=${build_type}"
+        -pr "${build_dir}/conan_profile"
+        -b missing)
+elseif(package_manager STREQUAL "vcpkg")
+    file(TO_CMAKE_PATH $ENV{VCPKG_ROOT} vcpkg_root)
+    eval(${CMAKE_COMMAND} -E create_symlink "${vcpkg_root}/scripts/buildsystems/vcpkg.cmake" "${build_dir}/vcpkg.cmake")
+    if(update)
+        eval("${vcpkg_root}/vcpkg" update)
+    endif()
+    eval("${vcpkg_root}/vcpkg" install @vcpkgfile.txt)
+endif()

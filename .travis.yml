@@ -84,11 +84,12 @@ matrix:
     - stage: check
       <<: *linux_clang
       script:
-        - tools/setup.sh
-          --package_manager=conan
-          --build_type=Debug
-          --build_dir=build
-          --update &&
+        - cmake --warn-uninitialized
+          -D package_manager=conan
+          -D build_type=Debug
+          -D build_dir=build
+          -D update=ON
+          -P tools/setup.cmake &&
           cd build &&
           cmake ..
           -DCMAKE_BUILD_TYPE=Debug
@@ -102,11 +103,12 @@ matrix:
     - stage: check
       <<: *linux_gcc
       script:
-        - tools/setup.sh
-          --package_manager=conan
-          --build_type=Debug
-          --build_dir=build
-          --update &&
+        - cmake --warn-uninitialized
+          -D package_manager=conan
+          -D build_type=Debug
+          -D build_dir=build
+          -D update=ON
+          -P tools/setup.cmake &&
           cd build &&
           cmake ..
           -DCMAKE_BUILD_TYPE=Debug
@@ -126,11 +128,12 @@ matrix:
     - stage: check
       <<: *linux_clang
       script:
-        - tools/setup.sh
-          --package_manager=conan
-          --build_type=Debug
-          --build_dir=build
-          --update &&
+        - cmake --warn-uninitialized
+          -D package_manager=conan
+          -D build_type=Debug
+          -D build_dir=build
+          -D update=ON
+          -P tools/setup.cmake &&
           cd build &&
           cmake ..
           -DCMAKE_BUILD_TYPE=Debug
@@ -147,11 +150,12 @@ matrix:
     - stage: check
       <<: *linux_gcc
       script:
-        - tools/setup.sh
-          --package_manager=conan
-          --build_type=Debug
-          --build_dir=build
-          --update &&
+        - cmake --warn-uninitialized
+          -D package_manager=conan
+          -D build_type=Debug
+          -D build_dir=build
+          -D update=ON
+          -P tools/setup.cmake &&
           cd build &&
           cmake ..
           -DCMAKE_BUILD_TYPE=Debug
@@ -172,14 +176,15 @@ before_script:
   - conan config set general.non_interactive=True
   - conan user
   - "[[ $TRAVIS_OS_NAME == windows ]] || ccache -z"
-  - printenv
+  - cmake -E environment
 
 script:
-  - tools/setup.sh
-    --package_manager=conan
-    --build_type=Release
-    --build_dir=build
-    --update &&
+  - cmake --warn-uninitialized
+    -D package_manager=conan
+    -D build_type=Release
+    -D build_dir=build
+    -D update=ON
+    -P tools/setup.cmake &&
     cd build &&
     cmake ..
     -DCMAKE_BUILD_TYPE=Release
@@ -192,7 +197,7 @@ script:
     source activate_run.sh &&
     ctest -V -C Release &&
     source deactivate_run.sh &&
-    cmake --build . --verbose --config Release --target install
+    cmake --install . --verbose --config Release
 
 after_script:
   - >
