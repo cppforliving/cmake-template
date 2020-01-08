@@ -4,7 +4,6 @@ set -euo pipefail
 source_if_exists() {
     [[ ! -f $1 ]] || source "$@"
 }
-declare -fr source_if_exists
 
 run_main() {
     declare conan_config=Release
@@ -117,7 +116,6 @@ run_main() {
         "$@"
         ((silenced)) || set -x
     }
-    declare -fr silent
 
     ((silenced)) || set -x
 
@@ -149,7 +147,7 @@ run_main() {
         ;;
     esac
 
-    cmake . \
+    cmake \
         -B"$build_dir" \
         -DBUILD_SHARED_LIBS="$cmake_shared" \
         -DBUILD_TESTING="$testing" \
@@ -176,26 +174,33 @@ run_main() {
     )"
     declare -r make_cmd
 
+    declare test_cmd
+    test_cmd="cmake -E chdir $build_dir ctest --output-on-failure $(
+        if [[ $silenced == 0 ]]; then
+            echo ' --verbose'
+        fi
+    )"
+    declare -r test_cmd
+
     ((stats)) && ccache -z
     ((format)) && $make_cmd format
     $make_cmd all
     if ((testing)); then
         silent source_if_exists "$build_dir"/activate_run.sh
         if ((memcheck)); then
-            CTEST_OUTPUT_ON_FAILURE=1 $make_cmd ExperimentalMemCheck
+            $test_cmd ExperimentalMemCheck
         else
-            CTEST_OUTPUT_ON_FAILURE=1 $make_cmd ExperimentalTest
+            $test_cmd ExperimentalTest
         fi
         silent source_if_exists "$build_dir"/deactivate_run.sh
     fi
-    [[ $coverage ]] && CTEST_OUTPUT_ON_FAILURE=1 $make_cmd ExperimentalCoverage
+    [[ $coverage ]] && $test_cmd ExperimentalCoverage
     ((doc)) && $make_cmd doc
     ((install)) && $make_cmd install
     ((stats)) && ccache -s
 
     silent deactivate
 }
-declare -fr run_main
 
 if [[ "$0" == "${BASH_SOURCE[0]}" ]]; then
     run_main "$@"

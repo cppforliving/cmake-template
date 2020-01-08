@@ -11,7 +11,7 @@
 namespace projname {
 
 void ContinuousGreeter::operator()() const {
-    std::cout << "Hi! ";
+    std::cout << '!';
     boost::asio::post(io, ContinuousGreeter{*this});
 }
 

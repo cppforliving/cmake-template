@@ -90,15 +90,15 @@ matrix:
           -D build_dir=build
           -D update=ON
           -P tools/setup.cmake &&
-          cd build &&
-          cmake ..
-          -DCMAKE_BUILD_TYPE=Debug
-          -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
-          -DBUILD_TESTING=ON
-          -DBUILD_EXAMPLES=ON
-          -Ddebug_dynamic_deps=ON
-          -Dprojname_check=clang-tidy &&
-          cmake --build . --verbose --config Debug
+          cmake
+          -B build
+          -D CMAKE_BUILD_TYPE=Debug
+          -D CMAKE_TOOLCHAIN_FILE=conan_paths.cmake
+          -D BUILD_TESTING=ON
+          -D BUILD_EXAMPLES=ON
+          -D debug_dynamic_deps=ON
+          -D projname_check=clang-tidy &&
+          cmake --build build --verbose --config Debug
 
     - stage: check
       <<: *linux_gcc
@@ -109,19 +109,19 @@ matrix:
           -D build_dir=build
           -D update=ON
           -P tools/setup.cmake &&
-          cd build &&
-          cmake ..
-          -DCMAKE_BUILD_TYPE=Debug
-          -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
-          -DBUILD_TESTING=ON
-          -DBUILD_EXAMPLES=ON
-          -Ddebug_dynamic_deps=ON
-          -Dprojname_coverage=xml &&
-          cmake --build . --verbose --config Debug &&
-          source activate_run.sh &&
-          ctest -V -C Debug -D ExperimentalTest &&
-          ctest -V -C Debug -D ExperimentalCoverage &&
-          source deactivate_run.sh
+          cmake
+          -B build
+          -D CMAKE_BUILD_TYPE=Debug
+          -D CMAKE_TOOLCHAIN_FILE=conan_paths.cmake
+          -D BUILD_TESTING=ON
+          -D BUILD_EXAMPLES=ON
+          -D debug_dynamic_deps=ON
+          -D projname_coverage=xml &&
+          cmake --build build --verbose --config Debug &&
+          source build/activate_run.sh &&
+          cmake -E chdir build ctest -V -C Debug -D ExperimentalTest &&
+          cmake -E chdir build ctest -V -C Debug -D ExperimentalCoverage &&
+          source build/deactivate_run.sh
       after_success:
         - bash <(curl -s https://codecov.io/bash)
 
@@ -134,18 +134,18 @@ matrix:
           -D build_dir=build
           -D update=ON
           -P tools/setup.cmake &&
-          cd build &&
-          cmake ..
-          -DCMAKE_BUILD_TYPE=Debug
-          -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
-          -DBUILD_TESTING=ON
-          -DBUILD_EXAMPLES=ON
-          -Ddebug_dynamic_deps=ON
-          -Dprojname_sanitizer=address &&
-          cmake --build . --verbose --config Debug &&
-          source activate_run.sh &&
-          ctest -V -C Debug -D ExperimentalTest &&
-          source deactivate_run.sh
+          cmake
+          -B build
+          -D CMAKE_BUILD_TYPE=Debug
+          -D CMAKE_TOOLCHAIN_FILE=conan_paths.cmake
+          -D BUILD_TESTING=ON
+          -D BUILD_EXAMPLES=ON
+          -D debug_dynamic_deps=ON
+          -D projname_sanitizer=address &&
+          cmake --build build --verbose --config Debug &&
+          source build/activate_run.sh &&
+          cmake -E chdir build ctest -V -C Debug -D ExperimentalTest &&
+          source build/deactivate_run.sh
 
     - stage: check
       <<: *linux_gcc
@@ -156,18 +156,18 @@ matrix:
           -D build_dir=build
           -D update=ON
           -P tools/setup.cmake &&
-          cd build &&
-          cmake ..
-          -DCMAKE_BUILD_TYPE=Debug
-          -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
-          -DBUILD_TESTING=ON
-          -DBUILD_EXAMPLES=ON
-          -Ddebug_dynamic_deps=ON
-          -Dprojname_valgrind=memcheck &&
-          cmake --build . --verbose --config Debug &&
-          source activate_run.sh &&
-          ctest -V -C Debug -D ExperimentalMemCheck &&
-          source deactivate_run.sh
+          cmake
+          -B build
+          -D CMAKE_BUILD_TYPE=Debug
+          -D CMAKE_TOOLCHAIN_FILE=conan_paths.cmake
+          -D BUILD_TESTING=ON
+          -D BUILD_EXAMPLES=ON
+          -D debug_dynamic_deps=ON
+          -D projname_valgrind=memcheck &&
+          cmake --build build --verbose --config Debug &&
+          source build/activate_run.sh &&
+          cmake -E chdir build ctest -V -C Debug -D ExperimentalMemCheck &&
+          source build/deactivate_run.sh
 
 before_install:
   - eval "$MATRIX_EVAL"
@@ -177,6 +177,7 @@ before_script:
   - conan user
   - "[[ $TRAVIS_OS_NAME == windows ]] || ccache -z"
   - cmake -E environment
+  - cmake -E capabilities
 
 script:
   - cmake --warn-uninitialized
@@ -185,19 +186,19 @@ script:
     -D build_dir=build
     -D update=ON
     -P tools/setup.cmake &&
-    cd build &&
-    cmake ..
-    -DCMAKE_BUILD_TYPE=Release
-    -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
-    -DBUILD_TESTING=ON
-    -DBUILD_BENCHMARKS=ON
-    -DBUILD_EXAMPLES=ON
-    -Ddebug_dynamic_deps=ON &&
-    cmake --build . --verbose --config Release &&
-    source activate_run.sh &&
-    ctest -V -C Release &&
-    source deactivate_run.sh &&
-    cmake --install . --verbose --config Release
+    cmake
+    -B build
+    -D CMAKE_BUILD_TYPE=Release
+    -D CMAKE_TOOLCHAIN_FILE=conan_paths.cmake
+    -D BUILD_TESTING=ON
+    -D BUILD_BENCHMARKS=ON
+    -D BUILD_EXAMPLES=ON
+    -D debug_dynamic_deps=ON &&
+    cmake --build build --verbose --config Release &&
+    source build/activate_run.sh &&
+    cmake -E chdir build ctest -V -C Release &&
+    source build/deactivate_run.sh &&
+    cmake --install build --verbose --config Release
 
 after_script:
   - >
