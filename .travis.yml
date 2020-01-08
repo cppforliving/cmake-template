@@ -89,7 +89,7 @@ matrix:
           -D build_type=Debug
           -D build_dir=build
           -D update=ON
-          -P tools/setup.cmake &&
+          -P scripts/setup.cmake &&
           cmake
           -B build
           -D CMAKE_BUILD_TYPE=Debug
@@ -108,7 +108,7 @@ matrix:
           -D build_type=Debug
           -D build_dir=build
           -D update=ON
-          -P tools/setup.cmake &&
+          -P scripts/setup.cmake &&
           cmake
           -B build
           -D CMAKE_BUILD_TYPE=Debug
@@ -133,7 +133,7 @@ matrix:
           -D build_type=Debug
           -D build_dir=build
           -D update=ON
-          -P tools/setup.cmake &&
+          -P scripts/setup.cmake &&
           cmake
           -B build
           -D CMAKE_BUILD_TYPE=Debug
@@ -155,7 +155,7 @@ matrix:
           -D build_type=Debug
           -D build_dir=build
           -D update=ON
-          -P tools/setup.cmake &&
+          -P scripts/setup.cmake &&
           cmake
           -B build
           -D CMAKE_BUILD_TYPE=Debug
@@ -185,7 +185,7 @@ script:
     -D build_type=Release
     -D build_dir=build
     -D update=ON
-    -P tools/setup.cmake &&
+    -P scripts/setup.cmake &&
     cmake
     -B build
     -D CMAKE_BUILD_TYPE=Release

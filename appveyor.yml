@@ -73,7 +73,7 @@ build_script:
       -D build_type=%CONFIGURATION%
       -D build_dir=build
       -D update=ON
-      -P tools/setup.cmake
+      -P scripts/setup.cmake
   - cmake
       -B build
       -D BUILD_SHARED_LIBS=%BUILD_SHARED_LIBS%
