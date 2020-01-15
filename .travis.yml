@@ -15,7 +15,9 @@ stages:
 matrix:
   fast_finish: true
   exclude:
-    - os: windows
+    - stage: test
+      name: windows-cl
+      os: windows
       compiler: cl
       install:
         - choco install python --version 3.8.0
@@ -28,7 +30,9 @@ matrix:
         - CMAKE_GENERATOR='Visual Studio 15 2017'
 
   include:
-    - os: osx
+    - stage: test
+      name: osx-clang
+      os: osx
       compiler: clang
       osx_image: xcode10.3
       addons:
@@ -45,6 +49,8 @@ matrix:
         - CMAKE_GENERATOR='Xcode'
 
     - &linux_gcc
+      stage: test
+      name: linux-gcc
       os: linux
       compiler: gcc
       dist: bionic
@@ -62,6 +68,8 @@ matrix:
         - CMAKE_GENERATOR='Unix Makefiles'
 
     - &linux_clang
+      stage: test
+      name: linux-clang
       os: linux
       compiler: clang
       dist: bionic
@@ -81,8 +89,9 @@ matrix:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
         - CMAKE_GENERATOR='Ninja'
 
-    - stage: check
-      <<: *linux_clang
+    - <<: *linux_clang
+      stage: check
+      name: linux-clang-tidy
       script:
         - cmake --warn-uninitialized
           -D package_manager=conan
@@ -100,8 +109,9 @@ matrix:
           -D projname_check=clang-tidy &&
           cmake --build build --verbose --config Debug
 
-    - stage: check
-      <<: *linux_gcc
+    - <<: *linux_gcc
+      stage: check
+      name: linux-gcc-coverage
       script:
         - cmake --warn-uninitialized
           -D package_manager=conan
@@ -125,8 +135,9 @@ matrix:
       after_success:
         - bash <(curl -s https://codecov.io/bash)
 
-    - stage: check
-      <<: *linux_clang
+    - <<: *linux_clang
+      stage: check
+      name: linux-clang-asan
       script:
         - cmake --warn-uninitialized
           -D package_manager=conan
@@ -147,8 +158,9 @@ matrix:
           cmake -E chdir build ctest -V -C Debug -D ExperimentalTest &&
           source build/deactivate_run.sh
 
-    - stage: check
-      <<: *linux_gcc
+    - <<: *linux_gcc
+      stage: check
+      name: linux-gcc-memcheck
       script:
         - cmake --warn-uninitialized
           -D package_manager=conan
