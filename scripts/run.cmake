@@ -63,8 +63,8 @@ eval(${CMAKE_COMMAND}
     -D "projname_sanitizer=${sanitizer}"
     -D "projname_check=${check}")
 
-set(make_cmd ${CMAKE_COMMAND} --build ${build_dir}
-    --config ${cmake_config} --target)
+set(build_cmd ${CMAKE_COMMAND} --build ${build_dir}
+    --config ${cmake_config})
 
 set(test_cmd ${CMAKE_COMMAND} -E chdir ${build_dir}
     ${CMAKE_CTEST_COMMAND} --build-config ${cmake_config})
@@ -76,9 +76,9 @@ if(stats)
     eval(ccache -z)
 endif()
 if(format)
-    eval(${make_cmd} format)
+    eval(${build_cmd} --target format)
 endif()
-eval(${make_cmd} all)
+eval(${build_cmd})
 if(testing)
     # if(EXISTS "${build_dir}/activate_run.sh")
     #     eval(source "${build_dir}/activate_run.sh")
@@ -96,7 +96,7 @@ if(coverage)
     eval(${test_cmd} ExperimentalCoverage)
 endif()
 if(doc)
-    eval(${make_cmd} doc)
+    eval(${build_cmd} --target doc)
 endif()
 if(install)
     eval(${CMAKE_COMMAND} --install ${build_dir} --config ${cmake_config})
