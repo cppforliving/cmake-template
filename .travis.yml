@@ -93,45 +93,29 @@ matrix:
       stage: check
       name: linux-clang-tidy
       script:
-        - cmake --warn-uninitialized
-            -D package_manager=conan
-            -D build_type=Debug
-            -D build_dir=build
-            -D update=ON
-            -P scripts/setup.cmake &&
-          cmake
-            -B build
-            -D CMAKE_BUILD_TYPE=Debug
-            -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
-            -D BUILD_TESTING=ON
-            -D BUILD_EXAMPLES=ON
-            -D debug_dynamic_deps=ON
-            -D projname_check=clang-tidy &&
-          cmake --build build --verbose --config Debug
+        - scripts/run.sh
+            Conan
+            Debug
+            Upgrade
+            Verbose
+            Test
+            Examples
+            Rpaths
+            Check=clang-tidy
 
     - <<: *linux_gcc
       stage: check
       name: linux-gcc-coverage
       script:
-        - cmake --warn-uninitialized
-            -D package_manager=conan
-            -D build_type=Debug
-            -D build_dir=build
-            -D update=ON
-            -P scripts/setup.cmake &&
-          cmake
-            -B build
-            -D CMAKE_BUILD_TYPE=Debug
-            -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
-            -D BUILD_TESTING=ON
-            -D BUILD_EXAMPLES=ON
-            -D debug_dynamic_deps=ON
-            -D projname_coverage=xml &&
-          cmake --build build --verbose --config Debug &&
-          source build/activate_run.sh &&
-          cmake -E chdir build ctest -V -C Debug -D ExperimentalTest &&
-          cmake -E chdir build ctest -V -C Debug -D ExperimentalCoverage &&
-          source build/deactivate_run.sh
+        - scripts/run.sh
+            Conan
+            Debug
+            Upgrade
+            Verbose
+            Test
+            Examples
+            Rpaths
+            Coverage=xml
       after_success:
         - bash <(curl -s https://codecov.io/bash)
 
@@ -139,47 +123,29 @@ matrix:
       stage: check
       name: linux-clang-asan
       script:
-        - cmake --warn-uninitialized
-            -D package_manager=conan
-            -D build_type=Debug
-            -D build_dir=build
-            -D update=ON
-            -P scripts/setup.cmake &&
-          cmake
-            -B build
-            -D CMAKE_BUILD_TYPE=Debug
-            -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
-            -D BUILD_TESTING=ON
-            -D BUILD_EXAMPLES=ON
-            -D debug_dynamic_deps=ON
-            -D projname_sanitizer=address &&
-          cmake --build build --verbose --config Debug &&
-          source build/activate_run.sh &&
-          cmake -E chdir build ctest -V -C Debug -D ExperimentalTest &&
-          source build/deactivate_run.sh
+        - scripts/run.sh
+            Conan
+            Debug
+            Upgrade
+            Verbose
+            Test
+            Examples
+            Rpaths
+            Sanitizer=address
 
     - <<: *linux_gcc
       stage: check
       name: linux-gcc-memcheck
       script:
-        - cmake --warn-uninitialized
-            -D package_manager=conan
-            -D build_type=Debug
-            -D build_dir=build
-            -D update=ON
-            -P scripts/setup.cmake &&
-          cmake
-            -B build
-            -D CMAKE_BUILD_TYPE=Debug
-            -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
-            -D BUILD_TESTING=ON
-            -D BUILD_EXAMPLES=ON
-            -D debug_dynamic_deps=ON
-            -D projname_valgrind=memcheck &&
-          cmake --build build --verbose --config Debug &&
-          source build/activate_run.sh &&
-          cmake -E chdir build ctest -V -C Debug -D ExperimentalMemCheck &&
-          source build/deactivate_run.sh
+        - scripts/run.sh
+            Conan
+            Debug
+            Upgrade
+            Verbose
+            Test
+            Examples
+            Rpaths
+            MemCheck=memcheck
 
 before_install:
   - eval "$MATRIX_EVAL"
@@ -192,25 +158,16 @@ before_script:
   - cmake -E capabilities
 
 script:
-  - cmake --warn-uninitialized
-      -D package_manager=conan
-      -D build_type=Release
-      -D build_dir=build
-      -D update=ON
-      -P scripts/setup.cmake &&
-    cmake
-      -B build
-      -D CMAKE_BUILD_TYPE=Release
-      -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
-      -D BUILD_TESTING=ON
-      -D BUILD_BENCHMARKS=ON
-      -D BUILD_EXAMPLES=ON
-      -D debug_dynamic_deps=ON &&
-    cmake --build build --verbose --config Release &&
-    source build/activate_run.sh &&
-    cmake -E chdir build ctest -V -C Release &&
-    source build/deactivate_run.sh &&
-    cmake --install build --verbose --config Release
+  - scripts/run.sh
+      Conan
+      Release
+      Upgrade
+      Verbose
+      Test
+      Benchmark
+      Examples
+      Rpaths
+      Install
 
 after_script:
   - |-

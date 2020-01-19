@@ -1,43 +1,42 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-source_if_exists() {
-    [[ ! -f $1 ]] || source "$@"
-}
-
-run_main() {
+function run_main() {
+    declare -rx CTEST_OUTPUT_ON_FAILURE=1
+    declare build_dir=./build
     declare conan_config=Release
     declare cmake_config=Release
     declare -i cmake_shared=1
     declare valgrind=memcheck
-    declare -i silenced=1
 
     declare check=
     declare -i clean=
     declare cmake_toolchain=
-    declare conan_update=
     declare coverage=
     declare -i doc=
     declare -i examples=
     declare -i format=
     declare -i install=
     declare -i memcheck=
+    declare package_manager=
     declare pip_upgrade=
     declare -i rpaths=
     declare sanitizer=
     declare -i stats=
     declare -i testing=
     declare -i benchmark=
-    declare -i vcpkg_upgrade=
+    declare -i upgrade=
 
     declare opt
-    for opt in "$@"; do
-        case $opt in
+    for opt in "${@}"; do
+        case ${opt} in
         Conan)
-            declare -r cmake_toolchain=conan_paths.cmake
+            declare -r package_manager=conan
+            declare -r cmake_toolchain=${build_dir}/conan_paths.cmake
             ;;
         Vcpkg)
-            declare -r cmake_toolchain=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake
+            declare -r package_manager=vcpkg
+            declare -r cmake_toolchain=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake
             ;;
         Clean)
             declare -r clean=1
@@ -53,11 +52,13 @@ run_main() {
             ;;
         Debug)
             declare -r conan_config=Debug
-            declare -r cmake_config=$opt
+            declare -r cmake_config=${opt}
+            declare -r build_dir=./build/${opt}
             ;;
         Release | MinSizeRel | RelWithDebInfo)
             declare -r conan_config=Release
-            declare -r cmake_config=$opt
+            declare -r cmake_config=${opt}
+            declare -r build_dir=./build/${opt}
             ;;
         Test)
             declare -r testing=1
@@ -94,114 +95,105 @@ run_main() {
             declare -r rpaths=1
             ;;
         Upgrade)
+            declare -r upgrade=1
             declare -r pip_upgrade=-U
-            declare -r conan_update=-u
-            declare -r vcpkg_upgrade=1
             ;;
         Verbose)
-            declare -r silenced=0
+            declare -rx VERBOSE=1
             ;;
         Ninja)
             declare -rx CMAKE_GENERATOR=Ninja
             ;;
         *)
-            echo "unknown option '$opt'" >&2
+            echo >&2 "unknown option '${opt}'"
             exit 2
             ;;
         esac
     done
 
-    silent() {
-        ((silenced)) || set +x
-        "$@"
-        ((silenced)) || set -x
-    }
-
-    ((silenced)) || set -x
-
-    declare -r build_dir=./build/$cmake_config
-    ((clean)) && [[ -d $build_dir ]] && rm -r "$build_dir"
-    mkdir -p "$build_dir"
-
     declare -r venv_dir=./venv
-    [[ ! -d $venv_dir || $pip_upgrade ]] && python3 -m virtualenv "$venv_dir"
-    silent source "$venv_dir"/bin/activate
+    if [[ ! -d ${venv_dir} || ${pip_upgrade} ]]; then
+        python3 -m virtualenv "${venv_dir}"
+    fi
+    source "${venv_dir}/bin/activate"
 
     pip install $pip_upgrade -r requirements-dev.txt
 
-    case $(basename "$cmake_toolchain") in
-    conan_paths.cmake)
-        conan profile new "$build_dir"/conan/detected --detect --force
-        conan profile update settings.compiler.libcxx=libstdc++11 "$build_dir"/conan/detected
-        conan install . $conan_update \
-            -if "$build_dir" \
-            -s build_type="$conan_config" \
-            -pr "$build_dir"/conan/detected \
-            -b missing
-        ;;
-    vcpkg.cmake)
-        if ((vcpkg_upgrade)); then
-            "$VCPKG_ROOT"/vcpkg update
-        fi
-        "$VCPKG_ROOT"/vcpkg install @vcpkgfile.txt
-        ;;
-    esac
+    cmake --warn-uninitialized \
+        -D "package_manager=${package_manager}" \
+        -D "build_type=${conan_config}" \
+        -D "build_dir=${build_dir}" \
+        -D "update=${upgrade}" \
+        -D "clean=${clean}" \
+        -P scripts/setup.cmake
 
     cmake \
-        -B"$build_dir" \
-        -DBUILD_SHARED_LIBS="$cmake_shared" \
-        -DBUILD_TESTING="$testing" \
-        -DBUILD_BENCHMARKS="$benchmark" \
-        -DBUILD_EXAMPLES="$examples" \
-        -DBUILD_DOCS="$doc" \
-        -DCMAKE_BUILD_TYPE="$cmake_config" \
-        -DCMAKE_TOOLCHAIN_FILE="$cmake_toolchain" \
-        -Ddebug_dynamic_deps="$rpaths" \
-        -Dprojname_coverage="$coverage" \
-        -Dprojname_valgrind="$valgrind" \
-        -Dprojname_sanitizer="$sanitizer" \
-        -Dprojname_check="$check"
+        -B "${build_dir}" \
+        -D "BUILD_SHARED_LIBS=${cmake_shared}" \
+        -D "BUILD_TESTING=${testing}" \
+        -D "BUILD_BENCHMARKS=${benchmark}" \
+        -D "BUILD_EXAMPLES=${examples}" \
+        -D "BUILD_DOCS=${doc}" \
+        -D "CMAKE_BUILD_TYPE=${cmake_config}" \
+        -D "CMAKE_TOOLCHAIN_FILE=${cmake_toolchain}" \
+        -D "debug_dynamic_deps=${rpaths}" \
+        -D "projname_coverage=${coverage}" \
+        -D "projname_valgrind=${valgrind}" \
+        -D "projname_sanitizer=${sanitizer}" \
+        -D "projname_check=${check}"
 
     declare make_cmd
-    make_cmd="cmake --build $build_dir --parallel $(nproc) $(
-        if [[ $silenced == 0 ]]; then
-            echo ' --verbose'
-        fi
-    ) -- $(
-        if [[ ! -v CMAKE_GENERATOR || $CMAKE_GENERATOR == 'Unix Makefiles' ]]; then
-            echo ' --no-print-directory'
+    make_cmd="cmake --build ${build_dir} --config ${cmake_config} --parallel $(nproc) -- $(
+        if [[ ! -v CMAKE_GENERATOR || ${CMAKE_GENERATOR} == 'Unix Makefiles' ]]; then
+            echo '--no-print-directory'
         fi
     )"
     declare -r make_cmd
 
     declare test_cmd
-    test_cmd="cmake -E chdir $build_dir ctest --output-on-failure $(
-        if [[ $silenced == 0 ]]; then
-            echo ' --verbose'
+    test_cmd="cmake -E chdir ${build_dir} ctest --build-config ${cmake_config} $(
+        if [[ -v VERBOSE ]]; then
+            echo '--verbose'
         fi
     )"
     declare -r test_cmd
 
-    ((stats)) && ccache -z
-    ((format)) && $make_cmd format
-    $make_cmd all
-    if ((testing)); then
-        silent source_if_exists "$build_dir"/activate_run.sh
-        if ((memcheck)); then
-            $test_cmd ExperimentalMemCheck
-        else
-            $test_cmd ExperimentalTest
-        fi
-        silent source_if_exists "$build_dir"/deactivate_run.sh
+    if ((stats)); then
+        ccache -z
     fi
-    [[ $coverage ]] && $test_cmd ExperimentalCoverage
-    ((doc)) && $make_cmd doc
-    ((install)) && $make_cmd install
-    ((stats)) && ccache -s
+    if ((format)); then
+        ${make_cmd} format
+    fi
+    ${make_cmd} all
+    if ((testing)); then
+        if [[ -f "${build_dir}/activate_run.sh" ]]; then
+            source "${build_dir}/activate_run.sh"
+        fi
+        if ((memcheck)); then
+            ${test_cmd} ExperimentalMemCheck
+        else
+            ${test_cmd} ExperimentalTest
+        fi
+        if [[ -f "${build_dir}/deactivate_run.sh" ]]; then
+            source "${build_dir}/deactivate_run.sh"
+        fi
+    fi
+    if [[ ${coverage} ]]; then
+        ${test_cmd} ExperimentalCoverage
+    fi
+    if ((doc)); then
+        ${make_cmd} doc
+    fi
+    if ((install)); then
+        cmake --install ${build_dir} --config ${cmake_config}
+    fi
+    if ((stats)); then
+        ccache -s
+    fi
 
-    silent deactivate
+    deactivate
 }
 
-if [[ "$0" == "${BASH_SOURCE[0]}" ]]; then
-    run_main "$@"
+if [[ "${0}" == "${BASH_SOURCE[0]}" ]]; then
+    run_main "${@}"
 fi

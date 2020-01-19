@@ -1,5 +1,10 @@
 cmake_minimum_required(VERSION 3.15)
 
+get_property(cmake_role GLOBAL PROPERTY CMAKE_ROLE)
+if(NOT cmake_role STREQUAL "SCRIPT")
+    message(FATAL_ERROR "Not supported CMAKE_ROLE=${cmake_role}")
+endif()
+
 include(CMakePrintHelpers)
 
 macro(eval)
