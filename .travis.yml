@@ -102,7 +102,7 @@ matrix:
           cmake
             -B build
             -D CMAKE_BUILD_TYPE=Debug
-            -D CMAKE_TOOLCHAIN_FILE=conan_paths.cmake
+            -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
             -D BUILD_TESTING=ON
             -D BUILD_EXAMPLES=ON
             -D debug_dynamic_deps=ON
@@ -122,7 +122,7 @@ matrix:
           cmake
             -B build
             -D CMAKE_BUILD_TYPE=Debug
-            -D CMAKE_TOOLCHAIN_FILE=conan_paths.cmake
+            -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
             -D BUILD_TESTING=ON
             -D BUILD_EXAMPLES=ON
             -D debug_dynamic_deps=ON
@@ -148,7 +148,7 @@ matrix:
           cmake
             -B build
             -D CMAKE_BUILD_TYPE=Debug
-            -D CMAKE_TOOLCHAIN_FILE=conan_paths.cmake
+            -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
             -D BUILD_TESTING=ON
             -D BUILD_EXAMPLES=ON
             -D debug_dynamic_deps=ON
@@ -171,7 +171,7 @@ matrix:
           cmake
             -B build
             -D CMAKE_BUILD_TYPE=Debug
-            -D CMAKE_TOOLCHAIN_FILE=conan_paths.cmake
+            -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
             -D BUILD_TESTING=ON
             -D BUILD_EXAMPLES=ON
             -D debug_dynamic_deps=ON
@@ -201,7 +201,7 @@ script:
     cmake
       -B build
       -D CMAKE_BUILD_TYPE=Release
-      -D CMAKE_TOOLCHAIN_FILE=conan_paths.cmake
+      -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
       -D BUILD_TESTING=ON
       -D BUILD_BENCHMARKS=ON
       -D BUILD_EXAMPLES=ON

@@ -46,14 +46,25 @@ else()
 endif()
 cmake_print_variables(update)
 
+if(NOT clean)
+    set(clean OFF)
+endif()
+cmake_print_variables(clean)
+
+if(clean AND EXISTS "${build_dir}")
+    eval(${CMAKE_COMMAND} -E remove_directory "${build_dir}")
+endif()
 eval(${CMAKE_COMMAND} -E make_directory "${build_dir}")
 
 if(package_manager STREQUAL "conan")
+    eval(conan --version)
     eval(conan profile new
         --detect --force
         "${build_dir}/conan_profile")
     eval_out(conan_detected_libcxx
-        conan profile get settings.compiler.libcxx "${build_dir}/conan_profile")
+        conan profile get
+        settings.compiler.libcxx
+        "${build_dir}/conan_profile")
     if(conan_detected_libcxx STREQUAL "libstdc++")
         eval(conan profile update
             settings.compiler.libcxx=libstdc++11
@@ -66,8 +77,7 @@ if(package_manager STREQUAL "conan")
         -b missing)
 elseif(package_manager STREQUAL "vcpkg")
     file(TO_CMAKE_PATH $ENV{VCPKG_ROOT} vcpkg_root)
-    eval(${CMAKE_COMMAND} -E create_symlink
-        "${vcpkg_root}/scripts/buildsystems/vcpkg.cmake" "${build_dir}/vcpkg.cmake")
+    eval("${vcpkg_root}/vcpkg" version)
     if(update)
         eval("${vcpkg_root}/vcpkg" update)
     endif()

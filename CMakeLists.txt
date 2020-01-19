@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.15)
+
 include(CMakePrintHelpers)
+
 cmake_print_variables(CMAKE_VERSION)
+cmake_print_variables(CMAKE_TOOLCHAIN_FILE)
 
 option(BUILD_SHARED_LIBS
     "Global flag to cause `add_library()` to create shared libraries if on." ON)
