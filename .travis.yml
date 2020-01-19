@@ -12,6 +12,9 @@ stages:
   - test
   - check
 
+env:
+  - VERBOSE=1
+
 matrix:
   fast_finish: true
   exclude:
@@ -93,29 +96,29 @@ matrix:
       stage: check
       name: linux-clang-tidy
       script:
-        - scripts/run.sh
-            Conan
-            Debug
-            Upgrade
-            Verbose
-            Test
-            Examples
-            Rpaths
-            Check=clang-tidy
+        - cmake --warn-uninitialized
+            -D package_manager=conan
+            -D cmake_config=Debug
+            -D update=ON
+            -D testing=ON
+            -D examples=ON
+            -D rpaths=ON
+            -D check=clang-tidy
+            -P scripts/run.sh
 
     - <<: *linux_gcc
       stage: check
       name: linux-gcc-coverage
       script:
-        - scripts/run.sh
-            Conan
-            Debug
-            Upgrade
-            Verbose
-            Test
-            Examples
-            Rpaths
-            Coverage=xml
+        - cmake --warn-uninitialized
+            -D package_manager=conan
+            -D cmake_config=Debug
+            -D update=ON
+            -D testing=ON
+            -D examples=ON
+            -D rpaths=ON
+            -D coverage=xml
+            -P scripts/run.sh
       after_success:
         - bash <(curl -s https://codecov.io/bash)
 
@@ -123,29 +126,29 @@ matrix:
       stage: check
       name: linux-clang-asan
       script:
-        - scripts/run.sh
-            Conan
-            Debug
-            Upgrade
-            Verbose
-            Test
-            Examples
-            Rpaths
-            Sanitizer=address
+        - cmake --warn-uninitialized
+            -D package_manager=conan
+            -D cmake_config=Debug
+            -D update=ON
+            -D testing=ON
+            -D examples=ON
+            -D rpaths=ON
+            -D sanitizer=address
+            -P scripts/run.sh
 
     - <<: *linux_gcc
       stage: check
       name: linux-gcc-memcheck
       script:
-        - scripts/run.sh
-            Conan
-            Debug
-            Upgrade
-            Verbose
-            Test
-            Examples
-            Rpaths
-            MemCheck=memcheck
+        - cmake --warn-uninitialized
+            -D package_manager=conan
+            -D cmake_config=Debug
+            -D update=ON
+            -D testing=ON
+            -D examples=ON
+            -D rpaths=ON
+            -D memcheck=memcheck
+            -P scripts/run.sh
 
 before_install:
   - eval "$MATRIX_EVAL"
@@ -158,16 +161,16 @@ before_script:
   - cmake -E capabilities
 
 script:
-  - scripts/run.sh
-      Conan
-      Release
-      Upgrade
-      Verbose
-      Test
-      Benchmark
-      Examples
-      Rpaths
-      Install
+  - cmake --warn-uninitialized
+      -D package_manager=conan
+      -D cmake_config=Release
+      -D update=ON
+      -D testing=ON
+      -D benchmark=ON
+      -D examples=ON
+      -D rpaths=ON
+      -D install=ON
+      -P scripts/run.sh
 
 after_script:
   - |-
