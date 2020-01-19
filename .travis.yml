@@ -156,21 +156,28 @@ before_install:
 before_script:
   - conan config set general.non_interactive=True
   - conan user
-  - if [[ $TRAVIS_OS_NAME == windows ]]; then ccache -z; fi
+  - if [[ $TRAVIS_OS_NAME != windows ]]; then ccache -z; fi
   - cmake -E environment
   - cmake -E capabilities
 
 script:
   - cmake --warn-uninitialized
       -D package_manager=conan
-      -D cmake_config=Release
+      -D build_type=Release
       -D update=ON
+      -P scripts/setup.cmake &&
+    if [[ $TRAVIS_OS_NAME == osx ]]; then . build/Release/activate_run.sh; fi &&
+    cmake --warn-uninitialized
+      -D package_manager=conan
+      -D cmake_config=Release
+      -D cmake_shared=ON
       -D testing=ON
       -D benchmark=ON
       -D examples=ON
       -D rpaths=ON
       -D install=ON
-      -P scripts/run.cmake
+      -P scripts/run.cmake &&
+    if [[ $TRAVIS_OS_NAME == osx ]]; then . build/Release/deactivate_run.sh; fi
 
 after_script:
   - |-
@@ -183,4 +190,4 @@ after_script:
         fi
       fi
     done
-  - if [[ $TRAVIS_OS_NAME == windows ]]; then ccache -s; fi
+  - if [[ $TRAVIS_OS_NAME != windows ]]; then ccache -s; fi

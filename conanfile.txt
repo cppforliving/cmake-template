@@ -11,7 +11,3 @@ virtualrunenv
 [options]
 *:shared=True
 gtest*:debug_postfix=
-
-[imports]
-lib, libbenchmark*.dylib -> ./bin
-lib, libgtest*.dylib -> ./bin

@@ -69,17 +69,13 @@ build_script:
   - cmake --warn-uninitialized
       -D package_manager=vcpkg
       -D build_type=%CONFIGURATION%
-      -D build_dir=build
       -D update=ON
-      -D cmake_shared=%BUILD_SHARED_LIBS%
-      -D rpaths=ON
-      -P scripts\run.cmake
+      -P scripts\setup.cmake
 
 test_script:
   - cmake --warn-uninitialized
       -D package_manager=vcpkg
-      -D build_type=%CONFIGURATION%
-      -D build_dir=build
+      -D cmake_config=%CONFIGURATION%
       -D cmake_shared=%BUILD_SHARED_LIBS%
       -D testing=ON
       -D benchmark=%BUILD_BENCHMARKS%
