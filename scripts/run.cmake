@@ -63,11 +63,8 @@ eval(${CMAKE_COMMAND}
     -D "projname_sanitizer=${sanitizer}"
     -D "projname_check=${check}")
 
-set(make_cmd ${CMAKE_COMMAND} --build ${build_dir} --config ${cmake_config} --)
-if((NOT WIN32 AND NOT APPLE AND NOT DEFINED ENV{CMAKE_GENERATOR})
-  OR $ENV{CMAKE_GENERATOR} STREQUAL "Unix Makefiles")
-    list(APPEND make_cmd --no-print-directory)
-endif()
+set(make_cmd ${CMAKE_COMMAND} --build ${build_dir}
+    --config ${cmake_config} --target)
 
 set(test_cmd ${CMAKE_COMMAND} -E chdir ${build_dir}
     ${CMAKE_CTEST_COMMAND} --build-config ${cmake_config})
