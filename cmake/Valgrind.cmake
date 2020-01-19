@@ -3,7 +3,8 @@ set(${PROJECT_NAME}_valgrind memcheck CACHE STRING
 
 list(APPEND VALGRIND_COMMAND_OPTIONS
     --tool=${${PROJECT_NAME}_valgrind})
-if(${PROJECT_NAME}_valgrind STREQUAL memcheck)
+if(${PROJECT_NAME}_valgrind STREQUAL memcheck
+  OR NOT ${PROJECT_NAME}_valgrind)
     list(APPEND VALGRIND_COMMAND_OPTIONS
         --leak-check=yes
         --show-reachable=yes

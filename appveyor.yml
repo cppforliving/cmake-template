@@ -16,6 +16,7 @@ environment:
   VCPKG_ROOT: C:\Tools\vcpkg
   VCPKG_DEFAULT_TRIPLET: "%PLATFORM%-windows"
   PATH: C:\Python38-x64;C:\Python38-x64\Scripts;%PATH%
+  VERBOSE: 1
   matrix:
     - BUILD_SHARED_LIBS: "ON"
     - BUILD_SHARED_LIBS: "OFF"
@@ -70,20 +71,22 @@ build_script:
       -D build_type=%CONFIGURATION%
       -D build_dir=build
       -D update=ON
-      -P scripts\setup.cmake
-  - cmake
-      -B build
-      -D BUILD_SHARED_LIBS=%BUILD_SHARED_LIBS%
-      -D CMAKE_TOOLCHAIN_FILE=%VCPKG_ROOT%\scripts\buildsystems\vcpkg.cmake
-      -D BUILD_TESTING=ON
-      -D BUILD_BENCHMARKS=%BUILD_BENCHMARKS%
-      -D BUILD_EXAMPLES=ON
-      -D debug_dynamic_deps=ON
-  - cmake --build build --verbose --config %CONFIGURATION%
+      -D cmake_shared=%BUILD_SHARED_LIBS%
+      -D rpaths=ON
+      -P scripts\run.cmake
 
 test_script:
-  - cmake -E chdir build ctest -V -C %CONFIGURATION%
-  - cmake --install build --verbose --config %CONFIGURATION%
+  - cmake --warn-uninitialized
+      -D package_manager=vcpkg
+      -D build_type=%CONFIGURATION%
+      -D build_dir=build
+      -D cmake_shared=%BUILD_SHARED_LIBS%
+      -D testing=ON
+      -D benchmark=%BUILD_BENCHMARKS%
+      -D examples=ON
+      -D rpaths=ON
+      -D install=ON
+      -P scripts\run.cmake
 
 artifacts:
   - path: build\**\*.log

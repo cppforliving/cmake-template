@@ -153,7 +153,7 @@ before_install:
 before_script:
   - conan config set general.non_interactive=True
   - conan user
-  - "[[ $TRAVIS_OS_NAME == windows ]] || ccache -z"
+  - if [[ $TRAVIS_OS_NAME == windows ]]; then ccache -z; fi
   - cmake -E environment
   - cmake -E capabilities
 
@@ -180,4 +180,4 @@ after_script:
         fi
       fi
     done
-  - "[[ $TRAVIS_OS_NAME == windows ]] || ccache -s"
+  - if [[ $TRAVIS_OS_NAME == windows ]]; then ccache -s; fi
