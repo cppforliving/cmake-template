@@ -64,7 +64,8 @@ eval(${CMAKE_COMMAND}
     -D "projname_check=${check}")
 
 set(make_cmd ${CMAKE_COMMAND} --build ${build_dir} --config ${cmake_config} --)
-if(NOT ENV{CMAKE_GENERATOR} OR ENV{CMAKE_GENERATOR} STREQUAL "Unix Makefiles")
+if((NOT WIN32 AND NOT APPLE AND NOT DEFINED ENV{CMAKE_GENERATOR})
+  OR $ENV{CMAKE_GENERATOR} STREQUAL "Unix Makefiles")
     list(APPEND make_cmd --no-print-directory)
 endif()
 
