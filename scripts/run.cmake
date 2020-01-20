@@ -9,7 +9,7 @@ include(CMakePrintHelpers)
 
 macro(eval)
     string(REPLACE ";" " " argn "${ARGN}")
-    message(STATUS "${argn}")
+    message("${argn}")
     execute_process(COMMAND ${ARGN} RESULT_VARIABLE ret)
     if(ret)
         string(REPLACE ";" " " msg "'${ARGN}' failed with error code ${ret}")
