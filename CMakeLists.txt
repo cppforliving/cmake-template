@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
 
 include(CMakePrintHelpers)
+include(CheckIPOSupported)
 
 cmake_print_variables(CMAKE_VERSION)
 
@@ -17,6 +18,13 @@ project(projname
     VERSION 0.1.0
     DESCRIPTION "C++ x GTest/Catch2 x GCC/Clang/MSVC x CMake x Conan/Vcpkg x Linux/macOS/Windows"
     LANGUAGES CXX)
+
+check_ipo_supported(RESULT ipo_supported OUTPUT ipo_supported_output)
+if(NOT ipo_supported)
+    message(WARNING "IPO is not supported: ${ipo_supported_output}")
+endif()
+option(CMAKE_INTERPROCEDURAL_OPTIMIZATION "Enable IP/LTO" ${ipo_supported})
+cmake_print_variables(CMAKE_INTERPROCEDURAL_OPTIMIZATION)
 
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
     set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/dist" CACHE PATH
