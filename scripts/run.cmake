@@ -22,23 +22,34 @@ set(cmake_config Release)
 set(cmake_shared 1)
 
 set(cmake_release_configs Release MinSizeRel RelWithDebInfo)
-if(cmake_config STREQUAL Debug)
+if(cmake_config STREQUAL "Debug")
     set(conan_config Debug)
 elseif(cmake_config IN_LIST cmake_release_configs)
     set(conan_config Release)
 endif()
 set(build_dir ./build/${cmake_config})
 
-if(package_manager STREQUAL conan)
-    set(cmake_toolchain ${build_dir}/conan_paths.cmake)
-elseif(package_manager STREQUAL vcpkg)
-    file(TO_CMAKE_PATH $ENV{VCPKG_ROOT} vcpkg_root)
-    set(cmake_toolchain ${vcpkg_root}/scripts/buildsystems/vcpkg.cmake)
+if(package_manager STREQUAL "conan")
+    set(cmake_toolchain "${build_dir}/conan_paths.cmake")
+elseif(package_manager STREQUAL "vcpkg")
+    file(TO_CMAKE_PATH "$ENV{VCPKG_ROOT}" vcpkg_root)
+    set(cmake_toolchain "${vcpkg_root}/scripts/buildsystems/vcpkg.cmake")
 endif()
 
 if(NOT update)
     set(update OFF)
+#     set(pip_upgrade)
+# else()
+#     set(pip_upgrade -U)
 endif()
+
+# set(venv_dir ./venv)
+# if(NOT IS_DIRECTORY "${venv_dir}" OR pip_upgrade)
+#     eval(python3 -m virtualenv "${venv_dir}")
+# endif()
+# eval(source "${venv_dir}/bin/activate")
+
+# eval(pip install $pip_upgrade -r requirements-dev.txt)
 
 eval(${CMAKE_COMMAND} --warn-uninitialized
     -D "package_manager=${package_manager}"
@@ -64,7 +75,10 @@ eval(${CMAKE_COMMAND}
     -D "projname_check=${check}")
 
 set(build_cmd ${CMAKE_COMMAND} --build ${build_dir}
-    --config ${cmake_config})
+    --config ${cmake_config})# --parallel $(nproc))
+# if(NOT ENV{CMAKE_GENERATOR} OR "$ENV{CMAKE_GENERATOR}" STREQUAL "Unix Makefiles")
+#     list(APPEND build_cmd --no-print-directory)
+# endif()
 
 set(test_cmd ${CMAKE_COMMAND} -E chdir ${build_dir}
     ${CMAKE_CTEST_COMMAND} --build-config ${cmake_config})
@@ -72,9 +86,9 @@ if(ENV{VERBOSE})
     list(APPEND test_cmd --verbose)
 endif()
 
-if(stats)
-    eval(ccache -z)
-endif()
+# if(UNIX AND stats)
+#     eval(ccache -z)
+# endif()
 if(format)
     eval(${build_cmd} --target format)
 endif()
@@ -101,6 +115,8 @@ endif()
 if(install)
     eval(${CMAKE_COMMAND} --install ${build_dir} --config ${cmake_config})
 endif()
-if(stats)
-    eval(ccache -s)
-endif()
+# if(UNIX AND stats)
+#     eval(ccache -s)
+# endif()
+
+# eval(deactivate)
