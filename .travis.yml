@@ -16,8 +16,10 @@ env:
   - VERBOSE=1
 
 matrix:
+  allow_failures:
+    - os: windows
   fast_finish: true
-  exclude:
+  include:
     - stage: test
       name: windows-cl
       os: windows
@@ -32,7 +34,6 @@ matrix:
         - MATRIX_EVAL="CC=cl && CXX=cl"
         - CMAKE_GENERATOR='Visual Studio 15 2017'
 
-  include:
     - stage: test
       name: osx-clang
       os: osx
