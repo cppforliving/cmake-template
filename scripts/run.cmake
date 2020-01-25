@@ -37,11 +37,12 @@ endif()
 
 set(venv_dir ./venv)
 if(NOT IS_DIRECTORY ${venv_dir} OR pip_upgrade)
-    eval(python3 -m virtualenv "${venv_dir}")
+    find_package(Python3 REQUIRED COMPONENTS Interpreter)
+    eval(Python3::Interpreter -m virtualenv "${venv_dir}")
 endif()
 # eval(source "${venv_dir}/bin/activate")
 
-eval(pip install $pip_upgrade -r requirements-dev.txt)
+eval(pip install ${pip_upgrade} -r requirements-dev.txt)
 
 set(build_dir ./build/${cmake_config})
 
