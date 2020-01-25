@@ -3,11 +3,9 @@ set -euo pipefail
 
 function run_main() {
     declare -rx CTEST_OUTPUT_ON_FAILURE=1
-    declare build_dir=./build
     declare conan_config=Release
     declare cmake_config=Release
     declare -i cmake_shared=1
-    declare valgrind=memcheck
 
     declare check=
     declare -i clean=
@@ -17,7 +15,7 @@ function run_main() {
     declare -i examples=
     declare -i format=
     declare -i install=
-    declare -i memcheck=
+    declare memcheck=
     declare package_manager=
     declare pip_upgrade=
     declare -i rpaths=
@@ -32,11 +30,9 @@ function run_main() {
         case ${opt} in
         Conan)
             declare -r package_manager=conan
-            declare -r cmake_toolchain=${build_dir}/conan_paths.cmake
             ;;
         Vcpkg)
             declare -r package_manager=vcpkg
-            declare -r cmake_toolchain=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake
             ;;
         Clean)
             declare -r clean=1
@@ -53,12 +49,10 @@ function run_main() {
         Debug)
             declare -r conan_config=Debug
             declare -r cmake_config=${opt}
-            declare -r build_dir=./build/${opt}
             ;;
         Release | MinSizeRel | RelWithDebInfo)
             declare -r conan_config=Release
             declare -r cmake_config=${opt}
-            declare -r build_dir=./build/${opt}
             ;;
         Test)
             declare -r testing=1
@@ -70,8 +64,7 @@ function run_main() {
             declare -r coverage=${opt#*=}
             ;;
         MemCheck=*)
-            declare -r memcheck=1
-            declare -r valgrind=${opt#*=}
+            declare -r memcheck=${opt#*=}
             ;;
         Sanitizer=*)
             declare -r sanitizer=${opt#*=}
@@ -119,6 +112,8 @@ function run_main() {
 
     pip install $pip_upgrade -r requirements-dev.txt
 
+    declare -r build_dir=./build/${cmake_config}
+
     cmake --warn-uninitialized \
         -D "package_manager=${package_manager}" \
         -D "build_type=${conan_config}" \
@@ -126,6 +121,15 @@ function run_main() {
         -D "update=${upgrade}" \
         -D "clean=${clean}" \
         -P scripts/setup.cmake
+
+    case ${package_manager} in
+    conan)
+        declare -r cmake_toolchain=${build_dir}/conan_paths.cmake
+        ;;
+    vcpkg)
+        declare -r cmake_toolchain=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake
+        ;;
+    esac
 
     cmake \
         -B "${build_dir}" \
@@ -138,17 +142,17 @@ function run_main() {
         -D "CMAKE_TOOLCHAIN_FILE=${cmake_toolchain}" \
         -D "debug_dynamic_deps=${rpaths}" \
         -D "projname_coverage=${coverage}" \
-        -D "projname_valgrind=${valgrind}" \
+        -D "projname_valgrind=${memcheck}" \
         -D "projname_sanitizer=${sanitizer}" \
         -D "projname_check=${check}"
 
-    declare make_cmd
-    make_cmd="cmake --build ${build_dir} --config ${cmake_config} --parallel $(nproc) -- $(
+    declare build_cmd
+    build_cmd="cmake --build ${build_dir} --config ${cmake_config} --parallel $(nproc) -- $(
         if [[ ! -v CMAKE_GENERATOR || ${CMAKE_GENERATOR} == 'Unix Makefiles' ]]; then
             echo '--no-print-directory'
         fi
     )"
-    declare -r make_cmd
+    declare -r build_cmd
 
     declare test_cmd
     test_cmd="cmake -E chdir ${build_dir} ctest --build-config ${cmake_config} $(
@@ -162,14 +166,14 @@ function run_main() {
         ccache -z
     fi
     if ((format)); then
-        ${make_cmd} format
+        ${build_cmd} format
     fi
-    ${make_cmd} all
+    ${build_cmd} all
     if ((testing)); then
         if [[ -f "${build_dir}/activate_run.sh" ]]; then
             source "${build_dir}/activate_run.sh"
         fi
-        if ((memcheck)); then
+        if [[ ${memcheck} ]]; then
             ${test_cmd} ExperimentalMemCheck
         else
             ${test_cmd} ExperimentalTest
@@ -182,7 +186,7 @@ function run_main() {
         ${test_cmd} ExperimentalCoverage
     fi
     if ((doc)); then
-        ${make_cmd} doc
+        ${build_cmd} doc
     fi
     if ((install)); then
         cmake --install ${build_dir} --config ${cmake_config}
