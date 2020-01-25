@@ -4,9 +4,11 @@ include(CMakePrintHelpers)
 include(CheckIPOSupported)
 
 cmake_print_variables(CMAKE_VERSION)
+
 cmake_print_variables(CMAKE_GENERATOR)
 cmake_print_variables(CMAKE_GENERATOR_PLATFORM)
 cmake_print_variables(CMAKE_GENERATOR_TOOLSET)
+
 cmake_print_variables(CMAKE_BUILD_TYPE)
 cmake_print_variables(CMAKE_CONFIGURATION_TYPES)
 cmake_print_variables(CMAKE_CFG_INTDIR)
