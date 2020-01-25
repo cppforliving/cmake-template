@@ -10,4 +10,5 @@ virtualrunenv
 
 [options]
 *:shared=True
+benchmark:shared=False  # Windows shared builds are not supported right now
 gtest*:debug_postfix=
