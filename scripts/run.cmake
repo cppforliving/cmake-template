@@ -38,7 +38,7 @@ endif()
 set(venv_dir ./venv)
 if(NOT IS_DIRECTORY ${venv_dir} OR pip_upgrade)
     find_package(Python REQUIRED COMPONENTS Interpreter)
-    eval(${Python_EXECUTABLE} -m venv "${venv_dir}")
+    eval(${Python_EXECUTABLE} -m virtualenv "${venv_dir}")
 endif()
 # eval(source "${venv_dir}/bin/activate")
 

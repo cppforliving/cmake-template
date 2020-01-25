@@ -106,7 +106,7 @@ function run_main() {
 
     declare -r venv_dir=./venv
     if [[ ! -d ${venv_dir} || ${pip_upgrade} ]]; then
-        python3 -m venv "${venv_dir}"
+        python -m virtualenv "${venv_dir}"
     fi
     source "${venv_dir}/bin/activate"
 
