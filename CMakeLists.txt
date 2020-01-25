@@ -4,6 +4,9 @@ include(CMakePrintHelpers)
 include(CheckIPOSupported)
 
 cmake_print_variables(CMAKE_VERSION)
+cmake_print_variables(CMAKE_BUILD_TYPE)
+cmake_print_variables(CMAKE_CONFIGURATION_TYPES)
+cmake_print_variables(CMAKE_CFG_INTDIR)
 
 if(CMAKE_TOOLCHAIN_FILE AND NOT EXISTS "${CMAKE_TOOLCHAIN_FILE}")
     message(FATAL_ERROR "CMAKE_TOOLCHAIN_FILE='${CMAKE_TOOLCHAIN_FILE}' does not exist")
