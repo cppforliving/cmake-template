@@ -42,7 +42,7 @@ if(NOT IS_DIRECTORY ${venv_dir} OR pip_upgrade)
 endif()
 # eval(source "${venv_dir}/bin/activate")
 
-eval(pip install ${pip_upgrade} -r requirements-dev.txt)
+eval(pip install --user ${pip_upgrade} -r requirements-dev.txt)
 
 set(build_dir ./build/${cmake_config})
 
