@@ -17,7 +17,7 @@ stages:
 env:
   - VERBOSE=1
 
-matrix:
+jobs:
   allow_failures:
     - os: windows
   fast_finish: true
