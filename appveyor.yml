@@ -16,6 +16,7 @@ environment:
   VCPKG_ROOT: C:\Tools\vcpkg
   VCPKG_DEFAULT_TRIPLET: "%PLATFORM%-windows"
   PATH: C:\Python38-x64;C:\Python38-x64\Scripts;%PATH%
+  VERBOSE: 1
   matrix:
     - BUILD_SHARED_LIBS: "ON"
     - BUILD_SHARED_LIBS: "OFF"
@@ -45,23 +46,20 @@ cache:
   - '%LOCALAPPDATA%\pip\Cache -> requirements.txt'
 
 install:
-  - py -m pip install -U -r requirements.txt
+  - python -m pip install -U -r requirements.txt
   - if "%PLATFORM%"=="x86" (
       set "CMAKE_GENERATOR_PLATFORM=Win32"
-    )
-  - if "%PLATFORM%"=="x64" (
+    ) else if "%PLATFORM%"=="x64" (
       set "CMAKE_GENERATOR_PLATFORM=x64"
     )
   - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" (
       set "CMAKE_GENERATOR=Visual Studio 16 2019"
-    )
-  - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" (
+    ) else if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" (
       set "CMAKE_GENERATOR=Visual Studio 15 2017"
     )
   - if "%CONFIGURATION%"=="Debug" (
       set "BUILD_BENCHMARKS=OFF"
-    )
-  - if "%CONFIGURATION%"=="Release" (
+    ) else if "%CONFIGURATION%"=="Release" (
       set "BUILD_BENCHMARKS=ON"
     )
   - cmake -E environment
@@ -73,7 +71,7 @@ build_script:
       -D build_type=%CONFIGURATION%
       -D build_dir=build
       -D update=ON
-      -P scripts/setup.cmake
+      -P scripts\setup.cmake
   - cmake
       -B build
       -D BUILD_SHARED_LIBS=%BUILD_SHARED_LIBS%
@@ -93,6 +91,8 @@ artifacts:
     name: logs
   - path: build\**\*.xml
     name: test_results
+  - path: build\**\CMakeCache.txt
+    name: cmake_cache
 
 skip_commits:
   files:

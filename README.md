@@ -1,6 +1,6 @@
 # README
 
-[![Travis Build Status](https://travis-ci.org/piotrgumienny/cmake-template.svg?branch=master)](https://travis-ci.org/piotrgumienny/cmake-template)
+[![Travis Build Status](https://travis-ci.com/piotrgumienny/cmake-template.svg?branch=master)](https://travis-ci.com/piotrgumienny/cmake-template)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/piotrgumienny/cmake-template?branch=master&svg=true)](https://ci.appveyor.com/project/piotrgumienny/cmake-template)
 [![codecov](https://codecov.io/gh/piotrgumienny/cmake-template/branch/master/graph/badge.svg)](https://codecov.io/gh/piotrgumienny/cmake-template)
 [![License](https://img.shields.io/github/license/piotrgumienny/cmake-template.svg)](./LICENSE)

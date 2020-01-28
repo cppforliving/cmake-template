@@ -1,3 +1,5 @@
+version: ~> 1.0
+
 language: cpp
 
 cache:
@@ -12,7 +14,10 @@ stages:
   - test
   - check
 
-matrix:
+env:
+  - VERBOSE=1
+
+jobs:
   fast_finish: true
   exclude:
     - stage: test
@@ -23,7 +28,7 @@ matrix:
         - choco install python --version 3.8.0
         - export PATH=/c/Python38:/c/Python38/Scripts:$PATH
         - export PATH=$HOME/AppData/Roaming/Python/Python38/Scripts:$PATH
-        - python3 -m pip install --user -U -r requirements.txt conan
+        - python -m pip install --user -U -r requirements.txt conan
         - conan config set general.user_home_short=None
       env:
         - MATRIX_EVAL="CC=cl && CXX=cl"
@@ -61,7 +66,7 @@ matrix:
             - valgrind
       install:
         - sudo update-alternatives
-          --install /usr/bin/gcov gcov /usr/bin/gcov-8 80
+            --install /usr/bin/gcov gcov /usr/bin/gcov-8 80
         - python -m pip install --user -U -r requirements.txt conan
       env:
         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
@@ -79,9 +84,9 @@ matrix:
             - libstdc++-8-dev
       install:
         - sudo update-alternatives
-          --install /usr/bin/clang clang /usr/local/clang-7.0.0/bin/clang 70
-          --slave /usr/bin/clang++ clang++ /usr/local/clang-7.0.0/bin/clang++
-          --slave /usr/bin/ld ld /usr/local/clang-7.0.0/bin/lld
+            --install /usr/bin/clang clang /usr/local/clang-7.0.0/bin/clang 70
+            --slave /usr/bin/clang++ clang++ /usr/local/clang-7.0.0/bin/clang++
+            --slave /usr/bin/ld ld /usr/local/clang-7.0.0/bin/lld
         - export LD_LIBRARY_PATH=/usr/local/clang-7.0.0/lib:$LD_LIBRARY_PATH
         - sudo update-ccache-symlinks
         - python -m pip install --user -U -r requirements.txt conan
@@ -94,19 +99,19 @@ matrix:
       name: linux-clang-tidy
       script:
         - cmake --warn-uninitialized
-          -D package_manager=conan
-          -D build_type=Debug
-          -D build_dir=build
-          -D update=ON
-          -P scripts/setup.cmake &&
+            -D package_manager=conan
+            -D build_type=Debug
+            -D build_dir=build
+            -D update=ON
+            -P scripts/setup.cmake &&
           cmake
-          -B build
-          -D CMAKE_BUILD_TYPE=Debug
-          -D CMAKE_TOOLCHAIN_FILE=conan_paths.cmake
-          -D BUILD_TESTING=ON
-          -D BUILD_EXAMPLES=ON
-          -D debug_dynamic_deps=ON
-          -D projname_check=clang-tidy &&
+            -B build
+            -D CMAKE_BUILD_TYPE=Debug
+            -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
+            -D BUILD_TESTING=ON
+            -D BUILD_EXAMPLES=ON
+            -D debug_dynamic_deps=ON
+            -D projname_check=clang-tidy &&
           cmake --build build --verbose --config Debug
 
     - <<: *linux_gcc
@@ -114,24 +119,22 @@ matrix:
       name: linux-gcc-coverage
       script:
         - cmake --warn-uninitialized
-          -D package_manager=conan
-          -D build_type=Debug
-          -D build_dir=build
-          -D update=ON
-          -P scripts/setup.cmake &&
+            -D package_manager=conan
+            -D build_type=Debug
+            -D build_dir=build
+            -D update=ON
+            -P scripts/setup.cmake &&
           cmake
-          -B build
-          -D CMAKE_BUILD_TYPE=Debug
-          -D CMAKE_TOOLCHAIN_FILE=conan_paths.cmake
-          -D BUILD_TESTING=ON
-          -D BUILD_EXAMPLES=ON
-          -D debug_dynamic_deps=ON
-          -D projname_coverage=xml &&
+            -B build
+            -D CMAKE_BUILD_TYPE=Debug
+            -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
+            -D BUILD_TESTING=ON
+            -D BUILD_EXAMPLES=ON
+            -D debug_dynamic_deps=ON
+            -D projname_coverage=xml &&
           cmake --build build --verbose --config Debug &&
-          source build/activate_run.sh &&
           cmake -E chdir build ctest -V -C Debug -D ExperimentalTest &&
-          cmake -E chdir build ctest -V -C Debug -D ExperimentalCoverage &&
-          source build/deactivate_run.sh
+          cmake -E chdir build ctest -V -C Debug -D ExperimentalCoverage
       after_success:
         - bash <(curl -s https://codecov.io/bash)
 
@@ -140,46 +143,42 @@ matrix:
       name: linux-clang-asan
       script:
         - cmake --warn-uninitialized
-          -D package_manager=conan
-          -D build_type=Debug
-          -D build_dir=build
-          -D update=ON
-          -P scripts/setup.cmake &&
+            -D package_manager=conan
+            -D build_type=Debug
+            -D build_dir=build
+            -D update=ON
+            -P scripts/setup.cmake &&
           cmake
-          -B build
-          -D CMAKE_BUILD_TYPE=Debug
-          -D CMAKE_TOOLCHAIN_FILE=conan_paths.cmake
-          -D BUILD_TESTING=ON
-          -D BUILD_EXAMPLES=ON
-          -D debug_dynamic_deps=ON
-          -D projname_sanitizer=address &&
+            -B build
+            -D CMAKE_BUILD_TYPE=Debug
+            -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
+            -D BUILD_TESTING=ON
+            -D BUILD_EXAMPLES=ON
+            -D debug_dynamic_deps=ON
+            -D projname_sanitizer=address &&
           cmake --build build --verbose --config Debug &&
-          source build/activate_run.sh &&
-          cmake -E chdir build ctest -V -C Debug -D ExperimentalTest &&
-          source build/deactivate_run.sh
+          cmake -E chdir build ctest -V -C Debug -D ExperimentalTest
 
     - <<: *linux_gcc
       stage: check
       name: linux-gcc-memcheck
       script:
         - cmake --warn-uninitialized
-          -D package_manager=conan
-          -D build_type=Debug
-          -D build_dir=build
-          -D update=ON
-          -P scripts/setup.cmake &&
+            -D package_manager=conan
+            -D build_type=Debug
+            -D build_dir=build
+            -D update=ON
+            -P scripts/setup.cmake &&
           cmake
-          -B build
-          -D CMAKE_BUILD_TYPE=Debug
-          -D CMAKE_TOOLCHAIN_FILE=conan_paths.cmake
-          -D BUILD_TESTING=ON
-          -D BUILD_EXAMPLES=ON
-          -D debug_dynamic_deps=ON
-          -D projname_valgrind=memcheck &&
+            -B build
+            -D CMAKE_BUILD_TYPE=Debug
+            -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
+            -D BUILD_TESTING=ON
+            -D BUILD_EXAMPLES=ON
+            -D debug_dynamic_deps=ON
+            -D projname_valgrind=memcheck &&
           cmake --build build --verbose --config Debug &&
-          source build/activate_run.sh &&
-          cmake -E chdir build ctest -V -C Debug -D ExperimentalMemCheck &&
-          source build/deactivate_run.sh
+          cmake -E chdir build ctest -V -C Debug -D ExperimentalMemCheck
 
 before_install:
   - eval "$MATRIX_EVAL"
@@ -187,40 +186,40 @@ before_install:
 before_script:
   - conan config set general.non_interactive=True
   - conan user
-  - "[[ $TRAVIS_OS_NAME == windows ]] || ccache -z"
+  - if [[ $TRAVIS_OS_NAME != windows ]]; then ccache -z; fi
   - cmake -E environment
   - cmake -E capabilities
 
 script:
   - cmake --warn-uninitialized
-    -D package_manager=conan
-    -D build_type=Release
-    -D build_dir=build
-    -D update=ON
-    -P scripts/setup.cmake &&
+      -D package_manager=conan
+      -D build_type=Release
+      -D build_dir=build
+      -D update=ON
+      -P scripts/setup.cmake &&
     cmake
-    -B build
-    -D CMAKE_BUILD_TYPE=Release
-    -D CMAKE_TOOLCHAIN_FILE=conan_paths.cmake
-    -D BUILD_TESTING=ON
-    -D BUILD_BENCHMARKS=ON
-    -D BUILD_EXAMPLES=ON
-    -D debug_dynamic_deps=ON &&
+      -B build
+      -D CMAKE_BUILD_TYPE=Release
+      -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
+      -D BUILD_TESTING=ON
+      -D BUILD_BENCHMARKS=ON
+      -D BUILD_EXAMPLES=ON
+      -D debug_dynamic_deps=ON &&
     cmake --build build --verbose --config Release &&
-    source build/activate_run.sh &&
+    if [[ $TRAVIS_OS_NAME == osx ]]; then source build/activate_run.sh; fi &&
     cmake -E chdir build ctest -V -C Release &&
-    source build/deactivate_run.sh &&
+    if [[ $TRAVIS_OS_NAME == osx ]]; then source build/deactivate_run.sh; fi &&
     cmake --install build --verbose --config Release
 
 after_script:
-  - >
+  - |
     for f in dist/bin/* dist/lib/lib*; do
       if [[ ! -L $f ]]; then
         if [[ $TRAVIS_OS_NAME == linux ]]; then
-          echo $f:; ldd $f;
+          echo "$f:" && ldd $f
         elif [[ $TRAVIS_OS_NAME == osx ]]; then
-          otool -L $f;
-        fi;
-      fi;
+          otool -L $f
+        fi
+      fi
     done
-  - "[[ $TRAVIS_OS_NAME == windows ]] || ccache -s"
+  - if [[ $TRAVIS_OS_NAME != windows ]]; then ccache -s; fi

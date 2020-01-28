@@ -1,6 +1,12 @@
 cmake_minimum_required(VERSION 3.15)
+
 include(CMakePrintHelpers)
+
 cmake_print_variables(CMAKE_VERSION)
+
+if(CMAKE_TOOLCHAIN_FILE AND NOT EXISTS "${CMAKE_TOOLCHAIN_FILE}")
+    message(FATAL_ERROR "CMAKE_TOOLCHAIN_FILE='${CMAKE_TOOLCHAIN_FILE}' does not exist")
+endif()
 
 option(BUILD_SHARED_LIBS
     "Global flag to cause `add_library()` to create shared libraries if on." ON)
