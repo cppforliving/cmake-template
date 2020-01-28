@@ -50,7 +50,7 @@ jobs:
         - ccache -M 500M
         - export PATH=/usr/local/opt/ccache/libexec:$PATH
         - export PATH=$HOME/Library/Python/3.7/bin:$PATH
-        - python3 -m pip install --user -U -r requirements.txt conan virtualenv
+        - python3 -m pip install --user -U -r requirements.txt conan
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
         - CMAKE_GENERATOR='Xcode'
@@ -170,7 +170,7 @@ script:
       -D build_type=Release
       -D update=ON
       -P scripts/setup.cmake &&
-    if [[ $TRAVIS_OS_NAME == osx ]]; then . build/Release/activate_run.sh; fi &&
+    if [[ $TRAVIS_OS_NAME == osx ]]; then source build/Release/activate_run.sh; fi &&
     cmake --warn-uninitialized
       -D package_manager=conan
       -D cmake_config=Release
@@ -181,14 +181,14 @@ script:
       -D rpaths=ON
       -D install=ON
       -P scripts/run.cmake &&
-    if [[ $TRAVIS_OS_NAME == osx ]]; then . build/Release/deactivate_run.sh; fi
+    if [[ $TRAVIS_OS_NAME == osx ]]; then source build/Release/deactivate_run.sh; fi
 
 after_script:
-  - |-
+  - |
     for f in dist/bin/* dist/lib/lib*; do
       if [[ ! -L $f ]]; then
         if [[ $TRAVIS_OS_NAME == linux ]]; then
-          echo $f:; ldd $f
+          echo "$f:" && ldd $f
         elif [[ $TRAVIS_OS_NAME == osx ]]; then
           otool -L $f
         fi
