@@ -31,6 +31,7 @@ jobs:
         - export PATH=/c/Python38:/c/Python38/Scripts:$PATH
         - export PATH=$HOME/AppData/Roaming/Python/Python38/Scripts:$PATH
         - python -m pip install --user -U -r requirements.txt conan
+        - find "/c/Program Files*" -name cl.exe
         - conan config set general.user_home_short=None
       env:
         - MATRIX_EVAL="CC=cl && CXX=cl"
