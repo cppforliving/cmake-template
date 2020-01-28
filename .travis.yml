@@ -31,10 +31,10 @@ jobs:
         - export PATH=/c/Python38:/c/Python38/Scripts:$PATH
         - export PATH=$HOME/AppData/Roaming/Python/Python38/Scripts:$PATH
         - python -m pip install --user -U -r requirements.txt conan
-        - /usr/bin/find "/c/Program Files (x86)" "/c/Program Files" -iname cl.exe
         - conan config set general.user_home_short=None
       env:
-        - MATRIX_EVAL="CC=cl && CXX=cl"
+        - MATRIX_EVAL="CC='/c/Program Files (x86)/Microsoft Visual Studio/2017/BuildTools/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x86/cl.exe' &&
+            CXX='/c/Program Files (x86)/Microsoft Visual Studio/2017/BuildTools/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x86/cl.exe'"
         - CMAKE_GENERATOR='Visual Studio 15 2017'
 
     - stage: test
