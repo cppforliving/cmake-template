@@ -33,7 +33,7 @@ jobs:
         - python -m pip install --user -U -r requirements.txt conan
         - conan config set general.user_home_short=None
       env:
-        #- MATRIX_EVAL="CC=cl && CXX=cl"
+        - MATRIX_EVAL="CC=cl && CXX=cl"
         - CMAKE_GENERATOR='Visual Studio 15 2017'
 
     - stage: test
