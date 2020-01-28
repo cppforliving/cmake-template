@@ -1,12 +1,12 @@
 get_filename_component(lib_name "${CMAKE_CURRENT_SOURCE_DIR}" NAME)
 
-add_custom_library(${lib_name} INTERFACE
+projname_add_library(${lib_name} INTERFACE
   SOURCES
     ssize.hpp
 )
 
 if(BUILD_TESTING)
-    add_custom_test(${lib_name}_test
+    projname_add_test(${lib_name}_test
       SOURCES
         ssize_test.cpp
       DEPENDS

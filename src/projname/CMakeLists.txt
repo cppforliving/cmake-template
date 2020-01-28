@@ -1,4 +1,4 @@
-add_custom_library(${PROJECT_NAME}
+projname_add_library(${PROJECT_NAME}
   SOURCES
     lockable.hpp
     projname.cpp
@@ -13,7 +13,7 @@ add_custom_library(${PROJECT_NAME}
     $<$<TARGET_EXISTS:boost_throw_exception>:boost_throw_exception>
 )
 
-add_custom_executable(${PROJECT_NAME}_tool
+projname_add_executable(${PROJECT_NAME}_tool
   SOURCES
     projname_main.cpp
   DEPENDS
@@ -22,7 +22,7 @@ add_custom_executable(${PROJECT_NAME}_tool
 )
 
 if(BUILD_TESTING)
-    add_custom_test(${PROJECT_NAME}_test
+    projname_add_test(${PROJECT_NAME}_test
       SOURCES
         lockable_test.cpp
         projname_test.cpp
@@ -35,7 +35,7 @@ if(BUILD_TESTING)
     )
 
     if(BUILD_BENCHMARKS)
-        add_custom_test(${PROJECT_NAME}_bench
+        projname_add_test(${PROJECT_NAME}_bench
           SOURCES
             lockable_bench.cpp
           DEPENDS

@@ -1,4 +1,4 @@
-add_custom_test(integration_test
+projname_add_test(integration_test
   SOURCES
     projname_test.cpp
   DEPENDS
