@@ -46,8 +46,8 @@ cache:
   - '%LOCALAPPDATA%\pip\Cache -> requirements.txt'
 
 install:
-  - sh: python --version || true
-  - sh: python3 --version || true
+  - python --version
+  - python3 --version
   - py -m pip install -U -r requirements.txt
   - if "%PLATFORM%"=="x86" (
       set "CMAKE_GENERATOR_PLATFORM=Win32"
