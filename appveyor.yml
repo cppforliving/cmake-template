@@ -47,17 +47,20 @@ cache:
 
 install:
   - python -m pip install -U -r requirements.txt
-  - if "%PLATFORM%"=="x86" (
+  - |-
+    if "%PLATFORM%"=="x86" (
       set "CMAKE_GENERATOR_PLATFORM=Win32"
     ) else if "%PLATFORM%"=="x64" (
       set "CMAKE_GENERATOR_PLATFORM=x64"
     )
-  - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" (
+  - |-
+    if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" (
       set "CMAKE_GENERATOR=Visual Studio 16 2019"
     ) else if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" (
       set "CMAKE_GENERATOR=Visual Studio 15 2017"
     )
-  - if "%CONFIGURATION%"=="Debug" (
+  - |-
+    if "%CONFIGURATION%"=="Debug" (
       set "BUILD_BENCHMARKS=OFF"
     ) else if "%CONFIGURATION%"=="Release" (
       set "BUILD_BENCHMARKS=ON"
@@ -67,22 +70,22 @@ install:
 
 build_script:
   - cmake --warn-uninitialized
-      -D package_manager=vcpkg
-      -D build_type=%CONFIGURATION%
-      -D update=ON
-      -P scripts\setup.cmake
+    -D package_manager=vcpkg
+    -D build_type=%CONFIGURATION%
+    -D update=ON
+    -P scripts\setup.cmake
 
 test_script:
   - cmake --warn-uninitialized
-      -D package_manager=vcpkg
-      -D cmake_config=%CONFIGURATION%
-      -D cmake_shared=%BUILD_SHARED_LIBS%
-      -D testing=ON
-      -D benchmark=%BUILD_BENCHMARKS%
-      -D examples=ON
-      -D rpaths=ON
-      -D install=ON
-      -P scripts\run.cmake
+    -D package_manager=vcpkg
+    -D cmake_config=%CONFIGURATION%
+    -D cmake_shared=%BUILD_SHARED_LIBS%
+    -D testing=ON
+    -D benchmark=%BUILD_BENCHMARKS%
+    -D examples=ON
+    -D rpaths=ON
+    -D install=ON
+    -P scripts\run.cmake
 
 artifacts:
   - path: build\**\*.log

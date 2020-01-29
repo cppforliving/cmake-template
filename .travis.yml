@@ -33,9 +33,9 @@ jobs:
         - python -m pip install --user -U -r requirements.txt conan
         - conan config set general.user_home_short=None
       env:
-        - MATRIX_EVAL="CC='/c/Program Files (x86)/Microsoft Visual Studio/2017/BuildTools/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x86/cl.exe' &&
-            CXX='/c/Program Files (x86)/Microsoft Visual Studio/2017/BuildTools/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x86/cl.exe'"
-        - CMAKE_GENERATOR='Visual Studio 15 2017'
+        - CC='/c/Program Files (x86)/Microsoft Visual Studio/2017/BuildTools/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x86/cl.exe'
+          CXX='/c/Program Files (x86)/Microsoft Visual Studio/2017/BuildTools/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x86/cl.exe'
+          CMAKE_GENERATOR='Visual Studio 15 2017'
 
     - stage: test
       name: osx-clang
@@ -52,8 +52,7 @@ jobs:
         - export PATH=$HOME/Library/Python/3.7/bin:$PATH
         - python3 -m pip install --user -U -r requirements.txt conan
       env:
-        - MATRIX_EVAL="CC=clang && CXX=clang++"
-        - CMAKE_GENERATOR='Xcode'
+        - CC=clang CXX=clang++ CMAKE_GENERATOR=Xcode
 
     - &linux_gcc
       stage: test
@@ -68,11 +67,10 @@ jobs:
             - valgrind
       install:
         - sudo update-alternatives
-            --install /usr/bin/gcov gcov /usr/bin/gcov-8 80
+          --install /usr/bin/gcov gcov /usr/bin/gcov-8 80
         - python -m pip install --user -U -r requirements.txt conan
       env:
-        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
-        - CMAKE_GENERATOR='Unix Makefiles'
+        - CC=gcc-8 CXX=g++-8 CMAKE_GENERATOR='Unix Makefiles'
 
     - &linux_clang
       stage: test
@@ -86,43 +84,42 @@ jobs:
             - libstdc++-8-dev
       install:
         - sudo update-alternatives
-            --install /usr/bin/clang clang /usr/local/clang-7.0.0/bin/clang 70
-            --slave /usr/bin/clang++ clang++ /usr/local/clang-7.0.0/bin/clang++
-            --slave /usr/bin/ld ld /usr/local/clang-7.0.0/bin/lld
+          --install /usr/bin/clang clang /usr/local/clang-7.0.0/bin/clang 70
+          --slave /usr/bin/clang++ clang++ /usr/local/clang-7.0.0/bin/clang++
+          --slave /usr/bin/ld ld /usr/local/clang-7.0.0/bin/lld
         - export LD_LIBRARY_PATH=/usr/local/clang-7.0.0/lib:$LD_LIBRARY_PATH
         - sudo update-ccache-symlinks
         - python -m pip install --user -U -r requirements.txt conan
       env:
-        - MATRIX_EVAL="CC=clang && CXX=clang++"
-        - CMAKE_GENERATOR='Ninja'
+        - CC=clang CXX=clang++ CMAKE_GENERATOR=Ninja
 
     - <<: *linux_clang
       stage: check
       name: linux-clang-tidy
       script:
         - cmake --warn-uninitialized
-            -D package_manager=conan
-            -D cmake_config=Debug
-            -D update=ON
-            -D testing=ON
-            -D examples=ON
-            -D rpaths=ON
-            -D check=clang-tidy
-            -P scripts/run.cmake
+          -D package_manager=conan
+          -D cmake_config=Debug
+          -D update=ON
+          -D testing=ON
+          -D examples=ON
+          -D rpaths=ON
+          -D check=clang-tidy
+          -P scripts/run.cmake
 
     - <<: *linux_gcc
       stage: check
       name: linux-gcc-coverage
       script:
         - cmake --warn-uninitialized
-            -D package_manager=conan
-            -D cmake_config=Debug
-            -D update=ON
-            -D testing=ON
-            -D examples=ON
-            -D rpaths=ON
-            -D coverage=xml
-            -P scripts/run.cmake
+          -D package_manager=conan
+          -D cmake_config=Debug
+          -D update=ON
+          -D testing=ON
+          -D examples=ON
+          -D rpaths=ON
+          -D coverage=xml
+          -P scripts/run.cmake
       after_success:
         - bash <(curl -s https://codecov.io/bash)
 
@@ -131,31 +128,31 @@ jobs:
       name: linux-clang-asan
       script:
         - cmake --warn-uninitialized
-            -D package_manager=conan
-            -D cmake_config=Debug
-            -D update=ON
-            -D testing=ON
-            -D examples=ON
-            -D rpaths=ON
-            -D sanitizer=address
-            -P scripts/run.cmake
+          -D package_manager=conan
+          -D cmake_config=Debug
+          -D update=ON
+          -D testing=ON
+          -D examples=ON
+          -D rpaths=ON
+          -D sanitizer=address
+          -P scripts/run.cmake
 
     - <<: *linux_gcc
       stage: check
       name: linux-gcc-memcheck
       script:
         - cmake --warn-uninitialized
-            -D package_manager=conan
-            -D cmake_config=Debug
-            -D update=ON
-            -D testing=ON
-            -D examples=ON
-            -D rpaths=ON
-            -D memcheck=memcheck
-            -P scripts/run.cmake
+          -D package_manager=conan
+          -D cmake_config=Debug
+          -D update=ON
+          -D testing=ON
+          -D examples=ON
+          -D rpaths=ON
+          -D memcheck=memcheck
+          -P scripts/run.cmake
 
-before_install:
-  - eval "$MATRIX_EVAL"
+# before_install:
+#   - eval "$MATRIX_EVAL"
 
 before_script:
   - conan config set general.non_interactive=True
@@ -166,29 +163,29 @@ before_script:
 
 script:
   - cmake --warn-uninitialized
-      -D package_manager=conan
-      -D build_type=Release
-      -D update=ON
-      -P scripts/setup.cmake &&
+    -D package_manager=conan
+    -D build_type=Release
+    -D update=ON
+    -P scripts/setup.cmake &&
     if [[ $TRAVIS_OS_NAME == osx ]]; then source build/Release/activate_run.sh; fi &&
     cmake --warn-uninitialized
-      -D package_manager=conan
-      -D cmake_config=Release
-      -D cmake_shared=ON
-      -D testing=ON
-      -D benchmark=ON
-      -D examples=ON
-      -D rpaths=ON
-      -D install=ON
-      -P scripts/run.cmake &&
+    -D package_manager=conan
+    -D cmake_config=Release
+    -D cmake_shared=ON
+    -D testing=ON
+    -D benchmark=ON
+    -D examples=ON
+    -D rpaths=ON
+    -D install=ON
+    -P scripts/run.cmake &&
     if [[ $TRAVIS_OS_NAME == osx ]]; then source build/Release/deactivate_run.sh; fi
 
 after_script:
-  - |
+  - |-
     for f in dist/bin/* dist/lib/lib*; do
       if [[ ! -L $f ]]; then
         if [[ $TRAVIS_OS_NAME == linux ]]; then
-          echo "$f:" && ldd $f
+          echo $f: && ldd $f
         elif [[ $TRAVIS_OS_NAME == osx ]]; then
           otool -L $f
         fi
