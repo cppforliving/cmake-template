@@ -47,19 +47,19 @@ cache:
 
 install:
   - python -m pip install -U -r requirements.txt
-  - |-
+  - >-
     if "%PLATFORM%"=="x86" (
       set "CMAKE_GENERATOR_PLATFORM=Win32"
     ) else if "%PLATFORM%"=="x64" (
       set "CMAKE_GENERATOR_PLATFORM=x64"
     )
-  - |-
+  - >-
     if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" (
       set "CMAKE_GENERATOR=Visual Studio 16 2019"
     ) else if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" (
       set "CMAKE_GENERATOR=Visual Studio 15 2017"
     )
-  - |-
+  - >-
     if "%CONFIGURATION%"=="Debug" (
       set "BUILD_BENCHMARKS=OFF"
     ) else if "%CONFIGURATION%"=="Release" (

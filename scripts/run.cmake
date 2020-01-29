@@ -37,6 +37,8 @@ endif()
 
 set(venv_dir ./venv)
 if(NOT IS_DIRECTORY ${venv_dir} OR pip_upgrade)
+    set(Python_FIND_FRAMEWORK NEVER)
+    set(Python_FIND_REGISTRY NEVER)
     find_package(Python REQUIRED COMPONENTS Interpreter)
     eval(${Python_EXECUTABLE} -m virtualenv "${venv_dir}")
 endif()
