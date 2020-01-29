@@ -50,7 +50,7 @@ jobs:
         - ccache -M 500M
         - export PATH=/usr/local/opt/ccache/libexec:$PATH
         - export PATH=$HOME/Library/Python/3.7/bin:$PATH
-        - python3 -m pip install --user -U -r requirements.txt conan
+        - python3 -m pip install --user -U -r requirements.txt conan virtualenv
       env:
         - CC=clang CXX=clang++ CMAKE_GENERATOR=Xcode
 
