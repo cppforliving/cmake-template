@@ -47,10 +47,6 @@ jobs:
       install:
         - ccache -M 500M
         - export PATH=/usr/local/opt/ccache/libexec:$PATH
-        - which -a python || true
-        - which -a python2 || true
-        - which -a python3 || true
-        - export PATH=$HOME/Library/Python/3.7/bin:$PATH
         - python3 -m pip install --user -U -r requirements.txt conan
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
