@@ -47,7 +47,9 @@ jobs:
       install:
         - ccache -M 500M
         - export PATH=/usr/local/opt/ccache/libexec:$PATH
-        - ls $HOME/Library/Python
+        - which -a python || true
+        - which -a python2 || true
+        - which -a python3 || true
         - export PATH=$HOME/Library/Python/3.7/bin:$PATH
         - python3 -m pip install --user -U -r requirements.txt conan
       env:
@@ -63,7 +65,7 @@ jobs:
       addons:
         apt:
           sources:
-            - ubuntu-toolchain-r-test
+            - sourceline: ppa:ubuntu-toolchain-r/test
           packages:
             - g++-9
             - valgrind
