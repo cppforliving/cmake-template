@@ -47,6 +47,7 @@ jobs:
       install:
         - ccache -M 500M
         - export PATH=/usr/local/opt/ccache/libexec:$PATH
+        - export PATH=$HOME/Library/Python/3.7/bin:$PATH
         - python3 -m pip install --user -U -r requirements.txt conan
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
@@ -81,17 +82,15 @@ jobs:
       dist: bionic
       addons:
         apt:
-          sources:
-            - sourceline: ppa:ubuntu-toolchain-r/test
           packages:
-            - clang-9
-            - libstdc++-9-dev
-            - lld-9
+            - clang-8
+            - libstdc++-8-dev
+            - lld-8
       install:
         - sudo update-alternatives
-            --install /usr/bin/clang clang /usr/bin/clang-9 90
-            --slave /usr/bin/clang++ clang++ /usr/bin/clang++-9
-            --slave /usr/bin/ld ld /usr/bin/lld-9
+            --install /usr/bin/clang clang /usr/bin/clang-8 80
+            --slave /usr/bin/clang++ clang++ /usr/bin/clang++-8
+            --slave /usr/bin/ld ld /usr/bin/lld-8
         - sudo update-ccache-symlinks
         - python -m pip install --user -U -r requirements.txt conan
       env:
