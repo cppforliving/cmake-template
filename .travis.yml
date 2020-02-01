@@ -39,7 +39,7 @@ jobs:
       name: osx-clang
       os: osx
       compiler: clang
-      osx_image: xcode10.3
+      osx_image: xcode11.3
       addons:
         homebrew:
           packages:
@@ -47,6 +47,7 @@ jobs:
       install:
         - ccache -M 500M
         - export PATH=/usr/local/opt/ccache/libexec:$PATH
+        - ls $HOME/Library/Python
         - export PATH=$HOME/Library/Python/3.7/bin:$PATH
         - python3 -m pip install --user -U -r requirements.txt conan
       env:
@@ -61,15 +62,17 @@ jobs:
       dist: bionic
       addons:
         apt:
+          sources:
+            - ubuntu-toolchain-r-test
           packages:
-            - g++-8
+            - g++-9
             - valgrind
       install:
         - sudo update-alternatives
-            --install /usr/bin/gcov gcov /usr/bin/gcov-8 80
+            --install /usr/bin/gcov gcov /usr/bin/gcov-9 90
         - python -m pip install --user -U -r requirements.txt conan
       env:
-        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
+        - MATRIX_EVAL="CC=gcc-9 && CXX=g++-9"
         - CMAKE_GENERATOR='Unix Makefiles'
 
     - &linux_clang
