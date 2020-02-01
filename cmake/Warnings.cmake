@@ -50,6 +50,7 @@ else()
             -Weverything
             -Wno-c++98-compat
             -Wno-c++98-compat-pedantic
+            -Wno-error=ctad-maybe-unsupported
             -Wno-error=documentation
             -Wno-error=padded
         )
