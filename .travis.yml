@@ -86,13 +86,13 @@ jobs:
       addons:
         apt:
           packages:
-            - libstdc++-8-dev
+            - clang-9
+            - lld-9
       install:
         - sudo update-alternatives
-            --install /usr/bin/clang clang /usr/local/clang-7.0.0/bin/clang 70
-            --slave /usr/bin/clang++ clang++ /usr/local/clang-7.0.0/bin/clang++
-            --slave /usr/bin/ld ld /usr/local/clang-7.0.0/bin/lld
-        - export LD_LIBRARY_PATH=/usr/local/clang-7.0.0/lib:$LD_LIBRARY_PATH
+            --install /usr/bin/clang clang /usr/bin/clang-9 90
+            --slave /usr/bin/clang++ clang++ /usr/bin/clang++-9
+            --slave /usr/bin/ld ld /usr/bin/lld-9
         - sudo update-ccache-symlinks
         - python -m pip install --user -U -r requirements.txt conan
       env:
