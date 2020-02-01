@@ -81,6 +81,8 @@ jobs:
       dist: bionic
       addons:
         apt:
+          sources:
+            - sourceline: ppa:ubuntu-toolchain-r/test
           packages:
             - clang-9
             - libstdc++-9-dev
