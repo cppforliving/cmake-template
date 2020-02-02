@@ -6,7 +6,7 @@ namespace pmr = std::pmr;
 #else
 #include <experimental/memory_resource>
 namespace pmr {
-using namepsace std::experimental::pmr;
+using namespace std::experimental::pmr;
 template <typename T>
 using vector = std::vector<T, polymorphic_allocator<T> >;
 }  // namespace pmr
