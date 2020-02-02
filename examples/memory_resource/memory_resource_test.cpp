@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <vector>
 #if __has_include(<memory_resource>)
 #include <memory_resource>
 namespace pmr = std::pmr;
@@ -13,19 +14,19 @@ namespace {
 using Simple = int;
 
 struct Complex {
-    pmr::vector<Simple> simple_list;
+    std::pmr::vector<Simple> simple_list;
 };
 
 struct Producer {
-    pmr::vector<Complex> produce() {
-        return pmr::vector<Complex>{1000, pmr::new_delete_resource()};
+    std::pmr::vector<Complex> produce() {
+        return std::pmr::vector<Complex>{1000, pmr::new_delete_resource()};
     }
 };
 
 struct Consumer {
     void consume() { complex_list = producer.produce(); }
     Producer& producer;
-    pmr::vector<Complex> complex_list{};
+    std::pmr::vector<Complex> complex_list{};
 };
 
 TEST(memory_resource, default_null_memory_resource) {
