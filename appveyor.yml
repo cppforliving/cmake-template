@@ -2,7 +2,6 @@ version: "{build}"
 
 image:
   - Visual Studio 2019
-  #- Visual Studio 2017
 
 configuration:
   - Debug
@@ -23,23 +22,6 @@ environment:
 
 matrix:
   fast_finish: true
-  exclude:
-    - image: Visual Studio 2019
-      configuration: Release
-      platform: x86
-    - image: Visual Studio 2019
-      configuration: Debug
-      platform: x64
-    - image: Visual Studio 2019
-      configuration: Release
-      platform: x64
-    - image: Visual Studio 2019
-      configuration: Debug
-      platform: x86
-    # - configuration: Debug
-    #   BUILD_SHARED_LIBS: "ON"
-    # - configuration: Release
-    #   BUILD_SHARED_LIBS: "OFF"
 
 cache:
   - '%VCPKG_ROOT%\installed -> vcpkgfile.txt'
@@ -54,8 +36,6 @@ install:
     )
   - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" (
       set "CMAKE_GENERATOR=Visual Studio 16 2019"
-    ) else if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" (
-      set "CMAKE_GENERATOR=Visual Studio 15 2017"
     )
   - if "%CONFIGURATION%"=="Debug" (
       set "BUILD_BENCHMARKS=OFF"

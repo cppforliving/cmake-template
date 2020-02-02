@@ -48,6 +48,8 @@ jobs:
         - ccache -M 500M
         - export PATH=/usr/local/opt/ccache/libexec:$PATH
         - export PATH=$HOME/Library/Python/3.7/bin:$PATH
+        - find /usr/lib* /Application* $HOME/Library* $HOME/Library -type f -name libc++.*
+        - find /usr/lib* /Application* $HOME/Library* $HOME/Library -type f -name libc++experimental.*
         - python3 -m pip install --user -U -r requirements.txt conan
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
@@ -61,17 +63,15 @@ jobs:
       dist: bionic
       addons:
         apt:
-          sources:
-            - sourceline: ppa:ubuntu-toolchain-r/test
           packages:
-            - g++-9
+            - g++-8
             - valgrind
       install:
         - sudo update-alternatives
-            --install /usr/bin/gcov gcov /usr/bin/gcov-9 90
+            --install /usr/bin/gcov gcov /usr/bin/gcov-8 80
         - python -m pip install --user -U -r requirements.txt conan
       env:
-        - MATRIX_EVAL="CC=gcc-9 && CXX=g++-9"
+        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
         - CMAKE_GENERATOR='Unix Makefiles'
 
     - &linux_clang
@@ -87,6 +87,8 @@ jobs:
             - libstdc++-8-dev
             - lld-8
       install:
+        - ls -Al /usr/local/clang-7.0.0/bin
+        - ls -Al /usr/local/clang-7.0.0/lib*
         - sudo update-alternatives
             --install /usr/bin/clang clang /usr/bin/clang-8 80
             --slave /usr/bin/clang++ clang++ /usr/bin/clang++-8
