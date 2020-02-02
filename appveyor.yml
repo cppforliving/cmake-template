@@ -30,16 +30,16 @@ matrix:
     - image: Visual Studio 2019
       configuration: Debug
       platform: x64
-    - image: Visual Studio 2017
+    - image: Visual Studio 2019
       configuration: Release
       platform: x64
-    - image: Visual Studio 2017
+    - image: Visual Studio 2019
       configuration: Debug
       platform: x86
-    - configuration: Debug
-      BUILD_SHARED_LIBS: "ON"
-    - configuration: Release
-      BUILD_SHARED_LIBS: "OFF"
+    # - configuration: Debug
+    #   BUILD_SHARED_LIBS: "ON"
+    # - configuration: Release
+    #   BUILD_SHARED_LIBS: "OFF"
 
 cache:
   - '%VCPKG_ROOT%\installed -> vcpkgfile.txt'
