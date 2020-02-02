@@ -22,6 +22,19 @@ environment:
 
 matrix:
   fast_finish: true
+  exclude:
+    - configuration: Release
+      platform: x86
+      BUILD_SHARED_LIBS: "ON"
+    - configuration: Debug
+      platform: x64
+      BUILD_SHARED_LIBS: "ON"
+    - configuration: Release
+      platform: x64
+      BUILD_SHARED_LIBS: "OFF"
+    - configuration: Debug
+      platform: x86
+      BUILD_SHARED_LIBS: "OFF"
 
 cache:
   - '%VCPKG_ROOT%\installed -> vcpkgfile.txt'
