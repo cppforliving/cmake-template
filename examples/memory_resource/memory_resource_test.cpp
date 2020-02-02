@@ -1,15 +1,14 @@
 #include <gtest/gtest.h>
-#include <vector>
-#if __has_include(<memory_resource>)
+#if defined(HAVE_MEMORY_RESOURCE)
 #include <memory_resource>
+#include <vector>
+
 namespace pmr = std::pmr;
-#else
+#elif defined(HAVE_EXPERIMENTAL_MEMORY_RESOURCE)
 #include <experimental/memory_resource>
-namespace pmr {
-using namespace std::experimental::pmr;
-template <typename T>
-using vector = std::vector<T, polymorphic_allocator<T> >;
-}  // namespace pmr
+#include <experimental/vector>
+
+namespace pmr = std::experimental::pmr;
 #endif
 
 namespace memory_resource {
