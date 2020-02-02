@@ -6,6 +6,7 @@ if(BUILD_TESTING)
         memory_resource_test.cpp
       DEPENDS
         gtest_main
+        $<$<BOOL:${HAVE_LIBCPP}>:c++experimental>
       EXTRA_ARGS
         --gtest_color=yes
     )
