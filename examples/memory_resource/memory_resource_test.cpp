@@ -5,7 +5,11 @@
 namespace pmr = std::pmr;
 #else
 #include <experimental/memory_resource>
-namespace pmr = std::experimental::pmr;
+namespace pmr {
+using namepsace std::experimental::pmr;
+template <typename T>
+using vector = std::vector<T, polymorphic_allocator<T> >;
+}  // namespace pmr
 #endif
 
 namespace memory_resource {
@@ -14,19 +18,19 @@ namespace {
 using Simple = int;
 
 struct Complex {
-    std::pmr::vector<Simple> simple_list;
+    pmr::vector<Simple> simple_list;
 };
 
 struct Producer {
-    std::pmr::vector<Complex> produce() {
-        return std::pmr::vector<Complex>{1000, pmr::new_delete_resource()};
+    pmr::vector<Complex> produce() {
+        return pmr::vector<Complex>{1000, pmr::new_delete_resource()};
     }
 };
 
 struct Consumer {
     void consume() { complex_list = producer.produce(); }
     Producer& producer;
-    std::pmr::vector<Complex> complex_list{};
+    pmr::vector<Complex> complex_list{};
 };
 
 TEST(memory_resource, default_null_memory_resource) {
