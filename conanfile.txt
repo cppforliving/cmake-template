@@ -1,7 +1,7 @@
 [requires]
 benchmark/[>=1.5.0]
 boost/[>=1.72.0]
-catch2/[>=2.11.0]
+Catch2/[>=2.11.0]@catchorg/stable
 gtest/[>=1.10.0]
 
 [generators]
@@ -10,4 +10,4 @@ virtualrunenv
 
 [options]
 *:shared=True
-# gtest*:debug_postfix=
+gtest*:debug_postfix=
