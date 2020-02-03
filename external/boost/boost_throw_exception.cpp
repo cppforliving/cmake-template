@@ -3,7 +3,7 @@
 
 namespace boost {
 
-void throw_exception(std::exception const& /*unused*/) {
+BOOST_NORETURN void throw_exception(std::exception const& /*unused*/) {
     std::terminate();
 }
 

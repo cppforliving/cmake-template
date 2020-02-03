@@ -37,6 +37,10 @@ if(${PROJECT_NAME}_coverage)
       PRIVATE
         Boost::boost
     )
+    target_compile_definitions(boost_throw_exception
+      PUBLIC
+        BOOST_NO_EXCEPTIONS
+    )
     if(BUILD_SHARED_LIBS)
         set_property(TARGET boost_throw_exception
           PROPERTY

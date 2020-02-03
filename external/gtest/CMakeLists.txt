@@ -20,7 +20,9 @@ target_compile_definitions(gtest_main
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     target_compile_options(gtest_main
       INTERFACE
+        -Wno-error=covered-switch-default
         -Wno-error=global-constructors
         -Wno-error=gnu-zero-variadic-macro-arguments
+        -Wno-error=used-but-marked-unused
     )
 endif()
