@@ -36,14 +36,14 @@ TEST(memory_resource, default_null_memory_resource) {
     pmr::set_default_resource(pmr::null_memory_resource());
     Producer producer;
     Consumer consumer{producer};
-    EXPECT_DEATH(consumer.consume(), "^$");
+    EXPECT_THROW(consumer.consume(), std::bad_alloc);
 }
 
 TEST(memory_resource, default_new_delete_resource) {
     pmr::set_default_resource(pmr::new_delete_resource());
     Producer producer;
     Consumer consumer{producer};
-    EXPECT_NO_FATAL_FAILURE(consumer.consume());
+    EXPECT_NO_THROW(consumer.consume());
 }
 
 }  // namespace
