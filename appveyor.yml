@@ -16,6 +16,7 @@ environment:
   VCPKG_ROOT: C:\Tools\vcpkg
   VCPKG_DEFAULT_TRIPLET: "%PLATFORM%-windows"
   PATH: C:\Python38-x64;C:\Python38-x64\Scripts;%PATH%
+  CMAKE_BUILD_PARALLEL_LEVEL: 2
   VERBOSE: 1
   matrix:
     - BUILD_SHARED_LIBS: "ON"

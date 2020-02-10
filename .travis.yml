@@ -15,7 +15,9 @@ stages:
   - check
 
 env:
-  - VERBOSE=1
+  global:
+    - CMAKE_BUILD_PARALLEL_LEVEL=2
+    - VERBOSE=1
 
 jobs:
   fast_finish: true
