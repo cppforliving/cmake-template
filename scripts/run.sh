@@ -22,6 +22,7 @@ run_main() {
     declare -i format=
     declare -i install=
     declare -i memcheck=
+    declare package_manager=
     declare pip_upgrade=
     declare -i rpaths=
     declare sanitizer=
@@ -34,10 +35,10 @@ run_main() {
     for opt in "$@"; do
         case $opt in
         Conan)
-            declare -r cmake_toolchain=conan_paths.cmake
+            declare -r package_manager=conan
             ;;
         Vcpkg)
-            declare -r cmake_toolchain=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake
+            declare -r package_manager=vcpkg
             ;;
         Clean)
             declare -r clean=1
@@ -105,7 +106,7 @@ run_main() {
             declare -rx CMAKE_GENERATOR=Ninja
             ;;
         *)
-            echo "unknown option '$opt'" >&2
+            echo >&2 "unknown option '$opt'"
             exit 2
             ;;
         esac
@@ -129,8 +130,9 @@ run_main() {
 
     pip install $pip_upgrade -r requirements-dev.txt
 
-    case $(basename "$cmake_toolchain") in
-    conan_paths.cmake)
+    case $package_manager in
+    conan)
+        declare -r cmake_toolchain=$build_dir/conan_paths.cmake
         conan profile new "$build_dir"/conan/detected --detect --force
         conan profile update settings.compiler.libcxx=libstdc++11 "$build_dir"/conan/detected
         conan install . $conan_update \
@@ -139,7 +141,8 @@ run_main() {
             -pr "$build_dir"/conan/detected \
             -b missing
         ;;
-    vcpkg.cmake)
+    vcpkg)
+        declare -r cmake_toolchain=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake
         if ((vcpkg_upgrade)); then
             "$VCPKG_ROOT"/vcpkg update
         fi
@@ -175,11 +178,11 @@ run_main() {
     declare -r make_cmd
 
     declare test_cmd
-    test_cmd="cmake -E chdir $build_dir ctest --output-on-failure $(
+    test_cmd="cmake -E env CTEST_OUTPUT_ON_FAILURE=1 cmake --build $build_dir $(
         if [[ $silenced == 0 ]]; then
             echo ' --verbose'
         fi
-    )"
+    ) --target"
     declare -r test_cmd
 
     ((stats)) && ccache -z

@@ -26,21 +26,3 @@ set_property(TARGET
       #BOOST_SYSTEM_NO_DEPRECATED
 )
 unset(boost_targets)
-
-if(${PROJECT_NAME}_coverage)
-    add_library(boost_throw_exception OBJECT)
-    target_sources(boost_throw_exception
-      PRIVATE
-        boost_throw_exception.cpp
-    )
-    target_link_libraries(boost_throw_exception
-      PRIVATE
-        Boost::boost
-    )
-    if(BUILD_SHARED_LIBS)
-        set_property(TARGET boost_throw_exception
-          PROPERTY
-            POSITION_INDEPENDENT_CODE ON
-        )
-    endif()
-endif()

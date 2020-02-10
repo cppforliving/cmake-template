@@ -10,7 +10,6 @@ projname_add_library(${PROJECT_NAME}
     Boost::diagnostic_definitions
     Boost::disable_autolinking
     Boost::dynamic_linking
-    $<$<TARGET_EXISTS:boost_throw_exception>:boost_throw_exception>
 )
 
 projname_add_executable(${PROJECT_NAME}_tool
@@ -18,7 +17,6 @@ projname_add_executable(${PROJECT_NAME}_tool
     projname_main.cpp
   DEPENDS
     ${PROJECT_NAME}
-    $<$<TARGET_EXISTS:boost_throw_exception>:boost_throw_exception>
 )
 
 if(BUILD_TESTING)
@@ -28,7 +26,6 @@ if(BUILD_TESTING)
         projname_test.cpp
       DEPENDS
         ${PROJECT_NAME}
-        $<$<TARGET_EXISTS:boost_throw_exception>:boost_throw_exception>
         gtest_main
       EXTRA_ARGS
         --gtest_color=yes
@@ -40,7 +37,6 @@ if(BUILD_TESTING)
             lockable_bench.cpp
           DEPENDS
             ${PROJECT_NAME}
-            $<$<TARGET_EXISTS:boost_throw_exception>:boost_throw_exception>
             benchmark_main
         )
     endif()
