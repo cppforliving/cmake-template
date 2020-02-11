@@ -13,6 +13,8 @@ endif()
 set(gcovr_coverage_types html xml)
 set(lcov_coverage_types lcov-html)
 set(coverage_targets ExperimentalCoverage ContinuousCoverage NightlyCoverage)
+set(COVERAGE_EXTRA_FLAGS "${COVERAGE_EXTRA_FLAGS} -b"
+    CACHE STRING "Extra command line flags to pass to the coverage tool" FORCE)
 
 if(${PROJECT_NAME}_coverage IN_LIST gcovr_coverage_types)
     find_program(gcovr_command gcovr)
