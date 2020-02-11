@@ -131,8 +131,7 @@ jobs:
             -D debug_dynamic_deps=ON
             -D projname_coverage=xml &&
           cmake --build build --verbose --config Debug &&
-          cmake -E chdir build ctest -V -C Debug -D ExperimentalTest &&
-          cmake -E chdir build ctest -V -C Debug -D ExperimentalCoverage
+          cmake -E chdir build ctest -V -C Debug -D ExperimentalTest
       after_success:
         - bash <(curl -s https://codecov.io/bash)
 
