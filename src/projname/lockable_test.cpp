@@ -11,23 +11,28 @@ namespace {
 
 using namespace std::string_literals;
 
+using testing::Test;
+using testing::Types;
+
 template <typename MutexType>
-struct LockableTest : testing::Test {};
+struct LockableTest : Test {};
 
 template <typename MutexType>
 using LockableString = Lockable<std::string, MutexType>;
 
-using MutexTypes = testing::Types<std::mutex,
-                                  std::recursive_mutex,
-                                  std::timed_mutex,
-                                  std::recursive_timed_mutex,
-                                  std::shared_mutex>;
+using MutexTypes = Types<std::mutex,
+                         std::recursive_mutex,
+                         std::timed_mutex,
+                         std::recursive_timed_mutex,
+                         std::shared_mutex>;
 
 TYPED_TEST_SUITE(LockableTest, MutexTypes);
 
 TYPED_TEST(LockableTest, lockAndUnlockManually) {
     LockableString<TypeParam> s1;
     s1.lock();
+    s1.unlock();
+    EXPECT_TRUE(s1.try_lock());
     s1.unlock();
 }
 

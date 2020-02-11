@@ -2,6 +2,7 @@
 
 #include <gtest/gtest.h>
 #include <array>
+#include <map>
 #include <string>
 #include <vector>
 
@@ -14,14 +15,17 @@ using testing::Types;
 template <typename T>
 struct SsizeTest : Test {};
 
-using SsizeTestContainers =
-    Types<std::string, std::vector<char>, std::array<char, 8>, char[8]>;
+using SsizeTestContainers = Types<std::string,
+                                  std::vector<char>,
+                                  std::map<char, int>,
+                                  std::array<char, 8>,
+                                  char[8]>;
 
 TYPED_TEST_SUITE(SsizeTest, SsizeTestContainers);
 
 TYPED_TEST(SsizeTest, getContainerSsize) {
     TypeParam c = {};
-    auto s = ssize(c);
+    auto const s = ssize(c);
     EXPECT_TRUE(s >= 0);
 }
 
