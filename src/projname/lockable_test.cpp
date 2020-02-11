@@ -31,7 +31,6 @@ TYPED_TEST_SUITE(LockableTest, MutexTypes);
 TYPED_TEST(LockableTest, lockAndUnlockManually) {
     LockableString<TypeParam> s1;
     s1.lock();
-    EXPECT_FALSE(s1.try_lock());
     s1.unlock();
     EXPECT_TRUE(s1.try_lock());
     s1.unlock();
