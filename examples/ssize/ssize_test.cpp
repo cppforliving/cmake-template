@@ -21,7 +21,7 @@ TYPED_TEST_SUITE(SsizeTest, SsizeTestContainers);
 
 TYPED_TEST(SsizeTest, getContainerSsize) {
     TypeParam c = {};
-    auto s = ssize(c);
+    auto const s = ssize(c);
     EXPECT_TRUE(s >= 0);
 }
 
