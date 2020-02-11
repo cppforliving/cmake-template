@@ -5,7 +5,10 @@
 
 /**
  * @startuml
- * component derived
+ * component derived {
+ *     Base
+ *     Derived
+ * }
  * @enduml
  */
 namespace derived {
