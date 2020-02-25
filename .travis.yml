@@ -46,6 +46,7 @@ jobs:
         homebrew:
           packages:
             - ccache
+          update: true
       install:
         - ccache -M 500M
         - export PATH=/usr/local/opt/ccache/libexec:$PATH

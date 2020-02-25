@@ -24,22 +24,22 @@ environment:
 
 matrix:
   fast_finish: true
-  include:
+  exclude:
     - image: Visual Studio 2019
       configuration: Release
       platform: x86
-      BUILD_SHARED_LIBS: "OFF"
     - image: Visual Studio 2019
       configuration: Debug
       platform: x64
-      BUILD_SHARED_LIBS: "ON"
     - image: Visual Studio 2017
       configuration: Release
       platform: x64
-      BUILD_SHARED_LIBS: "ON"
     - image: Visual Studio 2017
       configuration: Debug
       platform: x86
+    - platform: x86
+      BUILD_SHARED_LIBS: "ON"
+    - platform: x64
       BUILD_SHARED_LIBS: "OFF"
 
 cache:
