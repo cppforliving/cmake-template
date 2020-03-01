@@ -15,6 +15,14 @@ void ContinuousGreeter::operator()() const {
     boost::asio::post(io, ContinuousGreeter{*this});
 }
 
+void StopIoContext::operator()(boost::system::error_code const& ec) {
+    if (!ec) {
+        io.stop();
+    } else {
+        std::cerr << ec.message() << std::endl;
+    }
+}
+
 int run(boost::beast::span<char const* const> const args) {
     std::cout << __func__ << " args:";
     for (auto const arg : args) {

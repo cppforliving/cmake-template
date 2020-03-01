@@ -10,7 +10,6 @@ run_main() {
     declare cmake_config=Release
     declare -i cmake_shared=1
     declare valgrind=memcheck
-    declare -i silenced=1
 
     declare check=
     declare -i clean=
@@ -100,7 +99,7 @@ run_main() {
             declare -r vcpkg_upgrade=1
             ;;
         Verbose)
-            declare -r silenced=0
+            declare -rx VERBOSE=1
             ;;
         Ninja)
             declare -rx CMAKE_GENERATOR=Ninja
@@ -112,21 +111,13 @@ run_main() {
         esac
     done
 
-    silent() {
-        ((silenced)) || set +x
-        "$@"
-        ((silenced)) || set -x
-    }
-
-    ((silenced)) || set -x
-
     declare -r build_dir=./build/$cmake_config
     ((clean)) && [[ -d $build_dir ]] && rm -r "$build_dir"
     mkdir -p "$build_dir"
 
     declare -r venv_dir=./venv
     [[ ! -d $venv_dir || $pip_upgrade ]] && python3 -m virtualenv "$venv_dir"
-    silent source "$venv_dir"/bin/activate
+    source "$venv_dir"/bin/activate
 
     pip install $pip_upgrade -r requirements-dev.txt
 
@@ -167,7 +158,7 @@ run_main() {
 
     declare make_cmd
     make_cmd="cmake --build $build_dir --parallel $(nproc) $(
-        if [[ $silenced == 0 ]]; then
+        if [[ -v VERBOSE ]]; then
             echo ' --verbose'
         fi
     ) -- $(
@@ -178,8 +169,8 @@ run_main() {
     declare -r make_cmd
 
     declare test_cmd
-    test_cmd="cmake -E env CTEST_OUTPUT_ON_FAILURE=1 cmake --build $build_dir $(
-        if [[ $silenced == 0 ]]; then
+    test_cmd="cmake -E chdir $build_dir ctest --output-on-failure $(
+        if [[ -v VERBOSE ]]; then
             echo ' --verbose'
         fi
     ) --target"
@@ -189,20 +180,20 @@ run_main() {
     ((format)) && $make_cmd format
     $make_cmd all
     if ((testing)); then
-        silent source_if_exists "$build_dir"/activate_run.sh
+        source_if_exists "$build_dir"/activate_run.sh
         if ((memcheck)); then
             $test_cmd ExperimentalMemCheck
         else
             $test_cmd ExperimentalTest
         fi
-        silent source_if_exists "$build_dir"/deactivate_run.sh
+        source_if_exists "$build_dir"/deactivate_run.sh
     fi
     [[ $coverage ]] && $test_cmd ExperimentalCoverage
     ((doc)) && $make_cmd doc
     ((install)) && $make_cmd install
     ((stats)) && ccache -s
 
-    silent deactivate
+    deactivate
 }
 
 if [[ "$0" == "${BASH_SOURCE[0]}" ]]; then
