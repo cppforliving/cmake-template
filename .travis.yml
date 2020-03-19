@@ -42,14 +42,7 @@ jobs:
       os: osx
       compiler: clang
       osx_image: xcode11.3
-      addons:
-        homebrew:
-          packages:
-            - ccache
-          update: true
       install:
-        - ccache -M 500M
-        - export PATH=/usr/local/opt/ccache/libexec:$PATH
         - export PATH=$HOME/Library/Python/3.7/bin:$PATH
         - python3 -m pip install --user -U -r requirements.txt conan
       env:
@@ -184,7 +177,7 @@ before_install:
 before_script:
   - conan config set general.non_interactive=True
   - conan user
-  - if [[ $TRAVIS_OS_NAME != windows ]]; then ccache -z; fi
+  - if [[ $TRAVIS_OS_NAME == linux ]]; then ccache -z; fi
   - cmake -E environment
   - cmake -E capabilities
 
@@ -220,4 +213,4 @@ after_script:
         fi
       fi
     done
-  - if [[ $TRAVIS_OS_NAME != windows ]]; then ccache -s; fi
+  - if [[ $TRAVIS_OS_NAME == linux ]]; then ccache -s; fi
