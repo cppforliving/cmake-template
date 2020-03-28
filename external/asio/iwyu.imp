@@ -1,5 +1,4 @@
 [
   {include: ["@<asio/impl/io_context\\.[hi]pp>", private, "<asio/io_context.hpp>", public]},
-  {include: ["@<asio/impl/executor\\.[hi]pp>", private, "<asio/executor.hpp>", public]},
   {include: ["@<asio/impl/post\\.[hi]pp>", private, "<asio/post.hpp>", public]},
 ]
