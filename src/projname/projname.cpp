@@ -1,21 +1,21 @@
 #include "projname.hpp"
 
-#include <boost/asio/deadline_timer.hpp>
-#include <boost/asio/io_context.hpp>
-#include <boost/asio/post.hpp>
+#include <asio/deadline_timer.hpp>
+#include <asio/io_context.hpp>
+#include <asio/post.hpp>
 #include <boost/date_time/posix_time/posix_time_duration.hpp>
-#include <boost/system/error_code.hpp>
 #include <iostream>
+#include <system_error>
 #include <thread>
 
 namespace projname {
 
 void ContinuousGreeter::operator()() const {
     std::cout << '!';
-    boost::asio::post(io, ContinuousGreeter{*this});
+    asio::post(io, ContinuousGreeter{*this});
 }
 
-void StopIoContext::operator()(boost::system::error_code const& ec) {
+void StopIoContext::operator()(std::error_code const& ec) {
     if (!ec) {
         io.stop();
     } else {
@@ -30,12 +30,12 @@ int run(std::vector<std::string> const& args) {
     }
     std::cout << std::endl;
 
-    boost::asio::io_context io;
-    boost::asio::deadline_timer timer{io, boost::posix_time::milliseconds{1}};
+    asio::io_context io;
+    asio::deadline_timer timer{io, boost::posix_time::milliseconds{1}};
 
     timer.async_wait(StopIoContext{io});
 
-    boost::asio::post(io, ContinuousGreeter{io});
+    asio::post(io, ContinuousGreeter{io});
 
     std::thread thread{[&io] {
         while (!io.stopped()) {

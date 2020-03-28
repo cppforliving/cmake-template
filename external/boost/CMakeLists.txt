@@ -17,10 +17,4 @@ set_property(TARGET
   PROPERTY
     IMPORTED_GLOBAL TRUE
 )
-set_property(TARGET
-    ${boost_targets}
-  APPEND PROPERTY
-    INTERFACE_COMPILE_DEFINITIONS
-      #BOOST_ASIO_NO_DEPRECATED
-)
 unset(boost_targets)

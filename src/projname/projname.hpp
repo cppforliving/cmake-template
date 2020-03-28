@@ -5,9 +5,9 @@
 #include <SDKDDKVer.h>
 #endif
 
-#include <boost/asio/io_context.hpp>
-#include <boost/system/error_code.hpp>
+#include <asio/io_context.hpp>
 #include <string>
+#include <system_error>
 #include <vector>
 
 #include <projname/export.h>
@@ -15,15 +15,15 @@
 namespace projname {
 
 struct ContinuousGreeter {
-    boost::asio::io_context& io;
+    asio::io_context& io;
 
     void operator()() const;
 };
 
 struct StopIoContext {
-    boost::asio::io_context& io;
+    asio::io_context& io;
 
-    PROJNAME_EXPORT void operator()(boost::system::error_code const& ec);
+    PROJNAME_EXPORT void operator()(std::error_code const& ec);
 };
 
 PROJNAME_EXPORT int run(std::vector<std::string> const& args);

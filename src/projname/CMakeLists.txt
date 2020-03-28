@@ -5,7 +5,7 @@ projname_add_library(${PROJECT_NAME}
     projname.hpp
   DEPENDS
     Threads::Threads
-    Boost::headers
+    asio::asio
     Boost::date_time
     Boost::diagnostic_definitions
     Boost::disable_autolinking

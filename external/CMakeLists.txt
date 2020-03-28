@@ -1,5 +1,6 @@
 add_subdirectory(threads)
 add_subdirectory(boost)
+add_subdirectory(asio)
 
 if(BUILD_TESTING)
     add_subdirectory(catch2)
