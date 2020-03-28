@@ -179,7 +179,6 @@ before_script:
   - conan user
   - if [[ $TRAVIS_OS_NAME == linux ]]; then ccache -z; fi
   - cmake -E environment
-  - cmake -E capabilities
 
 script:
   - cmake --warn-uninitialized

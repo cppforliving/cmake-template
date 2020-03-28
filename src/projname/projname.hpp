@@ -6,8 +6,9 @@
 #endif
 
 #include <boost/asio/io_context.hpp>
-#include <boost/beast/core/span.hpp>
 #include <boost/system/error_code.hpp>
+#include <string>
+#include <vector>
 
 #include <projname/export.h>
 
@@ -25,7 +26,9 @@ struct StopIoContext {
     PROJNAME_EXPORT void operator()(boost::system::error_code const& ec);
 };
 
-PROJNAME_EXPORT int run(boost::beast::span<char const* const> args);
+PROJNAME_EXPORT int run(std::vector<std::string> const& args);
+
+PROJNAME_EXPORT int run(int const argc, char const* const argv[]);
 
 }  // namespace projname
 

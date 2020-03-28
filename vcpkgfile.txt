@@ -1,7 +1,4 @@
 benchmark
 boost-asio
-boost-beast
-boost-date-time
-boost-system
 catch2
 gtest

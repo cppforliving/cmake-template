@@ -1,6 +1,5 @@
 #include "finally.hpp"
 
-#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <string>
 #include <type_traits>
@@ -8,20 +7,22 @@
 namespace finally {
 namespace {
 
+using testing::Test;
+using testing::Types;
+
 constexpr auto stateless_lambda = [] {};
 constexpr auto nothrow_move_constructible_lambda = [_ = 0] { (void)_; };
-[[maybe_unused]] auto copy_constructible_lambda() {
+[[maybe_unused]] auto make_copy_constructible_lambda() {
     return [_ = std::string{}] { (void)_; };
 }
 
-using FinalActionTypes =
-    testing::Types<void (*)(),
-                   decltype(stateless_lambda),
-                   decltype(nothrow_move_constructible_lambda),
-                   decltype(copy_constructible_lambda())>;
+using FinalActionTypes = Types<void (*)(),
+                               decltype(stateless_lambda),
+                               decltype(nothrow_move_constructible_lambda),
+                               decltype(make_copy_constructible_lambda())>;
 
 template <typename T>
-struct FinallyTest : testing::Test {};
+struct FinallyTest : Test {};
 
 template <typename F>
 using FinalAction = decltype(finally(std::declval<F>()));

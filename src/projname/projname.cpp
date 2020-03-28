@@ -3,8 +3,8 @@
 #include <boost/asio/deadline_timer.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/post.hpp>
-#include <boost/beast/core/span.hpp>
 #include <boost/date_time/posix_time/posix_time_duration.hpp>
+#include <boost/system/error_code.hpp>
 #include <iostream>
 #include <thread>
 
@@ -23,9 +23,9 @@ void StopIoContext::operator()(boost::system::error_code const& ec) {
     }
 }
 
-int run(boost::beast::span<char const* const> const args) {
+int run(std::vector<std::string> const& args) {
     std::cout << __func__ << " args:";
-    for (auto const arg : args) {
+    for (auto const& arg : args) {
         std::cout << ' ' << arg;
     }
     std::cout << std::endl;
@@ -47,6 +47,15 @@ int run(boost::beast::span<char const* const> const args) {
     thread.join();
 
     return 0;
+}
+
+int run(int const argc, char const* const argv[]) {
+    std::vector<std::string> args;
+    args.reserve(static_cast<decltype(args)::size_type>(argc));
+    for (int i = 0; i < argc; ++i) {
+        args.emplace_back(argv[i]);
+    }
+    return run(args);
 }
 
 }  // namespace projname

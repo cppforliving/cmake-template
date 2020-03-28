@@ -1,3 +1,6 @@
+include_guard(DIRECTORY)
+
+
 function(enable_diagnostics_color)
     get_property(languages GLOBAL PROPERTY ENABLED_LANGUAGES)
     foreach(language IN LISTS languages)
@@ -14,5 +17,6 @@ function(enable_diagnostics_color)
         endif()
     endforeach()
 endfunction()
+
 
 enable_diagnostics_color()

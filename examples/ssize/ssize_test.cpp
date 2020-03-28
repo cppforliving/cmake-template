@@ -26,7 +26,7 @@ TYPED_TEST_SUITE(SsizeTest, SsizeTestContainers);
 TYPED_TEST(SsizeTest, getContainerSsize) {
     TypeParam c = {};
     auto const s = ssize(c);
-    EXPECT_TRUE(s >= 0);
+    EXPECT_GE(s, 0);
 }
 
 }  // namespace

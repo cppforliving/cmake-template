@@ -12,11 +12,14 @@ if(${PROJECT_NAME}_sanitizer)
         set(MEMORYCHECK_TYPE ThreadSanitizer)
     elseif(${PROJECT_NAME}_sanitizer STREQUAL address)
         set(MEMORYCHECK_TYPE AddressSanitizer)
-        if(HAVE_GLIBCXX)
-            add_compile_definitions(
-                $<$<COMPILE_LANGUAGE:CXX>:_GLIBCXX_SANITIZE_VECTOR>
-            )
-        endif()
+#        if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+#            add_link_options(-shared-libasan)
+#        endif()
+#        if(HAVE_GLIBCXX)
+#            add_compile_definitions(
+#                $<$<COMPILE_LANGUAGE:CXX>:_GLIBCXX_SANITIZE_VECTOR>
+#            )
+#        endif()
     elseif(${PROJECT_NAME}_sanitizer STREQUAL leak)
         set(MEMORYCHECK_TYPE LeakSanitizer)
     elseif(${PROJECT_NAME}_sanitizer STREQUAL memory)

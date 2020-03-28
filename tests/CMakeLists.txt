@@ -1,6 +1,6 @@
 projname_add_test(integration_test
   SOURCES
-    projname_test.cpp
+    integration_test.cpp
   DEPENDS
     ${PROJECT_NAME}
     catch2_main

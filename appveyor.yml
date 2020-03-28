@@ -44,7 +44,7 @@ matrix:
 
 cache:
   - '%VCPKG_ROOT%\installed -> vcpkgfile.txt'
-  #- '%LOCALAPPDATA%\pip\Cache -> requirements.txt'
+  - '%LOCALAPPDATA%\pip\Cache -> requirements.txt'
 
 install:
   - python -m pip install -U -r requirements.txt
@@ -64,7 +64,6 @@ install:
       set "BUILD_BENCHMARKS=ON"
     )
   - cmake -E environment
-  - cmake -E capabilities
 
 build_script:
   - cmake --warn-uninitialized
