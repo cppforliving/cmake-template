@@ -50,7 +50,7 @@ include(Format)
 include(StaticChecks)
 include(Sanitizers)
 include(Coverage)
-include(ProjectHelpers)
+include(ProjectCxxHelpers)
 
 add_subdirectory(src)
 
