@@ -43,9 +43,8 @@ matrix:
       BUILD_SHARED_LIBS: "OFF"
 
 cache:
-  - '%VCPKG_ROOT%\buildtrees -> vcpkgfile.txt'
   - '%VCPKG_ROOT%\installed -> vcpkgfile.txt'
-  - '%LOCALAPPDATA%\pip\Cache -> requirements.txt'
+  #- '%LOCALAPPDATA%\pip\Cache -> requirements.txt'
 
 install:
   - python -m pip install -U -r requirements.txt
