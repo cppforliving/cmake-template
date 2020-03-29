@@ -119,7 +119,7 @@ run_main() {
     [[ ! -d $venv_dir || $pip_upgrade ]] && python3 -m virtualenv "$venv_dir"
     source "$venv_dir"/bin/activate
 
-    pip install $pip_upgrade -r requirements-lint.txt
+    pip install $pip_upgrade -r requirements-test.txt -r requirements-lint.txt
 
     case $package_manager in
     conan)

@@ -15,3 +15,6 @@
 
 # QtCreator
 /CMakeLists.txt.user
+
+# Python
+__pycache__/

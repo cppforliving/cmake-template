@@ -43,6 +43,7 @@ include(CTest)
 include(Diagnostics)
 include(Warnings)
 
+find_package(pybind11 CONFIG REQUIRED)
 add_subdirectory(external)
 
 include(Valgrind)
@@ -51,6 +52,7 @@ include(StaticChecks)
 include(Sanitizers)
 include(Coverage)
 include(ProjectCxxHelpers)
+include(ProjectPyHelpers)
 
 add_subdirectory(src)
 

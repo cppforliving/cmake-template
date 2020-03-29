@@ -19,6 +19,13 @@ projname_add_executable(${PROJECT_NAME}_tool
     ${PROJECT_NAME}
 )
 
+projname_add_pymodule(py${PROJECT_NAME}
+  SOURCES
+    projname_py.cpp
+  DEPENDS
+    ${PROJECT_NAME}
+)
+
 if(BUILD_TESTING)
     projname_add_test(${PROJECT_NAME}_test
       SOURCES

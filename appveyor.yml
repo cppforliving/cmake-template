@@ -15,12 +15,13 @@ platform:
 environment:
   VCPKG_ROOT: C:\Tools\vcpkg
   VCPKG_DEFAULT_TRIPLET: "%PLATFORM%-windows"
-  PATH: C:\Python38-x64;C:\Python38-x64\Scripts;%PATH%
   CMAKE_BUILD_PARALLEL_LEVEL: 2
   VERBOSE: 1
   matrix:
     - BUILD_SHARED_LIBS: "ON"
+      PATH: C:\Python37-x64;C:\Python37-x64\Scripts;%PATH%
     - BUILD_SHARED_LIBS: "OFF"
+      PATH: C:\Python37;C:\Python37\Scripts;%PATH%
 
 matrix:
   fast_finish: true
@@ -44,10 +45,10 @@ matrix:
 
 cache:
   - '%VCPKG_ROOT%\installed -> vcpkgfile.txt'
-  - '%LOCALAPPDATA%\pip\Cache -> requirements.txt'
+  - '%LOCALAPPDATA%\pip\Cache -> requirements*.txt'
 
 install:
-  - python -m pip install -U -r requirements.txt
+  - python -m pip install -U -r requirements-test.txt
   - if "%PLATFORM%"=="x86" (
       set "CMAKE_GENERATOR_PLATFORM=Win32"
     ) else if "%PLATFORM%"=="x64" (

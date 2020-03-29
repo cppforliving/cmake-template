@@ -1,0 +1,3 @@
+[
+  {include: ["@<pybind11/detail/.*\\.h>", private, "<pybind11/pybind11.h>", public]},
+]

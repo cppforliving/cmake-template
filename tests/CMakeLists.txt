@@ -8,10 +8,16 @@ projname_add_test(integration_test
     --use-colour=yes
 )
 
-string(REPLACE "${PROJECT_SOURCE_DIR}/" "" test_name
-    "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}_tool_test"
+projname_add_pytest(test_pyprojname.py
+  SOURCES
+    test_pyprojname.py
+  DEPENDS
+    py${PROJECT_NAME}
 )
-add_test(NAME ${test_name}
-    COMMAND ${PROJECT_NAME}_tool
+
+projname_add_pytest(test_${PROJECT_NAME}_tool.py
+  SOURCES
+    test_projname_tool.py
+  DEPENDS
+    ${PROJECT_NAME}_tool
 )
-set_property(TEST ${test_name} APPEND PROPERTY LABELS integration)

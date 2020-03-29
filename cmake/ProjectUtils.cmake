@@ -88,7 +88,7 @@ endfunction()
 
 
 function(projname_add_test_labels test_name)
-    projname_parse_arguments(arg "EXECUTABLE" "" "" ${ARGN})
+    projname_parse_arguments(arg "EXECUTABLE;PYTEST;PYLINT" "" "" ${ARGN})
 
     if(test_name MATCHES "^tests/")
         set(test_level integration)
@@ -104,15 +104,64 @@ function(projname_add_test_labels test_name)
         else()
             message(FATAL_ERROR "${test_name} name has to end with '_(test|benchmark)'")
         endif()
+    elseif(arg_PYTEST AND test_name MATCHES "/test_[a-z0-9_]*\\.py$")
+        set_property(TEST ${test_name} APPEND PROPERTY LABELS "${test_level}")
+    elseif(arg_PYLINT AND test_name MATCHES "/test_[a-z0-9_]*\\.py$")
+        set_property(TEST ${test_name} APPEND PROPERTY LABELS pylint)
+    else()
+        message(FATAL_ERROR "${test_name} name has to be 'test_*.py'")
     endif()
 endfunction()
 
 
 function(projname_add_test_environent test_name)
-    projname_parse_arguments(arg "" "" "" ${ARGN})
+    projname_parse_arguments(arg "SANITIZER_NO_DETECT_LEAKS;SANITIZER_PRELOAD_RUNTIME" "" "" ${ARGN})
 
-    if(${PROJECT_NAME}_sanitizer STREQUAL "undefined")
-        set_property(TEST ${test_name}
-            APPEND PROPERTY ENVIRONMENT "UBSAN_OPTIONS=halt_on_error=1:$ENV{UBSAN_OPTIONS}")
+    if(${PROJECT_NAME}_sanitizer)
+        if(${PROJECT_NAME}_sanitizer STREQUAL "address")
+            set(sanitizer_name asan)
+            if(arg_SANITIZER_NO_DETECT_LEAKS)
+                set_property(TEST ${test_name}
+                    APPEND PROPERTY ENVIRONMENT "ASAN_OPTIONS=detect_leaks=0:$ENV{ASAN_OPTIONS}")
+            endif()
+        elseif(${PROJECT_NAME}_sanitizer STREQUAL "leak")
+            set(sanitizer_name lsan)
+            if(arg_SANITIZER_NO_DETECT_LEAKS)
+                set_property(TEST ${test_name}
+                    APPEND PROPERTY ENVIRONMENT "LSAN_OPTIONS=detect_leaks=0:$ENV{LSAN_OPTIONS}")
+            endif()
+        elseif(${PROJECT_NAME}_sanitizer STREQUAL "thread")
+            set(sanitizer_name tsan)
+        elseif(${PROJECT_NAME}_sanitizer STREQUAL "memory")
+            set(sanitizer_name msan)
+        elseif(${PROJECT_NAME}_sanitizer STREQUAL "undefined")
+            set(sanitizer_name ubsan)
+            if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+                string(APPEND sanitizer_name _standalone)
+            endif()
+            set_property(TEST ${test_name}
+                APPEND PROPERTY ENVIRONMENT "UBSAN_OPTIONS=halt_on_error=1:$ENV{UBSAN_OPTIONS}")
+        endif()
+
+        if(arg_SANITIZER_PRELOAD_RUNTIME)
+            if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+                set(sanitizer_runtime libclang_rt.${sanitizer_name}-x86_64.so)
+            elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+                set(sanitizer_runtime lib${sanitizer_name}.so)
+            endif()
+
+            if("$CACHE{projname_sanitizer_runtime}" STREQUAL "")
+                eval_out(projname_sanitizer_runtime
+                    ${CMAKE_CXX_COMPILER} -print-file-name=${sanitizer_runtime})
+                set(projname_sanitizer_runtime "${projname_sanitizer_runtime}" CACHE PATH
+                    "Path of the clang asan shared runtime" FORCE)
+                mark_as_advanced(projname_sanitizer_runtime)
+            endif()
+
+            if(projname_sanitizer_runtime MATCHES "/")
+                set_property(TEST ${test_name}
+                    APPEND PROPERTY ENVIRONMENT "LD_PRELOAD=${projname_sanitizer_runtime} $ENV{LD_PRELOAD}")
+            endif()
+        endif()
     endif()
 endfunction()

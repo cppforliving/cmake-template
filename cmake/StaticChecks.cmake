@@ -27,6 +27,7 @@ elseif("${${PROJECT_NAME}_check}" STREQUAL iwyu)
     set(CMAKE_CXX_INCLUDE_WHAT_YOU_USE ${iwyu_command}
         -Xiwyu --mapping_file=${PROJECT_SOURCE_DIR}/external/asio/iwyu.imp
         -Xiwyu --mapping_file=${PROJECT_SOURCE_DIR}/external/gtest/iwyu.imp
+        -Xiwyu --mapping_file=${PROJECT_SOURCE_DIR}/external/pybind11/iwyu.imp
     )
 elseif("${${PROJECT_NAME}_check}" STREQUAL lwyu)
     set(CMAKE_LINK_WHAT_YOU_USE ON)

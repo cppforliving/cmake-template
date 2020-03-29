@@ -30,11 +30,12 @@ jobs:
         - choco install python --version 3.8.0
         - export PATH=/c/Python38:/c/Python38/Scripts:$PATH
         - export PATH=$HOME/AppData/Roaming/Python/Python38/Scripts:$PATH
-        - python -m pip install --user -U -r requirements.txt conan
+        - python -m pip install --user -U -r requirements-test.txt conan
         - conan config set general.user_home_short=None
       env:
         - MATRIX_EVAL="CC=cl && CXX=cl"
         - CMAKE_GENERATOR='Visual Studio 15 2017'
+        - PYTHON_VERSION=3
 
   include:
     - stage: test
@@ -44,10 +45,11 @@ jobs:
       osx_image: xcode11.3
       install:
         - export PATH=$HOME/Library/Python/3.7/bin:$PATH
-        - python3 -m pip install --user -U -r requirements.txt conan
+        - python3 -m pip install --user -U -r requirements-test.txt conan
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
         - CMAKE_GENERATOR='Xcode'
+        - PYTHON_VERSION=3
 
     - &linux_gcc
       stage: test
@@ -63,10 +65,11 @@ jobs:
       install:
         - sudo update-alternatives
             --install /usr/bin/gcov gcov /usr/bin/gcov-8 80
-        - python -m pip install --user -U -r requirements.txt conan
+        - python -m pip install --user -U -r requirements-test.txt conan
       env:
         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
         - CMAKE_GENERATOR='Unix Makefiles'
+        - PYTHON_VERSION=2
 
     - &linux_clang
       stage: test
@@ -81,10 +84,11 @@ jobs:
       install:
         - export PATH=/usr/local/clang-7.0.0/bin:$PATH
         - export LD_LIBRARY_PATH=/usr/local/clang-7.0.0/lib:$LD_LIBRARY_PATH
-        - python -m pip install --user -U -r requirements-lint.txt conan
+        - python -m pip install --user -U -r requirements-test.txt -r requirements-lint.txt conan
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
         - CMAKE_GENERATOR='Ninja'
+        - PYTHON_VERSION=2
 
     - <<: *linux_clang
       stage: check
@@ -100,6 +104,7 @@ jobs:
             -B build
             -D CMAKE_BUILD_TYPE=Debug
             -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
+            -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
             -D BUILD_TESTING=ON
             -D BUILD_BENCHMARKS=ON
             -D BUILD_EXAMPLES=ON
@@ -120,11 +125,13 @@ jobs:
             -B build
             -D CMAKE_BUILD_TYPE=Debug
             -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
+            -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
             -D BUILD_TESTING=ON
             -D BUILD_BENCHMARKS=ON
             -D BUILD_EXAMPLES=ON
             -D projname_check=lint &&
-          cmake --build build --verbose --config Debug
+          cmake --build build --verbose --config Debug &&
+          cmake -E chdir build ctest -V -C Debug -D ExperimentalTest -L lint
 
     - <<: *linux_gcc
       stage: check
@@ -140,6 +147,7 @@ jobs:
             -B build
             -D CMAKE_BUILD_TYPE=Debug
             -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
+            -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
             -D BUILD_TESTING=ON
             -D BUILD_EXAMPLES=ON
             -D debug_dynamic_deps=ON
@@ -163,6 +171,7 @@ jobs:
             -B build
             -D CMAKE_BUILD_TYPE=Debug
             -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
+            -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
             -D BUILD_TESTING=ON
             -D BUILD_BENCHMARKS=ON
             -D BUILD_EXAMPLES=ON
@@ -185,6 +194,7 @@ jobs:
             -B build
             -D CMAKE_BUILD_TYPE=Debug
             -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
+            -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
             -D BUILD_TESTING=ON
             -D BUILD_BENCHMARKS=ON
             -D BUILD_EXAMPLES=ON
@@ -207,6 +217,7 @@ jobs:
             -B build
             -D CMAKE_BUILD_TYPE=Debug
             -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
+            -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
             -D BUILD_TESTING=ON
             -D BUILD_BENCHMARKS=ON
             -D BUILD_EXAMPLES=ON
@@ -234,6 +245,7 @@ script:
       -B build
       -D CMAKE_BUILD_TYPE=Release
       -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
+      -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
       -D BUILD_TESTING=ON
       -D BUILD_BENCHMARKS=ON
       -D BUILD_EXAMPLES=ON
