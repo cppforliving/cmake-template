@@ -12,9 +12,10 @@ if(${PROJECT_NAME}_sanitizer)
         set(MEMORYCHECK_TYPE ThreadSanitizer)
     elseif(${PROJECT_NAME}_sanitizer STREQUAL address)
         set(MEMORYCHECK_TYPE AddressSanitizer)
-#        if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-#            add_link_options(-shared-libasan)
-#        endif()
+        if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+            add_compile_options(-shared-libasan)
+            add_link_options(LINKER:-shared-libasan)
+        endif()
 #        if(HAVE_GLIBCXX)
 #            add_compile_definitions(
 #                $<$<COMPILE_LANGUAGE:CXX>:_GLIBCXX_SANITIZE_VECTOR>

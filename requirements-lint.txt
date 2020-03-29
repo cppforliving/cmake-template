@@ -1,4 +1,2 @@
 -r requirements.txt
 cpplint
-gcovr
-yamllint

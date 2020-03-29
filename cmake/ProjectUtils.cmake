@@ -5,7 +5,6 @@ include(CMakePrintHelpers)
 
 
 macro(eval)
-    string(REPLACE ";" " " argn "${ARGN}")
     execute_process(COMMAND ${ARGN} RESULT_VARIABLE ret)
     if(ret)
         string(REPLACE ";" " " msg "'${ARGN}' failed with error code ${ret}")
@@ -20,23 +19,20 @@ macro(eval_out output)
 endmacro()
 
 
-function(validate_arguments prefix)
+macro(projname_parse_arguments prefix options one_value_keywords multi_value_keywords)
+    cmake_parse_arguments("${prefix}" "${options}" "${one_value_keywords}" "${multi_value_keywords}" ${ARGN})
+
     if(${prefix}_UNPARSED_ARGUMENTS)
         message(FATAL_ERROR "Found unparsed arguments: ${${prefix}_UNPARSED_ARGUMENTS}")
     endif()
     if(${prefix}_KEYWORDS_MISSING_VALUES)
         message(FATAL_ERROR "Found keywords missing values: ${${prefix}_KEYWORDS_MISSING_VALUES}")
     endif()
-endfunction()
+endmacro()
 
 
 function(projname_install_target tgt_name)
-    set(options)
-    set(one_value_args)
-    set(multi_value_args HEADERS)
-    cmake_parse_arguments(arg "${options}"
-        "${one_value_args}" "${multi_value_args}" ${ARGN})
-    validate_arguments(arg)
+    projname_parse_arguments(arg "" "" "HEADERS" ${ARGN})
 
     get_filename_component(parent_source_dir "${CMAKE_CURRENT_SOURCE_DIR}" DIRECTORY)
     get_filename_component(parent_source_dir_name "${parent_source_dir}" NAME)
@@ -66,23 +62,57 @@ function(projname_install_target tgt_name)
 endfunction()
 
 
-function(debug_dynamic_dependencies tgt_name)
-    if(NOT debug_dynamic_deps)
-        return()
+function(projname_debug_dynamic_deps tgt_name)
+    projname_parse_arguments(arg "" "" "" ${ARGN})
+
+    if(debug_dynamic_deps)
+        get_target_property(tgt_type ${tgt_name} TYPE)
+        if(NOT tgt_type STREQUAL "INTERFACE_LIBRARY")
+            set(tgt_file $<TARGET_FILE:${tgt_name}>)
+            if(APPLE)
+                add_custom_command(TARGET ${tgt_name} POST_BUILD
+                    COMMAND otool -l ${tgt_file} | grep PATH -A2 || :
+                    COMMAND otool -L ${tgt_file} || :)
+            elseif(UNIX)
+                add_custom_command(TARGET ${tgt_name} POST_BUILD
+                    COMMAND readelf -d ${tgt_file} | grep NEEDED || :
+                    COMMAND readelf -d ${tgt_file} | grep PATH || :
+                    COMMAND ldd -r ${tgt_file} || :)
+            elseif(WIN32)
+                add_custom_command(TARGET ${tgt_name} POST_BUILD
+                    COMMAND dumpbin -DEPENDENTS ${tgt_file})
+            endif()
+        endif()
+    endif()
+endfunction()
+
+
+function(projname_add_test_labels test_name)
+    projname_parse_arguments(arg "EXECUTABLE" "" "" ${ARGN})
+
+    if(test_name MATCHES "^tests/")
+        set(test_level integration)
+    else()
+        set(test_level unit)
     endif()
 
-    set(tgt_file $<TARGET_FILE:${tgt_name}>)
-    if(APPLE)
-        add_custom_command(TARGET ${tgt_name} POST_BUILD
-            COMMAND otool -l ${tgt_file} | grep PATH -A2 || :
-            COMMAND otool -L ${tgt_file} || :)
-    elseif(UNIX)
-        add_custom_command(TARGET ${tgt_name} POST_BUILD
-            COMMAND readelf -d ${tgt_file} | grep NEEDED || :
-            COMMAND readelf -d ${tgt_file} | grep PATH || :
-            COMMAND ldd -r ${tgt_file} || :)
-    elseif(WIN32)
-        add_custom_command(TARGET ${tgt_name} POST_BUILD
-            COMMAND dumpbin -DEPENDENTS ${tgt_file})
+    if(arg_EXECUTABLE)
+        if(test_name MATCHES "_test$")
+            set_property(TEST ${test_name} APPEND PROPERTY LABELS "${test_level}")
+        elseif(test_name MATCHES "_benchmark$")
+            set_property(TEST ${test_name} APPEND PROPERTY LABELS benchmark)
+        else()
+            message(FATAL_ERROR "${test_name} name has to end with '_(test|benchmark)'")
+        endif()
+    endif()
+endfunction()
+
+
+function(projname_add_test_environent test_name)
+    projname_parse_arguments(arg "" "" "" ${ARGN})
+
+    if(${PROJECT_NAME}_sanitizer STREQUAL "undefined")
+        set_property(TEST ${test_name}
+            APPEND PROPERTY ENVIRONMENT "UBSAN_OPTIONS=halt_on_error=1:$ENV{UBSAN_OPTIONS}")
     endif()
 endfunction()

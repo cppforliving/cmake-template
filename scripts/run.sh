@@ -119,7 +119,7 @@ run_main() {
     [[ ! -d $venv_dir || $pip_upgrade ]] && python3 -m virtualenv "$venv_dir"
     source "$venv_dir"/bin/activate
 
-    pip install $pip_upgrade -r requirements-dev.txt
+    pip install $pip_upgrade -r requirements-lint.txt
 
     case $package_manager in
     conan)
@@ -184,7 +184,7 @@ run_main() {
         if ((memcheck)); then
             $test_cmd ExperimentalMemCheck
         else
-            $test_cmd ExperimentalTest
+            $test_cmd ExperimentalTest $([[ $check == "lint" ]] && echo "-L lint")
         fi
         source_if_exists "$build_dir"/deactivate_run.sh
     fi

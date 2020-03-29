@@ -14,3 +14,4 @@ string(REPLACE "${PROJECT_SOURCE_DIR}/" "" test_name
 add_test(NAME ${test_name}
     COMMAND ${PROJECT_NAME}_tool
 )
+set_property(TEST ${test_name} APPEND PROPERTY LABELS integration)

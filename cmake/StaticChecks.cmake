@@ -1,7 +1,7 @@
 set(${PROJECT_NAME}_check "" CACHE STRING
-    "Static code analysis tools: clang-tidy, cppcheck, cpplint, iwyu, lwyu.")
+    "Static code analysis tools: tidy, cppcheck, lint, iwyu, lwyu.")
 
-if("${${PROJECT_NAME}_check}" STREQUAL clang-tidy)
+if("${${PROJECT_NAME}_check}" STREQUAL tidy)
     find_program(clang_tidy_command clang-tidy)
     mark_as_advanced(clang_tidy_command)
     set(CMAKE_CXX_CLANG_TIDY ${clang_tidy_command})
@@ -15,7 +15,7 @@ elseif("${${PROJECT_NAME}_check}" STREQUAL cppcheck)
         --library=${PROJECT_SOURCE_DIR}/external/gtest/cppcheck.cfg
         --suppress=missingIncludeSystem
     )
-elseif("${${PROJECT_NAME}_check}" STREQUAL cpplint)
+elseif("${${PROJECT_NAME}_check}" STREQUAL lint)
     find_program(cpplint_command cpplint)
     mark_as_advanced(cpplint_command)
     set(CMAKE_CXX_CPPLINT ${cpplint_command}

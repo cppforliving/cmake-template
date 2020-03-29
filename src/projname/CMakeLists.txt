@@ -32,9 +32,9 @@ if(BUILD_TESTING)
     )
 
     if(BUILD_BENCHMARKS)
-        projname_add_test(${PROJECT_NAME}_bench
+        projname_add_test(${PROJECT_NAME}_benchmark
           SOURCES
-            lockable_bench.cpp
+            lockable_benchmark.cpp
           DEPENDS
             ${PROJECT_NAME}
             benchmark_main

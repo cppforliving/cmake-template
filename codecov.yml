@@ -2,4 +2,4 @@ ignore:
   - "external/.*"
   - "tests/.*"
   - ".*_test\\.cpp"
-  - ".*_bench\\.cpp"
+  - ".*_benchmark\\.cpp"

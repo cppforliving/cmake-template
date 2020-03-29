@@ -81,7 +81,7 @@ jobs:
       install:
         - export PATH=/usr/local/clang-7.0.0/bin:$PATH
         - export LD_LIBRARY_PATH=/usr/local/clang-7.0.0/lib:$LD_LIBRARY_PATH
-        - python -m pip install --user -U -r requirements.txt conan
+        - python -m pip install --user -U -r requirements-lint.txt conan
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
         - CMAKE_GENERATOR='Ninja'
@@ -101,9 +101,29 @@ jobs:
             -D CMAKE_BUILD_TYPE=Debug
             -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
             -D BUILD_TESTING=ON
+            -D BUILD_BENCHMARKS=ON
             -D BUILD_EXAMPLES=ON
-            -D debug_dynamic_deps=ON
-            -D projname_check=clang-tidy &&
+            -D projname_check=tidy &&
+          cmake --build build --verbose --config Debug
+
+    - <<: *linux_clang
+      stage: check
+      name: linux-clang-lint
+      script:
+        - cmake --warn-uninitialized
+            -D package_manager=conan
+            -D build_type=Debug
+            -D build_dir=build
+            -D update=ON
+            -P scripts/setup.cmake &&
+          cmake
+            -B build
+            -D CMAKE_BUILD_TYPE=Debug
+            -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
+            -D BUILD_TESTING=ON
+            -D BUILD_BENCHMARKS=ON
+            -D BUILD_EXAMPLES=ON
+            -D projname_check=lint &&
           cmake --build build --verbose --config Debug
 
     - <<: *linux_gcc
@@ -129,9 +149,9 @@ jobs:
       after_success:
         - bash <(curl -s https://codecov.io/bash)
 
-    - <<: *linux_clang
+    - <<: *linux_gcc
       stage: check
-      name: linux-clang-asan
+      name: linux-gcc-asan
       script:
         - cmake --warn-uninitialized
             -D package_manager=conan
@@ -144,9 +164,32 @@ jobs:
             -D CMAKE_BUILD_TYPE=Debug
             -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
             -D BUILD_TESTING=ON
+            -D BUILD_BENCHMARKS=ON
             -D BUILD_EXAMPLES=ON
             -D debug_dynamic_deps=ON
             -D projname_sanitizer=address &&
+          cmake --build build --verbose --config Debug &&
+          cmake -E chdir build ctest -V -C Debug -D ExperimentalTest
+
+    - <<: *linux_clang
+      stage: check
+      name: linux-clang-ubsan
+      script:
+        - cmake --warn-uninitialized
+            -D package_manager=conan
+            -D build_type=Debug
+            -D build_dir=build
+            -D update=ON
+            -P scripts/setup.cmake &&
+          cmake
+            -B build
+            -D CMAKE_BUILD_TYPE=Debug
+            -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
+            -D BUILD_TESTING=ON
+            -D BUILD_BENCHMARKS=ON
+            -D BUILD_EXAMPLES=ON
+            -D debug_dynamic_deps=ON
+            -D projname_sanitizer=undefined &&
           cmake --build build --verbose --config Debug &&
           cmake -E chdir build ctest -V -C Debug -D ExperimentalTest
 
@@ -165,8 +208,8 @@ jobs:
             -D CMAKE_BUILD_TYPE=Debug
             -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
             -D BUILD_TESTING=ON
+            -D BUILD_BENCHMARKS=ON
             -D BUILD_EXAMPLES=ON
-            -D debug_dynamic_deps=ON
             -D projname_valgrind=memcheck &&
           cmake --build build --verbose --config Debug &&
           cmake -E chdir build ctest -V -C Debug -D ExperimentalMemCheck
