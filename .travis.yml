@@ -42,7 +42,7 @@ jobs:
       name: osx-clang
       os: osx
       compiler: clang
-      osx_image: xcode11.3
+      osx_image: xcode10.3
       install:
         - export PATH=$HOME/Library/Python/3.7/bin:$PATH
         - python3 -m pip install --user -U -r requirements-test.txt conan
@@ -77,10 +77,6 @@ jobs:
       os: linux
       compiler: clang
       dist: bionic
-      addons:
-        apt:
-          packages:
-            - libstdc++-8-dev
       install:
         - export PATH=/usr/local/clang-7.0.0/bin:$PATH
         - export LD_LIBRARY_PATH=/usr/local/clang-7.0.0/lib:$LD_LIBRARY_PATH
