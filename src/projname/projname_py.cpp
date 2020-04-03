@@ -7,8 +7,6 @@
 #include "projname.hpp"
 
 PYBIND11_MODULE(pyprojname, m) {
-    namespace py = pybind11;
-
     m.def("run", [](std::vector<std::string> const& args) {
         return projname::run(args);
     });

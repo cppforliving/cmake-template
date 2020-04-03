@@ -15,7 +15,7 @@ constexpr auto ssize(C const& c)
 }
 
 template <typename T, std::size_t N>
-constexpr std::ptrdiff_t ssize(T const (&)[N]) noexcept {
+constexpr std::ptrdiff_t ssize(T const (&/*unused*/)[N]) noexcept {
     return N;
 }
 

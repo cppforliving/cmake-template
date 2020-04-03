@@ -28,7 +28,7 @@ struct StopIoContext {
 
 PROJNAME_EXPORT int run(std::vector<std::string> const& args);
 
-PROJNAME_EXPORT int run(int const argc, char const* const argv[]);
+PROJNAME_EXPORT int run(int argc, char const* const argv[]);
 
 }  // namespace projname
 

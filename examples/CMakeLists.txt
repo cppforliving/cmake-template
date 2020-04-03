@@ -1,5 +1,4 @@
 add_subdirectory(capicpp)
-add_subdirectory(clegacy)
 add_subdirectory(cppapi)
 add_subdirectory(derived)
 add_subdirectory(finally)
