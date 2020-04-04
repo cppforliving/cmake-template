@@ -9,6 +9,8 @@ namespace detail {
 
 template <typename F>
 class FinalAction {
+    static_assert(std::is_same_v<F, std::decay_t<F>>);
+
   public:
     constexpr explicit FinalAction(F const& f) noexcept(
         std::is_nothrow_copy_constructible_v<F>)
@@ -25,8 +27,6 @@ class FinalAction {
     void operator=(FinalAction const&) = delete;
 
   private:
-    static_assert(std::is_same_v<std::decay_t<F>, F>);
-
     F m_f;
 };
 
