@@ -10,8 +10,15 @@ namespace detail {
 template <typename F>
 class FinalAction {
   public:
-    explicit FinalAction(F f) noexcept(std::is_nothrow_move_constructible_v<F>)
+    constexpr explicit FinalAction(F const& f) noexcept(
+        std::is_nothrow_copy_constructible_v<F>)
+        : m_f{f} {}
+
+    constexpr explicit FinalAction(F&& f) noexcept(
+        std::is_nothrow_move_constructible_v<F>)
         : m_f{std::move(f)} {}
+
+    FinalAction() = delete;
     ~FinalAction() { m_f(); }
 
     FinalAction(FinalAction const&) = delete;
@@ -26,9 +33,9 @@ class FinalAction {
 }  // namespace detail
 
 template <typename F>
-detail::FinalAction<F> finally(F f) noexcept(noexcept(detail::FinalAction<F>{
-    std::move(f)})) {
-    return detail::FinalAction<F>{std::move(f)};
+constexpr auto finally(F&& f) noexcept(
+    noexcept(detail::FinalAction<std::decay_t<F>>{std::forward<F>(f)})) {
+    return detail::FinalAction<std::decay_t<F>>{std::forward<F>(f)};
 }
 
 }  // namespace finally
