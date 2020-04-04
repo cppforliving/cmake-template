@@ -5,34 +5,25 @@
 #include <utility>
 
 namespace finally {
-namespace detail {
 
 template <typename F>
-class FinalAction {
+class finally {
     static_assert(std::is_same_v<F, std::decay_t<F>>);
 
   public:
-    constexpr explicit FinalAction(F f) noexcept(
+    constexpr explicit finally(F f) noexcept(
         std::is_nothrow_move_constructible_v<F>)
         : m_f{std::move(f)} {}
 
-    FinalAction() = delete;
-    ~FinalAction() { m_f(); }
+    finally() = delete;
+    ~finally() { m_f(); }
 
-    FinalAction(FinalAction const&) = delete;
-    void operator=(FinalAction const&) = delete;
+    finally(finally const&) = delete;
+    void operator=(finally const&) = delete;
 
   private:
     F m_f;
 };
-
-}  // namespace detail
-
-template <typename F>
-constexpr auto finally(F&& f) noexcept(
-    noexcept(detail::FinalAction<std::decay_t<F>>{std::forward<F>(f)})) {
-    return detail::FinalAction<std::decay_t<F>>{std::forward<F>(f)};
-}
 
 }  // namespace finally
 

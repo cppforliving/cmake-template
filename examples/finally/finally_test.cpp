@@ -48,17 +48,17 @@ TYPED_TEST(FinallyTest, is_not_move_constructible) {
 TYPED_TEST(FinallyTest, is_nothrow_copy_constructible) {
     auto const expected =
         std::is_nothrow_copy_constructible_v<std::decay_t<TypeParam>>;
-    EXPECT_EQ(
-        expected,
-        noexcept(FinalAction<TypeParam>(std::declval<TypeParam const>())));
+    EXPECT_EQ(expected, noexcept(finally<std::decay_t<TypeParam>>(
+                            std::declval<TypeParam const>())));
     EXPECT_EQ(expected, noexcept(finally(std::declval<TypeParam const>())));
 }
 
 TYPED_TEST(FinallyTest, is_nothrow_move_constructible) {
     auto const expected =
         std::is_nothrow_move_constructible_v<std::decay_t<TypeParam>>;
-    EXPECT_EQ(expected,
-              noexcept(FinalAction<TypeParam>(std::declval<TypeParam>())));
+    EXPECT_EQ(
+        expected,
+        noexcept(finally<std::decay_t<TypeParam>>(std::declval<TypeParam>())));
     EXPECT_EQ(expected, noexcept(finally(std::declval<TypeParam>())));
 }
 
