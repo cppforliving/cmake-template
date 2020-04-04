@@ -12,11 +12,7 @@ class FinalAction {
     static_assert(std::is_same_v<F, std::decay_t<F>>);
 
   public:
-    constexpr explicit FinalAction(F const& f) noexcept(
-        std::is_nothrow_copy_constructible_v<F>)
-        : m_f{f} {}
-
-    constexpr explicit FinalAction(F&& f) noexcept(
+    constexpr explicit FinalAction(F f) noexcept(
         std::is_nothrow_move_constructible_v<F>)
         : m_f{std::move(f)} {}
 
