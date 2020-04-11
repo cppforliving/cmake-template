@@ -1,5 +1,5 @@
-#ifndef PROJNAME_PROJNAME_HPP
-#define PROJNAME_PROJNAME_HPP
+#ifndef PROJNAME_PROJNAME_HPP_
+#define PROJNAME_PROJNAME_HPP_
 
 #ifdef _WIN32
 #include <SDKDDKVer.h>
@@ -32,4 +32,4 @@ PROJNAME_EXPORT int run(int argc, char const* const argv[]);
 
 }  // namespace projname
 
-#endif  // PROJNAME_PROJNAME_HPP
+#endif  // PROJNAME_PROJNAME_HPP_

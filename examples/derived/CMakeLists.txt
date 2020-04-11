@@ -1,19 +1,15 @@
-get_filename_component(lib_name "${CMAKE_CURRENT_SOURCE_DIR}" NAME)
-
-projname_add_library(${lib_name}
+projname_add_library(derived
   SOURCES
     derived.cpp
     derived.hpp
 )
 
-if(BUILD_TESTING)
-    projname_add_test(${lib_name}_test
-      SOURCES
-        derived_test.cpp
-      DEPENDS
-        ${lib_name}
-        gtest_main
-      EXTRA_ARGS
-        --gtest_color=yes
-    )
-endif()
+projname_add_test(derived_test
+  SOURCES
+    derived_test.cpp
+  DEPENDS
+    derived
+    gtest_main
+  EXTRA_ARGS
+    --gtest_color=yes
+)

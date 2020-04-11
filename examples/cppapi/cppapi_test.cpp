@@ -4,10 +4,10 @@
 #include <gtest/gtest.h>
 #include <memory>
 
+using testing::Eq;
+
 namespace cppapi {
 namespace {
-
-using testing::Eq;
 
 TEST(cppapi, all) {
     auto const x = newInt123();

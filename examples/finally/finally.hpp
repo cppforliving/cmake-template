@@ -1,10 +1,10 @@
-#ifndef FINALLY_FINALLY_HPP
-#define FINALLY_FINALLY_HPP
+#ifndef EXAMPLES_FINALLY_FINALLY_HPP_
+#define EXAMPLES_FINALLY_FINALLY_HPP_
 
 #include <type_traits>
 #include <utility>
 
-namespace finally {
+namespace examples {
 
 template <typename F>
 class finally {
@@ -25,6 +25,6 @@ class finally {
     F m_f;
 };
 
-}  // namespace finally
+}  // namespace examples
 
-#endif  // FINALLY_FINALLY_HPP
+#endif  // EXAMPLES_FINALLY_FINALLY_HPP_

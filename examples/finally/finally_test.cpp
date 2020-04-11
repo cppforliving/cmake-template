@@ -4,11 +4,11 @@
 #include <string>
 #include <type_traits>
 
-namespace finally {
-namespace {
-
 using testing::Test;
 using testing::Types;
+
+namespace examples {
+namespace {
 
 constexpr auto stateless_lambda = [] {};
 constexpr auto nothrow_move_constructible_lambda = [_ = 0] { (void)_; };
@@ -63,4 +63,4 @@ TYPED_TEST(FinallyTest, is_nothrow_move_constructible) {
 }
 
 }  // namespace
-}  // namespace finally
+}  // namespace examples

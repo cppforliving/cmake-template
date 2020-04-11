@@ -56,6 +56,10 @@ endfunction()
 function(projname_add_pytest tgt_name)
     projname_parse_arguments(arg "" "" "SOURCES;DEPENDS" ${ARGN})
 
+    if(NOT BUILD_TESTING)
+        return()
+    endif()
+
     set(extensions)
     foreach(tgt_name IN LISTS arg_DEPENDS)
         get_target_property(tgt_type ${tgt_name} TYPE)

@@ -1,5 +1,5 @@
-#ifndef PROJNAME_LOCKABLE_HPP
-#define PROJNAME_LOCKABLE_HPP
+#ifndef PROJNAME_LOCKABLE_HPP_
+#define PROJNAME_LOCKABLE_HPP_
 
 #include <mutex>
 #include <utility>
@@ -62,4 +62,4 @@ class Lockable {
 
 }  // namespace projname
 
-#endif  // PROJNAME_LOCKABLE_HPP
+#endif  // PROJNAME_LOCKABLE_HPP_

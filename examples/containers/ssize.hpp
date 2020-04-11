@@ -1,10 +1,10 @@
-#ifndef SSIZE_SSIZE_HPP
-#define SSIZE_SSIZE_HPP
+#ifndef EXAMPLES_CONTAINERS_SSIZE_HPP_
+#define EXAMPLES_CONTAINERS_SSIZE_HPP_
 
 #include <cstddef>
 #include <type_traits>
 
-namespace ssize {
+namespace examples {
 
 template <typename C>
 constexpr auto ssize(C const& c)
@@ -19,6 +19,6 @@ constexpr std::ptrdiff_t ssize(T const (&/*unused*/)[N]) noexcept {
     return N;
 }
 
-}  // namespace ssize
+}  // namespace examples
 
-#endif  // SSIZE_SSIZE_HPP
+#endif  // EXAMPLES_CONTAINERS_SSIZE_HPP_

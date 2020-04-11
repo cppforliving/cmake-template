@@ -106,6 +106,10 @@ endfunction()
 function(projname_add_test tgt_name)
     projname_parse_arguments(arg "" "" "SOURCES;DEPENDS;EXTRA_ARGS" ${ARGN})
 
+    if(NOT BUILD_TESTING)
+        return()
+    endif()
+
     add_executable(${tgt_name})
     target_sources(${tgt_name}
       PRIVATE

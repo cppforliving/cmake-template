@@ -1,4 +1,4 @@
-projname_add_library(${PROJECT_NAME}
+projname_add_library(projname
   SOURCES
     lockable.hpp
     projname.cpp
@@ -12,39 +12,37 @@ projname_add_library(${PROJECT_NAME}
     Boost::dynamic_linking
 )
 
-projname_add_executable(${PROJECT_NAME}_tool
+projname_add_executable(projname_tool
   SOURCES
     projname_main.cpp
   DEPENDS
-    ${PROJECT_NAME}
+    projname
 )
 
-projname_add_pymodule(py${PROJECT_NAME}
+projname_add_pymodule(pyprojname
   SOURCES
     projname_py.cpp
   DEPENDS
-    ${PROJECT_NAME}
+    projname
 )
 
-if(BUILD_TESTING)
-    projname_add_test(${PROJECT_NAME}_test
-      SOURCES
-        lockable_test.cpp
-        projname_test.cpp
-      DEPENDS
-        ${PROJECT_NAME}
-        gtest_main
-      EXTRA_ARGS
-        --gtest_color=yes
-    )
+projname_add_test(projname_test
+  SOURCES
+    lockable_test.cpp
+    projname_test.cpp
+  DEPENDS
+    projname
+    gtest_main
+  EXTRA_ARGS
+    --gtest_color=yes
+)
 
-    if(BUILD_BENCHMARKS)
-        projname_add_test(${PROJECT_NAME}_benchmark
-          SOURCES
-            lockable_benchmark.cpp
-          DEPENDS
-            ${PROJECT_NAME}
-            benchmark_main
-        )
-    endif()
+if(BUILD_BENCHMARKS)
+    projname_add_test(projname_benchmark
+      SOURCES
+        lockable_benchmark.cpp
+      DEPENDS
+        projname
+        benchmark_main
+    )
 endif()

@@ -1,5 +1,5 @@
 add_subdirectory(capicpp)
+add_subdirectory(containers)
 add_subdirectory(cppapi)
 add_subdirectory(derived)
 add_subdirectory(finally)
-add_subdirectory(ssize)

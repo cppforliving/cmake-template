@@ -1,5 +1,5 @@
-#ifndef CPPAPI_CPPAPI_HPP
-#define CPPAPI_CPPAPI_HPP
+#ifndef EXAMPLES_CPPAPI_CPPAPI_HPP_
+#define EXAMPLES_CPPAPI_CPPAPI_HPP_
 
 #include <cppapi/export.h>
 
@@ -19,4 +19,4 @@ CPPAPI_EXPORT int* newInt123();
 
 }  // namespace cppapi
 
-#endif  // CPPAPI_CPPAPI_HPP
+#endif  // EXAMPLES_CPPAPI_CPPAPI_HPP_

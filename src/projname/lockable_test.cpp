@@ -4,15 +4,16 @@
 #include <mutex>
 #include <shared_mutex>
 #include <string>
+#include <string_view>
 #include <type_traits>
+
+using std::literals::operator""s;
+using std::literals::operator""sv;
+using testing::Test;
+using testing::Types;
 
 namespace projname {
 namespace {
-
-using namespace std::string_literals;  // NOLINT(build/namespaces)
-
-using testing::Test;
-using testing::Types;
 
 template <typename MutexType>
 struct LockableTest : Test {};
@@ -44,12 +45,12 @@ TYPED_TEST(LockableTest, lockGuard) {
     EXPECT_TRUE(
         (std::is_same_v<Lock<LockableString<TypeParam>>, decltype(l1)>));
 
-    EXPECT_EQ("asd", *l1);
+    EXPECT_EQ("asd"sv, *l1);
     EXPECT_EQ(3u, l1->size());
 }
 
 TYPED_TEST(LockableTest, initializeByCopy) {
-    auto s0{"qwe"s};
+    auto s0 = "qwe"s;
     LockableString<TypeParam> s1{s0};
     EXPECT_TRUE((std::is_same_v<LockableString<TypeParam>, decltype(s1)>));
 
@@ -57,9 +58,9 @@ TYPED_TEST(LockableTest, initializeByCopy) {
     EXPECT_TRUE(
         (std::is_same_v<Lock<LockableString<TypeParam>>, decltype(l1)>));
 
-    *l1 = "asd";
-    EXPECT_EQ("qwe", s0);
-    EXPECT_EQ("asd", *l1);
+    *l1 = "asd"sv;
+    EXPECT_EQ("qwe"sv, s0);
+    EXPECT_EQ("asd"sv, *l1);
 }
 
 TYPED_TEST(LockableTest, lockAndSwap) {

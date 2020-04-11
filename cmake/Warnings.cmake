@@ -14,6 +14,7 @@ if(MSVC)
         /Zc:__cplusplus
         /nologo
         /permissive-
+        /wd4455  # false positive bug
     )
     add_compile_definitions(
         _HAS_EXCEPTIONS=1
@@ -53,6 +54,8 @@ else()
             -Wno-error=documentation
             -Wno-error=padded
         )
+    elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "8")
+        add_compile_options(-Wno-error=literal-suffix)  # false positive bug
     endif()
     if(HAVE_GLIBCXX)
         add_compile_definitions(

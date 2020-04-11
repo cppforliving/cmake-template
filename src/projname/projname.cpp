@@ -5,8 +5,11 @@
 #include <asio/post.hpp>
 #include <boost/date_time/posix_time/posix_time_duration.hpp>
 #include <iostream>
+#include <string_view>
 #include <system_error>
 #include <thread>
+
+using std::literals::operator""sv;
 
 namespace projname {
 
@@ -24,7 +27,7 @@ void StopIoContext::operator()(std::error_code const& ec) {
 }
 
 int run(std::vector<std::string> const& args) {
-    std::cout << __func__ << " args:";
+    std::cout << __func__ << " args:"sv;
     for (auto const& arg : args) {
         std::cout << ' ' << arg;
     }
@@ -41,7 +44,7 @@ int run(std::vector<std::string> const& args) {
         while (!io.stopped()) {
             io.run();
         }
-        std::cout << "Stopped!" << std::endl;
+        std::cout << "Stopped!"sv << std::endl;
     }};
 
     thread.join();

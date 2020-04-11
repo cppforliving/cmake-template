@@ -1,5 +1,5 @@
-#ifndef CAPICPP_CAPICPP_H
-#define CAPICPP_CAPICPP_H
+#ifndef EXAMPLES_CAPICPP_CAPICPP_H_
+#define EXAMPLES_CAPICPP_CAPICPP_H_
 
 #include <capicpp/export.h>
 
@@ -18,4 +18,4 @@ CAPICPP_EXPORT void capicpp_deleteInt123(int* x);
 }  // extern "C"
 #endif
 
-#endif  // CAPICPP_CAPICPP_H
+#endif  // EXAMPLES_CAPICPP_CAPICPP_H_

@@ -4,9 +4,9 @@
 #include <gtest/gtest.h>
 #include <memory>
 
-namespace {
-
 using testing::Eq;
+
+namespace {
 
 TEST(capicpp, all) {
     auto const x = capicpp_newInt123();
