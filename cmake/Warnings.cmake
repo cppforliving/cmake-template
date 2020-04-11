@@ -32,7 +32,6 @@ else()
         -Werror
         -Wextra
         -Wshadow
-        -Wno-error=shadow
         -Wsign-conversion
         -Wswitch-enum
         -Wno-error=switch-enum
