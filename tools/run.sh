@@ -1,17 +1,22 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+source_if_exists() {
+    [[ ! -e $1 ]] || source "$@"
+}
+declare -fr source_if_exists
+
 main() {
     declare conan_config=Release
     declare cmake_config=Release
     declare -i cmake_shared=1
     declare valgrind=memcheck
-    declare -i silenced=1
 
     declare check=
     declare -i clean=
     declare cmake_toolchain=
     declare conan_update=
+    declare cmake_verbose=
     declare coverage=
     declare -i doc=
     declare -i examples=
@@ -91,7 +96,7 @@ main() {
             declare -r vcpkg_upgrade=1
             ;;
         Verbose)
-            declare -r silenced=0
+            declare -r cmake_verbose=--verbose
             ;;
         Ninja)
             declare -rx CMAKE_GENERATOR=Ninja
@@ -103,27 +108,13 @@ main() {
         esac
     done
 
-    silent() {
-        ((silenced)) || set +x
-        "$@"
-        ((silenced)) || set -x
-    }
-    declare -fr silent
-
-    source_if_exists() {
-        [[ ! -f $1 ]] || source "$@"
-    }
-    declare -fr source_if_exists
-
-    ((silenced)) || set -x
-
     declare -r build_dir=./build/$cmake_config
     ((clean)) && [[ -d $build_dir ]] && rm -r "$build_dir"
     mkdir -p "$build_dir"
 
     declare -r venv_dir=./venv
     [[ ! -d $venv_dir || $pip_upgrade ]] && python -m virtualenv "$venv_dir"
-    silent source "$venv_dir"/bin/activate
+    source "$venv_dir"/bin/activate
 
     pip install $pip_upgrade -r requirements-dev.txt
 
@@ -160,27 +151,27 @@ main() {
         -Dprojname_check="$check"
 
     declare make_cmd
-    make_cmd="cmake --build $build_dir --parallel $(nproc) --verbose --target"
+    make_cmd="cmake --build $build_dir --parallel $(nproc) $cmake_verbose --target"
     declare -r make_cmd
 
     ((stats)) && ccache -z
     ((format)) && $make_cmd format
     $make_cmd all
     if ((testing)); then
-        silent source_if_exists "$build_dir"/activate_run.sh
+        source_if_exists "$build_dir"/activate_run.sh
         if ((memcheck)); then
-            CTEST_OUTPUT_ON_FAILURE=1 $make_cmd ExperimentalMemCheck
+            $make_cmd ExperimentalMemCheck
         else
-            CTEST_OUTPUT_ON_FAILURE=1 $make_cmd ExperimentalTest
+            $make_cmd ExperimentalTest
         fi
-        silent source_if_exists "$build_dir"/deactivate_run.sh
+        source_if_exists "$build_dir"/deactivate_run.sh
     fi
-    [[ $coverage ]] && CTEST_OUTPUT_ON_FAILURE=1 $make_cmd ExperimentalCoverage
+    [[ $coverage ]] && $make_cmd ExperimentalCoverage
     ((doc)) && $make_cmd doc
     ((install)) && $make_cmd install
     ((stats)) && ccache -s
 
-    silent deactivate
+    deactivate
 }
 declare -fr main
 
