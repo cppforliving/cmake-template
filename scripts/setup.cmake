@@ -1,12 +1,14 @@
 cmake_minimum_required(VERSION 3.15)
 
+include(CMakePrintHelpers)
+
+include("${CMAKE_CURRENT_LIST_DIR}/../cmake/cmade/Eval.cmake")
+
+
 get_property(cmake_role GLOBAL PROPERTY CMAKE_ROLE)
 if(NOT cmake_role STREQUAL "SCRIPT")
     message(FATAL_ERROR "Not supported CMAKE_ROLE=${cmake_role}")
 endif()
-
-include(CMakePrintHelpers)
-include(${CMAKE_CURRENT_LIST_DIR}/../cmake/cmade/Common.cmake)
 
 set(package_managers conan vcpkg)
 if(NOT package_manager)

@@ -1,22 +1,8 @@
 include_guard(DIRECTORY)
 
 include(GNUInstallDirs)
-include(CMakePrintHelpers)
 
-
-macro(cmade_eval)
-    execute_process(COMMAND ${ARGN} RESULT_VARIABLE ret)
-    if(ret)
-        string(REPLACE ";" " " msg "'${ARGN}' failed with error code ${ret}")
-        message(FATAL_ERROR "${msg}")
-    endif()
-endmacro()
-
-
-macro(cmade_eval_out output)
-    cmade_eval(${ARGN} OUTPUT_STRIP_TRAILING_WHITESPACE OUTPUT_VARIABLE ${output})
-    cmake_print_variables(${output})
-endmacro()
+include("${CMAKE_CURRENT_LIST_DIR}/Eval.cmake")
 
 
 macro(_cmade_parse_arguments prefix options one_value_keywords multi_value_keywords)
