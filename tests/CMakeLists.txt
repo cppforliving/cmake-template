@@ -1,4 +1,4 @@
-projname_add_test(integration_test
+cmade_cxx_add_test(integration_test
   SOURCES
     integration_test.cpp
   DEPENDS
@@ -8,14 +8,14 @@ projname_add_test(integration_test
     --use-colour=yes
 )
 
-projname_add_pytest(test_pyprojname.py
+cmade_py_add_test(test_pyprojname.py
   SOURCES
     test_pyprojname.py
   DEPENDS
     pyprojname
 )
 
-projname_add_pytest(test_projname_tool.py
+cmade_py_add_test(test_projname_tool.py
   SOURCES
     test_projname_tool.py
   DEPENDS

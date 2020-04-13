@@ -1,9 +1,9 @@
-projname_add_library(finally INTERFACE
+cmade_cxx_add_library(finally INTERFACE
   SOURCES
     finally.hpp
 )
 
-projname_add_test(finally_test
+cmade_cxx_add_test(finally_test
   SOURCES
     finally_test.cpp
   DEPENDS

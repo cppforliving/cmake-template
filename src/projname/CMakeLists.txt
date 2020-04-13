@@ -1,4 +1,4 @@
-projname_add_library(projname
+cmade_cxx_add_library(projname
   SOURCES
     lockable.hpp
     projname.cpp
@@ -12,21 +12,21 @@ projname_add_library(projname
     Boost::dynamic_linking
 )
 
-projname_add_executable(projname_tool
+cmade_cxx_add_executable(projname_tool
   SOURCES
     projname_main.cpp
   DEPENDS
     projname
 )
 
-projname_add_pymodule(pyprojname
+cmade_py_add_module(pyprojname
   SOURCES
     projname_py.cpp
   DEPENDS
     projname
 )
 
-projname_add_test(projname_test
+cmade_cxx_add_test(projname_test
   SOURCES
     lockable_test.cpp
     projname_test.cpp
@@ -38,7 +38,7 @@ projname_add_test(projname_test
 )
 
 if(BUILD_BENCHMARKS)
-    projname_add_test(projname_benchmark
+    cmade_cxx_add_test(projname_benchmark
       SOURCES
         lockable_benchmark.cpp
       DEPENDS

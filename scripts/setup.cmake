@@ -6,7 +6,7 @@ if(NOT cmake_role STREQUAL "SCRIPT")
 endif()
 
 include(CMakePrintHelpers)
-include(${CMAKE_CURRENT_LIST_DIR}/../cmake/ProjectUtils.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/../cmake/cmade/Common.cmake)
 
 set(package_managers conan vcpkg)
 if(NOT package_manager)
@@ -43,31 +43,31 @@ endif()
 cmake_print_variables(clean)
 
 if(clean AND EXISTS "${build_dir}")
-    eval(${CMAKE_COMMAND} -E remove_directory "${build_dir}")
+    cmade_eval(${CMAKE_COMMAND} -E remove_directory "${build_dir}")
 endif()
-eval(${CMAKE_COMMAND} -E make_directory "${build_dir}")
+cmade_eval(${CMAKE_COMMAND} -E make_directory "${build_dir}")
 
 if(package_manager STREQUAL "conan")
-    eval(conan --version)
-    eval(conan profile new
+    cmade_eval(conan --version)
+    cmade_eval(conan profile new
         --detect --force
         "${build_dir}/conan_profile")
-    eval_out(conan_detected_libcxx
+    cmade_eval_out(conan_detected_libcxx
         conan profile get
         settings.compiler.libcxx
         "${build_dir}/conan_profile")
     if(conan_detected_libcxx STREQUAL "libstdc++")
-        eval(conan profile update
+        cmade_eval(conan profile update
             settings.compiler.libcxx=libstdc++11
             "${build_dir}/conan_profile")
     endif()
-    eval(conan install . "${update_flag}"
+    cmade_eval(conan install . "${update_flag}"
         -if "${build_dir}"
         -s "build_type=${build_type}"
         -pr "${build_dir}/conan_profile"
         -b missing)
 elseif(package_manager STREQUAL "vcpkg")
     file(TO_CMAKE_PATH $ENV{VCPKG_ROOT} vcpkg_root)
-    eval("${vcpkg_root}/vcpkg" version)
-    eval("${vcpkg_root}/vcpkg" install @vcpkgfile.txt)
+    cmade_eval("${vcpkg_root}/vcpkg" version)
+    cmade_eval("${vcpkg_root}/vcpkg" install @vcpkgfile.txt)
 endif()

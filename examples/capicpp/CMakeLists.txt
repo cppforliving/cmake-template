@@ -1,10 +1,10 @@
-projname_add_library(capicpp
+cmade_cxx_add_library(capicpp
   SOURCES
     capicpp.cpp
     capicpp.h
 )
 
-projname_add_test(capicpp_test
+cmade_cxx_add_test(capicpp_test
   SOURCES
     capicpp_test.cpp
   DEPENDS

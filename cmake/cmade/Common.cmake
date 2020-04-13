@@ -4,7 +4,7 @@ include(GNUInstallDirs)
 include(CMakePrintHelpers)
 
 
-macro(eval)
+macro(cmade_eval)
     execute_process(COMMAND ${ARGN} RESULT_VARIABLE ret)
     if(ret)
         string(REPLACE ";" " " msg "'${ARGN}' failed with error code ${ret}")
@@ -13,13 +13,13 @@ macro(eval)
 endmacro()
 
 
-macro(eval_out output)
-    eval(${ARGN} OUTPUT_STRIP_TRAILING_WHITESPACE OUTPUT_VARIABLE ${output})
+macro(cmade_eval_out output)
+    cmade_eval(${ARGN} OUTPUT_STRIP_TRAILING_WHITESPACE OUTPUT_VARIABLE ${output})
     cmake_print_variables(${output})
 endmacro()
 
 
-macro(projname_parse_arguments prefix options one_value_keywords multi_value_keywords)
+macro(_cmade_parse_arguments prefix options one_value_keywords multi_value_keywords)
     cmake_parse_arguments("${prefix}" "${options}" "${one_value_keywords}" "${multi_value_keywords}" ${ARGN})
 
     if(${prefix}_UNPARSED_ARGUMENTS)
@@ -31,8 +31,8 @@ macro(projname_parse_arguments prefix options one_value_keywords multi_value_key
 endmacro()
 
 
-function(projname_install_target tgt_name)
-    projname_parse_arguments(arg "" "" "HEADERS" ${ARGN})
+function(_cmade_install_target tgt_name)
+    _cmade_parse_arguments(arg "" "" "HEADERS" ${ARGN})
 
     get_filename_component(parent_source_dir "${CMAKE_CURRENT_SOURCE_DIR}" DIRECTORY)
     get_filename_component(parent_source_dir_name "${parent_source_dir}" NAME)
@@ -62,8 +62,8 @@ function(projname_install_target tgt_name)
 endfunction()
 
 
-function(projname_debug_dynamic_deps tgt_name)
-    projname_parse_arguments(arg "" "" "" ${ARGN})
+function(_cmade_debug_dynamic_deps tgt_name)
+    _cmade_parse_arguments(arg "" "" "" ${ARGN})
 
     if(debug_dynamic_deps)
         get_target_property(tgt_type ${tgt_name} TYPE)
@@ -87,8 +87,8 @@ function(projname_debug_dynamic_deps tgt_name)
 endfunction()
 
 
-function(projname_add_test_labels test_name)
-    projname_parse_arguments(arg "EXECUTABLE;PYTEST;PYLINT" "" "" ${ARGN})
+function(_cmade_add_test_labels test_name)
+    _cmade_parse_arguments(arg "EXECUTABLE;PYTEST;PYLINT" "" "" ${ARGN})
 
     if(test_name MATCHES "^tests/")
         set(test_level integration)
@@ -114,8 +114,8 @@ function(projname_add_test_labels test_name)
 endfunction()
 
 
-function(projname_add_test_environent test_name)
-    projname_parse_arguments(arg "SANITIZER_NO_DETECT_LEAKS;SANITIZER_PRELOAD_RUNTIME" "" "" ${ARGN})
+function(_cmade_add_test_environent test_name)
+    _cmade_parse_arguments(arg "SANITIZER_NO_DETECT_LEAKS;SANITIZER_PRELOAD_RUNTIME" "" "" ${ARGN})
 
     if(${PROJECT_NAME}_sanitizer)
         if(${PROJECT_NAME}_sanitizer STREQUAL "address")
@@ -150,17 +150,17 @@ function(projname_add_test_environent test_name)
                 set(sanitizer_runtime lib${sanitizer_name}.so)
             endif()
 
-            if("$CACHE{projname_sanitizer_runtime}" STREQUAL "")
-                eval_out(projname_sanitizer_runtime
+            if("$CACHE{_cmade_sanitizer_runtime}" STREQUAL "")
+                cmade_eval_out(_cmade_sanitizer_runtime
                     ${CMAKE_CXX_COMPILER} -print-file-name=${sanitizer_runtime})
-                set(projname_sanitizer_runtime "${projname_sanitizer_runtime}" CACHE PATH
+                set(_cmade_sanitizer_runtime "${_cmade_sanitizer_runtime}" CACHE PATH
                     "Path of the clang asan shared runtime" FORCE)
-                mark_as_advanced(projname_sanitizer_runtime)
+                mark_as_advanced(_cmade_sanitizer_runtime)
             endif()
 
-            if(projname_sanitizer_runtime MATCHES "/")
+            if(_cmade_sanitizer_runtime MATCHES "/")
                 set_property(TEST ${test_name}
-                    APPEND PROPERTY ENVIRONMENT "LD_PRELOAD=${projname_sanitizer_runtime} $ENV{LD_PRELOAD}")
+                    APPEND PROPERTY ENVIRONMENT "LD_PRELOAD=${_cmade_sanitizer_runtime} $ENV{LD_PRELOAD}")
             endif()
         endif()
     endif()

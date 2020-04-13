@@ -1,10 +1,10 @@
 include_guard(DIRECTORY)
 
-include(ProjectUtils)
+include("${CMAKE_CURRENT_LIST_DIR}/Common.cmake")
 
 
-function(projname_add_pymodule tgt_name)
-    projname_parse_arguments(arg "MODULE" "" "SOURCES;DEPENDS" ${ARGN})  # TODO SHARED
+function(cmade_py_add_module tgt_name)
+    _cmade_parse_arguments(arg "MODULE" "" "SOURCES;DEPENDS" ${ARGN})  # TODO SHARED
 
 #    if(arg_SHARED)
 #        list(APPEND arg_UNPARSED_ARGUMENTS SHARED)
@@ -28,13 +28,13 @@ function(projname_add_pymodule tgt_name)
         PUBLIC ${arg_DEPENDS}
         PRIVATE pybind11::module
     )
-    projname_debug_dynamic_deps(${tgt_name})
-    projname_install_target(${tgt_name})
+    _cmade_debug_dynamic_deps(${tgt_name})
+    _cmade_install_target(${tgt_name})
 endfunction()
 
 
-function(projname_prepend_test_environment_path test_name path_name prefix_dir)
-    projname_parse_arguments(arg "" "" "" ${ARGN})
+function(_cmade_prepend_test_environment_path test_name path_name prefix_dir)
+    _cmade_parse_arguments(arg "" "" "" ${ARGN})
 
     if(WIN32)
         set(path_delim ";")
@@ -53,8 +53,8 @@ function(projname_prepend_test_environment_path test_name path_name prefix_dir)
 endfunction()
 
 
-function(projname_add_pytest tgt_name)
-    projname_parse_arguments(arg "" "" "SOURCES;DEPENDS" ${ARGN})
+function(cmade_py_add_test tgt_name)
+    _cmade_parse_arguments(arg "" "" "SOURCES;DEPENDS" ${ARGN})
 
     if(NOT BUILD_TESTING)
         return()
@@ -89,12 +89,12 @@ function(projname_add_pytest tgt_name)
         WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
     )
     string(TOUPPER "${test_driver}" test_driver_upper)
-    projname_add_test_labels(${test_name} ${test_driver_upper})
-    projname_prepend_test_environment_path(${test_name} PYTHONPATH "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
+    _cmade_add_test_labels(${test_name} ${test_driver_upper})
+    _cmade_prepend_test_environment_path(${test_name} PYTHONPATH "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
     if(WIN32)
-        projname_prepend_test_environment_path(${test_name} PATH "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
+        _cmade_prepend_test_environment_path(${test_name} PATH "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
     endif()
-    projname_add_test_environent(${test_name}
+    _cmade_add_test_environent(${test_name}
         SANITIZER_NO_DETECT_LEAKS
         SANITIZER_PRELOAD_RUNTIME
     )

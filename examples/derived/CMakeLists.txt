@@ -1,10 +1,10 @@
-projname_add_library(derived
+cmade_cxx_add_library(derived
   SOURCES
     derived.cpp
     derived.hpp
 )
 
-projname_add_test(derived_test
+cmade_cxx_add_test(derived_test
   SOURCES
     derived_test.cpp
   DEPENDS

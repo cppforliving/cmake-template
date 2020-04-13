@@ -1,10 +1,10 @@
-projname_add_library(cppapi
+cmade_cxx_add_library(cppapi
   SOURCES
     cppapi.cpp
     cppapi.hpp
 )
 
-projname_add_test(cppapi_test
+cmade_cxx_add_test(cppapi_test
   SOURCES
     cppapi_test.cpp
   DEPENDS

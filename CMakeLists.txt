@@ -51,12 +51,12 @@ include(Format)
 include(StaticChecks)
 include(Sanitizers)
 include(Coverage)
-include(ProjectCxxHelpers)
-include(ProjectPyHelpers)
+include(cmade/Cxx)
+include(cmade/Py)
 
 add_subdirectory(src)
 
-include(ProjectConfig)
+include(cmade/InstallPackage)
 
 add_subdirectory(tests)
 

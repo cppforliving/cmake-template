@@ -2,11 +2,11 @@ include_guard(DIRECTORY)
 
 include(GenerateExportHeader)
 
-include(ProjectUtils)
+include("${CMAKE_CURRENT_LIST_DIR}/Common.cmake")
 
 
-function(projname_add_library tgt_name)
-    projname_parse_arguments(arg "INTERFACE" "" "SOURCES;DEPENDS" ${ARGN})
+function(cmade_cxx_add_library tgt_name)
+    _cmade_parse_arguments(arg "INTERFACE" "" "SOURCES;DEPENDS" ${ARGN})
 
     set(header_regex ".*\\.h(h|pp|xx|\\+\\+)?$")
     list(TRANSFORM arg_SOURCES
@@ -63,13 +63,13 @@ function(projname_add_library tgt_name)
       ${visibility}
         ${arg_DEPENDS}
     )
-    projname_debug_dynamic_deps(${tgt_name})
-    projname_install_target(${tgt_name} HEADERS ${headers})
+    _cmade_debug_dynamic_deps(${tgt_name})
+    _cmade_install_target(${tgt_name} HEADERS ${headers})
 endfunction()
 
 
-function(projname_add_executable tgt_name)
-    projname_parse_arguments(arg "" "" "SOURCES;DEPENDS" ${ARGN})
+function(cmade_cxx_add_executable tgt_name)
+    _cmade_parse_arguments(arg "" "" "SOURCES;DEPENDS" ${ARGN})
 
     add_executable(${tgt_name})
     add_executable(${PROJECT_NAME}::${tgt_name} ALIAS ${tgt_name})
@@ -98,13 +98,13 @@ function(projname_add_executable tgt_name)
       PUBLIC
         ${arg_DEPENDS}
     )
-    projname_debug_dynamic_deps(${tgt_name})
-    projname_install_target(${tgt_name})
+    _cmade_debug_dynamic_deps(${tgt_name})
+    _cmade_install_target(${tgt_name})
 endfunction()
 
 
-function(projname_add_test tgt_name)
-    projname_parse_arguments(arg "" "" "SOURCES;DEPENDS;EXTRA_ARGS" ${ARGN})
+function(cmade_cxx_add_test tgt_name)
+    _cmade_parse_arguments(arg "" "" "SOURCES;DEPENDS;EXTRA_ARGS" ${ARGN})
 
     if(NOT BUILD_TESTING)
         return()
@@ -119,13 +119,13 @@ function(projname_add_test tgt_name)
       PUBLIC
         ${arg_DEPENDS}
     )
-    projname_debug_dynamic_deps(${tgt_name})
+    _cmade_debug_dynamic_deps(${tgt_name})
     string(REPLACE "${PROJECT_SOURCE_DIR}/" "" test_name
         "${CMAKE_CURRENT_SOURCE_DIR}/${tgt_name}"
     )
     add_test(NAME ${test_name} COMMAND ${tgt_name}
         ${arg_EXTRA_ARGS}
     )
-    projname_add_test_labels(${test_name} EXECUTABLE)
-    projname_add_test_environent(${test_name})
+    _cmade_add_test_labels(${test_name} EXECUTABLE)
+    _cmade_add_test_environent(${test_name})
 endfunction()
