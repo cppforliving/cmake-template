@@ -4,6 +4,7 @@ add_subdirectory(asio)
 
 if(BUILD_TESTING)
     add_subdirectory(catch2)
+    add_subdirectory(doctest)
     add_subdirectory(gtest)
     add_subdirectory(benchmark)
 endif()

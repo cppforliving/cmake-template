@@ -1,6 +1,7 @@
 asio
 benchmark
 boost-date-time
+doctest
 catch2
 gtest
 pybind11

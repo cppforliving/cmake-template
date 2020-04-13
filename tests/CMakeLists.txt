@@ -1,11 +1,21 @@
-projname_add_test(integration_test
+projname_add_test(integration_catch2_test
   SOURCES
-    integration_test.cpp
+    integration_catch2_test.cpp
   DEPENDS
     projname
     catch2_main
   EXTRA_ARGS
     --use-colour=yes
+)
+
+projname_add_test(integration_doctest_test
+  SOURCES
+    integration_doctest_test.cpp
+  DEPENDS
+    projname
+    doctest_main
+  EXTRA_ARGS
+    --force-colors=true
 )
 
 projname_add_pytest(test_pyprojname.py
