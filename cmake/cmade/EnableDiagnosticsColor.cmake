@@ -1,7 +1,7 @@
 include_guard(DIRECTORY)
 
 
-function(enable_diagnostics_color)
+function(_cmade_enable_diagnostics_color)
     get_property(languages GLOBAL PROPERTY ENABLED_LANGUAGES)
     foreach(language IN LISTS languages)
         if(CMAKE_${language}_COMPILER_ID STREQUAL "GNU")
@@ -19,4 +19,4 @@ function(enable_diagnostics_color)
 endfunction()
 
 
-enable_diagnostics_color()
+_cmade_enable_diagnostics_color()

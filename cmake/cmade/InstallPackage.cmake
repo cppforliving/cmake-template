@@ -10,7 +10,7 @@ write_basic_package_version_file(
     COMPATIBILITY SameMajorVersion
 )
 configure_package_config_file(
-    "${PROJECT_SOURCE_DIR}/cmake/project-config.cmake.in"
+    "${CMAKE_CURRENT_LIST_DIR}/package-config.cmake.in"
     "${PROJECT_BINARY_DIR}/cmake/${PROJECT_NAME}-config.cmake"
     INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}"
     NO_SET_AND_CHECK_MACRO
