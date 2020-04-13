@@ -1,4 +1,4 @@
-include_guard(DIRECTORY)
+include_guard(GLOBAL)
 
 
 function(_cmade_enable_diagnostics_color)
