@@ -1,2 +1,2 @@
-cmake==3.16.*
+cmake==3.15.*
 ninja
