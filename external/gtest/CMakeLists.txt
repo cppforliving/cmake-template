@@ -2,6 +2,9 @@ include(CMakePrintHelpers)
 
 
 find_package(GTest MODULE REQUIRED)
+if(NOT TARGET GTest::Main)
+    add_library(GTest::Main INTERFACE IMPORTED)
+endif()
 cmake_print_properties(
   TARGETS
     GTest::Main
@@ -13,7 +16,6 @@ cmake_print_properties(
     EXPORT_PROPERTIES
     IMPORTED
     IMPORTED_CONFIGURATIONS
-    IMPORTED_LOCATION
     INTERFACE_INCLUDE_DIRECTORIES
     INTERFACE_COMPILE_DEFINITIONS
     INTERFACE_COMPILE_OPTIONS

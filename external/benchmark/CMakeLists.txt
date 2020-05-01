@@ -2,6 +2,9 @@ include(CMakePrintHelpers)
 
 
 find_package(benchmark REQUIRED)
+if(NOT TARGET benchmark::benchmark_main)
+    add_library(benchmark::benchmark_main INTERFACE IMPORTED)
+endif()
 cmake_print_properties(
   TARGETS
     benchmark::benchmark_main
