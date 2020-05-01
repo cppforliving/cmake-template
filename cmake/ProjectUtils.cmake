@@ -72,10 +72,12 @@ function(projname_debug_dynamic_deps tgt_name)
             if(APPLE)
                 add_custom_command(TARGET ${tgt_name} POST_BUILD
                     COMMAND otool -l ${tgt_file} | grep PATH -A2 || :
+                    COMMAND otool -D ${tgt_file} || :
                     COMMAND otool -L ${tgt_file} || :)
             elseif(UNIX)
                 add_custom_command(TARGET ${tgt_name} POST_BUILD
                     COMMAND readelf -d ${tgt_file} | grep NEEDED || :
+                    COMMAND readelf -d ${tgt_file} | grep SONAME || :
                     COMMAND readelf -d ${tgt_file} | grep PATH || :
                     COMMAND ldd -r ${tgt_file} || :)
             elseif(WIN32)
