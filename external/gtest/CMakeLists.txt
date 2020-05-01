@@ -5,6 +5,12 @@ set_property(TARGET
   PROPERTY
     IMPORTED_GLOBAL TRUE
 )
+set_property(TARGET
+    GTest::Main
+    GTest::GTest
+  APPEND PROPERTY
+    INSTALL_RPATH "${CONAN_GTEST_ROOT}/lib"
+)
 
 add_library(gtest_main INTERFACE)
 target_link_libraries(gtest_main

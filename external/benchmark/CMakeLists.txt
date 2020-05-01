@@ -5,6 +5,12 @@ set_property(TARGET
   PROPERTY
     IMPORTED_GLOBAL TRUE
 )
+set_property(TARGET
+    benchmark::benchmark_main
+    benchmark::benchmark
+  APPEND PROPERTY
+    INSTALL_RPATH "${CONAN_BENCHMARK_ROOT}/lib"
+)
 
 add_library(benchmark_main INTERFACE)
 target_link_libraries(benchmark_main
