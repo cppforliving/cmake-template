@@ -1,5 +1,5 @@
-set(${PROJECT_NAME}_coverage "" CACHE STRING
-    "Build for coverage analysis. Coverage report types: html, xml, lcov-html.")
+set(${PROJECT_NAME}_coverage "" CACHE STRING "Build for coverage analysis.")
+set_property(CACHE ${PROJECT_NAME}_coverage PROPERTY STRINGS html xml lcov-html)
 
 if(${PROJECT_NAME}_coverage)
     if(MSVC)

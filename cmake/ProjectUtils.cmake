@@ -155,8 +155,8 @@ function(projname_add_test_environent test_name)
             if("$CACHE{projname_sanitizer_runtime}" STREQUAL "")
                 eval_out(projname_sanitizer_runtime
                     ${CMAKE_CXX_COMPILER} -print-file-name=${sanitizer_runtime})
-                set(projname_sanitizer_runtime "${projname_sanitizer_runtime}" CACHE PATH
-                    "Path of the clang asan shared runtime" FORCE)
+                set(projname_sanitizer_runtime "${projname_sanitizer_runtime}" CACHE FILEPATH
+                    "Path of the clang asan shared runtime." FORCE)
                 mark_as_advanced(projname_sanitizer_runtime)
             endif()
 
