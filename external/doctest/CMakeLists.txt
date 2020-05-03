@@ -1,23 +1,5 @@
-include(CMakePrintHelpers)
-
-
 find_package(doctest REQUIRED)
-cmake_print_properties(
-  TARGETS
-    doctest::doctest
-  PROPERTIES
-    TYPE
-    NAME
-    EXPORT_NAME
-    EXPORT_PROPERTIES
-    IMPORTED
-    IMPORTED_CONFIGURATIONS
-    INTERFACE_INCLUDE_DIRECTORIES
-    INTERFACE_COMPILE_DEFINITIONS
-    INTERFACE_COMPILE_OPTIONS
-    INTERFACE_LINK_LIBRARIES
-    INTERFACE_POSITION_INDEPENDENT_CODE
-)
+print_target_properties(doctest::doctest)
 set_property(TARGET
     doctest::doctest
   PROPERTY

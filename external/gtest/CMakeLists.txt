@@ -1,39 +1,16 @@
-include(CMakePrintHelpers)
-
-
 find_package(GTest MODULE REQUIRED)
 if(NOT TARGET GTest::Main)
     add_library(GTest::Main INTERFACE IMPORTED)
+else()
+    print_target_properties(GTest::Main)
 endif()
-cmake_print_properties(
-  TARGETS
-    GTest::Main
-    GTest::GTest
-  PROPERTIES
-    TYPE
-    NAME
-    EXPORT_NAME
-    EXPORT_PROPERTIES
-    IMPORTED
-    IMPORTED_CONFIGURATIONS
-    INTERFACE_INCLUDE_DIRECTORIES
-    INTERFACE_COMPILE_DEFINITIONS
-    INTERFACE_COMPILE_OPTIONS
-    INTERFACE_LINK_LIBRARIES
-    INTERFACE_POSITION_INDEPENDENT_CODE
-)
+print_target_properties(GTest::GTest)
 set_property(TARGET
     GTest::Main
     GTest::GTest
   PROPERTY
     IMPORTED_GLOBAL TRUE
 )
-# set_property(TARGET
-#     GTest::Main
-#     GTest::GTest
-#   APPEND PROPERTY
-#     INSTALL_RPATH "${CONAN_GTEST_ROOT}/lib"
-# )
 
 add_library(gtest_main INTERFACE)
 target_link_libraries(gtest_main

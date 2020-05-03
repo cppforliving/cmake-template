@@ -1,23 +1,5 @@
-include(CMakePrintHelpers)
-
-
-find_package(Catch2 CONFIG REQUIRED)
-cmake_print_properties(
-  TARGETS
-    Catch2::Catch2
-  PROPERTIES
-    TYPE
-    NAME
-    EXPORT_NAME
-    EXPORT_PROPERTIES
-    IMPORTED
-    IMPORTED_CONFIGURATIONS
-    INTERFACE_INCLUDE_DIRECTORIES
-    INTERFACE_COMPILE_DEFINITIONS
-    INTERFACE_COMPILE_OPTIONS
-    INTERFACE_LINK_LIBRARIES
-    INTERFACE_POSITION_INDEPENDENT_CODE
-)
+find_package(Catch2 REQUIRED)
+print_target_properties(Catch2::Catch2)
 set_property(TARGET
     Catch2::Catch2
   PROPERTY

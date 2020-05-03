@@ -43,7 +43,23 @@ include(CTest)
 include(Diagnostics)
 include(Warnings)
 
-find_package(pybind11 CONFIG REQUIRED)
+function(print_target_properties tgts)
+    cmake_print_properties(
+      TARGETS
+        ${tgts}
+      PROPERTIES
+        NAME
+        TYPE
+        IMPORTED
+        INTERFACE_INCLUDE_DIRECTORIES
+        INTERFACE_LINK_LIBRARIES
+        INTERFACE_COMPILE_DEFINITIONS
+        INTERFACE_COMPILE_OPTIONS
+    )
+endfunction()
+
+find_package(pybind11 REQUIRED)
+print_target_properties(pybind11)
 add_subdirectory(external)
 
 include(Valgrind)

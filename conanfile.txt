@@ -2,7 +2,7 @@
 asio/[>=1.16.0]
 benchmark/[>=1.5.0]
 boost/[==1.71.*]@conan/stable
-Catch2/[>=2.11.1]@catchorg/stable
+catch2/[>=2.12.1]
 doctest/[>=2.3.7]
 gtest/[>=1.10.0]
 pybind11/[>=2.3.0]@conan/stable

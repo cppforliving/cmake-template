@@ -1,4 +1,4 @@
-set(${PROJECT_NAME}_coverage "" CACHE STRING "Build for coverage analysis.")
+set(${PROJECT_NAME}_coverage "" CACHE STRING "Coverage report type.")
 set_property(CACHE ${PROJECT_NAME}_coverage PROPERTY STRINGS html xml lcov-html)
 
 if(${PROJECT_NAME}_coverage)

@@ -1,23 +1,5 @@
-include(CMakePrintHelpers)
-
-
 find_package(asio REQUIRED)
-cmake_print_properties(
-  TARGETS
-    asio::asio
-  PROPERTIES
-    TYPE
-    NAME
-    EXPORT_NAME
-    EXPORT_PROPERTIES
-    IMPORTED
-    IMPORTED_CONFIGURATIONS
-    INTERFACE_INCLUDE_DIRECTORIES
-    INTERFACE_COMPILE_DEFINITIONS
-    INTERFACE_COMPILE_OPTIONS
-    INTERFACE_LINK_LIBRARIES
-    INTERFACE_POSITION_INDEPENDENT_CODE
-)
+print_target_properties(asio::asio)
 set_property(TARGET
     asio::asio
   PROPERTY
