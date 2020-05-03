@@ -42,24 +42,10 @@ include(CTest)
 
 include(Diagnostics)
 include(Warnings)
-
-function(print_target_properties tgts)
-    cmake_print_properties(
-      TARGETS
-        ${tgts}
-      PROPERTIES
-        NAME
-        TYPE
-        IMPORTED
-        INTERFACE_INCLUDE_DIRECTORIES
-        INTERFACE_LINK_LIBRARIES
-        INTERFACE_COMPILE_DEFINITIONS
-        INTERFACE_COMPILE_OPTIONS
-    )
-endfunction()
+include(ProjectUtils)
 
 find_package(pybind11 REQUIRED)
-print_target_properties(pybind11)
+projname_print_target_properties(pybind11::pybind11 pybind11::module pybind11::embed)
 add_subdirectory(external)
 
 include(Valgrind)

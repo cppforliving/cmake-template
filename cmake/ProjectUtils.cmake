@@ -62,6 +62,33 @@ function(projname_install_target tgt_name)
 endfunction()
 
 
+function(projname_print_target_properties)
+    foreach(tgt_name IN LISTS ARGN)
+        get_target_property(tgt_type ${tgt_name} TYPE)
+        if(NOT tgt_type STREQUAL "INTERFACE_LIBRARY")
+            set(extra_props LOCATION IMPORTED_LOCATION)
+        else()
+            set(extra_props)
+        endif()
+        cmake_print_properties(
+          TARGETS
+            ${tgt_name}
+          PROPERTIES
+            TYPE
+            IMPORTED
+            ${extra_props}
+            INTERFACE_INCLUDE_DIRECTORIES
+            INTERFACE_LINK_LIBRARIES
+            INTERFACE_LINK_OPTIONS
+            INTERFACE_COMPILE_DEFINITIONS
+            INTERFACE_COMPILE_OPTIONS
+            INTERFACE_POSITION_INDEPENDENT_CODE
+            INTERFACE_SOURCES
+        )
+    endforeach()
+endfunction()
+
+
 function(projname_debug_dynamic_deps tgt_name)
     projname_parse_arguments(arg "" "" "" ${ARGN})
 

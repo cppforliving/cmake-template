@@ -2,9 +2,9 @@ find_package(GTest MODULE REQUIRED)
 if(NOT TARGET GTest::Main)
     add_library(GTest::Main INTERFACE IMPORTED)
 else()
-    print_target_properties(GTest::Main)
+    projname_print_target_properties(GTest::Main)
 endif()
-print_target_properties(GTest::GTest)
+projname_print_target_properties(GTest::GTest)
 set_property(TARGET
     GTest::Main
     GTest::GTest

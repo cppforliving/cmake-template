@@ -2,9 +2,9 @@ find_package(benchmark REQUIRED)
 if(NOT TARGET benchmark::benchmark_main)
     add_library(benchmark::benchmark_main INTERFACE IMPORTED)
 else()
-    print_target_properties(benchmark::benchmark_main)
+    projname_print_target_properties(benchmark::benchmark_main)
 endif()
-print_target_properties(benchmark::benchmark)
+projname_print_target_properties(benchmark::benchmark)
 set_property(TARGET
     benchmark::benchmark_main
     benchmark::benchmark
