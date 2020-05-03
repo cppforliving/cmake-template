@@ -1,5 +1,5 @@
-set(${PROJECT_NAME}_valgrind memcheck CACHE STRING
-    "Valgrind tools: memcheck, cachegrind, callgrind, massif, helgrind, drd.")
+set(${PROJECT_NAME}_valgrind memcheck CACHE STRING "Valgrind tool.")
+set_property(CACHE ${PROJECT_NAME}_valgrind PROPERTY STRINGS memcheck cachegrind callgrind massif helgrind drd)
 
 list(APPEND VALGRIND_COMMAND_OPTIONS
     --tool=${${PROJECT_NAME}_valgrind})

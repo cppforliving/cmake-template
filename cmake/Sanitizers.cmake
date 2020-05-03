@@ -1,5 +1,5 @@
-set(${PROJECT_NAME}_sanitizer "" CACHE STRING
-    "Sanitizer types: thread, address, leak, memory, undefined.")
+set(${PROJECT_NAME}_sanitizer "" CACHE STRING "Sanitizer type.")
+set_property(CACHE ${PROJECT_NAME}_sanitizer PROPERTY STRINGS thread address leak memory undefined)
 
 if(${PROJECT_NAME}_sanitizer)
     if(MSVC)

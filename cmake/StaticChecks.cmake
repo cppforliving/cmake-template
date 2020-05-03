@@ -1,5 +1,5 @@
-set(${PROJECT_NAME}_check "" CACHE STRING
-    "Static code analysis tools: tidy, cppcheck, lint, iwyu, lwyu.")
+set(${PROJECT_NAME}_check "" CACHE STRING "Static code analysis tool.")
+set_property(CACHE ${PROJECT_NAME}_check PROPERTY STRINGS tidy cppcheck lint iwyu lwyu)
 
 if("${${PROJECT_NAME}_check}" STREQUAL tidy)
     find_program(clang_tidy_command clang-tidy)
