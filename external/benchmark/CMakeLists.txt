@@ -1,4 +1,6 @@
 find_package(benchmark REQUIRED)
+projname_print_target_properties(benchmark::benchmark_main)
+projname_print_target_properties(benchmark::benchmark)
 set_property(TARGET
     benchmark::benchmark_main
     benchmark::benchmark

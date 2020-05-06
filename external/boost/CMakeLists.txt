@@ -12,6 +12,7 @@ set(boost_targets
     Boost::disable_autolinking
     Boost::dynamic_linking
 )
+projname_print_target_properties(${boost_targets})
 set_property(TARGET
     ${boost_targets}
   PROPERTY

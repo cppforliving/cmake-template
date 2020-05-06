@@ -1,4 +1,5 @@
 find_package(asio REQUIRED)
+projname_print_target_properties(asio::asio)
 set_property(TARGET
     asio::asio
   PROPERTY
