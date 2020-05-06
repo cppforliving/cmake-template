@@ -62,6 +62,44 @@ function(projname_install_target tgt_name)
 endfunction()
 
 
+function(projname_print_target_properties)
+    set(props
+        TYPE
+        IMPORTED
+        INTERFACE_INCLUDE_DIRECTORIES
+        INTERFACE_LINK_LIBRARIES
+        INTERFACE_LINK_OPTIONS
+        INTERFACE_COMPILE_DEFINITIONS
+        INTERFACE_COMPILE_OPTIONS
+        INTERFACE_POSITION_INDEPENDENT_CODE
+        INTERFACE_SOURCES
+    )
+    set(extra_props
+        LOCATION
+        IMPORTED_LOCATION
+    )
+    message(STATUS)
+    foreach(tgt_name IN LISTS ARGN)
+        foreach(prop IN LISTS props)
+            get_target_property(prop_value ${tgt_name} ${prop})
+            if(prop_value)
+                message(STATUS "  ${tgt_name}.${prop} = ${prop_value}")
+            endif()
+        endforeach()
+        get_target_property(tgt_type ${tgt_name} TYPE)
+        if(NOT tgt_type STREQUAL "INTERFACE_LIBRARY")
+            foreach(prop IN LISTS extra_props)
+                get_target_property(prop_value ${tgt_name} ${prop})
+                if(prop_value)
+                    message(STATUS "  ${tgt_name}.${prop} = ${prop_value}")
+                endif()
+            endforeach()
+        endif()
+        message(STATUS)
+    endforeach()
+endfunction()
+
+
 function(projname_debug_dynamic_deps tgt_name)
     projname_parse_arguments(arg "" "" "" ${ARGN})
 

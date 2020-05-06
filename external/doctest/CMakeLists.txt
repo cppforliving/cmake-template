@@ -1,4 +1,5 @@
 find_package(doctest REQUIRED)
+projname_print_target_properties(doctest::doctest)
 set_property(TARGET
     doctest::doctest
   PROPERTY

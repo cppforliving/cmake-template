@@ -1,4 +1,5 @@
-find_package(Catch2 CONFIG REQUIRED)
+find_package(Catch2 REQUIRED)
+projname_print_target_properties(Catch2::Catch2)
 set_property(TARGET
     Catch2::Catch2
   PROPERTY
