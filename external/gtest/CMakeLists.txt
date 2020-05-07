@@ -1,8 +1,14 @@
 find_package(GTest MODULE REQUIRED)
-projname_print_target_properties(GTest::Main)
+if(TARGET GTest::Main)
+    projname_print_target_properties(GTest::Main)
+    set_property(TARGET
+        GTest::Main
+      PROPERTY
+        IMPORTED_GLOBAL TRUE
+    )
+endif()
 projname_print_target_properties(GTest::GTest)
 set_property(TARGET
-    GTest::Main
     GTest::GTest
   PROPERTY
     IMPORTED_GLOBAL TRUE
@@ -11,7 +17,7 @@ set_property(TARGET
 add_library(gtest_main INTERFACE)
 target_link_libraries(gtest_main
   INTERFACE
-    GTest::Main
+    $<TARGET_NAME_IF_EXISTS:GTest::Main>
     GTest::GTest
 )
 target_compile_definitions(gtest_main
