@@ -2,6 +2,7 @@
 #define PROJNAME_LOCKABLE_HPP_
 
 #include <mutex>
+#include <type_traits>
 #include <utility>
 
 namespace projname {
@@ -12,8 +13,10 @@ class Lock {
     explicit Lock(L& lockable) : m_lockable{lockable} {
         m_lockable.m_mutex.lock();
     }
-    Lock(L& lockable, std::adopt_lock_t /*unused*/) noexcept
+    explicit Lock(L& lockable, std::adopt_lock_t /*unused*/) noexcept
         : m_lockable(lockable) {}
+
+    Lock() = delete;
     ~Lock() { m_lockable.m_mutex.unlock(); }
 
     Lock(Lock const&) = delete;
@@ -37,10 +40,12 @@ class Lock {
 
 template <typename T, typename M>
 class Lockable {
+    static_assert(std::is_same_v<T, std::decay_t<T>>);
+
   public:
     using value_type = T;
 
-    Lockable() = default;
+    explicit Lockable() = default;
     ~Lockable() = default;
 
     template <typename... Args>
@@ -54,7 +59,7 @@ class Lockable {
     void unlock() { m_mutex.unlock(); }
 
   private:
-    friend class Lock<Lockable>;
+    friend Lock<Lockable>;
 
     T m_value;
     M m_mutex;

@@ -102,7 +102,7 @@ run_main() {
     done
 
     declare -r build_dir=./build/$cmake_config
-    test $((clean)) && [[ -d $build_dir ]] && rm -r "$build_dir"
+    [[ $clean == 1 ]] && [[ -d $build_dir ]] && rm -r "$build_dir"
     mkdir -p "$build_dir"
 
     declare -r venv_dir=./venv
@@ -168,7 +168,7 @@ run_main() {
         $verbose_flag --target"
     declare -r test_cmd
 
-    test $((stats)) && ccache -z
+    [[ $stats == 1 ]] && ccache -z
     $make_cmd all
     if ((testing)); then
         source_if_exists "$build_dir"/activate_run.sh
@@ -181,9 +181,9 @@ run_main() {
         source_if_exists "$build_dir"/deactivate_run.sh
     fi
     [[ $coverage ]] && $test_cmd ExperimentalCoverage
-    test $((doc)) && $make_cmd doc
-    test $((install)) && $make_cmd install
-    test $((stats)) && ccache -s
+    [[ $doc == 1 ]] && $make_cmd doc
+    [[ $install == 1 ]] && $make_cmd install
+    [[ $stats == 1 ]] && ccache -s
 
     deactivate
 }
