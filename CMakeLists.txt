@@ -49,7 +49,6 @@ projname_print_target_properties(pybind11::pybind11 pybind11::module pybind11::e
 add_subdirectory(external)
 
 include(Valgrind)
-include(Format)
 include(StaticChecks)
 include(Sanitizers)
 include(Coverage)
