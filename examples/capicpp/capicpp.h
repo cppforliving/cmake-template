@@ -7,11 +7,10 @@
 extern "C" {
 #endif
 
-/**
- * Allocates int 123 on heap and returns its pointer
- */
+/// Allocates int 123 on heap and returns its pointer.
 CAPICPP_EXPORT int* capicpp_newInt123(void);
 
+/// Dellocates memory allocated by capicpp_newInt123().
 CAPICPP_EXPORT void capicpp_deleteInt123(int* x);
 
 #ifdef __cplusplus

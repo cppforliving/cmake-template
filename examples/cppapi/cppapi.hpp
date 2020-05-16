@@ -12,9 +12,7 @@ CPPAPI_EXPORT int* newInt();
 
 }  // namespace detail
 
-/**
- * Allocates int 123 on heap and returns its pointer
- */
+/// Allocates int 123 on heap and returns its pointer.
 CPPAPI_EXPORT int* newInt123();
 
 }  // namespace cppapi
