@@ -2,15 +2,14 @@ version: "{build}"
 
 image:
   - Visual Studio 2019
-  - Visual Studio 2017
 
 configuration:
   - Debug
   - Release
 
 platform:
-  - x86
   - x64
+  - x86
 
 environment:
   VCPKG_ROOT: C:\Tools\vcpkg
@@ -18,30 +17,16 @@ environment:
   CMAKE_BUILD_PARALLEL_LEVEL: 2
   VERBOSE: 1
   matrix:
-    - BUILD_SHARED_LIBS: "ON"
-      PATH: C:\Python37-x64;C:\Python37-x64\Scripts;%PATH%
-    - BUILD_SHARED_LIBS: "OFF"
-      PATH: C:\Python37;C:\Python37\Scripts;%PATH%
+    - PATH: C:\Python37-x64;C:\Python37-x64\Scripts;%PATH%
+    - PATH: C:\Python37;C:\Python37\Scripts;%PATH%
 
 matrix:
   fast_finish: true
   exclude:
-    - image: Visual Studio 2019
-      configuration: Release
-      platform: x86
-    - image: Visual Studio 2019
-      configuration: Debug
-      platform: x64
-    - image: Visual Studio 2017
-      configuration: Release
-      platform: x64
-    - image: Visual Studio 2017
-      configuration: Debug
-      platform: x86
     - platform: x86
-      BUILD_SHARED_LIBS: "ON"
+      PATH: C:\Python37-x64;C:\Python37-x64\Scripts;%PATH%
     - platform: x64
-      BUILD_SHARED_LIBS: "OFF"
+      PATH: C:\Python37;C:\Python37\Scripts;%PATH%
 
 cache:
   - '%VCPKG_ROOT%\installed -> vcpkgfile.txt'
@@ -56,8 +41,6 @@ install:
     )
   - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" (
       set "CMAKE_GENERATOR=Visual Studio 16 2019"
-    ) else if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" (
-      set "CMAKE_GENERATOR=Visual Studio 15 2017"
     )
   - if "%CONFIGURATION%"=="Debug" (
       set "BUILD_BENCHMARKS=OFF"

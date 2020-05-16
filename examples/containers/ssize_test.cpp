@@ -26,7 +26,7 @@ TYPED_TEST_SUITE(SsizeTest, TestContainers);
 TYPED_TEST(SsizeTest, getContainerSsize) {
     TypeParam c = {};
 
-    auto const s = ssize(c);
+    auto const s = examples::ssize(c);  // MSVC error C2668
 
     EXPECT_GE(s, 0);
 }
