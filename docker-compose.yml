@@ -1,0 +1,28 @@
+version: "3.8"
+services:
+  common:
+    build:
+      context: docker/common
+    image: cmake-template/common
+  conan:
+    build:
+      context: docker/conan
+    image: cmake-template/conan
+    volumes:
+      #- conan_home:/home/dockworker/.conan:rw
+      #- conan_build:/home/dockworker/build:rw
+      - .:/workspace:rw
+  vcpkg:
+    build:
+      context: docker/vcpkg
+    image: cmake-template/vcpkg
+    volumes:
+      - vcpkg_root:/home/dockworker/vcpkg:rw
+      #- vcpkg_build:/home/dockworker/build:rw
+      - .:/workspace:rw
+networks: {}
+volumes:
+  conan_home:
+  #conan_build:
+  vcpkg_root:
+  #vcpkg_build:
