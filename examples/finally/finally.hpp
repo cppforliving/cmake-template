@@ -25,6 +25,9 @@ class finally {
     F m_f;
 };
 
+template <typename F>
+finally(F)->finally<F>;
+
 }  // namespace examples
 
 #endif  // EXAMPLES_FINALLY_FINALLY_HPP_

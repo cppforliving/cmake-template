@@ -38,6 +38,12 @@ class Lock {
     L& m_lockable;
 };
 
+template <typename L>
+Lock(L&)->Lock<L>;
+
+template <typename L>
+Lock(L&, std::adopt_lock_t)->Lock<L>;
+
 template <typename T, typename M>
 class Lockable {
     static_assert(std::is_same_v<T, std::decay_t<T>>);
