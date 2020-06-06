@@ -42,7 +42,7 @@ jobs:
       name: osx-clang
       os: osx
       compiler: clang
-      osx_image: xcode11.5
+      osx_image: xcode10.3
       install:
         - export PATH=$HOME/Library/Python/3.7/bin:$PATH
         - python3 -m pip install --user -U conan -r requirements-test.txt
