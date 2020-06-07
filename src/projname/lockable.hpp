@@ -61,8 +61,12 @@ class Lockable {
     void operator=(Lockable const&) = delete;
 
     void lock() { m_mutex.lock(); }
-    bool try_lock() { return m_mutex.try_lock(); }
-    void unlock() { m_mutex.unlock(); }
+
+    [[nodiscard]] bool try_lock() { return m_mutex.try_lock(); }
+
+    void unlock() {
+        m_mutex.unlock();
+    }
 
   private:
     friend Lock<Lockable>;

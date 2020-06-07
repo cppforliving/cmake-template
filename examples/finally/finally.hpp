@@ -7,7 +7,7 @@
 namespace examples {
 
 template <typename F>
-class finally {
+class [[nodiscard]] finally {
     static_assert(std::is_same_v<F, std::decay_t<F>>);
 
   public:
