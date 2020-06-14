@@ -9,7 +9,7 @@
 #include <system_error>
 #include <thread>
 
-using std::literals::operator""sv;
+using std::string_view_literals::operator""sv;
 
 namespace projname {
 
@@ -34,8 +34,8 @@ int run(std::vector<std::string> const& args) {
     std::cout << std::endl;
 
     asio::io_context io;
-    asio::deadline_timer timer{io, boost::posix_time::milliseconds{1}};
 
+    asio::deadline_timer timer{io, boost::posix_time::milliseconds{1}};
     timer.async_wait(StopIoContext{io});
 
     asio::post(io, ContinuousGreeter{io});
