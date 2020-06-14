@@ -14,7 +14,7 @@ class Lock {
         m_lockable.m_mutex.lock();
     }
     explicit Lock(L& lockable, std::adopt_lock_t /*unused*/) noexcept
-        : m_lockable(lockable) {}
+        : m_lockable{lockable} {}
 
     Lock() = delete;
     ~Lock() { m_lockable.m_mutex.unlock(); }
