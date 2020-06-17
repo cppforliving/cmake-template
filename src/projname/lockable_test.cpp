@@ -7,8 +7,8 @@
 #include <string_view>
 #include <type_traits>
 
-using std::literals::operator""s;
-using std::literals::operator""sv;
+using std::string_literals::operator""s;
+using std::string_view_literals::operator""sv;
 using testing::Test;
 using testing::Types;
 

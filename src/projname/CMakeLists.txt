@@ -6,10 +6,6 @@ projname_add_library(projname
   DEPENDS
     Threads::Threads
     asio::asio
-    Boost::date_time
-    Boost::diagnostic_definitions
-    Boost::disable_autolinking
-    Boost::dynamic_linking
 )
 
 projname_add_executable(projname_tool

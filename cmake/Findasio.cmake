@@ -14,6 +14,8 @@ if(ASIO_FOUND)
         add_library(asio::asio INTERFACE IMPORTED)
         target_include_directories(asio::asio
             INTERFACE ${ASIO_INCLUDE_DIR})
+        target_compile_definitions(asio::asio
+            INTERFACE ASIO_STANDALONE)
     endif()
 
     set(ASIO_INCLUDE_DIRS ${ASIO_INCLUDE_DIR})

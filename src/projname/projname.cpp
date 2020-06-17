@@ -1,15 +1,16 @@
 #include "projname.hpp"
 
-#include <asio/deadline_timer.hpp>
 #include <asio/io_context.hpp>
 #include <asio/post.hpp>
-#include <boost/date_time/posix_time/posix_time_duration.hpp>
+#include <asio/steady_timer.hpp>
+#include <chrono>
 #include <iostream>
 #include <string_view>
 #include <system_error>
 #include <thread>
 
-using std::literals::operator""sv;
+using std::string_view_literals::operator""sv;
+using std::chrono_literals::operator""ms;
 
 namespace projname {
 
@@ -34,8 +35,9 @@ int run(std::vector<std::string> const& args) {
     std::cout << std::endl;
 
     asio::io_context io;
-    asio::deadline_timer timer{io, boost::posix_time::milliseconds{1}};
 
+    asio::steady_timer timer{io};
+    timer.expires_after(1ms);
     timer.async_wait(StopIoContext{io});
 
     asio::post(io, ContinuousGreeter{io});
