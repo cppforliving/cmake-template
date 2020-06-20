@@ -1,4 +1,5 @@
 add_subdirectory(threads)
+add_subdirectory(tbb)
 add_subdirectory(asio)
 
 if(BUILD_TESTING)
