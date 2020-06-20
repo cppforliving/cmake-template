@@ -1,10 +1,11 @@
 #include "projname.hpp"
 
+#include <fmt/format.h>
+#include <spdlog/spdlog.h>
 #include <asio/io_context.hpp>
 #include <asio/post.hpp>
 #include <asio/steady_timer.hpp>
 #include <chrono>
-#include <iostream>
 #include <string_view>
 #include <system_error>
 #include <thread>
@@ -15,7 +16,7 @@ using std::chrono_literals::operator""ms;
 namespace projname {
 
 void ContinuousGreeter::operator()() const {
-    std::cout << '!';
+    spdlog::info('!');
     asio::post(io, ContinuousGreeter{*this});
 }
 
@@ -23,16 +24,12 @@ void StopIoContext::operator()(std::error_code const& ec) {
     if (!ec) {
         io.stop();
     } else {
-        std::cerr << ec.message() << std::endl;
+        spdlog::error("{}", ec.message());
     }
 }
 
 int run(std::vector<std::string> const& args) {
-    std::cout << __func__ << " args:"sv;
-    for (auto const& arg : args) {
-        std::cout << ' ' << arg;
-    }
-    std::cout << std::endl;
+    spdlog::info("{} args: {}", __func__, fmt::join(args, " "sv));
 
     asio::io_context io;
 
@@ -46,7 +43,7 @@ int run(std::vector<std::string> const& args) {
         while (!io.stopped()) {
             io.run();
         }
-        std::cout << "Stopped!"sv << std::endl;
+        spdlog::info("Stopped!"sv);
     }};
 
     thread.join();

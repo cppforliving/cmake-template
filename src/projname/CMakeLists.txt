@@ -6,6 +6,7 @@ projname_add_library(projname
   DEPENDS
     Threads::Threads
     asio::asio
+    spdlog::spdlog
 )
 
 projname_add_executable(projname_tool

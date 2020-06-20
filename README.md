@@ -20,13 +20,12 @@ ctest -V
 ## Project structure
 
 - [cmake](./cmake) - `CMake` modules
-- [conan](./conan) - `Conan` profiles
-- [data](./data) - various data files
 - [docs](./docs) - documentation
+- [examples](./examples) - code examples
 - [external](./external) - dependencies
+- [scripts](./scripts) - scripts and tools
 - [src](./src) - sources and unit tests
 - [tests](./tests) - integration tests
-- [tools](./tools) - scripts and tools
 
 ## Requirements
 
@@ -49,6 +48,7 @@ ctest -V
 
 ## Supported compilers
 
-- Clang
-- GCC
-- MSVC
+- GCC 8
+- Clang 7
+- MSVC 19.20
+- Apple Clang 10.0.1
