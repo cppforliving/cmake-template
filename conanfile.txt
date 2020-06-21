@@ -1,11 +1,12 @@
 [requires]
-asio/[>=1.16.0]
+asio/[==1.12.*]  # frozen due to use after free issue
 benchmark/[>=1.5.0]
-boost/[==1.71.*]@conan/stable
 catch2/[>=2.12.1]
-doctest/[>=2.3.7]
+doctest/[>=2.3.8]
 gtest/[>=1.10.0]
 pybind11/[>=2.3.0]@conan/stable
+spdlog/[>=1.5.0]
+tbb/[>=2020.1]
 
 [generators]
 cmake_paths

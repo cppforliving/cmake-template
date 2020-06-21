@@ -3,11 +3,9 @@
 
 #include <derived/export.h>
 
-/**
- * @startuml
- * component derived
- * @enduml
- */
+/// @startuml
+/// Base <|-- Derived
+/// @enduml
 namespace derived {
 
 class DERIVED_EXPORT Base {

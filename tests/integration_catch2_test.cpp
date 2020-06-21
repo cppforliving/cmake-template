@@ -5,7 +5,7 @@
 
 #include <projname/projname.hpp>
 
-using std::literals::operator""s;
+using std::string_literals::operator""s;
 using Catch::operator""_sr;
 
 namespace {

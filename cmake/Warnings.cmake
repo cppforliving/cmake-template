@@ -14,6 +14,7 @@ if(MSVC)
         /Zc:__cplusplus
         /nologo
         /permissive-
+        /wd4275  # fmt exceptions export
         /wd4455  # false positive bug
     )
     add_compile_definitions(

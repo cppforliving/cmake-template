@@ -18,7 +18,6 @@ run_main() {
     declare coverage=
     declare -i doc=
     declare -i examples=
-    declare -i format=
     declare -i install=
     declare -i memcheck=
     declare package_manager=
@@ -41,9 +40,6 @@ run_main() {
             ;;
         Clean)
             declare -r clean=1
-            ;;
-        Format)
-            declare -r format=1
             ;;
         Static)
             declare -r cmake_shared=0
@@ -98,12 +94,6 @@ run_main() {
             declare -r conan_update=-u
             declare -r vcpkg_upgrade=1
             ;;
-        Verbose)
-            declare -rx VERBOSE=1
-            ;;
-        Ninja)
-            declare -rx CMAKE_GENERATOR=Ninja
-            ;;
         *)
             echo >&2 "unknown option '$opt'"
             exit 2
@@ -112,7 +102,7 @@ run_main() {
     done
 
     declare -r build_dir=./build/$cmake_config
-    ((clean)) && [[ -d $build_dir ]] && rm -r "$build_dir"
+    [[ $clean == 1 ]] && [[ -d $build_dir ]] && rm -r "$build_dir"
     mkdir -p "$build_dir"
 
     declare -r venv_dir=./venv
@@ -125,7 +115,8 @@ run_main() {
     conan)
         declare -r cmake_toolchain=$build_dir/conan_paths.cmake
         conan profile new "$build_dir"/conan/detected --detect --force
-        conan profile update settings.compiler.libcxx=libstdc++11 "$build_dir"/conan/detected
+        conan profile update settings.compiler.libcxx=libstdc++11 \
+            "$build_dir"/conan/detected
         conan install . $conan_update \
             -if "$build_dir" \
             -s build_type="$conan_config" \
@@ -156,42 +147,43 @@ run_main() {
         -Dprojname_sanitizer="$sanitizer" \
         -Dprojname_check="$check"
 
+    declare verbose_flag=
+    if [[ -v VERBOSE ]]; then
+        verbose_flag='--verbose'
+    fi
+    declare -r verbose_flag
+
+    declare make_flag=
+    if [[ ! -v CMAKE_GENERATOR || $CMAKE_GENERATOR == 'Unix Makefiles' ]]; then
+        make_flag='--no-print-directory'
+    fi
+    declare -r make_flag
+
     declare make_cmd
-    make_cmd="cmake --build $build_dir --parallel $(nproc) $(
-        if [[ -v VERBOSE ]]; then
-            echo ' --verbose'
-        fi
-    ) -- $(
-        if [[ ! -v CMAKE_GENERATOR || $CMAKE_GENERATOR == 'Unix Makefiles' ]]; then
-            echo ' --no-print-directory'
-        fi
-    )"
+    make_cmd="cmake --build $build_dir -j $(nproc) $verbose_flag -- $make_flag"
     declare -r make_cmd
 
     declare test_cmd
-    test_cmd="cmake -E chdir $build_dir ctest --output-on-failure $(
-        if [[ -v VERBOSE ]]; then
-            echo ' --verbose'
-        fi
-    ) --target"
+    test_cmd="cmake -E chdir $build_dir ctest --output-on-failure \
+        $verbose_flag --target"
     declare -r test_cmd
 
-    ((stats)) && ccache -z
-    ((format)) && $make_cmd format
+    [[ $stats == 1 ]] && ccache -z
     $make_cmd all
     if ((testing)); then
         source_if_exists "$build_dir"/activate_run.sh
         if ((memcheck)); then
             $test_cmd ExperimentalMemCheck
         else
-            $test_cmd ExperimentalTest $([[ $check == "lint" ]] && echo "-L lint")
+            $test_cmd ExperimentalTest \
+                "$([[ $check == 'lint' ]] && echo '-L lint')"
         fi
         source_if_exists "$build_dir"/deactivate_run.sh
     fi
     [[ $coverage ]] && $test_cmd ExperimentalCoverage
-    ((doc)) && $make_cmd doc
-    ((install)) && $make_cmd install
-    ((stats)) && ccache -s
+    [[ $doc == 1 ]] && $make_cmd doc
+    [[ $install == 1 ]] && $make_cmd install
+    [[ $stats == 1 ]] && ccache -s
 
     deactivate
 }
