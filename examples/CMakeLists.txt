@@ -1,3 +1,7 @@
+if(NOT BUILD_EXAMPLES)
+    return()
+endif()
+
 projname_add_library(examples)
 
 projname_add_test(examples_test

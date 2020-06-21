@@ -23,6 +23,10 @@ if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
         "Install path prefix, prepended onto install directories." FORCE)
 endif()
 
+option(BUILD_TESTING "Build tests flag." OFF)
+option(BUILD_EXAMPLES "Build examples flag." OFF)
+option(BUILD_DOCS "Build documentation flag." OFF)
+
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
 set(CMAKE_FIND_PACKAGE_PREFER_CONFIG ON)
@@ -68,11 +72,5 @@ add_subdirectory(src)
 include(ProjectConfig)
 
 add_subdirectory(tests)
-
-if(BUILD_EXAMPLES)
-    add_subdirectory(examples)
-endif()
-
-if(BUILD_DOCS)
-    add_subdirectory(docs)
-endif()
+add_subdirectory(examples)
+add_subdirectory(docs)

@@ -1,3 +1,7 @@
+if(NOT BUILD_DOCS)
+    return()
+endif()
+
 include(GNUInstallDirs)
 
 find_package(Doxygen MODULE COMPONENTS doxygen dot)
