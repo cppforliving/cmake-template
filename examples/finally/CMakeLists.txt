@@ -1,14 +1,9 @@
-projname_add_library(finally INTERFACE
-  SOURCES
-    finally.hpp
+target_sources(examples
+  PUBLIC
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/finally.hpp>"
 )
 
-projname_add_test(finally_test
-  SOURCES
+target_sources(examples_test
+  PRIVATE
     finally_test.cpp
-  DEPENDS
-    finally
-    gtest_main
-  EXTRA_ARGS
-    --gtest_color=yes
 )

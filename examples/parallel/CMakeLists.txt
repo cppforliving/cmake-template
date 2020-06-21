@@ -1,10 +1,9 @@
-projname_add_test(parallel_test
-  SOURCES
+target_sources(examples_test
+  PRIVATE
     parallel_test.cpp
-  DEPENDS
+)
+
+target_link_libraries(examples_test
+  PUBLIC
     TBB::tbb
-    containers
-    gtest_main
-  EXTRA_ARGS
-    --gtest_color=yes
 )

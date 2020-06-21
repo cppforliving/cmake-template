@@ -1,19 +1,19 @@
 #ifndef EXAMPLES_CPPAPI_CPPAPI_HPP_
 #define EXAMPLES_CPPAPI_CPPAPI_HPP_
 
-#include <cppapi/export.h>
+#include <examples/export.h>
 
 namespace cppapi {
 namespace detail {
 
-CPPAPI_EXPORT int get123();
+EXAMPLES_EXPORT int get123();
 
-CPPAPI_EXPORT int* newInt();
+EXAMPLES_EXPORT int* newInt();
 
 }  // namespace detail
 
 /// Allocates int 123 on heap and returns its pointer.
-CPPAPI_EXPORT int* newInt123();
+EXAMPLES_EXPORT int* newInt123();
 
 }  // namespace cppapi
 

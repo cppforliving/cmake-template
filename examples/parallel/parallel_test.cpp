@@ -6,8 +6,8 @@
 #include <thread>
 #include <vector>
 
-#include <containers/remove_duplicates.hpp>
-#include <containers/ssize.hpp>
+#include <examples/containers/remove_duplicates.hpp>
+#include <examples/containers/ssize.hpp>
 
 using std::chrono_literals::operator""ms;
 

@@ -1,15 +1,11 @@
-projname_add_library(cppapi
-  SOURCES
+target_sources(examples
+  PRIVATE
     cppapi.cpp
-    cppapi.hpp
+  PUBLIC
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/cppapi.hpp>"
 )
 
-projname_add_test(cppapi_test
-  SOURCES
+target_sources(examples_test
+  PRIVATE
     cppapi_test.cpp
-  DEPENDS
-    cppapi
-    gtest_main
-  EXTRA_ARGS
-    --gtest_color=yes
 )

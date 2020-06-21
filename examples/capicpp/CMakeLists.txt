@@ -1,15 +1,11 @@
-projname_add_library(capicpp
-  SOURCES
+target_sources(examples
+  PRIVATE
     capicpp.cpp
-    capicpp.h
+  PUBLIC
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/capicpp.h>"
 )
 
-projname_add_test(capicpp_test
-  SOURCES
+target_sources(examples_test
+  PRIVATE
     capicpp_test.cpp
-  DEPENDS
-    capicpp
-    gtest_main
-  EXTRA_ARGS
-    --gtest_color=yes
 )

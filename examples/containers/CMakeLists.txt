@@ -1,16 +1,11 @@
-projname_add_library(containers INTERFACE
-  SOURCES
-    remove_duplicates.hpp
-    ssize.hpp
+target_sources(examples
+  PUBLIC
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/remove_duplicates.hpp>"
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/ssize.hpp>"
 )
 
-projname_add_test(containers_test
-  SOURCES
+target_sources(examples_test
+  PRIVATE
     remove_duplicates_test.cpp
     ssize_test.cpp
-  DEPENDS
-    containers
-    gtest_main
-  EXTRA_ARGS
-    --gtest_color=yes
 )

@@ -1,14 +1,14 @@
 #ifndef DERIVED_DERIVED_HPP
 #define DERIVED_DERIVED_HPP
 
-#include <derived/export.h>
+#include <examples/export.h>
 
 /// @startuml
 /// Base <|-- Derived
 /// @enduml
 namespace derived {
 
-class DERIVED_EXPORT Base {
+class EXAMPLES_EXPORT Base {
   public:
     virtual ~Base();
     virtual void virtualMethod() = 0;
@@ -18,11 +18,11 @@ class DERIVED_EXPORT Base {
     static int protectedMember;
 
   private:
-    DERIVED_NO_EXPORT int privateMethod();
-    DERIVED_NO_EXPORT static int const privateMember{42};
+    EXAMPLES_NO_EXPORT int privateMethod();
+    EXAMPLES_NO_EXPORT static int const privateMember{42};
 };
 
-class DERIVED_EXPORT Derived : public Base {
+class EXAMPLES_EXPORT Derived : public Base {
   public:
     void virtualMethod() override;
 };
