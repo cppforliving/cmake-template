@@ -27,7 +27,7 @@ list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
 set(CMAKE_FIND_PACKAGE_PREFER_CONFIG ON)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -49,7 +49,6 @@ projname_print_target_properties(pybind11::pybind11 pybind11::module pybind11::e
 add_subdirectory(external)
 
 include(Valgrind)
-include(Format)
 include(StaticChecks)
 include(Sanitizers)
 include(Coverage)

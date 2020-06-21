@@ -14,7 +14,6 @@ configure_package_config_file(
     "${PROJECT_BINARY_DIR}/cmake/${PROJECT_NAME}-config.cmake"
     INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}"
     NO_SET_AND_CHECK_MACRO
-    NO_CHECK_REQUIRED_COMPONENTS_MACRO
 )
 
 install(EXPORT ${PROJECT_NAME}-targets

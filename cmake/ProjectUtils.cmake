@@ -180,7 +180,7 @@ function(projname_add_test_environent test_name)
                 string(APPEND sanitizer_name _standalone)
             endif()
             set_property(TEST ${test_name}
-                APPEND PROPERTY ENVIRONMENT "UBSAN_OPTIONS=halt_on_error=1:$ENV{UBSAN_OPTIONS}")
+                APPEND PROPERTY ENVIRONMENT "UBSAN_OPTIONS=halt_on_error=1:suppressions=${PROJECT_SOURCE_DIR}/external/tbb/ubsan.supp:$ENV{UBSAN_OPTIONS}")
         endif()
 
         if(arg_SANITIZER_PRELOAD_RUNTIME)

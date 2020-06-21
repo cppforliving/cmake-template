@@ -29,7 +29,6 @@ function(projname_add_library tgt_name)
     if(NOT arg_INTERFACE)
         generate_export_header(${tgt_name}
             EXPORT_FILE_NAME export.h
-            DEFINE_NO_DEPRECATED
         )
         list(APPEND headers "${CMAKE_CURRENT_BINARY_DIR}/export.h")
         set_target_properties(${tgt_name}
