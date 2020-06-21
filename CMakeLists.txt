@@ -15,7 +15,7 @@ option(CMAKE_EXPORT_COMPILE_COMMANDS
 
 project(projname
     VERSION 0.1.0
-    DESCRIPTION "C++ x GTest/Catch2 x GCC/Clang/MSVC x CMake x Conan/Vcpkg x Linux/macOS/Windows"
+    DESCRIPTION "C++ x GTest/Catch2/Doctest x GCC/Clang/MSVC x CMake x Conan/Vcpkg x Linux/macOS/Windows"
     LANGUAGES CXX)
 
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
