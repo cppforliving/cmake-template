@@ -14,10 +14,6 @@ int* newInt() {
 
 }  // namespace
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 int* capicpp_newInt123(void) {
     int* x = newInt();
     *x = get123();
@@ -27,7 +23,3 @@ int* capicpp_newInt123(void) {
 void capicpp_deleteInt123(int* const x) {
     delete x;
 }
-
-#ifdef __cplusplus
-}  // extern "C"
-#endif
