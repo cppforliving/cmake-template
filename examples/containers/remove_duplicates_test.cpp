@@ -1,8 +1,8 @@
 #include "remove_duplicates.hpp"
 
+#include <deque>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
-#include <deque>
 #include <string>
 #include <vector>
 
@@ -13,7 +13,7 @@ using testing::Types;
 namespace examples {
 namespace {
 
-template <typename T>
+template<typename T>
 struct RemoveDuplicatesTest : Test {};
 
 using TestContainers = Types<std::string, std::vector<char>, std::deque<char>>;
@@ -28,5 +28,5 @@ TYPED_TEST(RemoveDuplicatesTest, remove_duplicates) {
     EXPECT_THAT(c, ElementsAre('a', 'b', 'd', 'e', 'f'));
 }
 
-}  // namespace
-}  // namespace examples
+} // namespace
+} // namespace examples

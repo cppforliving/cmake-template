@@ -21,4 +21,4 @@ TEST_CASE("IntegrationTest.run"_sr) {
     }
 }
 
-}  // namespace
+} // namespace

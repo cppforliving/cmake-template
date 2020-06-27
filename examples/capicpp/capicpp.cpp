@@ -12,7 +12,7 @@ int* newInt() {
     return new (std::nothrow) int;
 }
 
-}  // namespace
+} // namespace
 
 int* capicpp_newInt123(void) {
     int* x = newInt();

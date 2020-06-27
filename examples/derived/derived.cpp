@@ -18,4 +18,4 @@ int Base::privateMethod() {
 
 void Derived::virtualMethod() {}
 
-}  // namespace derived
+} // namespace derived

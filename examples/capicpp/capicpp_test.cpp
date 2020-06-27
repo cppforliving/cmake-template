@@ -14,4 +14,4 @@ TEST(capicpp, all) {
     capicpp_deleteInt123(x);
 }
 
-}  // namespace
+} // namespace

@@ -11,7 +11,7 @@ int* newInt() {
     return new int;
 }
 
-}  // namespace detail
+} // namespace detail
 
 int* newInt123() {
     auto const x = detail::newInt();
@@ -19,4 +19,4 @@ int* newInt123() {
     return x;
 }
 
-}  // namespace cppapi
+} // namespace cppapi

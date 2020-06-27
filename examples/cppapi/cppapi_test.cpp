@@ -23,5 +23,5 @@ TEST(cppapi, deleteMemory) {
     delete detail::newInt();
 }
 
-}  // namespace
-}  // namespace cppapi
+} // namespace
+} // namespace cppapi

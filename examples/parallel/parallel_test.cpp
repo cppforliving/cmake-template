@@ -1,8 +1,8 @@
+#include <algorithm>
+#include <chrono>
 #include <gtest/gtest.h>
 #include <tbb/parallel_for_each.h>
 #include <tbb/task_scheduler_init.h>
-#include <algorithm>
-#include <chrono>
 #include <thread>
 #include <vector>
 
@@ -27,5 +27,5 @@ TEST(Parallel, for_each) {
     EXPECT_LT(1, examples::ssize(tids));
 }
 
-}  // namespace
-}  // namespace examples
+} // namespace
+} // namespace examples

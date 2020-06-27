@@ -27,6 +27,6 @@ class DERIVED_EXPORT Derived : public Base {
     void virtualMethod() override;
 };
 
-}  // namespace derived
+} // namespace derived
 
-#endif  // DERIVED_DERIVED_HPP
+#endif // DERIVED_DERIVED_HPP

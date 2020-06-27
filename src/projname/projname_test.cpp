@@ -1,8 +1,8 @@
 #include "projname.hpp"
 
-#include <gtest/gtest.h>
 #include <asio/error.hpp>
 #include <asio/io_context.hpp>
+#include <gtest/gtest.h>
 
 namespace projname {
 namespace {
@@ -19,5 +19,5 @@ TEST(projname, stop_io_context_failure) {
     EXPECT_FALSE(io.stopped());
 }
 
-}  // namespace
-}  // namespace projname
+} // namespace
+} // namespace projname

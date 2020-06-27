@@ -1,11 +1,11 @@
 #include "projname.hpp"
 
-#include <fmt/format.h>
-#include <spdlog/spdlog.h>
 #include <asio/io_context.hpp>
 #include <asio/post.hpp>
 #include <asio/steady_timer.hpp>
 #include <chrono>
+#include <fmt/format.h>
+#include <spdlog/spdlog.h>
 #include <string_view>
 #include <system_error>
 #include <thread>
@@ -60,4 +60,4 @@ int run(int const argc, char const* const argv[]) {
     return run(args);
 }
 
-}  // namespace projname
+} // namespace projname

@@ -15,17 +15,18 @@ using testing::Types;
 namespace projname {
 namespace {
 
-template <typename MutexType>
+template<typename>
 struct LockableTest : Test {};
 
-template <typename MutexType>
-using LockableString = Lockable<std::string, MutexType>;
+template<typename M>
+using LockableString = Lockable<std::string, M>;
 
-using MutexTypes = Types<std::mutex,
-                         std::recursive_mutex,
-                         std::timed_mutex,
-                         std::recursive_timed_mutex,
-                         std::shared_mutex>;
+using MutexTypes = Types<
+    std::mutex,
+    std::recursive_mutex,
+    std::timed_mutex,
+    std::recursive_timed_mutex,
+    std::shared_mutex>;
 
 TYPED_TEST_SUITE(LockableTest, MutexTypes);
 
@@ -42,8 +43,7 @@ TYPED_TEST(LockableTest, lockGuard) {
     EXPECT_TRUE((std::is_same_v<LockableString<TypeParam>, decltype(s1)>));
 
     Lock l1{s1};
-    EXPECT_TRUE(
-        (std::is_same_v<Lock<LockableString<TypeParam>>, decltype(l1)>));
+    EXPECT_TRUE((std::is_same_v<Lock<LockableString<TypeParam>>, decltype(l1)>));
 
     EXPECT_EQ("asd"sv, *l1);
     EXPECT_EQ(3u, l1->size());
@@ -55,8 +55,7 @@ TYPED_TEST(LockableTest, initializeByCopy) {
     EXPECT_TRUE((std::is_same_v<LockableString<TypeParam>, decltype(s1)>));
 
     Lock l1{s1};
-    EXPECT_TRUE(
-        (std::is_same_v<Lock<LockableString<TypeParam>>, decltype(l1)>));
+    EXPECT_TRUE((std::is_same_v<Lock<LockableString<TypeParam>>, decltype(l1)>));
 
     *l1 = "asd"sv;
     EXPECT_EQ("qwe"sv, s0);
@@ -73,5 +72,5 @@ TYPED_TEST(LockableTest, lockAndSwap) {
     EXPECT_EQ(6u, l1->size() + l2->size());
 }
 
-}  // namespace
-}  // namespace projname
+} // namespace
+} // namespace projname

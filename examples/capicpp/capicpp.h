@@ -14,7 +14,7 @@ CAPICPP_EXPORT int* capicpp_newInt123(void);
 CAPICPP_EXPORT void capicpp_deleteInt123(int* x);
 
 #ifdef __cplusplus
-}  // extern "C"
+} // extern "C"
 #endif
 
-#endif  // EXAMPLES_CAPICPP_CAPICPP_H_
+#endif // EXAMPLES_CAPICPP_CAPICPP_H_
