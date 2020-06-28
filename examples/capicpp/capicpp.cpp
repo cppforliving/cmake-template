@@ -15,7 +15,7 @@ int* newInt() {
 } // namespace
 
 int* capicpp_newInt123(void) {
-    int* x = newInt();
+    auto const x = newInt();
     *x = get123();
     return x;
 }
