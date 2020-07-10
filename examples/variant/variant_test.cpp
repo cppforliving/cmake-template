@@ -24,7 +24,7 @@ TEST(Variant, visitor) {
         std::string,
         std::vector<std::byte>,
         std::function<std::size_t()>>
-        v{-1};
+        v{std::ptrdiff_t{-1}};
 
     auto const v_size = std::visit(
         overloaded{
