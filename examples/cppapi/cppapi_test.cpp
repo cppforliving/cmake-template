@@ -10,9 +10,8 @@ namespace cppapi {
 namespace {
 
 TEST(cppapi, all) {
-    auto const x = newInt123();
+    auto const x = std::unique_ptr<int>{newInt123()};
     EXPECT_THAT(*x, Eq(123));
-    delete x;
 }
 
 TEST(cppapi, getValue) {
@@ -20,7 +19,7 @@ TEST(cppapi, getValue) {
 }
 
 TEST(cppapi, deleteMemory) {
-    delete detail::newInt();
+    std::unique_ptr<int>{detail::newInt()};
 }
 
 } // namespace
