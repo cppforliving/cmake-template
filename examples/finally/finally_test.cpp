@@ -26,7 +26,7 @@ template<typename T>
 struct FinallyTest : Test {};
 
 template<typename F>
-using FinalAction = decltype(finally(std::declval<F>()));
+using FinalAction = decltype(Finally(std::declval<F>()));
 
 TYPED_TEST_SUITE(FinallyTest, FinalActionTypes);
 
@@ -49,14 +49,14 @@ TYPED_TEST(FinallyTest, is_not_move_constructible) {
 TYPED_TEST(FinallyTest, is_nothrow_copy_constructible) {
     auto const expected = std::is_nothrow_copy_constructible_v<std::decay_t<TypeParam>>;
     EXPECT_EQ(
-        expected, noexcept(finally<std::decay_t<TypeParam>>(std::declval<TypeParam const>())));
-    EXPECT_EQ(expected, noexcept(finally(std::declval<TypeParam const>())));
+        expected, noexcept(Finally<std::decay_t<TypeParam>>(std::declval<TypeParam const>())));
+    EXPECT_EQ(expected, noexcept(Finally(std::declval<TypeParam const>())));
 }
 
 TYPED_TEST(FinallyTest, is_nothrow_move_constructible) {
     auto const expected = std::is_nothrow_move_constructible_v<std::decay_t<TypeParam>>;
-    EXPECT_EQ(expected, noexcept(finally<std::decay_t<TypeParam>>(std::declval<TypeParam>())));
-    EXPECT_EQ(expected, noexcept(finally(std::declval<TypeParam>())));
+    EXPECT_EQ(expected, noexcept(Finally<std::decay_t<TypeParam>>(std::declval<TypeParam>())));
+    EXPECT_EQ(expected, noexcept(Finally(std::declval<TypeParam>())));
 }
 
 } // namespace

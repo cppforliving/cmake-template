@@ -7,27 +7,27 @@
 namespace examples {
 
 template<typename F>
-class [[nodiscard]] finally {
+class [[nodiscard]] Finally {
     static_assert(std::is_same_v<F, std::decay_t<F>>);
 
   public:
-    constexpr explicit finally(F f) noexcept(std::is_nothrow_move_constructible_v<F>)
+    constexpr explicit Finally(F f) noexcept(std::is_nothrow_move_constructible_v<F>)
         : m_f{std::move(f)} {}
 
-    finally() = delete;
-    ~finally() {
+    Finally() = delete;
+    ~Finally() {
         m_f();
     }
 
-    finally(finally const&) = delete;
-    void operator=(finally const&) = delete;
+    Finally(Finally const&) = delete;
+    void operator=(Finally const&) = delete;
 
   private:
     F m_f;
 };
 
 template<typename F>
-finally(F)->finally<F>;
+Finally(F)->Finally<F>;
 
 } // namespace examples
 

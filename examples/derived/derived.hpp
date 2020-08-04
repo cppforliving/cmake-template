@@ -11,20 +11,20 @@ namespace derived {
 class DERIVED_EXPORT Base {
   public:
     virtual ~Base();
-    virtual void virtualMethod() = 0;
+    virtual void virtual_method() = 0;
 
   protected:
-    int protectedMethod();
-    static int protectedMember;
+    int protected_method();
+    static int protected_member;
 
   private:
-    DERIVED_NO_EXPORT int privateMethod();
-    DERIVED_NO_EXPORT static int const privateMember{42};
+    DERIVED_NO_EXPORT int private_method();
+    DERIVED_NO_EXPORT static int const private_member{42};
 };
 
 class DERIVED_EXPORT Derived : public Base {
   public:
-    void virtualMethod() override;
+    void virtual_method() override;
 };
 
 } // namespace derived

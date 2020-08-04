@@ -6,14 +6,14 @@
 namespace cppapi {
 namespace detail {
 
-CPPAPI_EXPORT int get123();
+CPPAPI_EXPORT int get_123();
 
-CPPAPI_EXPORT int* newInt();
+CPPAPI_EXPORT int* new_int();
 
 } // namespace detail
 
 /// Allocates int 123 on heap and returns its pointer.
-CPPAPI_EXPORT int* newInt123();
+CPPAPI_EXPORT int* new_int_123();
 
 } // namespace cppapi
 

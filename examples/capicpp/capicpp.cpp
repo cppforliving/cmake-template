@@ -4,22 +4,22 @@
 
 namespace {
 
-int get123() {
+int get_123() {
     return 123;
 }
 
-int* newInt() {
+int* new_int() {
     return new (std::nothrow) int;
 }
 
 } // namespace
 
-int* capicpp_newInt123(void) {
-    auto const x = newInt();
-    *x = get123();
+int* capicpp_new_int_123(void) {
+    auto const x = new_int();
+    *x = get_123();
     return x;
 }
 
-void capicpp_deleteInt123(int* const x) {
+void capicpp_delete_int_123(int* const x) {
     delete x;
 }

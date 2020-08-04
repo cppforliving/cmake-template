@@ -16,17 +16,17 @@ TEST(Derived, stackDestruction) {
 
 TEST(Derived, callVirtualMethod) {
     auto const derived = std::make_unique<Derived>();
-    EXPECT_NO_FATAL_FAILURE(derived->virtualMethod());
+    EXPECT_NO_FATAL_FAILURE(derived->virtual_method());
 }
 
 TEST(Derived, callProtectedMethod) {
     struct TestDerived : Derived {
-        int publicMethod() {
-            return protectedMethod();
+        int public_method() {
+            return protected_method();
         }
     };
     TestDerived test_derived;
-    EXPECT_NO_FATAL_FAILURE(test_derived.publicMethod());
+    EXPECT_NO_FATAL_FAILURE(test_derived.public_method());
 }
 
 } // namespace
