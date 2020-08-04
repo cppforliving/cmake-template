@@ -15,11 +15,11 @@ class DERIVED_EXPORT Base {
 
   protected:
     int protected_method();
-    static int protected_member;
+    static int PROTECTED_MEMBER;
 
   private:
     DERIVED_NO_EXPORT int private_method();
-    DERIVED_NO_EXPORT static int const private_member{42};
+    DERIVED_NO_EXPORT static int const PRIVATE_MEMBER{42};
 };
 
 class DERIVED_EXPORT Derived : public Base {

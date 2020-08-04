@@ -4,16 +4,16 @@ namespace derived {
 
 Base::~Base() = default;
 
-int Base::protected_member{13};
+int Base::PROTECTED_MEMBER{13};
 
 int Base::protected_method() {
-    return ++protected_member + private_method();
+    return ++PROTECTED_MEMBER + private_method();
 }
 
-int const Base::private_member;
+int const Base::PRIVATE_MEMBER;
 
 int Base::private_method() {
-    return private_member;
+    return PRIVATE_MEMBER;
 }
 
 void Derived::virtual_method() {}
