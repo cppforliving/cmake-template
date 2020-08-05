@@ -14,11 +14,11 @@ TEST(cppapi, all) {
     EXPECT_THAT(*x, Eq(123));
 }
 
-TEST(cppapi, getValue) {
+TEST(cppapi, get_value) {
     EXPECT_THAT(detail::get_123(), Eq(123));
 }
 
-TEST(cppapi, deleteMemory) {
+TEST(cppapi, delete_memory) {
     std::unique_ptr<int>{detail::new_int()};
 }
 

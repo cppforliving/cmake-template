@@ -20,7 +20,7 @@ using TestContainers =
 
 TYPED_TEST_SUITE(SsizeTest, TestContainers);
 
-TYPED_TEST(SsizeTest, getContainerSsize) {
+TYPED_TEST(SsizeTest, get_container_ssize) {
     TypeParam c = {};
 
     auto const s = examples::ssize(c); // MSVC error C2668

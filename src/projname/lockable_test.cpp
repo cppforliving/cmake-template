@@ -30,7 +30,7 @@ using MutexTypes = Types<
 
 TYPED_TEST_SUITE(LockableTest, MutexTypes);
 
-TYPED_TEST(LockableTest, lockAndUnlockManually) {
+TYPED_TEST(LockableTest, lock_and_unlock_manually) {
     LockableString<TypeParam> s1;
     s1.lock();
     s1.unlock();
@@ -38,7 +38,7 @@ TYPED_TEST(LockableTest, lockAndUnlockManually) {
     s1.unlock();
 }
 
-TYPED_TEST(LockableTest, lockGuard) {
+TYPED_TEST(LockableTest, lock_guard) {
     LockableString<TypeParam> s1{"asd"s};
     EXPECT_TRUE((std::is_same_v<LockableString<TypeParam>, decltype(s1)>));
 
@@ -49,7 +49,7 @@ TYPED_TEST(LockableTest, lockGuard) {
     EXPECT_EQ(3u, l1->size());
 }
 
-TYPED_TEST(LockableTest, initializeByCopy) {
+TYPED_TEST(LockableTest, initialize_by_copy) {
     auto s0 = "qwe"s;
     LockableString<TypeParam> s1{s0};
     EXPECT_TRUE((std::is_same_v<LockableString<TypeParam>, decltype(s1)>));
@@ -62,7 +62,7 @@ TYPED_TEST(LockableTest, initializeByCopy) {
     EXPECT_EQ("asd"sv, *l1);
 }
 
-TYPED_TEST(LockableTest, lockAndSwap) {
+TYPED_TEST(LockableTest, lock_and_swap) {
     LockableString<TypeParam> s1{"asd"s};
     LockableString<TypeParam> s2{"qwe"s};
     std::lock(s1, s2);
