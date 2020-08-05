@@ -10,7 +10,7 @@ namespace {
 
 TEST(Derived, stack_destruction) {
     std::aligned_storage_t<sizeof(Derived)> storage;
-    Base* base = new (&storage) Derived{};
+    Base const* const base = new (&storage) Derived{};
     base->~Base();
 }
 
