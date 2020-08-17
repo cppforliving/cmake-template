@@ -21,7 +21,7 @@ TEST(Derived, call_virtual_method) {
 
 TEST(Derived, call_protected_method) {
     struct TestDerived : Derived {
-        int public_method() {
+        std::int32_t public_method() {
             return protected_method();
         }
     };

@@ -15,8 +15,12 @@ namespace {
 template<typename T>
 struct SsizeTest : Test {};
 
-using TestContainers =
-    Types<std::string, std::vector<char>, std::map<char, int>, std::array<char, 8>, char[8]>;
+using TestContainers = Types<
+    std::string,
+    std::vector<char>,
+    std::map<char, std::int32_t>,
+    std::array<char, 8>,
+    char[8]>;
 
 TYPED_TEST_SUITE(SsizeTest, TestContainers);
 

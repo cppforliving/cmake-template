@@ -1,6 +1,8 @@
 #ifndef DERIVED_DERIVED_HPP
 #define DERIVED_DERIVED_HPP
 
+#include <cstdint>
+
 #include <derived/export.h>
 
 /// @startuml
@@ -14,12 +16,12 @@ class DERIVED_EXPORT Base {
     virtual void virtual_method() = 0;
 
   protected:
-    int protected_method();
-    static int PROTECTED_MEMBER;
+    std::int32_t protected_method();
+    static std::int32_t PROTECTED_MEMBER;
 
   private:
-    DERIVED_NO_EXPORT int private_method();
-    DERIVED_NO_EXPORT static int const PRIVATE_MEMBER{42};
+    DERIVED_NO_EXPORT std::int32_t private_method();
+    DERIVED_NO_EXPORT static std::int32_t const PRIVATE_MEMBER{42};
 };
 
 class DERIVED_EXPORT Derived : public Base {

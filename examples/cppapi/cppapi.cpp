@@ -3,17 +3,17 @@
 namespace cppapi {
 namespace detail {
 
-int get_123() {
+std::int32_t get_123() {
     return 123;
 }
 
-int* new_int() {
-    return new int;
+std::int32_t* new_int() {
+    return new std::int32_t;
 }
 
 } // namespace detail
 
-int* new_int_123() {
+std::int32_t* new_int_123() {
     auto const x = detail::new_int();
     *x = detail::get_123();
     return x;

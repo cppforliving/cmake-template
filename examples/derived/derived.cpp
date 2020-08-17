@@ -4,15 +4,15 @@ namespace derived {
 
 Base::~Base() = default;
 
-int Base::PROTECTED_MEMBER{13};
+std::int32_t Base::PROTECTED_MEMBER{13};
 
-int Base::protected_method() {
+std::int32_t Base::protected_method() {
     return ++PROTECTED_MEMBER + private_method();
 }
 
-int const Base::PRIVATE_MEMBER;
+std::int32_t const Base::PRIVATE_MEMBER;
 
-int Base::private_method() {
+std::int32_t Base::private_method() {
     return PRIVATE_MEMBER;
 }
 

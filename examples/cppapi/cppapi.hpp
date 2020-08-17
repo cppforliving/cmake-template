@@ -1,19 +1,21 @@
 #ifndef EXAMPLES_CPPAPI_CPPAPI_HPP_
 #define EXAMPLES_CPPAPI_CPPAPI_HPP_
 
+#include <cstdint>
+
 #include <cppapi/export.h>
 
 namespace cppapi {
 namespace detail {
 
-CPPAPI_EXPORT int get_123();
+CPPAPI_EXPORT std::int32_t get_123();
 
-CPPAPI_EXPORT int* new_int();
+CPPAPI_EXPORT std::int32_t* new_int();
 
 } // namespace detail
 
-/// Allocates int 123 on heap and returns its pointer.
-CPPAPI_EXPORT int* new_int_123();
+/// Allocates std::int32_t 123 on heap and returns its pointer.
+CPPAPI_EXPORT std::int32_t* new_int_123();
 
 } // namespace cppapi
 
