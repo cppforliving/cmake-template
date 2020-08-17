@@ -1,7 +1,11 @@
 #ifndef EXAMPLES_CAPICPP_CAPICPP_H_
 #define EXAMPLES_CAPICPP_CAPICPP_H_
 
+#ifdef __cplusplus
+#include <cstdint>
+#else
 #include <stdint.h>
+#endif
 
 #include <capicpp/export.h>
 
