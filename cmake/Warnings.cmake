@@ -32,7 +32,7 @@ else()
         -Wconversion
         -Werror
         -Wextra
-        -Wshadow
+        -Wshadow -Wno-error=shadow
         -Wsign-conversion
         -Wswitch-enum
         -Wno-error=switch-enum
@@ -53,6 +53,7 @@ else()
             -Wno-c++98-compat-pedantic
             -Wno-error=documentation
             -Wno-error=padded
+            -Wno-error=shadow-uncaptured-local
         )
     elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "8")
         add_compile_options(-Wno-error=literal-suffix)  # false positive bug

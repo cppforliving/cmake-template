@@ -28,9 +28,9 @@ TEST(Variant, visitor) {
 
     auto const v_size = std::visit(
         overloaded{
-            [](std::size_t const len) { return len; },
-            [](Direction const dir) -> std::size_t {
-                switch (dir) {
+            [](std::size_t const n) { return n; },
+            [](Direction const d) -> std::size_t {
+                switch (d) {
                     case Direction::North: {
                         auto const x = 1;
                         return x;
@@ -41,9 +41,9 @@ TEST(Variant, visitor) {
                 }
                 return 0;
             },
-            [](std::function<std::size_t()> const& fun) { return fun(); },
-            [](std::string const& str) { return str.length(); },
-            [](std::vector<std::byte> const& bytes) { return bytes.size(); },
+            [](std::function<std::size_t()> const& f) { return f(); },
+            [](std::string_view const s) { return s.length(); },
+            [](std::vector<std::byte> const& v) { return v.size(); },
         },
         v);
 
