@@ -5,6 +5,25 @@
 [![codecov](https://codecov.io/gh/cppforliving/cmake-template/branch/master/graph/badge.svg)](https://codecov.io/gh/cppforliving/cmake-template)
 [![License](https://img.shields.io/github/license/cppforliving/cmake-template.svg)](./LICENSE)
 
+## How to prepare environment
+
+First time
+
+```sh
+python3 -m virtualenv venv
+source venv/bin/activate
+pip install -r requirements-dev.txt
+deactivate
+```
+
+Next time
+
+```sh
+source venv/bin/activate
+# configure, build, test, repeat
+deactivate
+```
+
 ## How to build and test
 
 Linux workflow

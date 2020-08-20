@@ -2,7 +2,9 @@
 set -euo pipefail
 
 source_if_exists() {
+    set +u
     [[ ! -f $1 ]] || source "$@"
+    set -u
 }
 
 run_main() {
@@ -21,7 +23,6 @@ run_main() {
     declare -i install=
     declare -i memcheck=
     declare package_manager=
-    declare pip_upgrade=
     declare -i rpaths=
     declare sanitizer=
     declare -i stats=
@@ -90,7 +91,6 @@ run_main() {
             declare -r rpaths=1
             ;;
         Upgrade)
-            declare -r pip_upgrade=-U
             declare -r conan_update=-u
             declare -r vcpkg_upgrade=1
             ;;
@@ -104,12 +104,6 @@ run_main() {
     declare -r build_dir=./build/$cmake_config
     [[ $clean == 1 ]] && [[ -d $build_dir ]] && rm -r "$build_dir"
     mkdir -p "$build_dir"
-
-    declare -r venv_dir=./venv
-    [[ ! -d $venv_dir || $pip_upgrade ]] && python3 -m virtualenv "$venv_dir"
-    source "$venv_dir"/bin/activate
-
-    pip install $pip_upgrade -r requirements-dev.txt
 
     case $package_manager in
     conan)
