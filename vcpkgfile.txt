@@ -2,7 +2,6 @@ asio
 benchmark
 catch2
 doctest
-fmt
 gtest
 pybind11
 spdlog
