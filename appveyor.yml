@@ -50,6 +50,10 @@ install:
   - cmake -E environment
 
 build_script:
+  - cd %VCPKG_ROOT%
+  - git pull origin master
+  - .\bootstrap-vcpkg.bat
+  - cd %APPVEYOR_BUILD_FOLDER%
   - cmake --warn-uninitialized
       -D package_manager=vcpkg
       -D build_type=%CONFIGURATION%
