@@ -1,11 +1,11 @@
 [requires]
-Catch2/[>=2.11.1]@catchorg/stable
 asio/[>=1.17.0]
 benchmark/[>=1.5.0]
+catch2/[>=2.13.0]
 doctest/[>=2.4.0]
 fmt/[==7.0.1]
 gtest/[>=1.10.0]
-pybind11/[>=2.3.0]@conan/stable
+pybind11/[>=2.5.0]
 spdlog/[>=1.7.0]
 tbb/[>=2020.1]
 

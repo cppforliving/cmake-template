@@ -57,6 +57,9 @@ if(NOT CMAKE_CXX_COMPILER_LAUNCHER AND UNIX AND NOT APPLE)
 endif()
 
 find_package(pybind11 REQUIRED)
+if(NOT TARGET pybind11::module)
+    add_library(pybind11::module INTERFACE IMPORTED)
+endif()
 projname_print_target_properties(pybind11::pybind11 pybind11::module pybind11::embed)
 add_subdirectory(external)
 
