@@ -178,8 +178,6 @@ run_main() {
     [[ $doc == 1 ]] && $make_cmd doc
     [[ $install == 1 ]] && $make_cmd install
     [[ $stats == 1 ]] && ccache -s
-
-    deactivate
 }
 
 if [[ "$0" == "${BASH_SOURCE[0]}" ]]; then
