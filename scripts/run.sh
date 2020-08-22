@@ -108,14 +108,14 @@ run_main() {
     case $package_manager in
     conan)
         declare -r cmake_toolchain=$build_dir/conan_paths.cmake
-        conan profile new "$build_dir"/conan/detected --detect --force
+        conan profile new "$build_dir"/conanprofile.txt --detect --force
         conan profile update settings.compiler.libcxx=libstdc++11 \
-            "$build_dir"/conan/detected
+            "$build_dir"/conanprofile.txt
         conan install . $conan_update \
             -if "$build_dir" \
             -s build_type="$conan_config" \
-            -pr "$build_dir"/conan/detected \
-            -b missing
+            -pr "$build_dir"/conanprofile.txt \
+            -b outdated
         ;;
     vcpkg)
         declare -r cmake_toolchain=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake
