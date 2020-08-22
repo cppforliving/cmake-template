@@ -10,6 +10,7 @@ spdlog/[>=1.7.0]
 tbb/[>=2020.1]
 
 [generators]
+cmake_find_package
 cmake_paths
 virtualrunenv
 

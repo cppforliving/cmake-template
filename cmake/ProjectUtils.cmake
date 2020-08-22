@@ -78,8 +78,10 @@ function(projname_print_target_properties)
         LOCATION
         IMPORTED_LOCATION
     )
-    message(STATUS)
     foreach(tgt_name IN LISTS ARGN)
+        if(NOT TARGET ${tgt_name})
+            continue()
+        endif()
         foreach(prop IN LISTS props)
             get_target_property(prop_value ${tgt_name} ${prop})
             if(prop_value)
