@@ -42,7 +42,7 @@ jobs:
       name: osx-clang
       os: osx
       compiler: clang
-      osx_image: xcode12
+      osx_image: xcode11.6 # xcode12 not supported by conan yet
       install:
         - echo $PATH
         - export PATH=$HOME/Library/Python/3.8/bin:$PATH
@@ -76,10 +76,14 @@ jobs:
       os: linux
       compiler: clang
       dist: focal
+      addons:
+        apt:
+          packages:
+            - clang
       install:
         - python3 -m pip install --user -U conan -r requirements-dev.txt
       env:
-        - MATRIX_EVAL="CC=clang-10 && CXX=clang++-10"
+        - MATRIX_EVAL="CC=clang && CXX=clang++"
         - CMAKE_GENERATOR='Ninja'
         - PYTHON_VERSION=3.8
 
