@@ -1,2 +1,2 @@
-cmake==3.17.*
+cmake~=3.18
 ninja; sys_platform != 'win32'
