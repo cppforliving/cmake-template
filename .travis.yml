@@ -79,6 +79,7 @@ jobs:
         apt:
           packages:
             - clang-10
+            - clang-tidy-10
       install:
         - python3 -m pip install --user -U conan -r requirements-dev.txt
       env:

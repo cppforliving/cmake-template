@@ -6,11 +6,11 @@ image:
 
 configuration:
   - Debug
-  - Release
+  #- Release
 
 platform:
   - x64
-  - x86
+  #- x86
 
 environment:
   VCPKG_ROOT: C:\Tools\vcpkg
