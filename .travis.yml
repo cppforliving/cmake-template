@@ -44,15 +44,14 @@ jobs:
       compiler: clang
       osx_image: xcode12
       install:
-        - python --version || true
-        - python3 --version || true
-        - ls -l $HOME/Library/Python
-        - export PATH=$HOME/Library/Python/3.7/bin:$PATH
+        - echo $PATH
+        - export PATH=$HOME/Library/Python/3.8/bin:$PATH
         - python3 -m pip install --user -U conan -r requirements-dev.txt
+        - ls -l $HOME/Library/Python || true
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
         - CMAKE_GENERATOR='Xcode'
-        - PYTHON_VERSION=3.7
+        - PYTHON_VERSION=3.8
 
     - &linux_gcc
       stage: test
@@ -80,7 +79,7 @@ jobs:
       install:
         - python3 -m pip install --user -U conan -r requirements-dev.txt
       env:
-        - MATRIX_EVAL="CC=clang && CXX=clang++"
+        - MATRIX_EVAL="CC=clang-10 && CXX=clang++-10"
         - CMAKE_GENERATOR='Ninja'
         - PYTHON_VERSION=3.8
 
