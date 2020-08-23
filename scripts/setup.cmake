@@ -6,7 +6,7 @@ if(NOT cmake_role STREQUAL "SCRIPT")
 endif()
 
 include(CMakePrintHelpers)
-include(${CMAKE_CURRENT_LIST_DIR}/../cmake/ProjectUtils.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/../cmake/ScriptUtils.cmake)
 
 set(package_managers conan vcpkg)
 if(NOT package_manager)
