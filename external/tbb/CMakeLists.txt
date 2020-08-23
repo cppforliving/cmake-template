@@ -5,6 +5,10 @@ if(NOT TARGET TBB::tbb)
       PROPERTY INTERFACE_LINK_LIBRARIES TBB::TBB
     )
 endif()
+projname_print_target_properties(
+    TBB::tbb
+    TBB::TBB
+)
 set_property(TARGET
     TBB::tbb
     #TBB::tbbmalloc

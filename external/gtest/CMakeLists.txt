@@ -1,7 +1,4 @@
-find_package(GTest MODULE REQUIRED)
-if(NOT TARGET GTest::Main)
-    add_library(GTest::Main INTERFACE IMPORTED)
-endif()
+find_package(GTest REQUIRED)
 projname_print_target_properties(GTest::Main)
 projname_print_target_properties(GTest::GTest)
 projname_print_target_properties(GTest::gtest_main)
@@ -9,8 +6,8 @@ projname_print_target_properties(GTest::gtest)
 projname_print_target_properties(GTest::gmock_main)
 projname_print_target_properties(GTest::gmock)
 set_property(TARGET
-    GTest::Main
-    GTest::GTest
+    GTest::gtest_main
+    GTest::gtest
   PROPERTY
     IMPORTED_GLOBAL TRUE
 )
@@ -18,8 +15,8 @@ set_property(TARGET
 add_library(gtest_main INTERFACE)
 target_link_libraries(gtest_main
   INTERFACE
-    GTest::Main
-    GTest::GTest
+    GTest::gtest_main
+    GTest::gtest
 )
 target_compile_definitions(gtest_main
   INTERFACE
