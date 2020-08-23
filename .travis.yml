@@ -21,9 +21,7 @@ env:
 
 jobs:
   fast_finish: true
-  allow_failures:
-    - os: windows
-  include:
+  exclude:
     - stage: test
       name: windows-cl
       os: windows
@@ -39,6 +37,7 @@ jobs:
         - CMAKE_GENERATOR='Visual Studio 16 2019'
         - PYTHON_VERSION=3.8
 
+  include:
     - stage: test
       name: osx-clang
       os: osx

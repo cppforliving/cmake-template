@@ -2,41 +2,31 @@ version: "{build}"
 
 image:
   - Visual Studio 2019
-  - Ubuntu2004
 
 configuration:
   - Debug
-  #- Release
+  - Release
 
 platform:
   - x64
-  #- x86
+  - x86
 
 environment:
+  VCPKG_ROOT: C:\Tools\vcpkg
+  VCPKG_DEFAULT_TRIPLET: "%PLATFORM%-windows"
   CMAKE_BUILD_PARALLEL_LEVEL: 2
   VERBOSE: 1
   matrix:
-    - VCPKG_DEFAULT_TRIPLET: "%PLATFORM%-windows"
-      VCPKG_ROOT: C:\Tools\vcpkg
-      PATH: C:\Python37-x64;C:\Python37-x64\Scripts;%PATH%
-    - VCPKG_DEFAULT_TRIPLET: "%PLATFORM%-windows"
-      VCPKG_ROOT: C:\Tools\vcpkg
-      PATH: C:\Python37;C:\Python37\Scripts;%PATH%
-    - VCPKG_DEFAULT_TRIPLET: "%PLATFORM%-linux"
+    - PATH: C:\Python37-x64;C:\Python37-x64\Scripts;%PATH%
+    - PATH: C:\Python37;C:\Python37\Scripts;%PATH%
 
 matrix:
   fast_finish: true
-  allow_failures:
-    - image: Ubuntu2004
   exclude:
     - platform: x86
       PATH: C:\Python37-x64;C:\Python37-x64\Scripts;%PATH%
     - platform: x64
       PATH: C:\Python37;C:\Python37\Scripts;%PATH%
-    - image: Visual Studio 2019
-      VCPKG_DEFAULT_TRIPLET: "%PLATFORM%-linux"
-    - image: Ubuntu2004
-      VCPKG_DEFAULT_TRIPLET: "%PLATFORM%-windows"
 
 cache:
   - '%VCPKG_ROOT%\installed -> vcpkgfile.txt'
