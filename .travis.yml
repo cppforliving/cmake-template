@@ -20,31 +20,32 @@ env:
     - VERBOSE=1
 
 jobs:
+  allow_failures:
+    - os: windows
   fast_finish: true
-  exclude:
+  include:
     - stage: test
       name: windows-cl
       os: windows
       compiler: cl
       install:
-        - choco install python --version 3.7.0
-        - export PATH=/c/Python37:/c/Python37/Scripts:$PATH
-        - export PATH=$HOME/AppData/Roaming/Python/Python37/Scripts:$PATH
+        - choco install python --version 3.8
+        - export PATH=/c/Python38:/c/Python38/Scripts:$PATH
+        - export PATH=$HOME/AppData/Roaming/Python/Python38/Scripts:$PATH
         - python -m pip install --user -U conan -r requirements-dev.txt
         - conan config set general.user_home_short=None
       env:
         - MATRIX_EVAL="CC=cl && CXX=cl"
-        - CMAKE_GENERATOR='Visual Studio 15 2017'
-        - PYTHON_VERSION=3.7
+        - CMAKE_GENERATOR='Visual Studio 16 2019'
+        - PYTHON_VERSION=3.8
 
-  include:
     - stage: test
       name: osx-clang
       os: osx
       compiler: clang
       osx_image: xcode11.6 # xcode12 not supported by conan yet
       install:
-        #- export PATH=$HOME/Library/Python/3.8/bin:$PATH
+        - export PATH=$HOME/Library/Python/3.8/bin:$PATH
         - python3 -m pip install --user -U conan -r requirements-dev.txt
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
