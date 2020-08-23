@@ -15,7 +15,7 @@ int32_t* new_int() {
 } // namespace
 
 int32_t* capicpp_new_int_123(void) {
-    auto const x = new_int();
+    auto* const x = new_int();
     *x = get_123();
     return x;
 }

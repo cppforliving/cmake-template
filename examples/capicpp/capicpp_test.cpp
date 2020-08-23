@@ -9,7 +9,7 @@ using testing::Eq;
 namespace {
 
 TEST(capicpp, all) {
-    auto const x = capicpp_new_int_123();
+    auto* const x = capicpp_new_int_123();
     EXPECT_THAT(*x, Eq(123));
     capicpp_delete_int_123(x);
 }

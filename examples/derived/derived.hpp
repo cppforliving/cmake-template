@@ -17,11 +17,11 @@ class DERIVED_EXPORT Base {
     virtual void virtual_method() = 0;
 
   protected:
-    std::int32_t protected_method() const;
+    [[nodiscard]] static std::int32_t protected_method();
     static std::atomic_int32_t PROTECTED_MEMBER;
 
   private:
-    DERIVED_NO_EXPORT std::int32_t private_method() const;
+    [[nodiscard]] DERIVED_NO_EXPORT static std::int32_t private_method();
     DERIVED_NO_EXPORT static std::int32_t const PRIVATE_MEMBER{42};
 };
 

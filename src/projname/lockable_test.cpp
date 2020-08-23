@@ -46,7 +46,7 @@ TYPED_TEST(LockableTest, lock_guard) {
     EXPECT_TRUE((std::is_same_v<Lock<LockableString<TypeParam>>, decltype(l1)>));
 
     EXPECT_EQ("asd"sv, *l1);
-    EXPECT_EQ(3u, l1->size());
+    EXPECT_EQ(3U, l1->size());
 }
 
 TYPED_TEST(LockableTest, initialize_by_copy) {
@@ -69,7 +69,7 @@ TYPED_TEST(LockableTest, lock_and_swap) {
     Lock l1{s1, std::adopt_lock};
     Lock l2{s2, std::adopt_lock};
     std::swap(*l1, *l2);
-    EXPECT_EQ(6u, l1->size() + l2->size());
+    EXPECT_EQ(6U, l1->size() + l2->size());
 }
 
 } // namespace
