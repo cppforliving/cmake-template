@@ -20,16 +20,16 @@ env:
     - VERBOSE=1
 
 jobs:
+  fast_finish: true
   allow_failures:
     - os: windows
-  fast_finish: true
   include:
     - stage: test
       name: windows-cl
       os: windows
       compiler: cl
       install:
-        - choco install python --version 3.8
+        - choco install python --version [3.8,3.9)
         - export PATH=/c/Python38:/c/Python38/Scripts:$PATH
         - export PATH=$HOME/AppData/Roaming/Python/Python38/Scripts:$PATH
         - python -m pip install --user -U conan -r requirements-dev.txt
