@@ -56,6 +56,7 @@ if(NOT CMAKE_CXX_COMPILER_LAUNCHER AND UNIX AND NOT APPLE)
     endif()
 endif()
 
+set(PythonLibsNew_FIND_VERSION ${PYBIND11_PYTHON_VERSION})
 find_package(pybind11 REQUIRED)
 if(NOT TARGET pybind11::module)
     add_library(pybind11::module INTERFACE IMPORTED)

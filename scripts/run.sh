@@ -23,6 +23,7 @@ run_main() {
     declare -i install=
     declare -i memcheck=
     declare package_manager=
+    declare python_version=
     declare -i rpaths=
     declare sanitizer=
     declare -i stats=
@@ -74,6 +75,9 @@ run_main() {
             ;;
         Check=*)
             declare -r check=${opt#*=}
+            ;;
+        Python=*)
+            declare -r python_version=${opt#*=}
             ;;
         Install)
             declare -r install=1
@@ -135,6 +139,7 @@ run_main() {
         -DBUILD_DOCS="$doc" \
         -DCMAKE_BUILD_TYPE="$cmake_config" \
         -DCMAKE_TOOLCHAIN_FILE="$cmake_toolchain" \
+        -DPYBIND11_PYTHON_VERSION="$python_version" \
         -Ddebug_dynamic_deps="$rpaths" \
         -Dprojname_coverage="$coverage" \
         -Dprojname_valgrind="$valgrind" \
