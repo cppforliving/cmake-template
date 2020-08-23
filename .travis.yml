@@ -42,8 +42,11 @@ jobs:
       name: osx-clang
       os: osx
       compiler: clang
-      osx_image: xcode10.3
+      osx_image: xcode12
       install:
+        - python --version || true
+        - python3 --version || true
+        - ls -l $HOME/Library/Python
         - export PATH=$HOME/Library/Python/3.7/bin:$PATH
         - python3 -m pip install --user -U conan -r requirements-dev.txt
       env:
@@ -56,35 +59,30 @@ jobs:
       name: linux-gcc
       os: linux
       compiler: gcc
-      dist: bionic
+      dist: focal
       addons:
         apt:
           packages:
-            - g++-8
             - valgrind
       install:
-        - sudo update-alternatives
-            --install /usr/bin/gcov gcov /usr/bin/gcov-8 80
-        - python2 -m pip install --user -U conan -r requirements-dev.txt
+        - python3 -m pip install --user -U conan -r requirements-dev.txt
       env:
-        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
+        - MATRIX_EVAL="CC=gcc && CXX=g++"
         - CMAKE_GENERATOR='Unix Makefiles'
-        - PYTHON_VERSION=2.7
+        - PYTHON_VERSION=3.8
 
     - &linux_clang
       stage: test
       name: linux-clang
       os: linux
       compiler: clang
-      dist: bionic
+      dist: focal
       install:
-        - export PATH=/usr/local/clang-7.0.0/bin:$PATH
-        - export LD_LIBRARY_PATH=/usr/local/clang-7.0.0/lib:$LD_LIBRARY_PATH
-        - python2 -m pip install --user -U conan -r requirements-dev.txt
+        - python3 -m pip install --user -U conan -r requirements-dev.txt
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
         - CMAKE_GENERATOR='Ninja'
-        - PYTHON_VERSION=2.7
+        - PYTHON_VERSION=3.8
 
     - <<: *linux_clang
       stage: check
