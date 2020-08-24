@@ -60,6 +60,9 @@ set(PythonLibsNew_FIND_VERSION ${PYBIND11_PYTHON_VERSION})
 find_package(pybind11 REQUIRED)
 if(NOT TARGET pybind11::module)
     add_library(pybind11::module INTERFACE IMPORTED)
+    set_target_properties(pybind11::module
+      PROPERTIES INTERFACE_LINK_LIBRARIES pybind11::pybind11
+    )
 endif()
 projname_print_target_properties(pybind11::pybind11 pybind11::module pybind11::embed)
 add_subdirectory(external)
