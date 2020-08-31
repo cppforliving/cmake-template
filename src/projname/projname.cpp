@@ -5,6 +5,7 @@
 #include <asio/steady_timer.hpp>
 #include <chrono>
 #include <fmt/format.h>
+#include <nonstd/span.hpp>
 #include <spdlog/spdlog.h>
 #include <string_view>
 #include <system_error>
@@ -52,11 +53,8 @@ int run(std::vector<std::string> const& args) {
 }
 
 int run(int const argc, char const* const argv[]) {
-    std::vector<std::string> args;
-    args.reserve(static_cast<decltype(args)::size_type>(argc));
-    for (int i = 0; i < argc; ++i) {
-        args.emplace_back(argv[i]);
-    }
+    nonstd::span const args_span{argv, static_cast<std::size_t>(argc)};
+    std::vector<std::string> args{args_span.begin(), args_span.end()};
     return run(args);
 }
 

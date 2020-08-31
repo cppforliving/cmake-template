@@ -4,5 +4,6 @@ catch2
 doctest
 gtest
 pybind11
+span-lite
 spdlog
 tbb

@@ -20,6 +20,6 @@ int32_t* capicpp_new_int_123(void) {
     return x;
 }
 
-void capicpp_delete_int_123(int32_t* const x) {
+void capicpp_delete_int_123(int32_t* const x) { // NOLINT(readability-non-const-parameter)
     delete x;
 }

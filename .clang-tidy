@@ -11,17 +11,13 @@ Checks:          '*,
 -cppcoreguidelines-avoid-magic-numbers,
 -cppcoreguidelines-macro-usage,
 -cppcoreguidelines-owning-memory,
--cppcoreguidelines-pro-bounds-array-to-pointer-decay,
--cppcoreguidelines-pro-bounds-pointer-arithmetic,
 -cppcoreguidelines-pro-type-vararg,
 -cppcoreguidelines-special-member-functions,
--fuchsia-default-arguments,
 -fuchsia-default-arguments-calls,
 -fuchsia-multiple-inheritance,
 -fuchsia-overloaded-operator,
 -fuchsia-statically-constructed-objects,
 -fuchsia-trailing-return,
--google-build-using-namespace,
 -google-readability-avoid-underscore-in-googletest-name,
 -google-runtime-references,
 -hicpp-avoid-c-arrays,
@@ -34,8 +30,7 @@ Checks:          '*,
 -misc-non-private-member-variables-in-classes,
 -modernize-avoid-c-arrays,
 -modernize-use-trailing-return-type,
--readability-magic-numbers,
--readability-non-const-parameter'  # 'clang-diagnostic-*,clang-analyzer-*'
+-readability-magic-numbers'  # 'clang-diagnostic-*,clang-analyzer-*'
 WarningsAsErrors: '*'  # ''
 HeaderFilterRegex: '.*'  # ''
 AnalyzeTemporaryDtors: true  # false

@@ -7,6 +7,7 @@ projname_add_library(projname
     Threads::Threads
     asio::asio
     spdlog::spdlog
+    span-lite::span-lite
 )
 
 projname_add_executable(projname_tool
