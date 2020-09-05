@@ -18,6 +18,7 @@ env:
   global:
     - CMAKE_BUILD_PARALLEL_LEVEL=2
     - VERBOSE=1
+    - FUZZER_RUNS=10000
 
 jobs:
   fast_finish: true
@@ -103,6 +104,7 @@ jobs:
             -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
             -D BUILD_TESTING=ON
             -D BUILD_BENCHMARKS=ON
+            -D BUILD_FUZZERS=${FUZZER_RUNS}
             -D BUILD_EXAMPLES=ON
             -D projname_check=tidy &&
           cmake --build build --verbose --config Debug
@@ -124,6 +126,7 @@ jobs:
             -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
             -D BUILD_TESTING=ON
             -D BUILD_BENCHMARKS=ON
+            -D BUILD_FUZZERS=${FUZZER_RUNS}
             -D BUILD_EXAMPLES=ON
             -D projname_check=lint &&
           cmake --build build --verbose --config Debug &&
@@ -170,6 +173,7 @@ jobs:
             -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
             -D BUILD_TESTING=ON
             -D BUILD_BENCHMARKS=ON
+            -D BUILD_FUZZERS=${FUZZER_RUNS}
             -D BUILD_EXAMPLES=ON
             -D debug_dynamic_deps=ON
             -D projname_sanitizer=address &&
@@ -193,6 +197,7 @@ jobs:
             -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
             -D BUILD_TESTING=ON
             -D BUILD_BENCHMARKS=ON
+            -D BUILD_FUZZERS=${FUZZER_RUNS}
             -D BUILD_EXAMPLES=ON
             -D debug_dynamic_deps=ON
             -D projname_sanitizer=undefined &&
@@ -216,6 +221,7 @@ jobs:
             -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
             -D BUILD_TESTING=ON
             -D BUILD_BENCHMARKS=ON
+            -D BUILD_FUZZERS=${FUZZER_RUNS}
             -D BUILD_EXAMPLES=ON
             -D projname_valgrind=memcheck &&
           cmake --build build --verbose --config Debug &&
@@ -244,6 +250,7 @@ script:
       -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
       -D BUILD_TESTING=ON
       -D BUILD_BENCHMARKS=ON
+      -D BUILD_FUZZERS=${FUZZER_RUNS}
       -D BUILD_EXAMPLES=ON
       -D debug_dynamic_deps=ON &&
     cmake --build build --verbose --config Release &&

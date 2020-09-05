@@ -17,8 +17,9 @@ using std::chrono_literals::operator""ms;
 namespace projname {
 
 void ContinuousGreeter::operator()() const {
-    spdlog::info('!');
-    asio::post(io, ContinuousGreeter{*this});
+    asio::steady_timer timer{io};
+    timer.expires_after(1ms);
+    timer.async_wait([inner = *this](std::error_code const& /*ec*/) { inner(); });
 }
 
 void StopIoContext::operator()(std::error_code const& ec) {
@@ -30,7 +31,7 @@ void StopIoContext::operator()(std::error_code const& ec) {
 }
 
 int run(std::vector<std::string> const& args) {
-    spdlog::info("{} args: {}", __func__, fmt::join(args, " "sv));
+    spdlog::info("{} args: <{}>", __func__, fmt::join(args, "> <"sv));
 
     asio::io_context io;
 

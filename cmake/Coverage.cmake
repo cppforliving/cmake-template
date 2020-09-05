@@ -26,6 +26,7 @@ if(${PROJECT_NAME}_coverage IN_LIST gcovr_coverage_types)
             --exclude-directories="tests"
             --exclude=".*_test\.cpp"
             --exclude=".*_benchmark\.cpp"
+            --exclude=".*_fuzzer\.cpp"
             --object-directory="${PROJECT_BINARY_DIR}"
         )
         add_custom_command(TARGET ${coverage_target} POST_BUILD
@@ -64,6 +65,7 @@ elseif(${PROJECT_NAME}_coverage IN_LIST lcov_coverage_types)
                     "*/tests/*"
                     "*_test.cpp"
                     "*_benchmark.cpp"
+                    "*_fuzzer.cpp"
             COMMAND ${lcov_command} ${lcov_options}
                 --list=coverage.info
             COMMAND ${lcov_command} ${lcov_options}

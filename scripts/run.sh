@@ -20,6 +20,7 @@ run_main() {
     declare coverage=
     declare -i doc=
     declare -i examples=
+    declare -i fuzzer=0
     declare -i install=
     declare -i memcheck=
     declare package_manager=
@@ -62,6 +63,9 @@ run_main() {
             ;;
         Benchmark)
             declare -r benchmark=1
+            ;;
+        Fuzzer=*)
+            declare -r fuzzer=${opt#*=}
             ;;
         Coverage=*)
             declare -r coverage=${opt#*=}
@@ -137,6 +141,7 @@ run_main() {
         -DBUILD_SHARED_LIBS="$cmake_shared" \
         -DBUILD_TESTING="$testing" \
         -DBUILD_BENCHMARKS="$benchmark" \
+        -DBUILD_FUZZERS="$fuzzer" \
         -DBUILD_EXAMPLES="$examples" \
         -DBUILD_DOCS="$doc" \
         -DCMAKE_BUILD_TYPE="$cmake_config" \

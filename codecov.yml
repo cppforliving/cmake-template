@@ -3,3 +3,4 @@ ignore:
   - "tests/.*"
   - ".*_test\\.cpp"
   - ".*_benchmark\\.cpp"
+  - ".*_fuzzer\\.cpp"

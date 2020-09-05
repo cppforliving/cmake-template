@@ -44,3 +44,15 @@ if(BUILD_BENCHMARKS)
         benchmark_main
     )
 endif()
+
+if(BUILD_FUZZERS)
+    projname_add_test(projname_fuzzer
+      SOURCES
+        projname_fuzzer.cpp
+      DEPENDS
+        projname
+        absl::absl
+      EXTRA_ARGS
+        -runs=${BUILD_FUZZERS}
+    )
+endif()
