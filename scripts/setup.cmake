@@ -52,6 +52,9 @@ if(package_manager STREQUAL "conan")
     eval(conan profile new
         --detect --force
         "${build_dir}/conanprofile.txt")
+    eval(conan profile update
+        settings.compiler.cppstd=17
+        "${build_dir}/conanprofile.txt")
     eval_out(conan_detected_libcxx
         conan profile get
         settings.compiler.libcxx
