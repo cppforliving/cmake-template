@@ -53,6 +53,6 @@ if(BUILD_FUZZERS)
         projname
         absl::absl
       EXTRA_ARGS
-        -runs=${BUILD_FUZZERS}
+        -max_total_time=${BUILD_FUZZERS}
     )
 endif()

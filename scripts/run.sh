@@ -3,7 +3,9 @@ set -euo pipefail
 
 source_if_exists() {
     set +u
-    [[ ! -f $1 ]] || source "$@"
+    if [[ -f $1 ]]; then
+        source "$@"
+    fi
     set -u
 }
 
@@ -110,7 +112,9 @@ run_main() {
     done
 
     declare -r build_dir=./build/$cmake_config
-    [[ $clean == 1 ]] && [[ -d $build_dir ]] && rm -r "$build_dir"
+    if [[ $clean == 1 && -d $build_dir ]]; then
+        rm -r "$build_dir"
+    fi
     mkdir -p "$build_dir"
 
     case $package_manager in
@@ -174,7 +178,9 @@ run_main() {
         $verbose_flag --target"
     declare -r test_cmd
 
-    [[ $stats == 1 ]] && ccache -z
+    if [[ $stats == 1 ]]; then
+        ccache -z
+    fi
     $make_cmd all
     if ((testing)); then
         source_if_exists "$build_dir"/activate_run.sh
@@ -182,14 +188,24 @@ run_main() {
             $test_cmd ExperimentalMemCheck
         else
             $test_cmd ExperimentalTest \
-                "$([[ $check == 'lint' ]] && echo '-L lint')"
+                "$(if [[ $check == 'lint' ]]; then
+                    echo '-L lint'
+                fi)"
         fi
         source_if_exists "$build_dir"/deactivate_run.sh
     fi
-    [[ $coverage ]] && $test_cmd ExperimentalCoverage
-    [[ $doc == 1 ]] && $make_cmd doc
-    [[ $install == 1 ]] && $make_cmd install
-    [[ $stats == 1 ]] && ccache -s
+    if [[ $coverage ]]; then
+        $test_cmd ExperimentalCoverage
+    fi
+    if [[ $doc == 1 ]]; then
+        $make_cmd doc
+    fi
+    if [[ $install == 1 ]]; then
+        $make_cmd install
+    fi
+    if [[ $stats == 1 ]]; then
+        ccache -s
+    fi
 }
 
 if [[ "$0" == "${BASH_SOURCE[0]}" ]]; then
