@@ -1,8 +1,8 @@
 add_subdirectory(threads)
 add_subdirectory(tbb)
+add_subdirectory(abseil)
 add_subdirectory(asio)
 add_subdirectory(spdlog)
-add_subdirectory(span-lite)
 
 if(BUILD_TESTING)
     add_subdirectory(catch2)

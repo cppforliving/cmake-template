@@ -1,3 +1,4 @@
+abseil[cxx17]
 asio
 benchmark
 catch2

@@ -1,4 +1,5 @@
 [requires]
+abseil/[>=20200225.2]
 asio/[>=1.17.0]
 benchmark/[>=1.5.0]
 catch2/[>=2.13.0]
