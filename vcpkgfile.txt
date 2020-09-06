@@ -8,3 +8,5 @@ pybind11
 span-lite
 spdlog
 tbb
+tl-expected
+tl-optional

@@ -8,7 +8,7 @@
 
 extern "C" int LLVMFuzzerTestOneInput(std::uint8_t const* data, std::size_t size);
 
-int LLVMFuzzerTestOneInput(std::uint8_t const* data, std::size_t const size) {
+int LLVMFuzzerTestOneInput(std::uint8_t const* const data, std::size_t const size) {
     absl::Span<std::uint8_t const> const data_span{data, size};
 
     std::vector<char> zdata;

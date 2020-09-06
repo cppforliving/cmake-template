@@ -10,6 +10,8 @@ pybind11/[>=2.5.0]
 span-lite/[>=0.7.0]
 spdlog/[>=1.7.0]
 tbb/[>=2020.2]
+tl-expected/[>=1.0.0]
+tl-optional/[>=1.0.0]
 
 [generators]
 cmake_find_package

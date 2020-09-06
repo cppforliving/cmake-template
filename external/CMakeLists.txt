@@ -3,6 +3,7 @@ add_subdirectory(tbb)
 add_subdirectory(abseil)
 add_subdirectory(asio)
 add_subdirectory(spdlog)
+add_subdirectory(tl)
 
 if(BUILD_TESTING)
     add_subdirectory(catch2)
