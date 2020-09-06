@@ -18,7 +18,7 @@ namespace projname {
 void ContinuousGreeter::operator()() const {
     asio::steady_timer timer{io};
     timer.expires_after(1ms);
-    timer.async_wait(and_then([*this] { (*this)(); }));
+    timer.async_wait(and_then([copy = *this] { copy(); }));
 }
 
 void StopIoContext::operator()() const {
