@@ -1,4 +1,5 @@
 #include <absl/base/casts.h>
+#include <absl/types/span.h>
 #include <cstdint>
 #include <fmt/format.h>
 #include <projname/projname.hpp>
@@ -8,10 +9,11 @@
 extern "C" int LLVMFuzzerTestOneInput(std::uint8_t const* data, std::size_t size);
 
 int LLVMFuzzerTestOneInput(std::uint8_t const* data, std::size_t const size) {
+    absl::Span<std::uint8_t const> const data_span{data, size};
     std::vector<char> cdata;
     cdata.reserve(size + 1);
-    for (std::size_t i = 0; i < size; ++i) {
-        cdata.push_back(absl::bit_cast<char>(data[i]));
+    for (auto& byte : data_span) {
+        cdata.push_back(absl::bit_cast<char>(byte));
     }
     cdata.push_back('\0');
     spdlog::info("{} size: {} data: '{}'", __func__, size, cdata.data());

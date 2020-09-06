@@ -16,9 +16,20 @@
 namespace projname {
 
 template<typename F>
-auto on_success(F f) {
+auto and_then(F f) {
     return [f](std::error_code const ec) {
         if (!ec) {
+            f();
+        } else {
+            spdlog::info("{}", ec.message());
+        }
+    };
+}
+
+template<typename F>
+auto or_else(F f) {
+    return [f](std::error_code const ec) {
+        if (ec) {
             f();
         } else {
             spdlog::info("{}", ec.message());
