@@ -17,7 +17,7 @@ namespace {
 
 TEST(Optional, optional) {
     EXPECT_EQ(12345, process(true).value());
-    EXPECT_FALSE(process(false).has_value());
+    EXPECT_THROW(process(false).value(), tl::bad_optional_access);
 }
 
 } // namespace
