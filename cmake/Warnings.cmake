@@ -50,7 +50,6 @@ else()
             -Weverything
             -Wno-c++98-compat
             -Wno-c++98-compat-pedantic
-            -Wno-error=documentation
             -Wno-error=padded
             -Wno-shadow-uncaptured-local
         )

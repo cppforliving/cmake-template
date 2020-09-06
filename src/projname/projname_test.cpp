@@ -9,13 +9,13 @@ namespace {
 
 TEST(projname, stop_io_context_success) {
     asio::io_context io;
-    StopIoContext{io}({});
+    on_success(StopIoContext{io})({});
     EXPECT_TRUE(io.stopped());
 }
 
 TEST(projname, stop_io_context_failure) {
     asio::io_context io;
-    StopIoContext{io}(asio::error::operation_aborted);
+    on_success(StopIoContext{io})(asio::error::operation_aborted);
     EXPECT_FALSE(io.stopped());
 }
 

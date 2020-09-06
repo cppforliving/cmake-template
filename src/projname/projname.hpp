@@ -6,6 +6,7 @@
 #endif
 
 #include <asio/io_context.hpp>
+#include <spdlog/spdlog.h>
 #include <string>
 #include <system_error>
 #include <vector>
@@ -13,6 +14,17 @@
 #include <projname/export.h>
 
 namespace projname {
+
+template<typename F>
+auto on_success(F f) {
+    return [f](std::error_code const ec) {
+        if (!ec) {
+            f();
+        } else {
+            spdlog::info("{}", ec.message());
+        }
+    };
+}
 
 struct ContinuousGreeter {
     asio::io_context& io;
@@ -23,7 +35,7 @@ struct ContinuousGreeter {
 struct StopIoContext {
     asio::io_context& io;
 
-    PROJNAME_EXPORT void operator()(std::error_code const& ec);
+    PROJNAME_EXPORT void operator()() const;
 };
 
 PROJNAME_EXPORT int run(std::vector<std::string> const& args);

@@ -6,7 +6,6 @@
 #include <asio/steady_timer.hpp>
 #include <chrono>
 #include <fmt/format.h>
-#include <spdlog/spdlog.h>
 #include <string_view>
 #include <system_error>
 #include <thread>
@@ -19,15 +18,11 @@ namespace projname {
 void ContinuousGreeter::operator()() const {
     asio::steady_timer timer{io};
     timer.expires_after(1ms);
-    timer.async_wait([inner = *this](std::error_code const& /*ec*/) { inner(); });
+    timer.async_wait(on_success([*this] { (*this)(); }));
 }
 
-void StopIoContext::operator()(std::error_code const& ec) {
-    if (!ec) {
-        io.stop();
-    } else {
-        spdlog::error("{}", ec.message());
-    }
+void StopIoContext::operator()() const {
+    io.stop();
 }
 
 int run(std::vector<std::string> const& args) {
@@ -37,7 +32,7 @@ int run(std::vector<std::string> const& args) {
 
     asio::steady_timer timer{io};
     timer.expires_after(1ms);
-    timer.async_wait(StopIoContext{io});
+    timer.async_wait(on_success(StopIoContext{io}));
 
     asio::post(io, ContinuousGreeter{io});
 
