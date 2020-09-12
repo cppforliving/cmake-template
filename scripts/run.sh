@@ -121,7 +121,7 @@ run_main() {
     conan)
         declare -r cmake_toolchain=$build_dir/conan_paths.cmake
         conan profile new "$build_dir"/conanprofile.txt --detect --force
-        conan profile update settings.compiler.cppstd=20 \
+        conan profile update settings.compiler.cppstd=17 \
             "$build_dir"/conanprofile.txt
         conan profile update settings.compiler.libcxx=libstdc++11 \
             "$build_dir"/conanprofile.txt
