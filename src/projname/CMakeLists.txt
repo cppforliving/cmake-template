@@ -5,8 +5,8 @@ projname_add_library(projname
     projname.hpp
   DEPENDS
     Threads::Threads
-    absl::absl
     asio::asio
+    span-lite::span-lite
     spdlog::spdlog
 )
 

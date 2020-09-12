@@ -1,9 +1,9 @@
-abseil[cxx17]
 asio
 benchmark
 catch2
 doctest
 pybind11
+span-lite
 spdlog
 tbb
 tl-expected

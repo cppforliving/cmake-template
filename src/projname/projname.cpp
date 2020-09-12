@@ -1,11 +1,11 @@
 #include "projname.hpp"
 
-#include <absl/types/span.h>
 #include <asio/io_context.hpp>
 #include <asio/post.hpp>
 #include <asio/steady_timer.hpp>
 #include <chrono>
 #include <fmt/format.h>
+#include <nonstd/span.hpp>
 #include <string_view>
 #include <system_error>
 #include <thread>
@@ -49,7 +49,7 @@ int run(std::vector<std::string> const& args) {
 }
 
 int run(int const argc, char const* const argv[]) {
-    absl::Span<char const* const> const args_span{argv, static_cast<std::size_t>(argc)};
+    nonstd::span const args_span{argv, argc};
     std::vector<std::string> args{args_span.begin(), args_span.end()};
     return run(args);
 }
