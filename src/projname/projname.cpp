@@ -47,7 +47,7 @@ int run(std::vector<std::string> const& args) {
 }
 
 int run(int const argc, char const* const argv[]) {
-    nonstd::span const args_span{argv, static_cast<std::size_t>(argc)};
+    nonstd::span const args_span{argv, nonstd::span_lite::to_size(argc)};
     std::vector<std::string> args{args_span.begin(), args_span.end()};
     return run(args);
 }

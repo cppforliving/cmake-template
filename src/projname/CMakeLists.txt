@@ -51,7 +51,7 @@ if(BUILD_FUZZERS)
         projname_fuzzer.cpp
       DEPENDS
         projname
-        absl::absl
+        span-lite::span-lite
       EXTRA_ARGS
         -max_total_time=${BUILD_FUZZERS}
     )
