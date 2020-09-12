@@ -5,7 +5,6 @@ FetchContent_Declare(googletest
     GIT_TAG master
 )
 
-set(CMAKE_CXX_VISIBILITY_PRESET default)
 if(NOT MSVC)
     #add_compile_options(-Wno-error)
     add_compile_options(
