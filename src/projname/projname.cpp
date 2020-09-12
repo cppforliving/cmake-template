@@ -41,14 +41,13 @@ int run(std::vector<std::string> const& args) {
             io.run();
         }
         spdlog::info("Stopped!"sv);
-    }}
-        .join();
+    }}.join();
 
     return 0;
 }
 
 int run(int const argc, char const* const argv[]) {
-    nonstd::span const args_span{argv, argc};
+    nonstd::span const args_span{argv, static_cast<std::size_t>(argc)};
     std::vector<std::string> args{args_span.begin(), args_span.end()};
     return run(args);
 }
