@@ -49,7 +49,6 @@ function(projname_print_target_properties)
     )
     set(imported_props
         LOCATION
-        IMPORTED_LOCATION
     )
     foreach(tgt_name IN LISTS ARGN)
         if(NOT TARGET ${tgt_name})
