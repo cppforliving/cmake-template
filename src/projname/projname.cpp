@@ -36,14 +36,13 @@ int run(std::vector<std::string> const& args) {
 
     asio::post(io, ContinuousGreeter{io});
 
-    std::thread thread{[&io] {
+    std::thread{[&io] {
         while (!io.stopped()) {
             io.run();
         }
         spdlog::info("Stopped!"sv);
-    }};
-
-    thread.join();
+    }}
+        .join();
 
     return 0;
 }
