@@ -64,6 +64,7 @@ function(projname_print_target_properties)
         get_target_property(tgt_type ${tgt_name} TYPE)
         if(NOT tgt_type STREQUAL "INTERFACE_LIBRARY"
             AND NOT tgt_type STREQUAL "SHARED_LIBRARY"
+            AND NOT tgt_type STREQUAL "STATIC_LIBRARY"
         )
             foreach(prop IN LISTS extra_props)
                 get_target_property(prop_value ${tgt_name} ${prop})
