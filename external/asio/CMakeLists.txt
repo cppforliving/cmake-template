@@ -11,3 +11,9 @@ set_property(TARGET
     INTERFACE_COMPILE_DEFINITIONS
       ASIO_NO_DEPRECATED
 )
+if(NOT MSVC)
+    target_compile_options(asio::asio
+      INTERFACE
+        -Wno-error=zero-as-null-pointer-constant
+    )
+endif()
