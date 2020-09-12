@@ -2,7 +2,7 @@ include(FetchContent)
 
 FetchContent_Declare(googletest
     GIT_REPOSITORY https://github.com/google/googletest.git
-    GIT_TAG release-1.10.0
+    GIT_TAG master
 )
 
 set(CMAKE_CXX_VISIBILITY_PRESET default)
@@ -10,7 +10,6 @@ if(NOT MSVC)
     #add_compile_options(-Wno-error)
     add_compile_options(
         -Wno-ctor-dtor-privacy
-        -Wno-sign-conversion
         -Wno-switch-enum
         -Wno-zero-as-null-pointer-constant
     )
@@ -18,16 +17,13 @@ if(NOT MSVC)
         add_compile_options(
             -Wno-comma
             -Wno-covered-switch-default
-            -Wno-deprecated-copy-dtor
             -Wno-disabled-macro-expansion
             -Wno-exit-time-destructors
-            -Wno-extra-semi-stmt
+            -Wno-format-nonliteral
             -Wno-global-constructors
-            -Wno-gnu-zero-variadic-macro-arguments
             -Wno-missing-noreturn
             -Wno-missing-prototypes
             -Wno-padded
-            -Wno-shift-sign-overflow
             -Wno-undef
             -Wno-unused-member-function
             -Wno-used-but-marked-unused
