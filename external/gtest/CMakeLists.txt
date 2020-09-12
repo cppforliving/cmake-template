@@ -31,6 +31,8 @@ if(NOT MSVC)
     endif()
 endif()
 
+set(CMAKE_CXX_VISIBILITY_PRESET default)
+
 FetchContent_MakeAvailable(googletest)
 
 projname_print_target_properties(gtest_main)
