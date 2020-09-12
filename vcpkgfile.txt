@@ -1,5 +1,6 @@
 asio
 benchmark
+boost-coroutine
 catch2
 doctest
 pybind11

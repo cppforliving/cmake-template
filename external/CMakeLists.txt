@@ -1,5 +1,6 @@
 add_subdirectory(threads)
 
+add_subdirectory(boost)
 add_subdirectory(asio)
 add_subdirectory(span-lite)
 add_subdirectory(spdlog)

@@ -1,6 +1,7 @@
 [requires]
 asio/[>=1.17.0]
 benchmark/[>=1.5.1]
+boost/[==1.73.*]
 catch2/[>=2.13.0]
 doctest/[>=2.4.0]
 fmt/[>=7.0.3]

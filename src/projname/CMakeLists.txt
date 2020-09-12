@@ -6,6 +6,8 @@ projname_add_library(projname
   DEPENDS
     Threads::Threads
     asio::asio
+    Boost::coroutine
+    Boost::thread
     span-lite::span-lite
     spdlog::spdlog
 )
