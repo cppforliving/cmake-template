@@ -47,7 +47,7 @@ function(projname_print_target_properties)
         INTERFACE_POSITION_INDEPENDENT_CODE
         INTERFACE_SOURCES
     )
-    set(extra_props
+    set(imported_props
         LOCATION
         IMPORTED_LOCATION
     )
@@ -57,18 +57,16 @@ function(projname_print_target_properties)
         endif()
         foreach(prop IN LISTS props)
             get_target_property(prop_value ${tgt_name} ${prop})
-            if(prop_value)
+            if(NOT prop_value MATCHES "-NOTFOUND$")
                 message(STATUS "  ${tgt_name}.${prop} = ${prop_value}")
             endif()
         endforeach()
+        get_target_property(tgt_imported ${tgt_name} IMPORTED)
         get_target_property(tgt_type ${tgt_name} TYPE)
-        if(NOT tgt_type STREQUAL "INTERFACE_LIBRARY"
-            AND NOT tgt_type STREQUAL "SHARED_LIBRARY"
-            AND NOT tgt_type STREQUAL "STATIC_LIBRARY"
-        )
-            foreach(prop IN LISTS extra_props)
+        if(tgt_imported AND NOT tgt_type STREQUAL "INTERFACE_LIBRARY")
+            foreach(prop IN LISTS imported_props)
                 get_target_property(prop_value ${tgt_name} ${prop})
-                if(prop_value)
+                if(NOT prop_value MATCHES "-NOTFOUND$")
                     message(STATUS "  ${tgt_name}.${prop} = ${prop_value}")
                 endif()
             endforeach()
