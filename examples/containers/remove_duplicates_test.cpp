@@ -13,7 +13,7 @@ using testing::Types;
 namespace examples {
 namespace {
 
-template<typename T>
+template<typename>
 struct RemoveDuplicatesTest : Test {};
 
 using TestContainers = Types<std::string, std::vector<char>, std::deque<char>>;
