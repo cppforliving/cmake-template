@@ -1,8 +1,8 @@
 asio
 benchmark
-boost-coroutine
 catch2
 doctest
+fmt
 pybind11
 span-lite
 spdlog

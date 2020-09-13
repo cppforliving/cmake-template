@@ -6,7 +6,6 @@
 #endif
 
 #include <asio/io_context.hpp>
-#include <asio/spawn.hpp>
 #include <spdlog/spdlog.h>
 #include <string>
 #include <system_error>
@@ -41,7 +40,7 @@ auto or_else(F f) {
 struct ContinuousGreeter {
     asio::io_context& io;
 
-    void operator()(asio::yield_context const yield) const;
+    void operator()() const;
 };
 
 struct StopIoContext {

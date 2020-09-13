@@ -1,6 +1,7 @@
 #include "projname.hpp"
 
 #include <asio/io_context.hpp>
+#include <asio/post.hpp>
 #include <asio/steady_timer.hpp>
 #include <chrono>
 #include <fmt/format.h>
@@ -14,10 +15,10 @@ using std::chrono_literals::operator""ms;
 
 namespace projname {
 
-void ContinuousGreeter::operator()(asio::yield_context const yield) const {
+void ContinuousGreeter::operator()() const {
     asio::steady_timer timer{io};
     timer.expires_after(1ms);
-    timer.async_wait(and_then([copy = *this, yield] { copy(yield); }));
+    timer.async_wait(and_then([copy = *this] { copy(); }));
 }
 
 void StopIoContext::operator()() const {
@@ -33,7 +34,7 @@ int run(std::vector<std::string> const& args) {
     timer.expires_after(1ms);
     timer.async_wait(and_then(StopIoContext{io}));
 
-    asio::spawn(io, ContinuousGreeter{io});
+    asio::post(io, ContinuousGreeter{io});
 
     std::thread{[&io] {
         while (!io.stopped()) {
