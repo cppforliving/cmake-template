@@ -19,3 +19,4 @@ virtualrunenv
 
 [options]
 *:shared=True
+boost:header_only=True
