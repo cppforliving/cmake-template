@@ -31,7 +31,7 @@ if(NOT MSVC)
     endif()
 endif()
 
-set(CMAKE_CXX_VISIBILITY_PRESET default)
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
 FetchContent_MakeAvailable(googletest)
 
@@ -44,11 +44,13 @@ target_link_libraries(gtest_main
     gtest
     gmock
 )
-target_compile_definitions(gtest_main
-  INTERFACE
-    GTEST_LINKED_AS_SHARED_LIBRARY=1
-    #GTEST_REMOVE_LEGACY_TEST_CASEAPI_
-)
+if(BUILD_SHARED_LIBS)
+    target_compile_definitions(gtest_main
+    INTERFACE
+        GTEST_LINKED_AS_SHARED_LIBRARY=1
+        #GTEST_REMOVE_LEGACY_TEST_CASEAPI_
+    )
+endif()
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     target_compile_options(gtest_main
       INTERFACE
