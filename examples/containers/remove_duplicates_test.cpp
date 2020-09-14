@@ -20,12 +20,12 @@ using TestContainers = Types<std::string, std::vector<char>, std::deque<char>>;
 TYPED_TEST_SUITE(RemoveDuplicatesTest, TestContainers);
 
 TYPED_TEST(RemoveDuplicatesTest, remove_duplicates) {
-    auto const expected = {'a', 'b', 'd', 'e', 'f'};
-    TypeParam actual = {'d', 'e', 'a', 'd', 'b', 'e', 'e', 'f'};
+    TypeParam c = {'d', 'e', 'a', 'd', 'b', 'e', 'e', 'f'};
 
-    remove_duplicates(actual);
+    remove_duplicates(c);
 
-    EXPECT_TRUE(std::equal(expected.begin(), expected.end(), actual.begin(), actual.end()));
+    auto const no_dups = {'a', 'b', 'd', 'e', 'f'};
+    EXPECT_TRUE(std::equal(no_dups.begin(), no_dups.end(), c.begin(), c.end()));
 }
 
 } // namespace
