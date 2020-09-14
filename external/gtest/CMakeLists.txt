@@ -17,7 +17,6 @@ if(NOT MSVC)
         add_compile_options(
             -Wno-comma
             -Wno-covered-switch-default
-            -Wno-deprecated-copy-dtor
             -Wno-disabled-macro-expansion
             -Wno-exit-time-destructors
             -Wno-extra-semi-stmt
@@ -32,6 +31,11 @@ if(NOT MSVC)
             -Wno-used-but-marked-unused
             -Wno-weak-vtables
         )
+        if(NOT CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
+            add_compile_options(
+                -Wno-deprecated-copy-dtor
+            )
+        endif()
     endif()
 endif()
 

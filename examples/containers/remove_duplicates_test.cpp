@@ -1,12 +1,11 @@
 #include "remove_duplicates.hpp"
 
+#include <algorithm>
 #include <deque>
-#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <string>
 #include <vector>
 
-using testing::ElementsAre;
 using testing::Test;
 using testing::Types;
 
@@ -21,11 +20,12 @@ using TestContainers = Types<std::string, std::vector<char>, std::deque<char>>;
 TYPED_TEST_SUITE(RemoveDuplicatesTest, TestContainers);
 
 TYPED_TEST(RemoveDuplicatesTest, remove_duplicates) {
-    TypeParam c = {'d', 'e', 'a', 'd', 'b', 'e', 'e', 'f'};
+    auto const expected = {'a', 'b', 'd', 'e', 'f'};
+    TypeParam actual = {'d', 'e', 'a', 'd', 'b', 'e', 'e', 'f'};
 
-    remove_duplicates(c);
+    remove_duplicates(actual);
 
-    EXPECT_THAT(c, ElementsAre('a', 'b', 'd', 'e', 'f'));
+    EXPECT_TRUE(std::equal(expected.begin(), expected.end(), actual.begin(), actual.end()));
 }
 
 } // namespace
