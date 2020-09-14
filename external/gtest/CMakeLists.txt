@@ -33,6 +33,7 @@ if(NOT MSVC)
         )
         if(NOT CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
             add_compile_options(
+                -Wno-deprecated
                 -Wno-deprecated-copy-dtor
             )
         endif()
