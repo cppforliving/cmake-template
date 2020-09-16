@@ -15,7 +15,7 @@ function(projname_add_pymodule tgt_name)
 
     pybind11_add_module(${tgt_name} SYSTEM ${arg_SOURCES} ${arg_UNPARSED_ARGUMENTS})
     add_library(${PROJECT_NAME}::${tgt_name} ALIAS ${tgt_name})
-    set_property(TARGET ${tgt_name} PROPERTY CXX_STANDARD 14)  # clang & libstdc++ issue (operator delete)
+    set_property(TARGET ${tgt_name} PROPERTY CXX_STANDARD 17)  # clang & libstdc++ issue (operator delete)
     if(UNIX)
         if(NOT APPLE)
             set_target_properties(${tgt_name}
