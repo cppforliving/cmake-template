@@ -111,7 +111,7 @@ run_main() {
         esac
     done
 
-    declare -r build_dir=build
+    declare -r build_dir=./build
     if [[ $clean == 1 && -d $build_dir ]]; then
         rm -r "$build_dir"
     fi
