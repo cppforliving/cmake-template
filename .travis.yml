@@ -250,9 +250,9 @@ script:
       -D BUILD_EXAMPLES=ON
       -D debug_dynamic_deps=ON &&
     cmake --build build --verbose --config Release &&
-    if [[ $TRAVIS_OS_NAME == osx ]]; then source build/activate_run.sh; fi &&
+    if [[ $TRAVIS_OS_NAME == osx ]]; then . build/conan/activate_run.sh; fi &&
     cmake -E chdir build ctest -V -C Release &&
-    if [[ $TRAVIS_OS_NAME == osx ]]; then source build/deactivate_run.sh; fi &&
+    if [[ $TRAVIS_OS_NAME == osx ]]; then . build/conan/deactivate_run.sh; fi &&
     cmake --install build --verbose --config Release
 
 after_script:
