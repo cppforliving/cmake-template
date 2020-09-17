@@ -1,0 +1,19 @@
+{
+    "name": "projname",
+    "version-string": "0.1.0",
+    "description": "C++ x GTest/Catch2/Doctest x GCC/Clang/MSVC x CMake x Conan/Vcpkg x Linux/macOS/Windows",
+    "dependencies": [
+        "asio",
+        "benchmark",
+        "catch2",
+        "doctest",
+        "fmt",
+        "gtest",
+        "pybind11",
+        "span-lite",
+        "spdlog",
+        "tbb",
+        "tl-expected",
+        "tl-optional"
+    ]
+}

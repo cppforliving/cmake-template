@@ -135,10 +135,10 @@ run_main() {
         ;;
     vcpkg)
         declare -r cmake_toolchain=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake
+        "$VCPKG_ROOT"/vcpkg version
         if ((vcpkg_upgrade)); then
             "$VCPKG_ROOT"/vcpkg update
         fi
-        "$VCPKG_ROOT"/vcpkg install @vcpkgfile.txt
         ;;
     esac
 

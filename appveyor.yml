@@ -29,7 +29,7 @@ matrix:
       PATH: C:\Python37;C:\Python37\Scripts;%PATH%
 
 cache:
-  - '%VCPKG_ROOT%\installed -> vcpkgfile.txt'
+  - build\vcpkg_installed -> vcpkg.json
   - '%LOCALAPPDATA%\pip\Cache -> requirements*.txt'
 
 install:
