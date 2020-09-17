@@ -99,7 +99,7 @@ jobs:
           cmake
             -B build
             -D CMAKE_BUILD_TYPE=Debug
-            -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
+            -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
             -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
             -D BUILD_TESTING=ON
             -D BUILD_BENCHMARKS=ON
@@ -121,7 +121,7 @@ jobs:
           cmake
             -B build
             -D CMAKE_BUILD_TYPE=Debug
-            -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
+            -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
             -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
             -D BUILD_TESTING=ON
             -D BUILD_BENCHMARKS=ON
@@ -144,7 +144,7 @@ jobs:
           cmake
             -B build
             -D CMAKE_BUILD_TYPE=Debug
-            -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
+            -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
             -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
             -D BUILD_TESTING=ON
             -D BUILD_EXAMPLES=ON
@@ -168,7 +168,7 @@ jobs:
           cmake
             -B build
             -D CMAKE_BUILD_TYPE=Debug
-            -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
+            -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
             -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
             -D BUILD_TESTING=ON
             -D BUILD_BENCHMARKS=ON
@@ -191,7 +191,7 @@ jobs:
           cmake
             -B build
             -D CMAKE_BUILD_TYPE=Debug
-            -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
+            -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
             -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
             -D BUILD_TESTING=ON
             -D BUILD_BENCHMARKS=ON
@@ -214,7 +214,7 @@ jobs:
           cmake
             -B build
             -D CMAKE_BUILD_TYPE=Debug
-            -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
+            -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
             -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
             -D BUILD_TESTING=ON
             -D BUILD_BENCHMARKS=ON
@@ -242,7 +242,7 @@ script:
     cmake
       -B build
       -D CMAKE_BUILD_TYPE=Release
-      -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
+      -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
       -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
       -D BUILD_TESTING=ON
       -D BUILD_BENCHMARKS=ON
