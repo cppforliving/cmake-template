@@ -25,7 +25,7 @@ endif()
 cmake_print_variables(build_type)
 
 if(NOT build_dir)
-    set(build_dir ./build)
+    set(build_dir "$ENV{PWD}/build")
 endif()
 cmake_print_variables(build_dir)
 
