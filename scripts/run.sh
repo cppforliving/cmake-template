@@ -117,9 +117,9 @@ run_main() {
     fi
     mkdir -p "$build_dir"
 
+    declare -r conan_dir="$build_dir"/conan
     case $package_manager in
     conan)
-        declare -r conan_dir="$build_dir"/conan
         mkdir -p "$conan_dir"
         declare -r cmake_toolchain=$conan_dir/conan_paths.cmake
         conan profile new "$conan_dir"/conanprofile.txt --detect --force

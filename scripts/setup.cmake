@@ -25,7 +25,8 @@ endif()
 cmake_print_variables(build_type)
 
 if(NOT build_dir)
-    set(build_dir "$ENV{PWD}/build")
+    file(TO_CMAKE_PATH $ENV{pwd} pwd)
+    set(build_dir "${pwd}/build")
 endif()
 cmake_print_variables(build_dir)
 
@@ -47,8 +48,8 @@ if(clean AND EXISTS "${build_dir}")
 endif()
 eval(${CMAKE_COMMAND} -E make_directory "${build_dir}")
 
+set(conan_dir "${build_dir}/conan")
 if(package_manager STREQUAL "conan")
-    set(conan_dir "${build_dir}/conan")
     eval(${CMAKE_COMMAND} -E make_directory "${conan_dir}")
     eval(conan --version)
     eval(conan profile new
