@@ -119,16 +119,18 @@ run_main() {
 
     case $package_manager in
     conan)
-        declare -r cmake_toolchain=$build_dir/conan_paths.cmake
-        conan profile new "$build_dir"/conanprofile.txt --detect --force
+        declare -r conan_dir="$build_dir"/conan
+        mkdir -p "$conan_dir"
+        declare -r cmake_toolchain=$conan_dir/conan_paths.cmake
+        conan profile new "$conan_dir"/conanprofile.txt --detect --force
         conan profile update settings.compiler.cppstd=20 \
-            "$build_dir"/conanprofile.txt
+            "$conan_dir"/conanprofile.txt
         conan profile update settings.compiler.libcxx=libstdc++11 \
-            "$build_dir"/conanprofile.txt
+            "$conan_dir"/conanprofile.txt
         conan install . $conan_update \
-            -if "$build_dir" \
+            -if "$conan_dir" \
             -s build_type="$conan_config" \
-            -pr "$build_dir"/conanprofile.txt \
+            -pr "$conan_dir"/conanprofile.txt \
             -b outdated
         ;;
     vcpkg)
@@ -183,7 +185,7 @@ run_main() {
     fi
     $make_cmd all
     if ((testing)); then
-        source_if_exists "$build_dir"/activate_run.sh
+        source_if_exists "$conan_dir"/activate_run.sh
         if ((memcheck)); then
             $test_cmd ExperimentalMemCheck
         else
@@ -192,7 +194,7 @@ run_main() {
                     echo '-L lint'
                 fi)"
         fi
-        source_if_exists "$build_dir"/deactivate_run.sh
+        source_if_exists "$conan_dir"/deactivate_run.sh
     fi
     if [[ $coverage ]]; then
         $test_cmd ExperimentalCoverage

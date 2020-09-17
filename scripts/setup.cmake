@@ -48,26 +48,28 @@ endif()
 eval(${CMAKE_COMMAND} -E make_directory "${build_dir}")
 
 if(package_manager STREQUAL "conan")
+    set(conan_dir "${build_dir}/conan")
+    eval(${CMAKE_COMMAND} -E make_directory "${conan_dir}")
     eval(conan --version)
     eval(conan profile new
         --detect --force
-        "${build_dir}/conanprofile.txt")
+        "${conan_dir}/conanprofile.txt")
     eval(conan profile update
         settings.compiler.cppstd=20
-        "${build_dir}/conanprofile.txt")
+        "${conan_dir}/conanprofile.txt")
     eval_out(conan_detected_libcxx
         conan profile get
         settings.compiler.libcxx
-        "${build_dir}/conanprofile.txt")
+        "${conan_dir}/conanprofile.txt")
     if(conan_detected_libcxx STREQUAL "libstdc++")
         eval(conan profile update
             settings.compiler.libcxx=libstdc++11
-            "${build_dir}/conanprofile.txt")
+            "${conan_dir}/conanprofile.txt")
     endif()
     eval(conan install . "${update_flag}"
-        -if "${build_dir}"
+        -if "${conan_dir}"
         -s "build_type=${build_type}"
-        -pr "${build_dir}/conanprofile.txt"
+        -pr "${conan_dir}/conanprofile.txt"
         -b outdated)
 elseif(package_manager STREQUAL "vcpkg")
     file(TO_CMAKE_PATH $ENV{VCPKG_ROOT} vcpkg_root)
