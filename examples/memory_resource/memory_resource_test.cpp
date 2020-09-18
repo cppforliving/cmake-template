@@ -90,6 +90,7 @@ struct Producer {
             resource,
         };
     }
+
     pmr::memory_resource* const resource;
 };
 
