@@ -3,20 +3,20 @@
 namespace cppapi {
 namespace detail {
 
-int get123() {
+std::int32_t get_123() {
     return 123;
 }
 
-int* newInt() {
-    return new int;
+std::unique_ptr<std::int32_t> new_int() {
+    return std::make_unique<std::int32_t>();
 }
 
-}  // namespace detail
+} // namespace detail
 
-int* newInt123() {
-    auto const x = detail::newInt();
-    *x = detail::get123();
+std::unique_ptr<std::int32_t> new_int_123() {
+    auto x = detail::new_int();
+    *x = detail::get_123();
     return x;
 }
 
-}  // namespace cppapi
+} // namespace cppapi

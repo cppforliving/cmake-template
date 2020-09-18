@@ -2,7 +2,11 @@
 set -euo pipefail
 
 source_if_exists() {
-    [[ ! -f $1 ]] || source "$@"
+    set +u
+    if [[ -f $1 ]]; then
+        source "$@"
+    fi
+    set -u
 }
 
 run_main() {
@@ -18,10 +22,11 @@ run_main() {
     declare coverage=
     declare -i doc=
     declare -i examples=
+    declare -i fuzzer=0
     declare -i install=
     declare -i memcheck=
     declare package_manager=
-    declare pip_upgrade=
+    declare python_version=
     declare -i rpaths=
     declare sanitizer=
     declare -i stats=
@@ -61,6 +66,9 @@ run_main() {
         Benchmark)
             declare -r benchmark=1
             ;;
+        Fuzzer=*)
+            declare -r fuzzer=${opt#*=}
+            ;;
         Coverage=*)
             declare -r coverage=${opt#*=}
             ;;
@@ -73,6 +81,9 @@ run_main() {
             ;;
         Check=*)
             declare -r check=${opt#*=}
+            ;;
+        Python=*)
+            declare -r python_version=${opt#*=}
             ;;
         Install)
             declare -r install=1
@@ -90,7 +101,6 @@ run_main() {
             declare -r rpaths=1
             ;;
         Upgrade)
-            declare -r pip_upgrade=-U
             declare -r conan_update=-u
             declare -r vcpkg_upgrade=1
             ;;
@@ -101,34 +111,34 @@ run_main() {
         esac
     done
 
-    declare -r build_dir=./build/$cmake_config
-    [[ $clean == 1 ]] && [[ -d $build_dir ]] && rm -r "$build_dir"
+    declare -r build_dir="$PWD"/build
+    if [[ $clean == 1 && -d $build_dir ]]; then
+        rm -r "$build_dir"
+    fi
     mkdir -p "$build_dir"
 
-    declare -r venv_dir=./venv
-    [[ ! -d $venv_dir || $pip_upgrade ]] && python3 -m virtualenv "$venv_dir"
-    source "$venv_dir"/bin/activate
-
-    pip install $pip_upgrade -r requirements-test.txt -r requirements-lint.txt
-
+    declare -r conan_dir="$build_dir"/conan
     case $package_manager in
     conan)
-        declare -r cmake_toolchain=$build_dir/conan_paths.cmake
-        conan profile new "$build_dir"/conan/detected --detect --force
+        mkdir -p "$conan_dir"
+        declare -r cmake_toolchain=$conan_dir/conan_paths.cmake
+        conan profile new "$conan_dir"/conanprofile.txt --detect --force
+        conan profile update settings.compiler.cppstd=20 \
+            "$conan_dir"/conanprofile.txt
         conan profile update settings.compiler.libcxx=libstdc++11 \
-            "$build_dir"/conan/detected
+            "$conan_dir"/conanprofile.txt
         conan install . $conan_update \
-            -if "$build_dir" \
+            -if "$conan_dir" \
             -s build_type="$conan_config" \
-            -pr "$build_dir"/conan/detected \
-            -b missing
+            -pr "$conan_dir"/conanprofile.txt \
+            -b outdated
         ;;
     vcpkg)
         declare -r cmake_toolchain=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake
+        "$VCPKG_ROOT"/vcpkg version
         if ((vcpkg_upgrade)); then
             "$VCPKG_ROOT"/vcpkg update
         fi
-        "$VCPKG_ROOT"/vcpkg install @vcpkgfile.txt
         ;;
     esac
 
@@ -137,10 +147,12 @@ run_main() {
         -DBUILD_SHARED_LIBS="$cmake_shared" \
         -DBUILD_TESTING="$testing" \
         -DBUILD_BENCHMARKS="$benchmark" \
+        -DBUILD_FUZZERS="$fuzzer" \
         -DBUILD_EXAMPLES="$examples" \
         -DBUILD_DOCS="$doc" \
         -DCMAKE_BUILD_TYPE="$cmake_config" \
         -DCMAKE_TOOLCHAIN_FILE="$cmake_toolchain" \
+        -DPYBIND11_PYTHON_VERSION="$python_version" \
         -Ddebug_dynamic_deps="$rpaths" \
         -Dprojname_coverage="$coverage" \
         -Dprojname_valgrind="$valgrind" \
@@ -168,24 +180,34 @@ run_main() {
         $verbose_flag --target"
     declare -r test_cmd
 
-    [[ $stats == 1 ]] && ccache -z
+    if [[ $stats == 1 ]]; then
+        ccache -z
+    fi
     $make_cmd all
     if ((testing)); then
-        source_if_exists "$build_dir"/activate_run.sh
+        source_if_exists "$conan_dir"/activate_run.sh
         if ((memcheck)); then
             $test_cmd ExperimentalMemCheck
         else
             $test_cmd ExperimentalTest \
-                "$([[ $check == 'lint' ]] && echo '-L lint')"
+                "$(if [[ $check == 'lint' ]]; then
+                    echo '-L lint'
+                fi)"
         fi
-        source_if_exists "$build_dir"/deactivate_run.sh
+        source_if_exists "$conan_dir"/deactivate_run.sh
     fi
-    [[ $coverage ]] && $test_cmd ExperimentalCoverage
-    [[ $doc == 1 ]] && $make_cmd doc
-    [[ $install == 1 ]] && $make_cmd install
-    [[ $stats == 1 ]] && ccache -s
-
-    deactivate
+    if [[ $coverage ]]; then
+        $test_cmd ExperimentalCoverage
+    fi
+    if [[ $doc == 1 ]]; then
+        $make_cmd doc
+    fi
+    if [[ $install == 1 ]]; then
+        $make_cmd install
+    fi
+    if [[ $stats == 1 ]]; then
+        ccache -s
+    fi
 }
 
 if [[ "$0" == "${BASH_SOURCE[0]}" ]]; then

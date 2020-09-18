@@ -8,24 +8,26 @@
 namespace derived {
 namespace {
 
-TEST(Derived, stackDestruction) {
+TEST(Derived, stack_destruction) {
     std::aligned_storage_t<sizeof(Derived)> storage;
-    Base* base = new (&storage) Derived{};
+    Base const* const base = new (&storage) Derived{};
     base->~Base();
 }
 
-TEST(Derived, callVirtualMethod) {
+TEST(Derived, call_virtual_method) {
     auto const derived = std::make_unique<Derived>();
-    EXPECT_NO_FATAL_FAILURE(derived->virtualMethod());
+    EXPECT_NO_FATAL_FAILURE(derived->virtual_method());
 }
 
-TEST(Derived, callProtectedMethod) {
+TEST(Derived, call_protected_method) {
     struct TestDerived : Derived {
-        int publicMethod() { return protectedMethod(); }
+        static std::int32_t public_method() {
+            return protected_method();
+        }
     };
     TestDerived test_derived;
-    EXPECT_NO_FATAL_FAILURE(test_derived.publicMethod());
+    EXPECT_NO_FATAL_FAILURE(test_derived.public_method());
 }
 
-}  // namespace
-}  // namespace derived
+} // namespace
+} // namespace derived

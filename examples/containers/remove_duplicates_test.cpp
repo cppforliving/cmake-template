@@ -1,19 +1,18 @@
 #include "remove_duplicates.hpp"
 
-#include <gmock/gmock.h>
-#include <gtest/gtest.h>
+#include <algorithm>
 #include <deque>
+#include <gtest/gtest.h>
 #include <string>
 #include <vector>
 
-using testing::ElementsAre;
 using testing::Test;
 using testing::Types;
 
 namespace examples {
 namespace {
 
-template <typename T>
+template<typename>
 struct RemoveDuplicatesTest : Test {};
 
 using TestContainers = Types<std::string, std::vector<char>, std::deque<char>>;
@@ -25,8 +24,9 @@ TYPED_TEST(RemoveDuplicatesTest, remove_duplicates) {
 
     remove_duplicates(c);
 
-    EXPECT_THAT(c, ElementsAre('a', 'b', 'd', 'e', 'f'));
+    auto const no_dups = {'a', 'b', 'd', 'e', 'f'};
+    EXPECT_TRUE(std::equal(no_dups.begin(), no_dups.end(), c.begin(), c.end()));
 }
 
-}  // namespace
-}  // namespace examples
+} // namespace
+} // namespace examples

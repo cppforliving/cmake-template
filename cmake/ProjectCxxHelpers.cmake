@@ -118,6 +118,13 @@ function(projname_add_test tgt_name)
       PUBLIC
         ${arg_DEPENDS}
     )
+    if(BUILD_FUZZERS)
+        string(FIND "${tgt_name}" "_fuzzer" _fuzzer REVERSE)
+        if(NOT _fuzzer EQUAL -1)
+            target_compile_options(${tgt_name} PRIVATE -fsanitize=fuzzer,address,undefined)
+            target_link_options(${tgt_name} PRIVATE -fsanitize=fuzzer,address,undefined)
+        endif()
+    endif()
     projname_debug_dynamic_deps(${tgt_name})
     string(REPLACE "${PROJECT_SOURCE_DIR}/" "" test_name
         "${CMAKE_CURRENT_SOURCE_DIR}/${tgt_name}"

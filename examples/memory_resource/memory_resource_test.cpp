@@ -1,5 +1,5 @@
-#include <gtest/gtest.h>
 #include <cassert>
+#include <gtest/gtest.h>
 #include <optional>
 #include <type_traits>
 #include <utility>
@@ -19,43 +19,38 @@ namespace pmr = std::experimental::pmr;
 
 #include <finally/finally.hpp>
 
+using testing::Test;
+
 namespace examples {
 namespace {
 
-using testing::Test;
-
 class LoggingMemoryResource : public pmr::memory_resource {
   public:
-    explicit LoggingMemoryResource(pmr::memory_resource* const resource)
-        : m_resource{resource} {
+    explicit LoggingMemoryResource(pmr::memory_resource* const resource) : m_resource{resource} {
         assert(m_resource);
     }
 
   private:
-    void* do_allocate(std::size_t const bytes,
-                      std::size_t const alignment) override {
+    void* do_allocate(std::size_t const bytes, std::size_t const align) override {
         void* ptr = nullptr;
-        auto const _ = finally([&] {
-            std::cout << "resource " << m_resource << " allocate   " << ptr
-                      << " bytes " << bytes << " alignment " << alignment
-                      << '\n';
+        auto const _ = Finally([&] {
+            std::cout << "resource " << m_resource << " allocate   " << ptr << " bytes " << bytes
+                      << " alignment " << align << '\n';
         });
-        ptr = m_resource->allocate(bytes, alignment);
+        ptr = m_resource->allocate(bytes, align);
         return ptr;
     }
 
-    void do_deallocate(void* const ptr,
-                       std::size_t const bytes,
-                       std::size_t const alignment) override {
-        m_resource->deallocate(ptr, bytes, alignment);
-        std::cout << "resource " << m_resource << " deallocate " << ptr
-                  << " bytes " << bytes << " alignment " << alignment << '\n';
+    void do_deallocate(void* const ptr, std::size_t const bytes, std::size_t const align) override {
+        m_resource->deallocate(ptr, bytes, align);
+        std::cout << "resource " << m_resource << " deallocate " << ptr << " bytes " << bytes
+                  << " alignment " << align << '\n';
     }
 
-    bool do_is_equal(memory_resource const& other) const noexcept override {
+    [[nodiscard]] bool do_is_equal(memory_resource const& other) const noexcept override {
         bool const is_equal = m_resource->is_equal(other);
-        std::cout << "resource " << m_resource << " is "
-                  << (is_equal ? "    " : "not ") << "equal " << &other << '\n';
+        std::cout << "resource " << m_resource << " is " << (is_equal ? "    " : "not ") << "equal "
+                  << &other << '\n';
         return is_equal;
     }
 
@@ -64,19 +59,14 @@ class LoggingMemoryResource : public pmr::memory_resource {
 
 struct Complex {
     using allocator_type = pmr::polymorphic_allocator<std::byte>;
-    explicit Complex(allocator_type const& alloc = allocator_type{}) noexcept
-        : name{alloc} {}
-    explicit Complex(pmr::string const& a_name,
-                     allocator_type const& alloc = allocator_type{})
+    explicit Complex(allocator_type const& alloc = allocator_type{}) noexcept : name{alloc} {}
+    explicit Complex(pmr::string const& a_name, allocator_type const& alloc = allocator_type{})
         : name{a_name, alloc} {}
-    Complex(Complex const& other,
-            allocator_type const& alloc = allocator_type{})
-        : name{alloc} {
+    Complex(Complex const& other, allocator_type const& alloc = allocator_type{}) : name{alloc} {
         name = other.name;
     }
     Complex(Complex&& other) noexcept : name{std::move(other.name)} {}
-    Complex(Complex&& other, allocator_type const& alloc)
-        : name{other.name, alloc} {}
+    Complex(Complex&& other, allocator_type const& alloc) : name{other.name, alloc} {}
     Complex& operator=(Complex&& other) noexcept {
         name = std::move(other.name);
         return *this;
@@ -93,7 +83,7 @@ static_assert(std::is_copy_constructible_v<Complex>);
 static_assert(std::is_copy_assignable_v<Complex>);
 
 struct Producer {
-    pmr::vector<Complex> produce() {
+    [[nodiscard]] pmr::vector<Complex> produce() const {
         return pmr::vector<Complex>{
             3,
             Complex{{1, 'x', resource}, resource},
@@ -103,7 +93,7 @@ struct Producer {
     pmr::memory_resource* const resource;
 };
 
-template <typename F>
+template<typename F>
 bool catch_bad_alloc(F&& f) {
     try {
         std::forward<F>(f)();
@@ -114,8 +104,12 @@ bool catch_bad_alloc(F&& f) {
 }
 
 struct MemoryResourceTest : Test {
-    MemoryResourceTest() { pmr::set_default_resource(&null_memory_resource); }
-    ~MemoryResourceTest() override { pmr::set_default_resource(nullptr); }
+    MemoryResourceTest() {
+        pmr::set_default_resource(&null_memory_resource);
+    }
+    ~MemoryResourceTest() override {
+        pmr::set_default_resource(nullptr);
+    }
 
     LoggingMemoryResource null_memory_resource{pmr::null_memory_resource()};
     LoggingMemoryResource new_delete_resource{pmr::new_delete_resource()};
@@ -124,22 +118,20 @@ struct MemoryResourceTest : Test {
 };
 
 TEST_F(MemoryResourceTest, default_ctor) {
-    EXPECT_FALSE(catch_bad_alloc([] { Complex complex; }));
+    EXPECT_FALSE(catch_bad_alloc([] { Complex const complex; }));
 }
 
 TEST_F(MemoryResourceTest, move_ctor) {
     Complex complex_1;
-    EXPECT_FALSE(
-        catch_bad_alloc([&] { Complex complex_2{std::move(complex_1)}; }));
+    EXPECT_FALSE(catch_bad_alloc([&] { Complex const complex_2{std::move(complex_1)}; }));
 }
 
 TEST_F(MemoryResourceTest, polymorphic_return) {
-    EXPECT_NO_THROW(producer.produce());
+    EXPECT_NO_THROW((void)producer.produce());
 }
 
 TEST_F(MemoryResourceTest, polymorphic_move_constructor) {
-    EXPECT_FALSE(
-        catch_bad_alloc([&] { auto complex_list = producer.produce(); }));
+    EXPECT_FALSE(catch_bad_alloc([&] { auto const complex_list = producer.produce(); }));
 }
 
 TEST_F(MemoryResourceTest, polymorphic_move_assignment) {
@@ -152,5 +144,5 @@ TEST_F(MemoryResourceTest, polymorphic_move_assignment_optional) {
     EXPECT_NO_THROW(complex_list = producer.produce());
 }
 
-}  // namespace
-}  // namespace examples
+} // namespace
+} // namespace examples

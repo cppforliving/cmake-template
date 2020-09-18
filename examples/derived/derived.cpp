@@ -4,18 +4,18 @@ namespace derived {
 
 Base::~Base() = default;
 
-int Base::protectedMember{13};
+std::atomic_int32_t Base::PROTECTED_MEMBER{13};
 
-int Base::protectedMethod() {
-    return ++protectedMember + privateMethod();
+std::int32_t Base::protected_method() {
+    return PROTECTED_MEMBER.fetch_add(1, std::memory_order_acq_rel) + private_method();
 }
 
-int const Base::privateMember;
+std::int32_t const Base::PRIVATE_MEMBER;
 
-int Base::privateMethod() {
-    return privateMember;
+std::int32_t Base::private_method() {
+    return PRIVATE_MEMBER;
 }
 
-void Derived::virtualMethod() {}
+void Derived::virtual_method() {}
 
-}  // namespace derived
+} // namespace derived

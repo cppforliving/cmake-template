@@ -1,34 +1,7 @@
 include_guard(DIRECTORY)
 
 include(GNUInstallDirs)
-include(CMakePrintHelpers)
-
-
-macro(eval)
-    execute_process(COMMAND ${ARGN} RESULT_VARIABLE ret)
-    if(ret)
-        string(REPLACE ";" " " msg "'${ARGN}' failed with error code ${ret}")
-        message(FATAL_ERROR "${msg}")
-    endif()
-endmacro()
-
-
-macro(eval_out output)
-    eval(${ARGN} OUTPUT_STRIP_TRAILING_WHITESPACE OUTPUT_VARIABLE ${output})
-    cmake_print_variables(${output})
-endmacro()
-
-
-macro(projname_parse_arguments prefix options one_value_keywords multi_value_keywords)
-    cmake_parse_arguments("${prefix}" "${options}" "${one_value_keywords}" "${multi_value_keywords}" ${ARGN})
-
-    if(${prefix}_UNPARSED_ARGUMENTS)
-        message(FATAL_ERROR "Found unparsed arguments: ${${prefix}_UNPARSED_ARGUMENTS}")
-    endif()
-    if(${prefix}_KEYWORDS_MISSING_VALUES)
-        message(FATAL_ERROR "Found keywords missing values: ${${prefix}_KEYWORDS_MISSING_VALUES}")
-    endif()
-endmacro()
+include(ScriptUtils)
 
 
 function(projname_install_target tgt_name)
@@ -74,23 +47,25 @@ function(projname_print_target_properties)
         INTERFACE_POSITION_INDEPENDENT_CODE
         INTERFACE_SOURCES
     )
-    set(extra_props
+    set(imported_props
         LOCATION
-        IMPORTED_LOCATION
     )
-    message(STATUS)
     foreach(tgt_name IN LISTS ARGN)
+        if(NOT TARGET ${tgt_name})
+            continue()
+        endif()
         foreach(prop IN LISTS props)
             get_target_property(prop_value ${tgt_name} ${prop})
-            if(prop_value)
+            if(NOT prop_value MATCHES "-NOTFOUND$")
                 message(STATUS "  ${tgt_name}.${prop} = ${prop_value}")
             endif()
         endforeach()
+        get_target_property(tgt_imported ${tgt_name} IMPORTED)
         get_target_property(tgt_type ${tgt_name} TYPE)
-        if(NOT tgt_type STREQUAL "INTERFACE_LIBRARY")
-            foreach(prop IN LISTS extra_props)
+        if(tgt_imported AND NOT tgt_type STREQUAL "INTERFACE_LIBRARY")
+            foreach(prop IN LISTS imported_props)
                 get_target_property(prop_value ${tgt_name} ${prop})
-                if(prop_value)
+                if(NOT prop_value MATCHES "-NOTFOUND$")
                     message(STATUS "  ${tgt_name}.${prop} = ${prop_value}")
                 endif()
             endforeach()
@@ -141,8 +116,10 @@ function(projname_add_test_labels test_name)
             set_property(TEST ${test_name} APPEND PROPERTY LABELS "${test_level}")
         elseif(test_name MATCHES "_benchmark$")
             set_property(TEST ${test_name} APPEND PROPERTY LABELS benchmark)
+        elseif(test_name MATCHES "_fuzzer$")
+            set_property(TEST ${test_name} APPEND PROPERTY LABELS fuzzer)
         else()
-            message(FATAL_ERROR "${test_name} name has to end with '_(test|benchmark)'")
+            message(FATAL_ERROR "${test_name} name has to end with '_(test|benchmark|fuzzer)'")
         endif()
     elseif(arg_PYTEST AND test_name MATCHES "/test_[a-z0-9_]*\\.py$")
         set_property(TEST ${test_name} APPEND PROPERTY LABELS "${test_level}")
@@ -180,7 +157,7 @@ function(projname_add_test_environent test_name)
                 string(APPEND sanitizer_name _standalone)
             endif()
             set_property(TEST ${test_name}
-                APPEND PROPERTY ENVIRONMENT "UBSAN_OPTIONS=halt_on_error=1:$ENV{UBSAN_OPTIONS}")
+                APPEND PROPERTY ENVIRONMENT "UBSAN_OPTIONS=halt_on_error=1:suppressions=${PROJECT_SOURCE_DIR}/external/tbb/ubsan.supp:$ENV{UBSAN_OPTIONS}")
         endif()
 
         if(arg_SANITIZER_PRELOAD_RUNTIME)

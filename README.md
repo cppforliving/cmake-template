@@ -5,6 +5,25 @@
 [![codecov](https://codecov.io/gh/cppforliving/cmake-template/branch/master/graph/badge.svg)](https://codecov.io/gh/cppforliving/cmake-template)
 [![License](https://img.shields.io/github/license/cppforliving/cmake-template.svg)](./LICENSE)
 
+## How to prepare environment
+
+First time
+
+```sh
+python3 -m virtualenv venv
+source venv/bin/activate
+pip install -r requirements-dev.txt
+deactivate
+```
+
+Next time
+
+```sh
+source venv/bin/activate
+# configure, build, test, repeat
+deactivate
+```
+
 ## How to build and test
 
 Linux workflow
@@ -20,13 +39,12 @@ ctest -V
 ## Project structure
 
 - [cmake](./cmake) - `CMake` modules
-- [conan](./conan) - `Conan` profiles
-- [data](./data) - various data files
 - [docs](./docs) - documentation
+- [examples](./examples) - code examples
 - [external](./external) - dependencies
+- [scripts](./scripts) - scripts and tools
 - [src](./src) - sources and unit tests
 - [tests](./tests) - integration tests
-- [tools](./tools) - scripts and tools
 
 ## Requirements
 
@@ -49,6 +67,7 @@ ctest -V
 
 ## Supported compilers
 
-- Clang
-- GCC
-- MSVC
+- GCC 8
+- Clang 7
+- MSVC 19.20
+- Apple Clang 10.0.1

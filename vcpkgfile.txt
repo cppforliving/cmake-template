@@ -1,6 +1,0 @@
-asio
-benchmark
-catch2
-doctest
-gtest
-pybind11

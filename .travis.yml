@@ -27,65 +27,65 @@ jobs:
       os: windows
       compiler: cl
       install:
-        - choco install python --version 3.7.0
-        - export PATH=/c/Python37:/c/Python37/Scripts:$PATH
-        - export PATH=$HOME/AppData/Roaming/Python/Python37/Scripts:$PATH
-        - python -m pip install --user -U conan -r requirements-test.txt
+        - choco install python --version 3.8.5
+        - export PATH=/c/Python38:/c/Python38/Scripts:$PATH
+        - export PATH=$HOME/AppData/Roaming/Python/Python38/Scripts:$PATH
+        - python -m pip install --user -U conan -r requirements-dev.txt
         - conan config set general.user_home_short=None
       env:
         - MATRIX_EVAL="CC=cl && CXX=cl"
-        - CMAKE_GENERATOR='Visual Studio 15 2017'
-        - PYTHON_VERSION=3
+        - CMAKE_GENERATOR='Visual Studio 16 2019'
+        - PYTHON_VERSION=3.8
 
   include:
     - stage: test
       name: osx-clang
       os: osx
       compiler: clang
-      osx_image: xcode10.3
+      osx_image: xcode11.6 # xcode12 not supported by conan yet
       install:
-        - export PATH=$HOME/Library/Python/3.7/bin:$PATH
-        - python3 -m pip install --user -U conan -r requirements-test.txt
+        - export PATH=$HOME/Library/Python/3.8/bin:$PATH
+        - python3 -m pip install --user -U conan -r requirements-dev.txt
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
         - CMAKE_GENERATOR='Xcode'
-        - PYTHON_VERSION=3
+        - PYTHON_VERSION=3.8
 
     - &linux_gcc
       stage: test
       name: linux-gcc
       os: linux
       compiler: gcc
-      dist: bionic
+      dist: focal
       addons:
         apt:
           packages:
-            - g++-8
+            - g++-10
             - valgrind
       install:
-        - sudo update-alternatives
-            --install /usr/bin/gcov gcov /usr/bin/gcov-8 80
-        - python2 -m pip install --user -U conan -r requirements-test.txt
+        - python3 -m pip install --user -U conan -r requirements-dev.txt
       env:
-        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
+        - MATRIX_EVAL="CC=gcc-10 && CXX=g++-10"
         - CMAKE_GENERATOR='Unix Makefiles'
-        - PYTHON_VERSION=2
+        - PYTHON_VERSION=3.8
 
     - &linux_clang
       stage: test
       name: linux-clang
       os: linux
       compiler: clang
-      dist: bionic
+      dist: focal
+      addons:
+        apt:
+          packages:
+            - clang-10
+            - clang-tidy-10
       install:
-        - export PATH=/usr/local/clang-7.0.0/bin:$PATH
-        - export LD_LIBRARY_PATH=/usr/local/clang-7.0.0/lib:$LD_LIBRARY_PATH
-        - python2 -m pip install --user -U conan -r requirements-test.txt
-          -r requirements-lint.txt
+        - python3 -m pip install --user -U conan -r requirements-dev.txt
       env:
-        - MATRIX_EVAL="CC=clang && CXX=clang++"
+        - MATRIX_EVAL="CC=clang-10 && CXX=clang++-10 && FUZZER_TIMEOUT=5"
         - CMAKE_GENERATOR='Ninja'
-        - PYTHON_VERSION=2
+        - PYTHON_VERSION=3.8
 
     - <<: *linux_clang
       stage: check
@@ -100,10 +100,11 @@ jobs:
           cmake
             -B build
             -D CMAKE_BUILD_TYPE=Debug
-            -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
+            -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
             -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
             -D BUILD_TESTING=ON
             -D BUILD_BENCHMARKS=ON
+            -D BUILD_FUZZERS=${FUZZER_TIMEOUT}
             -D BUILD_EXAMPLES=ON
             -D projname_check=tidy &&
           cmake --build build --verbose --config Debug
@@ -121,10 +122,11 @@ jobs:
           cmake
             -B build
             -D CMAKE_BUILD_TYPE=Debug
-            -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
+            -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
             -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
             -D BUILD_TESTING=ON
             -D BUILD_BENCHMARKS=ON
+            -D BUILD_FUZZERS=${FUZZER_TIMEOUT}
             -D BUILD_EXAMPLES=ON
             -D projname_check=lint &&
           cmake --build build --verbose --config Debug &&
@@ -143,7 +145,7 @@ jobs:
           cmake
             -B build
             -D CMAKE_BUILD_TYPE=Debug
-            -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
+            -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
             -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
             -D BUILD_TESTING=ON
             -D BUILD_EXAMPLES=ON
@@ -167,7 +169,7 @@ jobs:
           cmake
             -B build
             -D CMAKE_BUILD_TYPE=Debug
-            -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
+            -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
             -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
             -D BUILD_TESTING=ON
             -D BUILD_BENCHMARKS=ON
@@ -190,7 +192,7 @@ jobs:
           cmake
             -B build
             -D CMAKE_BUILD_TYPE=Debug
-            -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
+            -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
             -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
             -D BUILD_TESTING=ON
             -D BUILD_BENCHMARKS=ON
@@ -213,7 +215,7 @@ jobs:
           cmake
             -B build
             -D CMAKE_BUILD_TYPE=Debug
-            -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
+            -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
             -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
             -D BUILD_TESTING=ON
             -D BUILD_BENCHMARKS=ON
@@ -241,16 +243,17 @@ script:
     cmake
       -B build
       -D CMAKE_BUILD_TYPE=Release
-      -D CMAKE_TOOLCHAIN_FILE=build/conan_paths.cmake
+      -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
       -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
       -D BUILD_TESTING=ON
       -D BUILD_BENCHMARKS=ON
+      -D BUILD_FUZZERS=${FUZZER_TIMEOUT}
       -D BUILD_EXAMPLES=ON
       -D debug_dynamic_deps=ON &&
     cmake --build build --verbose --config Release &&
-    if [[ $TRAVIS_OS_NAME == osx ]]; then source build/activate_run.sh; fi &&
+    if [[ $TRAVIS_OS_NAME == osx ]]; then . build/conan/activate_run.sh; fi &&
     cmake -E chdir build ctest -V -C Release &&
-    if [[ $TRAVIS_OS_NAME == osx ]]; then source build/deactivate_run.sh; fi &&
+    if [[ $TRAVIS_OS_NAME == osx ]]; then . build/conan/deactivate_run.sh; fi &&
     cmake --install build --verbose --config Release
 
 after_script:

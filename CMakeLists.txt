@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.18)
 
 include(CMakePrintHelpers)
 
@@ -15,13 +15,17 @@ option(CMAKE_EXPORT_COMPILE_COMMANDS
 
 project(projname
     VERSION 0.1.0
-    DESCRIPTION "C++ x GTest/Catch2 x GCC/Clang/MSVC x CMake x Conan/Vcpkg x Linux/macOS/Windows"
+    DESCRIPTION "C++ x GTest/Catch2/Doctest x GCC/Clang/MSVC x CMake x Conan/Vcpkg x Linux/macOS/Windows"
     LANGUAGES CXX)
 
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
     set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/dist" CACHE PATH
         "Install path prefix, prepended onto install directories." FORCE)
 endif()
+
+option(BUILD_TESTING "Build tests flag." OFF)
+option(BUILD_EXAMPLES "Build examples flag." OFF)
+option(BUILD_DOCS "Build documentation flag." OFF)
 
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
@@ -44,7 +48,22 @@ include(Diagnostics)
 include(Warnings)
 include(ProjectUtils)
 
+if(NOT CMAKE_CXX_COMPILER_LAUNCHER AND UNIX AND NOT APPLE)
+    find_program(ccache_command ccache)
+    if(ccache_command)
+        set(CMAKE_CXX_COMPILER_LAUNCHER "${ccache_command}")
+        cmake_print_variables(CMAKE_CXX_COMPILER_LAUNCHER)
+    endif()
+endif()
+
+set(PythonLibsNew_FIND_VERSION ${PYBIND11_PYTHON_VERSION})
 find_package(pybind11 REQUIRED)
+if(NOT TARGET pybind11::module)
+    add_library(pybind11::module INTERFACE IMPORTED)
+    set_target_properties(pybind11::module
+      PROPERTIES INTERFACE_LINK_LIBRARIES pybind11::pybind11
+    )
+endif()
 projname_print_target_properties(pybind11::pybind11 pybind11::module pybind11::embed)
 add_subdirectory(external)
 
@@ -60,11 +79,5 @@ add_subdirectory(src)
 include(ProjectConfig)
 
 add_subdirectory(tests)
-
-if(BUILD_EXAMPLES)
-    add_subdirectory(examples)
-endif()
-
-if(BUILD_DOCS)
-    add_subdirectory(docs)
-endif()
+add_subdirectory(examples)
+add_subdirectory(docs)

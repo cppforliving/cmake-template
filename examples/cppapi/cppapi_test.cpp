@@ -1,27 +1,23 @@
 #include "cppapi.hpp"
 
-#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <memory>
-
-using testing::Eq;
 
 namespace cppapi {
 namespace {
 
 TEST(cppapi, all) {
-    auto const x = newInt123();
-    EXPECT_THAT(*x, Eq(123));
-    delete x;
+    auto const x = new_int_123();
+    EXPECT_EQ(*x, 123);
 }
 
-TEST(cppapi, getValue) {
-    EXPECT_THAT(detail::get123(), Eq(123));
+TEST(cppapi, get_value) {
+    EXPECT_EQ(detail::get_123(), 123);
 }
 
-TEST(cppapi, deleteMemory) {
-    delete detail::newInt();
+TEST(cppapi, delete_memory) {
+    detail::new_int();
 }
 
-}  // namespace
-}  // namespace cppapi
+} // namespace
+} // namespace cppapi

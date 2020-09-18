@@ -1,0 +1,10 @@
+projname_add_test(parallel_test
+  SOURCES
+    parallel_test.cpp
+  DEPENDS
+    TBB::tbb
+    containers
+    gtest_main
+  EXTRA_ARGS
+    --gtest_color=yes
+)

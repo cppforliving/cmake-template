@@ -1,8 +1,12 @@
+if(NOT BUILD_DOCS)
+    return()
+endif()
+
 include(GNUInstallDirs)
 
-find_package(Doxygen MODULE COMPONENTS doxygen dot)
+find_package(Doxygen COMPONENTS doxygen dot)
 if(DOXYGEN_FOUND)
-    find_package(Java MODULE COMPONENTS Runtime)
+    find_package(Java COMPONENTS Runtime)
     if(Java_Runtime_FOUND)
         if(NOT PLANTUML_JAR)
             include(UseJava)

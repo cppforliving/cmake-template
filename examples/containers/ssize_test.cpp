@@ -1,7 +1,7 @@
 #include "ssize.hpp"
 
-#include <gtest/gtest.h>
 #include <array>
+#include <gtest/gtest.h>
 #include <map>
 #include <string>
 #include <vector>
@@ -12,24 +12,25 @@ using testing::Types;
 namespace examples {
 namespace {
 
-template <typename T>
+template<typename T>
 struct SsizeTest : Test {};
 
-using TestContainers = Types<std::string,
-                             std::vector<char>,
-                             std::map<char, int>,
-                             std::array<char, 8>,
-                             char[8]>;
+using TestContainers = Types<
+    std::string,
+    std::vector<char>,
+    std::map<char, std::int32_t>,
+    std::array<char, 8>,
+    char[8]>;
 
 TYPED_TEST_SUITE(SsizeTest, TestContainers);
 
-TYPED_TEST(SsizeTest, getContainerSsize) {
+TYPED_TEST(SsizeTest, get_container_ssize) {
     TypeParam c = {};
 
-    auto const s = examples::ssize(c);  // MSVC error C2668
+    auto const s = examples::ssize(c); // MSVC error C2668
 
     EXPECT_GE(s, 0);
 }
 
-}  // namespace
-}  // namespace examples
+} // namespace
+} // namespace examples

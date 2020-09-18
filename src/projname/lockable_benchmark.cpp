@@ -16,5 +16,5 @@ void LockableLockUnlock(benchmark::State& state) {
 }
 BENCHMARK(LockableLockUnlock);
 
-}  // namespace
-}  // namespace projname
+} // namespace
+} // namespace projname

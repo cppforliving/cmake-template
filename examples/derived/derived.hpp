@@ -1,32 +1,32 @@
 #ifndef DERIVED_DERIVED_HPP
 #define DERIVED_DERIVED_HPP
 
+#include <atomic>
+#include <cstdint>
+
 #include <derived/export.h>
 
-/// @startuml
-/// Base <|-- Derived
-/// @enduml
 namespace derived {
 
 class DERIVED_EXPORT Base {
   public:
     virtual ~Base();
-    virtual void virtualMethod() = 0;
+    virtual void virtual_method() = 0;
 
   protected:
-    int protectedMethod();
-    static int protectedMember;
+    [[nodiscard]] static std::int32_t protected_method();
+    static std::atomic_int32_t PROTECTED_MEMBER;
 
   private:
-    DERIVED_NO_EXPORT int privateMethod();
-    DERIVED_NO_EXPORT static int const privateMember{42};
+    [[nodiscard]] DERIVED_NO_EXPORT static std::int32_t private_method();
+    DERIVED_NO_EXPORT static std::int32_t const PRIVATE_MEMBER{42};
 };
 
 class DERIVED_EXPORT Derived : public Base {
   public:
-    void virtualMethod() override;
+    void virtual_method() override;
 };
 
-}  // namespace derived
+} // namespace derived
 
-#endif  // DERIVED_DERIVED_HPP
+#endif // DERIVED_DERIVED_HPP

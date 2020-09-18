@@ -31,11 +31,11 @@ matrix:
       PATH: C:\Python37;C:\Python37\Scripts;%PATH%
 
 cache:
-  - '%VCPKG_ROOT%\installed -> vcpkgfile.txt'
+  - build\vcpkg_installed -> vcpkg.json
   - '%LOCALAPPDATA%\pip\Cache -> requirements*.txt'
 
 install:
-  - python -m pip install -U -r requirements-test.txt
+  - python -m pip install -U -r requirements-dev.txt
   - if "%PLATFORM%"=="x86" (
       set "CMAKE_GENERATOR_PLATFORM=Win32"
     ) else if "%PLATFORM%"=="x64" (
@@ -52,6 +52,10 @@ install:
   - cmake -E environment
 
 build_script:
+  - cd %VCPKG_ROOT%
+  - git pull origin master
+  - .\bootstrap-vcpkg.bat
+  - cd %APPVEYOR_BUILD_FOLDER%
   - cmake --warn-uninitialized
       -D package_manager=vcpkg
       -D build_type=%CONFIGURATION%

@@ -6,6 +6,8 @@ projname_add_library(projname
   DEPENDS
     Threads::Threads
     asio::asio
+    span-lite::span-lite
+    spdlog::spdlog
 )
 
 projname_add_executable(projname_tool
@@ -40,5 +42,17 @@ if(BUILD_BENCHMARKS)
       DEPENDS
         projname
         benchmark_main
+    )
+endif()
+
+if(BUILD_FUZZERS)
+    projname_add_test(projname_fuzzer
+      SOURCES
+        projname_fuzzer.cpp
+      DEPENDS
+        projname
+        span-lite::span-lite
+      EXTRA_ARGS
+        -max_total_time=${BUILD_FUZZERS}
     )
 endif()

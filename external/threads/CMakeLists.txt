@@ -1,5 +1,5 @@
 option(THREADS_PREFER_PTHREAD_FLAG "Prefer use of the -pthread flag" ON)
-find_package(Threads MODULE REQUIRED)
+find_package(Threads REQUIRED)
 projname_print_target_properties(Threads::Threads)
 set_property(TARGET
     Threads::Threads
