@@ -97,10 +97,10 @@ template<typename F>
 bool catch_bad_alloc(F&& f) {
     try {
         std::forward<F>(f)();
-        return false;
     } catch (std::bad_alloc const&) {
         return true;
     }
+    return false;
 }
 
 struct MemoryResourceTest : Test {
