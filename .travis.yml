@@ -60,11 +60,12 @@ jobs:
       addons:
         apt:
           packages:
+            - g++-10
             - valgrind
       install:
         - python3 -m pip install --user -U conan -r requirements-dev.txt
       env:
-        - MATRIX_EVAL="CC=gcc && CXX=g++"
+        - MATRIX_EVAL="CC=gcc-10 && CXX=g++-10"
         - CMAKE_GENERATOR='Unix Makefiles'
         - PYTHON_VERSION=3.8
 
