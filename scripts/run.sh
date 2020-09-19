@@ -117,7 +117,6 @@ run_main() {
         -D BUILD_TESTING="$testing" \
         -D projname_fuzzers="$fuzzer" \
         -D projname_examples="$examples" \
-        -D projname_docs="$doc" \
         -D CMAKE_BUILD_TYPE="$build_type" \
         -D CMAKE_TOOLCHAIN_FILE="$cmake_toolchain" \
         -D PYBIND11_PYTHON_VERSION="$python_version" \

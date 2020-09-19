@@ -109,6 +109,7 @@ RECURSIVE              = YES
 EXCLUDE                =
 EXCLUDE_SYMLINKS       = NO
 EXCLUDE_PATTERNS       = */CMakeFiles/* \
+                         */vcpkg_installed/* \
                          */venv/* \
                          DartConfiguration.tcl
 EXCLUDE_SYMBOLS        = detail \
