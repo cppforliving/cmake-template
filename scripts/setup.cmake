@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.18)
 
 get_property(cmake_role GLOBAL PROPERTY CMAKE_ROLE)
 if(NOT cmake_role STREQUAL "SCRIPT")
