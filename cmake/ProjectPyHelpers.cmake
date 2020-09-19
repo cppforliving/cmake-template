@@ -4,7 +4,11 @@ include(ProjectUtils)
 
 
 function(projname_add_pymodule tgt_name)
-    projname_parse_arguments(arg "MODULE" "" "SOURCES;DEPENDS" ${ARGN})  # TODO SHARED
+    projname_parse_arguments(arg "MODULE;TESTONLY" "" "SOURCES;DEPENDS" ${ARGN})  # TODO SHARED
+
+    if(arg_TESTONLY AND NOT BUILD_TESTING)
+        return()
+    endif()
 
 #    if(arg_SHARED)
 #        list(APPEND arg_UNPARSED_ARGUMENTS SHARED)
