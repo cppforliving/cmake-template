@@ -91,8 +91,7 @@ jobs:
       stage: check
       name: linux-clang-tidy
       script:
-        - >-
-          cmake --warn-uninitialized
+        - cmake --warn-uninitialized
             -D package_manager=conan
             -D build_type=Debug
             -D build_dir=build
@@ -113,8 +112,7 @@ jobs:
       stage: check
       name: linux-clang-lint
       script:
-        - >-
-          cmake --warn-uninitialized
+        - cmake --warn-uninitialized
             -D package_manager=conan
             -D build_type=Debug
             -D build_dir=build
@@ -136,8 +134,7 @@ jobs:
       stage: check
       name: linux-gcc-coverage
       script:
-        - >-
-          cmake --warn-uninitialized
+        - cmake --warn-uninitialized
             -D package_manager=conan
             -D build_type=Debug
             -D build_dir=build
@@ -161,8 +158,7 @@ jobs:
       stage: check
       name: linux-gcc-asan
       script:
-        - >-
-          cmake --warn-uninitialized
+        - cmake --warn-uninitialized
             -D package_manager=conan
             -D build_type=Debug
             -D build_dir=build
@@ -184,8 +180,7 @@ jobs:
       stage: check
       name: linux-clang-ubsan
       script:
-        - >-
-          cmake --warn-uninitialized
+        - cmake --warn-uninitialized
             -D package_manager=conan
             -D build_type=Debug
             -D build_dir=build
@@ -207,8 +202,7 @@ jobs:
       stage: check
       name: linux-gcc-memcheck
       script:
-        - >-
-          cmake --warn-uninitialized
+        - cmake --warn-uninitialized
             -D package_manager=conan
             -D build_type=Debug
             -D build_dir=build
@@ -235,8 +229,7 @@ before_script:
   - cmake -E environment
 
 script:
-  - >-
-    cmake --warn-uninitialized
+  - cmake --warn-uninitialized
       -D package_manager=conan
       -D build_type=Release
       -D build_dir=build
