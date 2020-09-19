@@ -73,8 +73,6 @@ test_script:
 artifacts:
   - path: build\**\*.log
     name: logs
-  - path: build\**\*.xml
-    name: test_results
   - path: build\**\CMakeCache.txt
     name: cmake_cache
 
