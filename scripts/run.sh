@@ -10,19 +10,19 @@ source_if_exists() {
 }
 
 run_main() {
-    declare conan_config=Release
-    declare cmake_config=Release
+    declare build_type=Debug
+    declare -r build_dir="$PWD"/build
+    declare -r conan_dir="$build_dir"/conan
     declare -i cmake_shared=1
     declare valgrind=memcheck
 
     declare check=
     declare -i clean=
     declare cmake_toolchain=
-    declare conan_update=
     declare coverage=
     declare -i doc=
     declare -i examples=
-    declare -i fuzzer=0
+    declare -i fuzzer=
     declare -i install=
     declare -i memcheck=
     declare package_manager=
@@ -32,16 +32,18 @@ run_main() {
     declare -i stats=
     declare -i testing=
     declare -i benchmark=
-    declare -i vcpkg_upgrade=
+    declare -i update=
 
     declare opt
     for opt in "$@"; do
         case $opt in
         Conan)
             declare -r package_manager=conan
+            declare -r cmake_toolchain=$conan_dir/conan_paths.cmake
             ;;
         Vcpkg)
             declare -r package_manager=vcpkg
+            declare -r cmake_toolchain=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake
             ;;
         Clean)
             declare -r clean=1
@@ -52,13 +54,8 @@ run_main() {
         Shared)
             declare -r cmake_shared=1
             ;;
-        Debug)
-            declare -r conan_config=Debug
-            declare -r cmake_config=$opt
-            ;;
-        Release | MinSizeRel | RelWithDebInfo)
-            declare -r conan_config=Release
-            declare -r cmake_config=$opt
+        Debug | Release)
+            declare -r build_type=$opt
             ;;
         Test)
             declare -r testing=1
@@ -100,9 +97,8 @@ run_main() {
         Rpaths)
             declare -r rpaths=1
             ;;
-        Upgrade)
-            declare -r conan_update=-u
-            declare -r vcpkg_upgrade=1
+        Update)
+            declare -r update=1
             ;;
         *)
             echo >&2 "unknown option '$opt'"
@@ -111,53 +107,30 @@ run_main() {
         esac
     done
 
-    declare -r build_dir="$PWD"/build
-    if [[ $clean == 1 && -d $build_dir ]]; then
-        rm -r "$build_dir"
-    fi
-    mkdir -p "$build_dir"
-
-    declare -r conan_dir="$build_dir"/conan
-    case $package_manager in
-    conan)
-        mkdir -p "$conan_dir"
-        declare -r cmake_toolchain=$conan_dir/conan_paths.cmake
-        conan profile new "$conan_dir"/conanprofile.txt --detect --force
-        conan profile update settings.compiler.cppstd=20 \
-            "$conan_dir"/conanprofile.txt
-        conan profile update settings.compiler.libcxx=libstdc++11 \
-            "$conan_dir"/conanprofile.txt
-        conan install . $conan_update \
-            -if "$conan_dir" \
-            -s build_type="$conan_config" \
-            -pr "$conan_dir"/conanprofile.txt \
-            -b outdated
-        ;;
-    vcpkg)
-        declare -r cmake_toolchain=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake
-        "$VCPKG_ROOT"/vcpkg version
-        if ((vcpkg_upgrade)); then
-            "$VCPKG_ROOT"/vcpkg update
-        fi
-        ;;
-    esac
+    cmake --warn-uninitialized \
+        -D package_manager="$package_manager" \
+        -D build_type="$build_type" \
+        -D build_dir="$build_dir" \
+        -D update="$update" \
+        -D clean="$clean" \
+        -P scripts/setup.cmake
 
     cmake \
-        -B"$build_dir" \
-        -DBUILD_SHARED_LIBS="$cmake_shared" \
-        -DBUILD_TESTING="$testing" \
-        -DBUILD_BENCHMARKS="$benchmark" \
-        -DBUILD_FUZZERS="$fuzzer" \
-        -DBUILD_EXAMPLES="$examples" \
-        -DBUILD_DOCS="$doc" \
-        -DCMAKE_BUILD_TYPE="$cmake_config" \
-        -DCMAKE_TOOLCHAIN_FILE="$cmake_toolchain" \
-        -DPYBIND11_PYTHON_VERSION="$python_version" \
-        -Ddebug_dynamic_deps="$rpaths" \
-        -Dprojname_coverage="$coverage" \
-        -Dprojname_valgrind="$valgrind" \
-        -Dprojname_sanitizer="$sanitizer" \
-        -Dprojname_check="$check"
+        -B "$build_dir" \
+        -D BUILD_SHARED_LIBS="$cmake_shared" \
+        -D BUILD_TESTING="$testing" \
+        -D BUILD_BENCHMARKS="$benchmark" \
+        -D BUILD_FUZZERS="$fuzzer" \
+        -D BUILD_EXAMPLES="$examples" \
+        -D BUILD_DOCS="$doc" \
+        -D CMAKE_BUILD_TYPE="$build_type" \
+        -D CMAKE_TOOLCHAIN_FILE="$cmake_toolchain" \
+        -D PYBIND11_PYTHON_VERSION="$python_version" \
+        -D debug_dynamic_deps="$rpaths" \
+        -D projname_coverage="$coverage" \
+        -D projname_valgrind="$valgrind" \
+        -D projname_sanitizer="$sanitizer" \
+        -D projname_check="$check"
 
     declare verbose_flag=
     if [[ -v VERBOSE ]]; then
@@ -180,7 +153,7 @@ run_main() {
         $verbose_flag --target"
     declare -r test_cmd
 
-    if [[ $stats == 1 ]]; then
+    if ((stats)); then
         ccache -z
     fi
     $make_cmd all
@@ -199,13 +172,13 @@ run_main() {
     if [[ $coverage ]]; then
         $test_cmd ExperimentalCoverage
     fi
-    if [[ $doc == 1 ]]; then
+    if ((doc)); then
         $make_cmd doc
     fi
-    if [[ $install == 1 ]]; then
+    if ((install)); then
         $make_cmd install
     fi
-    if [[ $stats == 1 ]]; then
+    if ((stats)); then
         ccache -s
     fi
 }
