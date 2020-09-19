@@ -65,7 +65,7 @@ if(NOT TARGET pybind11::module)
     )
 endif()
 projname_print_target_properties(pybind11::pybind11 pybind11::module pybind11::embed)
-add_subdirectory(external)
+add_subdirectory(external EXCLUDE_FROM_ALL)
 
 include(Valgrind)
 include(StaticChecks)
