@@ -35,7 +35,7 @@ projname_add_test(projname_test
     --gtest_color=yes
 )
 
-if(BUILD_BENCHMARKS)
+if(projname_benchmarks)
     projname_add_test(projname_benchmark
       SOURCES
         lockable_benchmark.cpp
@@ -45,7 +45,7 @@ if(BUILD_BENCHMARKS)
     )
 endif()
 
-if(BUILD_FUZZERS)
+if(projname_fuzzers)
     projname_add_test(projname_fuzzer
       SOURCES
         projname_fuzzer.cpp
@@ -53,6 +53,6 @@ if(BUILD_FUZZERS)
         projname
         span-lite::span-lite
       EXTRA_ARGS
-        -max_total_time=${BUILD_FUZZERS}
+        -max_total_time=${projname_fuzzers}
     )
 endif()

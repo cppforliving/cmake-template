@@ -12,6 +12,6 @@ if(BUILD_TESTING)
     add_subdirectory(gtest)
 endif()
 
-if(BUILD_BENCHMARKS)
+if(projname_benchmarks)
     add_subdirectory(benchmark)
 endif()

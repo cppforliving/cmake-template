@@ -118,7 +118,7 @@ function(projname_add_test tgt_name)
       PUBLIC
         ${arg_DEPENDS}
     )
-    if(BUILD_FUZZERS)
+    if(projname_fuzzers)
         string(FIND "${tgt_name}" "_fuzzer" _fuzzer REVERSE)
         if(NOT _fuzzer EQUAL -1)
             target_compile_options(${tgt_name} PRIVATE -fsanitize=fuzzer,address,undefined)

@@ -24,8 +24,8 @@ if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 endif()
 
 option(BUILD_TESTING "Build tests flag." OFF)
-option(BUILD_EXAMPLES "Build examples flag." OFF)
-option(BUILD_DOCS "Build documentation flag." OFF)
+option(projname_examples "Build examples flag." OFF)
+option(projname_docs "Build documentation flag." OFF)
 
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 

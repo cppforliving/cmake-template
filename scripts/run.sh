@@ -119,14 +119,14 @@ run_main() {
         -B "$build_dir" \
         -D BUILD_SHARED_LIBS="$cmake_shared" \
         -D BUILD_TESTING="$testing" \
-        -D BUILD_BENCHMARKS="$benchmark" \
-        -D BUILD_FUZZERS="$fuzzer" \
-        -D BUILD_EXAMPLES="$examples" \
-        -D BUILD_DOCS="$doc" \
+        -D projname_benchmarks="$benchmark" \
+        -D projname_fuzzers="$fuzzer" \
+        -D projname_examples="$examples" \
+        -D projname_docs="$doc" \
         -D CMAKE_BUILD_TYPE="$build_type" \
         -D CMAKE_TOOLCHAIN_FILE="$cmake_toolchain" \
         -D PYBIND11_PYTHON_VERSION="$python_version" \
-        -D debug_dynamic_deps="$rpaths" \
+        -D projname_debug_dynamic_deps="$rpaths" \
         -D projname_coverage="$coverage" \
         -D projname_valgrind="$valgrind" \
         -D projname_sanitizer="$sanitizer" \

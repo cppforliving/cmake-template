@@ -91,7 +91,8 @@ jobs:
       stage: check
       name: linux-clang-tidy
       script:
-        - cmake --warn-uninitialized
+        - >-
+          cmake --warn-uninitialized
             -D package_manager=conan
             -D build_type=Debug
             -D build_dir=build
@@ -103,9 +104,9 @@ jobs:
             -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
             -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
             -D BUILD_TESTING=ON
-            -D BUILD_BENCHMARKS=ON
-            -D BUILD_FUZZERS=${FUZZER_TIMEOUT}
-            -D BUILD_EXAMPLES=ON
+            -D projname_benchmarks=ON
+            -D projname_fuzzers=${FUZZER_TIMEOUT}
+            -D projname_examples=ON
             -D projname_check=tidy &&
           cmake --build build --verbose --config Debug
 
@@ -113,7 +114,8 @@ jobs:
       stage: check
       name: linux-clang-lint
       script:
-        - cmake --warn-uninitialized
+        - >-
+          cmake --warn-uninitialized
             -D package_manager=conan
             -D build_type=Debug
             -D build_dir=build
@@ -125,9 +127,9 @@ jobs:
             -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
             -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
             -D BUILD_TESTING=ON
-            -D BUILD_BENCHMARKS=ON
-            -D BUILD_FUZZERS=${FUZZER_TIMEOUT}
-            -D BUILD_EXAMPLES=ON
+            -D projname_benchmarks=ON
+            -D projname_fuzzers=${FUZZER_TIMEOUT}
+            -D projname_examples=ON
             -D projname_check=lint &&
           cmake --build build --verbose --config Debug &&
           cmake -E chdir build ctest -V -C Debug -D ExperimentalTest -L lint
@@ -136,7 +138,8 @@ jobs:
       stage: check
       name: linux-gcc-coverage
       script:
-        - cmake --warn-uninitialized
+        - >-
+          cmake --warn-uninitialized
             -D package_manager=conan
             -D build_type=Debug
             -D build_dir=build
@@ -148,8 +151,8 @@ jobs:
             -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
             -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
             -D BUILD_TESTING=ON
-            -D BUILD_EXAMPLES=ON
-            -D debug_dynamic_deps=ON
+            -D projname_examples=ON
+            -D projname_debug_dynamic_deps=ON
             -D projname_coverage=xml &&
           cmake --build build --verbose --config Debug &&
           cmake -E chdir build ctest -V -C Debug -D ExperimentalTest
@@ -160,7 +163,8 @@ jobs:
       stage: check
       name: linux-gcc-asan
       script:
-        - cmake --warn-uninitialized
+        - >-
+          cmake --warn-uninitialized
             -D package_manager=conan
             -D build_type=Debug
             -D build_dir=build
@@ -172,9 +176,9 @@ jobs:
             -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
             -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
             -D BUILD_TESTING=ON
-            -D BUILD_BENCHMARKS=ON
-            -D BUILD_EXAMPLES=ON
-            -D debug_dynamic_deps=ON
+            -D projname_benchmarks=ON
+            -D projname_examples=ON
+            -D projname_debug_dynamic_deps=ON
             -D projname_sanitizer=address &&
           cmake --build build --verbose --config Debug &&
           cmake -E chdir build ctest -V -C Debug -D ExperimentalTest
@@ -183,7 +187,8 @@ jobs:
       stage: check
       name: linux-clang-ubsan
       script:
-        - cmake --warn-uninitialized
+        - >-
+          cmake --warn-uninitialized
             -D package_manager=conan
             -D build_type=Debug
             -D build_dir=build
@@ -195,9 +200,9 @@ jobs:
             -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
             -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
             -D BUILD_TESTING=ON
-            -D BUILD_BENCHMARKS=ON
-            -D BUILD_EXAMPLES=ON
-            -D debug_dynamic_deps=ON
+            -D projname_benchmarks=ON
+            -D projname_examples=ON
+            -D projname_debug_dynamic_deps=ON
             -D projname_sanitizer=undefined &&
           cmake --build build --verbose --config Debug &&
           cmake -E chdir build ctest -V -C Debug -D ExperimentalTest
@@ -206,7 +211,8 @@ jobs:
       stage: check
       name: linux-gcc-memcheck
       script:
-        - cmake --warn-uninitialized
+        - >-
+          cmake --warn-uninitialized
             -D package_manager=conan
             -D build_type=Debug
             -D build_dir=build
@@ -218,8 +224,8 @@ jobs:
             -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
             -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
             -D BUILD_TESTING=ON
-            -D BUILD_BENCHMARKS=ON
-            -D BUILD_EXAMPLES=ON
+            -D projname_benchmarks=ON
+            -D projname_examples=ON
             -D projname_valgrind=memcheck &&
           cmake --build build --verbose --config Debug &&
           cmake -E chdir build ctest -V -C Debug -D ExperimentalMemCheck
@@ -234,7 +240,8 @@ before_script:
   - cmake -E environment
 
 script:
-  - cmake --warn-uninitialized
+  - >-
+    cmake --warn-uninitialized
       -D package_manager=conan
       -D build_type=Release
       -D build_dir=build
@@ -246,10 +253,10 @@ script:
       -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
       -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
       -D BUILD_TESTING=ON
-      -D BUILD_BENCHMARKS=ON
-      -D BUILD_FUZZERS=${FUZZER_TIMEOUT}
-      -D BUILD_EXAMPLES=ON
-      -D debug_dynamic_deps=ON &&
+      -D projname_benchmarks=ON
+      -D projname_fuzzers=${FUZZER_TIMEOUT}
+      -D projname_examples=ON
+      -D projname_debug_dynamic_deps=ON &&
     cmake --build build --verbose --config Release &&
     if [[ $TRAVIS_OS_NAME == osx ]]; then . build/conan/activate_run.sh; fi &&
     cmake -E chdir build ctest -V -C Release &&
@@ -257,7 +264,7 @@ script:
     cmake --install build --verbose --config Release
 
 after_script:
-  - |
+  - |-
     for f in dist/bin/* dist/lib/lib*; do
       if [[ ! -L $f ]]; then
         if [[ $TRAVIS_OS_NAME == linux ]]; then

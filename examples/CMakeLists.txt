@@ -1,4 +1,4 @@
-if(NOT BUILD_EXAMPLES)
+if(NOT projname_examples)
     return()
 endif()
 

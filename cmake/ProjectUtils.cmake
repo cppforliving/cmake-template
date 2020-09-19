@@ -78,7 +78,7 @@ endfunction()
 function(projname_debug_dynamic_deps tgt_name)
     projname_parse_arguments(arg "" "" "" ${ARGN})
 
-    if(debug_dynamic_deps)
+    if(projname_debug_dynamic_deps)
         get_target_property(tgt_type ${tgt_name} TYPE)
         if(NOT tgt_type STREQUAL "INTERFACE_LIBRARY")
             set(tgt_file $<TARGET_FILE:${tgt_name}>)

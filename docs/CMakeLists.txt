@@ -1,4 +1,4 @@
-if(NOT BUILD_DOCS)
+if(NOT projname_docs)
     return()
 endif()
 
