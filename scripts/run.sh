@@ -31,7 +31,6 @@ run_main() {
     declare sanitizer=
     declare -i stats=
     declare -i testing=
-    declare -i benchmark=
     declare -i update=
 
     declare opt
@@ -59,9 +58,6 @@ run_main() {
             ;;
         Test)
             declare -r testing=1
-            ;;
-        Benchmark)
-            declare -r benchmark=1
             ;;
         Fuzzer=*)
             declare -r fuzzer=${opt#*=}
@@ -119,7 +115,6 @@ run_main() {
         -B "$build_dir" \
         -D BUILD_SHARED_LIBS="$cmake_shared" \
         -D BUILD_TESTING="$testing" \
-        -D projname_benchmarks="$benchmark" \
         -D projname_fuzzers="$fuzzer" \
         -D projname_examples="$examples" \
         -D projname_docs="$doc" \
@@ -149,7 +144,7 @@ run_main() {
     declare -r make_cmd
 
     declare test_cmd
-    test_cmd="cmake -E chdir $build_dir ctest --output-on-failure \
+    test_cmd="cmake -E chdir $build_dir ctest -C $build_type --output-on-failure \
         $verbose_flag --target"
     declare -r test_cmd
 

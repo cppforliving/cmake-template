@@ -104,7 +104,6 @@ jobs:
             -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
             -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
             -D BUILD_TESTING=ON
-            -D projname_benchmarks=ON
             -D projname_fuzzers=${FUZZER_TIMEOUT}
             -D projname_examples=ON
             -D projname_check=tidy &&
@@ -127,7 +126,6 @@ jobs:
             -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
             -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
             -D BUILD_TESTING=ON
-            -D projname_benchmarks=ON
             -D projname_fuzzers=${FUZZER_TIMEOUT}
             -D projname_examples=ON
             -D projname_check=lint &&
@@ -176,7 +174,6 @@ jobs:
             -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
             -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
             -D BUILD_TESTING=ON
-            -D projname_benchmarks=ON
             -D projname_examples=ON
             -D projname_debug_dynamic_deps=ON
             -D projname_sanitizer=address &&
@@ -200,7 +197,6 @@ jobs:
             -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
             -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
             -D BUILD_TESTING=ON
-            -D projname_benchmarks=ON
             -D projname_examples=ON
             -D projname_debug_dynamic_deps=ON
             -D projname_sanitizer=undefined &&
@@ -224,7 +220,6 @@ jobs:
             -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
             -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
             -D BUILD_TESTING=ON
-            -D projname_benchmarks=ON
             -D projname_examples=ON
             -D projname_valgrind=memcheck &&
           cmake --build build --verbose --config Debug &&
@@ -253,7 +248,6 @@ script:
       -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
       -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
       -D BUILD_TESTING=ON
-      -D projname_benchmarks=ON
       -D projname_fuzzers=${FUZZER_TIMEOUT}
       -D projname_examples=ON
       -D projname_debug_dynamic_deps=ON &&

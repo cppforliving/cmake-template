@@ -35,15 +35,13 @@ projname_add_test(projname_test
     --gtest_color=yes
 )
 
-if(projname_benchmarks)
-    projname_add_test(projname_benchmark
-      SOURCES
-        lockable_benchmark.cpp
-      DEPENDS
-        projname
-        benchmark_main
-    )
-endif()
+projname_add_test(projname_benchmark
+  SOURCES
+    lockable_benchmark.cpp
+  DEPENDS
+    projname
+    benchmark_main
+)
 
 if(projname_fuzzers)
     projname_add_test(projname_fuzzer

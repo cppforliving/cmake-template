@@ -26,14 +26,11 @@ deactivate
 
 ## How to build and test
 
-Linux workflow
+Linux/macOS workflow
 
 ```sh
-mkdir build && cd build
-conan install -b missing -s compiler.libcxx=libstdc++11 ..
-cmake ..
-make
-ctest -V
+scripts/run.sh Test Examples Debug Conan
+scripts/run.sh Test Examples Release Vcpkg Clean
 ```
 
 ## Project structure

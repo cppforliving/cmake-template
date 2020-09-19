@@ -119,8 +119,7 @@ function(projname_add_test tgt_name)
         ${arg_DEPENDS}
     )
     if(projname_fuzzers)
-        string(FIND "${tgt_name}" "_fuzzer" _fuzzer REVERSE)
-        if(NOT _fuzzer EQUAL -1)
+        if(tgt_name MATCHES "_fuzzer$")
             target_compile_options(${tgt_name} PRIVATE -fsanitize=fuzzer,address,undefined)
             target_link_options(${tgt_name} PRIVATE -fsanitize=fuzzer,address,undefined)
         endif()
@@ -129,7 +128,11 @@ function(projname_add_test tgt_name)
     string(REPLACE "${PROJECT_SOURCE_DIR}/" "" test_name
         "${CMAKE_CURRENT_SOURCE_DIR}/${tgt_name}"
     )
-    add_test(NAME ${test_name} COMMAND ${tgt_name}
+    set(test_configs)
+    if(tgt_name MATCHES "_benchmark$")
+        list(APPEND test_configs Release)
+    endif()
+    add_test(NAME ${test_name} CONFIGURATIONS ${test_configs} COMMAND ${tgt_name}
         ${arg_EXTRA_ARGS}
     )
     projname_add_test_labels(${test_name} EXECUTABLE)
