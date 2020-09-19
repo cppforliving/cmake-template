@@ -10,7 +10,7 @@ add_custom_target(doc
     COMMAND Doxygen::doxygen Doxyfile >doxygen.log
     DEPENDS Doxyfile
     COMMENT "Generating ${PROJECT_NAME} documentation")
-add_dependencies(doc Doxygen::doxygen)
+# add_dependencies(doc Doxygen::doxygen)  # TODO is build time dependency check possible?
 install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/html"
     DESTINATION "${CMAKE_INSTALL_DOCDIR}"
     OPTIONAL)
