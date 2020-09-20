@@ -14,4 +14,4 @@ virtualrunenv
 
 [options]
 *:shared=True
-gtest*:debug_postfix=
+gtest:debug_postfix=""
