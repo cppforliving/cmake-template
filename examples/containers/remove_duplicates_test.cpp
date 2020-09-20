@@ -28,5 +28,5 @@ TYPED_TEST(RemoveDuplicatesTest, remove_duplicates) {
     EXPECT_TRUE(std::equal(no_dups.begin(), no_dups.end(), c.begin(), c.end()));
 }
 
-} // namespace
-} // namespace examples
+}  // namespace
+}  // namespace examples

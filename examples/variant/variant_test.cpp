@@ -50,5 +50,5 @@ TEST(Variant, visitor) {
     ASSERT_EQ(std::ptrdiff_t{-1}, static_cast<std::ptrdiff_t>(v_size));
 }
 
-} // namespace
-} // namespace examples
+}  // namespace
+}  // namespace examples

@@ -19,5 +19,5 @@ TEST(cppapi, delete_memory) {
     detail::new_int();
 }
 
-} // namespace
-} // namespace cppapi
+}  // namespace
+}  // namespace cppapi

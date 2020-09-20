@@ -27,10 +27,10 @@ TYPED_TEST_SUITE(SsizeTest, TestContainers);
 TYPED_TEST(SsizeTest, get_container_ssize) {
     TypeParam c = {};
 
-    auto const s = examples::ssize(c); // MSVC error C2668
+    auto const s = examples::ssize(c);  // MSVC error C2668
 
     EXPECT_GE(s, 0);
 }
 
-} // namespace
-} // namespace examples
+}  // namespace
+}  // namespace examples

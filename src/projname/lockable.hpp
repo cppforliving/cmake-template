@@ -80,6 +80,6 @@ class Lockable {
     M m_mutex;
 };
 
-} // namespace projname
+}  // namespace projname
 
-#endif // PROJNAME_LOCKABLE_HPP_
+#endif  // PROJNAME_LOCKABLE_HPP_

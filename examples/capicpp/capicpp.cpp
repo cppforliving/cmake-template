@@ -12,7 +12,7 @@ int32_t* new_int() {
     return new (std::nothrow) int32_t;
 }
 
-} // namespace
+}  // namespace
 
 int32_t* capicpp_new_int_123(void) {
     auto* const x = new_int();
@@ -20,6 +20,6 @@ int32_t* capicpp_new_int_123(void) {
     return x;
 }
 
-void capicpp_delete_int_123(int32_t* const x) { // NOLINT(readability-non-const-parameter)
+void capicpp_delete_int_123(int32_t* const x) {  // NOLINT(readability-non-const-parameter)
     delete x;
 }

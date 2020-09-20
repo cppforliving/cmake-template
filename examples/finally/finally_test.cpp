@@ -59,5 +59,5 @@ TYPED_TEST(FinallyTest, is_nothrow_move_constructible) {
     EXPECT_EQ(expected, noexcept(Finally(std::declval<TypeParam>())));
 }
 
-} // namespace
-} // namespace examples
+}  // namespace
+}  // namespace examples

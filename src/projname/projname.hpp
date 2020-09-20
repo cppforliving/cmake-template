@@ -53,6 +53,6 @@ PROJNAME_EXPORT int run(std::vector<std::string> const& args);
 
 PROJNAME_EXPORT int run(int argc, char const* const argv[]);
 
-} // namespace projname
+}  // namespace projname
 
-#endif // PROJNAME_PROJNAME_HPP_
+#endif  // PROJNAME_PROJNAME_HPP_

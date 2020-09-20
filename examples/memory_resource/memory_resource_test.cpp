@@ -145,5 +145,5 @@ TEST_F(MemoryResourceTest, polymorphic_move_assignment_optional) {
     EXPECT_NO_THROW(complex_list = producer.produce());
 }
 
-} // namespace
-} // namespace examples
+}  // namespace
+}  // namespace examples

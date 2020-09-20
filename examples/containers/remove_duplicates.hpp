@@ -11,6 +11,6 @@ void remove_duplicates(C& c) {
     c.erase(std::unique(c.begin(), c.end()), c.end());
 }
 
-} // namespace examples
+}  // namespace examples
 
-#endif // EXAMPLES_CONTAINERS_REMOVE_DUPLICATES_HPP_
+#endif  // EXAMPLES_CONTAINERS_REMOVE_DUPLICATES_HPP_

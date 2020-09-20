@@ -18,6 +18,6 @@ constexpr std::ptrdiff_t ssize(T const (&/*unused*/)[N]) noexcept {
     return N;
 }
 
-} // namespace examples
+}  // namespace examples
 
-#endif // EXAMPLES_CONTAINERS_SSIZE_HPP_
+#endif  // EXAMPLES_CONTAINERS_SSIZE_HPP_

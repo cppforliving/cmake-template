@@ -29,5 +29,5 @@ TEST(Derived, call_protected_method) {
     EXPECT_NO_FATAL_FAILURE(test_derived.public_method());
 }
 
-} // namespace
-} // namespace derived
+}  // namespace
+}  // namespace derived

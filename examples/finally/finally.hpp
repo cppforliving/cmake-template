@@ -29,6 +29,6 @@ class [[nodiscard]] Finally {
 template<typename F>
 Finally(F)->Finally<F>;
 
-} // namespace examples
+}  // namespace examples
 
-#endif // EXAMPLES_FINALLY_FINALLY_HPP_
+#endif  // EXAMPLES_FINALLY_FINALLY_HPP_

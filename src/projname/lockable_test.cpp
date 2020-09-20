@@ -73,5 +73,5 @@ TYPED_TEST(LockableTest, lock_and_swap) {
     EXPECT_EQ(6U, l1->size() + l2->size());
 }
 
-} // namespace
-} // namespace projname
+}  // namespace
+}  // namespace projname

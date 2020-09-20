@@ -19,5 +19,5 @@ TEST(Optional, optional) {
     EXPECT_THROW(process(false).value(), tl::bad_optional_access);
 }
 
-} // namespace
-} // namespace examples
+}  // namespace
+}  // namespace examples

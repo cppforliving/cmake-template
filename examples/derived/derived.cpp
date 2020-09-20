@@ -18,4 +18,4 @@ std::int32_t Base::private_method() {
 
 void Derived::virtual_method() {}
 
-} // namespace derived
+}  // namespace derived

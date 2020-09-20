@@ -27,5 +27,5 @@ TEST(Parallel, for_each) {
     EXPECT_LT(1, examples::ssize(tids));
 }
 
-} // namespace
-} // namespace examples
+}  // namespace
+}  // namespace examples

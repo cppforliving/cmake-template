@@ -19,5 +19,5 @@ TEST(Expected, expected) {
     EXPECT_EQ("failure"s, process(false).error());
 }
 
-} // namespace
-} // namespace examples
+}  // namespace
+}  // namespace examples

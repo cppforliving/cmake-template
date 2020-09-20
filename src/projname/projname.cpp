@@ -41,7 +41,8 @@ int run(std::vector<std::string> const& args) {
             io.run();
         }
         spdlog::info("Stopped!"sv);
-    }}.join();
+    }}
+        .join();
 
     return 0;
 }
@@ -52,4 +53,4 @@ int run(int const argc, char const* const argv[]) {
     return run(args);
 }
 
-} // namespace projname
+}  // namespace projname

@@ -54,7 +54,6 @@ scripts/run.sh Test Examples Release Vcpkg Clean
 - Clang-Format (optional)
 - Doxygen (optional)
 - Graphviz (optional)
-- PlantUML (optional)
 
 ## Supported platforms
 
@@ -64,7 +63,7 @@ scripts/run.sh Test Examples Release Vcpkg Clean
 
 ## Supported compilers
 
-- GCC 8
-- Clang 7
+- GCC 10
+- Clang 10
 - MSVC 19.20
-- Apple Clang 10.0.1
+- Apple Clang 11.0.3

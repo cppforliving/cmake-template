@@ -31,5 +31,5 @@ TEST(projname, or_else_stop_io_context_success) {
     EXPECT_TRUE(io.stopped());
 }
 
-} // namespace
-} // namespace projname
+}  // namespace
+}  // namespace projname
