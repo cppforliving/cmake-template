@@ -11,14 +11,12 @@ source_if_exists() {
 
 run_main() {
     declare build_type=Debug
-    declare -r build_dir="$PWD"/build
-    declare -r conan_dir="$build_dir"/conan
     declare -i cmake_shared=1
     declare valgrind=memcheck
 
     declare check=
     declare -i clean=
-    declare cmake_toolchain=
+    declare toolchain=
     declare coverage=
     declare -i doc=
     declare -i examples=
@@ -38,11 +36,11 @@ run_main() {
         case $opt in
         Conan)
             declare -r package_manager=conan
-            declare -r cmake_toolchain=$conan_dir/conan_paths.cmake
+            declare -r toolchain=$conan_dir/conan_paths.cmake
             ;;
         Vcpkg)
             declare -r package_manager=vcpkg
-            declare -r cmake_toolchain=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake
+            declare -r toolchain=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake
             ;;
         Clean)
             declare -r clean=1
@@ -103,6 +101,9 @@ run_main() {
         esac
     done
 
+    declare -r build_dir="$PWD"/build/"${build_type}"
+    declare -r conan_dir="$build_dir"/conan
+
     cmake --warn-uninitialized \
         -D package_manager="$package_manager" \
         -D build_type="$build_type" \
@@ -118,7 +119,7 @@ run_main() {
         -D projname_fuzzers="$fuzzer" \
         -D projname_examples="$examples" \
         -D CMAKE_BUILD_TYPE="$build_type" \
-        -D CMAKE_TOOLCHAIN_FILE="$cmake_toolchain" \
+        -D CMAKE_TOOLCHAIN_FILE="$toolchain" \
         -D PYBIND11_PYTHON_VERSION="$python_version" \
         -D projname_debug_dynamic_deps="$rpaths" \
         -D projname_coverage="$coverage" \
@@ -143,8 +144,8 @@ run_main() {
     declare -r make_cmd
 
     declare test_cmd
-    test_cmd="cmake -E chdir $build_dir ctest -C $build_type --output-on-failure \
-        $verbose_flag --target"
+    test_cmd="cmake -E chdir $build_dir ctest -C $build_type \
+        --output-on-failure $verbose_flag --target"
     declare -r test_cmd
 
     if ((stats)); then
