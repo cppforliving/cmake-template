@@ -7,7 +7,5 @@
 #include "projname.hpp"
 
 PYBIND11_MODULE(pyprojname, m) {
-    m.def("run", [](std::vector<std::string> const& args) {
-        return projname::run(args);
-    });
+    m.def("run", [](std::vector<std::string> const& args) { return projname::run(args); });
 }

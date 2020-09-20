@@ -21,7 +21,9 @@ TEST(Derived, callVirtualMethod) {
 
 TEST(Derived, callProtectedMethod) {
     struct TestDerived : Derived {
-        int publicMethod() { return protectedMethod(); }
+        int publicMethod() {
+            return protectedMethod();
+        }
     };
     TestDerived test_derived;
     EXPECT_NO_FATAL_FAILURE(test_derived.publicMethod());

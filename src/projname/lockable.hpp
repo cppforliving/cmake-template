@@ -7,17 +7,18 @@
 
 namespace projname {
 
-template <typename L>
+template<typename L>
 class Lock {
   public:
     explicit Lock(L& lockable) : m_lockable{lockable} {
         m_lockable.m_mutex.lock();
     }
-    explicit Lock(L& lockable, std::adopt_lock_t /*unused*/) noexcept
-        : m_lockable{lockable} {}
+    explicit Lock(L& lockable, std::adopt_lock_t /*unused*/) noexcept : m_lockable{lockable} {}
 
     Lock() = delete;
-    ~Lock() { m_lockable.m_mutex.unlock(); }
+    ~Lock() {
+        m_lockable.m_mutex.unlock();
+    }
 
     Lock(Lock const&) = delete;
     void operator=(Lock const&) = delete;
@@ -29,7 +30,9 @@ class Lock {
         return &m_lockable.m_value;
     }
 
-    typename L::value_type& operator*() noexcept { return m_lockable.m_value; }
+    typename L::value_type& operator*() noexcept {
+        return m_lockable.m_value;
+    }
     typename L::value_type const& operator*() const noexcept {
         return m_lockable.m_value;
     }
@@ -38,13 +41,13 @@ class Lock {
     L& m_lockable;
 };
 
-template <typename L>
+template<typename L>
 Lock(L&)->Lock<L>;
 
-template <typename L>
+template<typename L>
 Lock(L&, std::adopt_lock_t)->Lock<L>;
 
-template <typename T, typename M>
+template<typename T, typename M>
 class Lockable {
     static_assert(std::is_same_v<T, std::decay_t<T>>);
 
@@ -54,13 +57,15 @@ class Lockable {
     explicit Lockable() = default;
     ~Lockable() = default;
 
-    template <typename... Args>
+    template<typename... Args>
     explicit Lockable(Args&&... args) : m_value{std::forward<Args>(args)...} {}
 
     Lockable(Lockable const&) = delete;
     void operator=(Lockable const&) = delete;
 
-    void lock() { m_mutex.lock(); }
+    void lock() {
+        m_mutex.lock();
+    }
 
     [[nodiscard]] bool try_lock() { return m_mutex.try_lock(); }
 

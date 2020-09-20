@@ -16,15 +16,16 @@ constexpr auto nothrow_move_constructible_lambda = [_ = 0] { (void)_; };
     return [_ = std::string{}] { (void)_; };
 }
 
-using FinalActionTypes = Types<void (*)(),
-                               decltype(stateless_lambda),
-                               decltype(nothrow_move_constructible_lambda),
-                               decltype(make_copy_constructible_lambda())>;
+using FinalActionTypes = Types<
+    void (*)(),
+    decltype(stateless_lambda),
+    decltype(nothrow_move_constructible_lambda),
+    decltype(make_copy_constructible_lambda())>;
 
-template <typename T>
+template<typename>
 struct FinallyTest : Test {};
 
-template <typename F>
+template<typename F>
 using FinalAction = decltype(finally(std::declval<F>()));
 
 TYPED_TEST_SUITE(FinallyTest, FinalActionTypes);
@@ -46,19 +47,15 @@ TYPED_TEST(FinallyTest, is_not_move_constructible) {
 }
 
 TYPED_TEST(FinallyTest, is_nothrow_copy_constructible) {
-    auto const expected =
-        std::is_nothrow_copy_constructible_v<std::decay_t<TypeParam>>;
-    EXPECT_EQ(expected, noexcept(finally<std::decay_t<TypeParam>>(
-                            std::declval<TypeParam const>())));
+    auto const expected = std::is_nothrow_copy_constructible_v<std::decay_t<TypeParam>>;
+    EXPECT_EQ(
+        expected, noexcept(finally<std::decay_t<TypeParam>>(std::declval<TypeParam const>())));
     EXPECT_EQ(expected, noexcept(finally(std::declval<TypeParam const>())));
 }
 
 TYPED_TEST(FinallyTest, is_nothrow_move_constructible) {
-    auto const expected =
-        std::is_nothrow_move_constructible_v<std::decay_t<TypeParam>>;
-    EXPECT_EQ(
-        expected,
-        noexcept(finally<std::decay_t<TypeParam>>(std::declval<TypeParam>())));
+    auto const expected = std::is_nothrow_move_constructible_v<std::decay_t<TypeParam>>;
+    EXPECT_EQ(expected, noexcept(finally<std::decay_t<TypeParam>>(std::declval<TypeParam>())));
     EXPECT_EQ(expected, noexcept(finally(std::declval<TypeParam>())));
 }
 
