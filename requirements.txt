@@ -1,2 +1,2 @@
 cmake==3.18.*
-ninja; sys_platform=="linux"
+ninja; sys_platform == "linux"

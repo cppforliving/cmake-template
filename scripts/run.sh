@@ -123,7 +123,7 @@ run_main() {
             -if "$build_dir" \
             -s build_type="$conan_config" \
             -pr "$build_dir"/conan/detected \
-            -b missing
+            -b outdated
         ;;
     vcpkg)
         declare -r cmake_toolchain=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake

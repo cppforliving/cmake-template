@@ -257,7 +257,7 @@ script:
 
 after_script:
   - |-
-    for f in build/dist/bin/* build/dist/lib/lib*; do
+    for f in build/dist/bin/* build/dist/lib/*; do
       if [[ ! -L $f ]]; then
         if [[ $TRAVIS_OS_NAME == linux ]]; then
           echo "$f:" && ldd $f
