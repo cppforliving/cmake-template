@@ -1,12 +1,11 @@
 #include "remove_duplicates.hpp"
 
+#include <algorithm>
 #include <deque>
-#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <string>
 #include <vector>
 
-using testing::ElementsAre;
 using testing::Test;
 using testing::Types;
 
@@ -25,7 +24,8 @@ TYPED_TEST(RemoveDuplicatesTest, remove_duplicates) {
 
     remove_duplicates(c);
 
-    EXPECT_THAT(c, ElementsAre('a', 'b', 'd', 'e', 'f'));
+    auto const no_dups = {'a', 'b', 'd', 'e', 'f'};
+    EXPECT_TRUE(std::equal(no_dups.begin(), no_dups.end(), c.begin(), c.end()));
 }
 
 }  // namespace

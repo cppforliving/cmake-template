@@ -1,4 +1,4 @@
-find_package(GTest REQUIRED)
+find_package(GTest MODULE REQUIRED)
 projname_print_target_properties(GTest::Main)
 projname_print_target_properties(GTest::GTest)
 set_property(TARGET

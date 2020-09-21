@@ -115,6 +115,8 @@ run_main() {
     conan)
         declare -r cmake_toolchain=$build_dir/conan_paths.cmake
         conan profile new "$build_dir"/conan/detected --detect --force
+        conan profile update settings.compiler.cppstd=20 \
+            "$build_dir"/conan/detected
         conan profile update settings.compiler.libcxx=libstdc++11 \
             "$build_dir"/conan/detected
         conan install . $conan_update \

@@ -53,6 +53,9 @@ if(package_manager STREQUAL "conan")
     eval(conan profile new
         --detect --force
         "${build_dir}/conan_profile")
+    eval(conan profile update
+        settings.compiler.cppstd=20
+        "${build_dir}/conan_profile")
     eval_out(conan_detected_libcxx
         conan profile get
         settings.compiler.libcxx
@@ -66,7 +69,7 @@ if(package_manager STREQUAL "conan")
         -if "${build_dir}"
         -s "build_type=${build_type}"
         -pr "${build_dir}/conan_profile"
-        -b missing)
+        -b outdated)
 elseif(package_manager STREQUAL "vcpkg")
     file(TO_CMAKE_PATH "$ENV{VCPKG_ROOT}" vcpkg_root)
     eval("${vcpkg_root}/vcpkg" version)
