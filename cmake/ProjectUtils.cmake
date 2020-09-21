@@ -1,34 +1,7 @@
 include_guard(DIRECTORY)
 
 include(GNUInstallDirs)
-include(CMakePrintHelpers)
-
-
-macro(eval)
-    execute_process(COMMAND ${ARGN} RESULT_VARIABLE ret)
-    if(ret)
-        string(REPLACE ";" " " msg "'${ARGN}' failed with error code ${ret}")
-        message(FATAL_ERROR "${msg}")
-    endif()
-endmacro()
-
-
-macro(eval_out output)
-    eval(${ARGN} OUTPUT_STRIP_TRAILING_WHITESPACE OUTPUT_VARIABLE ${output})
-    cmake_print_variables(${output})
-endmacro()
-
-
-macro(projname_parse_arguments prefix options one_value_keywords multi_value_keywords)
-    cmake_parse_arguments("${prefix}" "${options}" "${one_value_keywords}" "${multi_value_keywords}" ${ARGN})
-
-    if(${prefix}_UNPARSED_ARGUMENTS)
-        message(FATAL_ERROR "Found unparsed arguments: ${${prefix}_UNPARSED_ARGUMENTS}")
-    endif()
-    if(${prefix}_KEYWORDS_MISSING_VALUES)
-        message(FATAL_ERROR "Found keywords missing values: ${${prefix}_KEYWORDS_MISSING_VALUES}")
-    endif()
-endmacro()
+include(ScriptUtils)
 
 
 function(projname_install_target tgt_name)
@@ -74,23 +47,26 @@ function(projname_print_target_properties)
         INTERFACE_POSITION_INDEPENDENT_CODE
         INTERFACE_SOURCES
     )
-    set(extra_props
+    set(imported_props
         LOCATION
         IMPORTED_LOCATION
     )
-    message(STATUS)
     foreach(tgt_name IN LISTS ARGN)
+        if(NOT TARGET ${tgt_name})
+            continue()
+        endif()
         foreach(prop IN LISTS props)
             get_target_property(prop_value ${tgt_name} ${prop})
-            if(prop_value)
+            if(NOT prop_value MATCHES "-NOTFOUND$")
                 message(STATUS "  ${tgt_name}.${prop} = ${prop_value}")
             endif()
         endforeach()
+        get_target_property(tgt_imported ${tgt_name} IMPORTED)
         get_target_property(tgt_type ${tgt_name} TYPE)
-        if(NOT tgt_type STREQUAL "INTERFACE_LIBRARY")
-            foreach(prop IN LISTS extra_props)
+        if(tgt_imported AND NOT tgt_type STREQUAL "INTERFACE_LIBRARY")
+            foreach(prop IN LISTS imported_props)
                 get_target_property(prop_value ${tgt_name} ${prop})
-                if(prop_value)
+                if(NOT prop_value MATCHES "-NOTFOUND$")
                     message(STATUS "  ${tgt_name}.${prop} = ${prop_value}")
                 endif()
             endforeach()
@@ -103,7 +79,7 @@ endfunction()
 function(projname_debug_dynamic_deps tgt_name)
     projname_parse_arguments(arg "" "" "" ${ARGN})
 
-    if(debug_dynamic_deps)
+    if(projname_debug_dynamic_deps)
         get_target_property(tgt_type ${tgt_name} TYPE)
         if(NOT tgt_type STREQUAL "INTERFACE_LIBRARY")
             set(tgt_file $<TARGET_FILE:${tgt_name}>)

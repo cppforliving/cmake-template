@@ -38,7 +38,6 @@ ctest -V
 - Clang-Format (optional)
 - Doxygen (optional)
 - Graphviz (optional)
-- PlantUML (optional)
 
 ## Supported platforms
 

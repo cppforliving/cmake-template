@@ -29,11 +29,11 @@ matrix:
       PATH: C:\Python37;C:\Python37\Scripts;%PATH%
 
 cache:
-  - '%VCPKG_ROOT%\installed -> vcpkgfile.txt'
+  - build\vcpkg_installed -> vcpkg.json
   - '%LOCALAPPDATA%\pip\Cache -> requirements*.txt'
 
 install:
-  - python -m pip install -U -r requirements-test.txt
+  - python -m pip install -U -r requirements-dev.txt
   - if "%PLATFORM%"=="x86" (
       set "CMAKE_GENERATOR_PLATFORM=Win32"
     ) else if "%PLATFORM%"=="x64" (
@@ -63,7 +63,7 @@ build_script:
       -D BUILD_TESTING=ON
       -D BUILD_BENCHMARKS=%BUILD_BENCHMARKS%
       -D BUILD_EXAMPLES=ON
-      -D debug_dynamic_deps=ON
+      -D projname_debug_dynamic_deps=ON
   - cmake --build build --verbose --config %CONFIGURATION%
 
 test_script:
@@ -73,8 +73,6 @@ test_script:
 artifacts:
   - path: build\**\*.log
     name: logs
-  - path: build\**\*.xml
-    name: test_results
   - path: build\**\CMakeCache.txt
     name: cmake_cache
 

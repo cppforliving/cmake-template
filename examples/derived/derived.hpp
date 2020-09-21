@@ -3,9 +3,6 @@
 
 #include <derived/export.h>
 
-/// @startuml
-/// Base <|-- Derived
-/// @enduml
 namespace derived {
 
 class DERIVED_EXPORT Base {

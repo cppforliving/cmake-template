@@ -1,0 +1,11 @@
+projname_add_test(tl_test
+  SOURCES
+    expected_test.cpp
+    optional_test.cpp
+  DEPENDS
+    gtest_main
+    tl::expected
+    tl::optional
+  EXTRA_ARGS
+    --gtest_color=yes
+)

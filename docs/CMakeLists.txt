@@ -4,31 +4,18 @@ endif()
 
 include(GNUInstallDirs)
 
-find_package(Doxygen MODULE COMPONENTS doxygen dot)
-if(DOXYGEN_FOUND)
-    find_package(Java MODULE COMPONENTS Runtime)
-    if(Java_Runtime_FOUND)
-        if(NOT PLANTUML_JAR)
-            include(UseJava)
-            find_jar(PLANTUML_JAR plantuml PATHS /usr/share/plantuml)
-            mark_as_advanced(PLANTUML_JAR)
-            if(PLANTUML_JAR)
-                message(STATUS "Found PlantUML: ${PLANTUML_JAR}")
-            else()
-                message(STATUS "Could NOT find PlantUML")
-            endif()
-        endif()
-        get_filename_component(PLANTUML_JAR_PATH "${PLANTUML_JAR}" DIRECTORY)
-        file(TO_NATIVE_PATH "${PLANTUML_JAR_PATH}" PLANTUML_JAR_PATH)
-    endif()
-    if(DOXYGEN_DOT_FOUND)
+find_package(Doxygen COMPONENTS doxygen dot)
+if(TARGET Doxygen::doxygen)
+    if(TARGET Doxygen::dot)
         get_filename_component(DOXYGEN_DOT_PATH Doxygen::dot DIRECTORY)
-        file(TO_NATIVE_PATH ${DOXYGEN_DOT_PATH} DOXYGEN_DOT_PATH)
+        file(TO_NATIVE_PATH "${DOXYGEN_DOT_PATH}" DOXYGEN_DOT_PATH)
     endif()
     configure_file(Doxyfile.in Doxyfile @ONLY)
     add_custom_target(doc
         COMMAND Doxygen::doxygen Doxyfile >doxygen.log
+        DEPENDS Doxyfile
         COMMENT "Generating ${PROJECT_NAME} documentation")
+    add_dependencies(doc Doxygen::doxygen)
     install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/html"
         DESTINATION "${CMAKE_INSTALL_DOCDIR}"
         OPTIONAL)

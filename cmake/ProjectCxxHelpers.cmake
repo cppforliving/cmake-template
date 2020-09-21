@@ -6,7 +6,11 @@ include(ProjectUtils)
 
 
 function(projname_add_library tgt_name)
-    projname_parse_arguments(arg "INTERFACE" "" "SOURCES;DEPENDS" ${ARGN})
+    projname_parse_arguments(arg "INTERFACE;TESTONLY" "" "SOURCES;DEPENDS" ${ARGN})
+
+    if(arg_TESTONLY AND NOT BUILD_TESTING)
+        return()
+    endif()
 
     set(header_regex ".*\\.h(h|pp|xx|\\+\\+)?$")
     list(TRANSFORM arg_SOURCES
@@ -68,7 +72,11 @@ endfunction()
 
 
 function(projname_add_executable tgt_name)
-    projname_parse_arguments(arg "" "" "SOURCES;DEPENDS" ${ARGN})
+    projname_parse_arguments(arg "TESTONLY" "" "SOURCES;DEPENDS" ${ARGN})
+
+    if(arg_TESTONLY AND NOT BUILD_TESTING)
+        return()
+    endif()
 
     add_executable(${tgt_name})
     add_executable(${PROJECT_NAME}::${tgt_name} ALIAS ${tgt_name})

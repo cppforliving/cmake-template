@@ -30,7 +30,7 @@ jobs:
         - choco install python --version 3.7.0
         - export PATH=/c/Python37:/c/Python37/Scripts:$PATH
         - export PATH=$HOME/AppData/Roaming/Python/Python37/Scripts:$PATH
-        - python -m pip install --user -U conan -r requirements-test.txt
+        - python -m pip install --user -U conan -r requirements-dev.txt
         - conan config set general.user_home_short=None
       env:
         - MATRIX_EVAL="CC=cl && CXX=cl"
@@ -45,7 +45,7 @@ jobs:
       osx_image: xcode10.3
       install:
         - export PATH=$HOME/Library/Python/3.7/bin:$PATH
-        - python3 -m pip install --user -U conan -r requirements-test.txt
+        - python3 -m pip install --user -U conan -r requirements-dev.txt
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
         - CMAKE_GENERATOR='Xcode'
@@ -65,7 +65,7 @@ jobs:
       install:
         - sudo update-alternatives
             --install /usr/bin/gcov gcov /usr/bin/gcov-8 80
-        - python2 -m pip install --user -U conan -r requirements-test.txt
+        - python2 -m pip install --user -U conan -r requirements-dev.txt
       env:
         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
         - CMAKE_GENERATOR='Unix Makefiles'
@@ -80,8 +80,7 @@ jobs:
       install:
         - export PATH=/usr/local/clang-7.0.0/bin:$PATH
         - export LD_LIBRARY_PATH=/usr/local/clang-7.0.0/lib:$LD_LIBRARY_PATH
-        - python2 -m pip install --user -U conan -r requirements-test.txt
-          -r requirements-lint.txt
+        - python2 -m pip install --user -U conan -r requirements-dev.txt
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
         - CMAKE_GENERATOR='Ninja'
@@ -147,7 +146,7 @@ jobs:
             -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
             -D BUILD_TESTING=ON
             -D BUILD_EXAMPLES=ON
-            -D debug_dynamic_deps=ON
+            -D projname_debug_dynamic_deps=ON
             -D projname_coverage=xml &&
           cmake --build build --verbose --config Debug &&
           cmake -E chdir build ctest -V -C Debug -D ExperimentalTest
@@ -172,7 +171,7 @@ jobs:
             -D BUILD_TESTING=ON
             -D BUILD_BENCHMARKS=ON
             -D BUILD_EXAMPLES=ON
-            -D debug_dynamic_deps=ON
+            -D projname_debug_dynamic_deps=ON
             -D projname_sanitizer=address &&
           cmake --build build --verbose --config Debug &&
           cmake -E chdir build ctest -V -C Debug -D ExperimentalTest
@@ -195,7 +194,7 @@ jobs:
             -D BUILD_TESTING=ON
             -D BUILD_BENCHMARKS=ON
             -D BUILD_EXAMPLES=ON
-            -D debug_dynamic_deps=ON
+            -D projname_debug_dynamic_deps=ON
             -D projname_sanitizer=undefined &&
           cmake --build build --verbose --config Debug &&
           cmake -E chdir build ctest -V -C Debug -D ExperimentalTest
@@ -246,7 +245,7 @@ script:
       -D BUILD_TESTING=ON
       -D BUILD_BENCHMARKS=ON
       -D BUILD_EXAMPLES=ON
-      -D debug_dynamic_deps=ON &&
+      -D projname_debug_dynamic_deps=ON &&
     cmake --build build --verbose --config Release &&
     if [[ $TRAVIS_OS_NAME == osx ]]; then source build/activate_run.sh; fi &&
     cmake -E chdir build ctest -V -C Release &&
@@ -254,8 +253,8 @@ script:
     cmake --install build --verbose --config Release
 
 after_script:
-  - |
-    for f in dist/bin/* dist/lib/lib*; do
+  - |-
+    for f in build/dist/bin/* build/dist/lib/lib*; do
       if [[ ! -L $f ]]; then
         if [[ $TRAVIS_OS_NAME == linux ]]; then
           echo "$f:" && ldd $f

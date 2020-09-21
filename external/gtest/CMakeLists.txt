@@ -1,4 +1,4 @@
-find_package(GTest MODULE REQUIRED)
+find_package(GTest REQUIRED)
 projname_print_target_properties(GTest::Main)
 projname_print_target_properties(GTest::GTest)
 set_property(TARGET
@@ -14,11 +14,13 @@ target_link_libraries(gtest_main
     GTest::Main
     GTest::GTest
 )
-target_compile_definitions(gtest_main
-  INTERFACE
-    GTEST_LINKED_AS_SHARED_LIBRARY=1
-    #GTEST_REMOVE_LEGACY_TEST_CASEAPI_
-)
+#if(BUILD_SHARED_LIBS)
+    target_compile_definitions(gtest_main
+      INTERFACE
+        GTEST_LINKED_AS_SHARED_LIBRARY=1
+        #GTEST_REMOVE_LEGACY_TEST_CASEAPI_
+    )
+#endif()
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     target_compile_options(gtest_main
       INTERFACE

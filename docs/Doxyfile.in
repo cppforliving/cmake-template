@@ -109,6 +109,7 @@ RECURSIVE              = YES
 EXCLUDE                =
 EXCLUDE_SYMLINKS       = NO
 EXCLUDE_PATTERNS       = */CMakeFiles/* \
+                         */vcpkg_installed/* \
                          */venv/* \
                          DartConfiguration.tcl
 EXCLUDE_SYMBOLS        = detail \
@@ -313,7 +314,7 @@ DOT_PATH               = "@DOXYGEN_DOT_PATH@"
 DOTFILE_DIRS           =
 MSCFILE_DIRS           =
 DIAFILE_DIRS           =
-PLANTUML_JAR_PATH      = "@PLANTUML_JAR_PATH@"
+PLANTUML_JAR_PATH      =
 PLANTUML_CFG_FILE      =
 PLANTUML_INCLUDE_PATH  =
 DOT_GRAPH_MAX_NODES    = 50

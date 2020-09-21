@@ -7,6 +7,7 @@ projname_add_library(projname
     Threads::Threads
     asio::asio
     spdlog::spdlog
+    fmt::fmt
 )
 
 projname_add_executable(projname_tool
