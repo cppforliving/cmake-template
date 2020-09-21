@@ -6,6 +6,7 @@ projname_add_test(memory_resource_test
     memory_resource_test.cpp
   DEPENDS
     finally
+    fmt::fmt
     gtest_main
   EXTRA_ARGS
     --gtest_color=yes

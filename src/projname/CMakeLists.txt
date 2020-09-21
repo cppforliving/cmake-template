@@ -8,6 +8,7 @@ projname_add_library(projname
     asio::asio
     span-lite::span-lite
     spdlog::spdlog
+    fmt::fmt
 )
 
 projname_add_executable(projname_tool
@@ -49,6 +50,7 @@ if(projname_fuzzers)
         projname_fuzzer.cpp
       DEPENDS
         projname
+        fmt::fmt
         span-lite::span-lite
       EXTRA_ARGS
         -max_total_time=${projname_fuzzers}

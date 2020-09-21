@@ -1,4 +1,5 @@
 #include <cassert>
+#include <fmt/format.h>
 #include <gtest/gtest.h>
 #include <optional>
 #include <type_traits>
@@ -34,8 +35,12 @@ class LoggingMemoryResource : public pmr::memory_resource {
     void* do_allocate(std::size_t const bytes, std::size_t const align) override {
         void* ptr = nullptr;
         auto const _ = Finally([&] {
-            std::cout << "resource " << m_resource << " allocate   " << ptr << " bytes " << bytes
-                      << " alignment " << align << '\n';
+            fmt::print(
+                "resource {} allocate   {} bytes {} alignment {}\n",
+                fmt::ptr(m_resource),
+                ptr,
+                bytes,
+                align);
         });
         ptr = m_resource->allocate(bytes, align);
         return ptr;
@@ -43,14 +48,21 @@ class LoggingMemoryResource : public pmr::memory_resource {
 
     void do_deallocate(void* const ptr, std::size_t const bytes, std::size_t const align) override {
         m_resource->deallocate(ptr, bytes, align);
-        std::cout << "resource " << m_resource << " deallocate " << ptr << " bytes " << bytes
-                  << " alignment " << align << '\n';
+        fmt::print(
+            "resource {} deallocate {} bytes {} alignment {}\n",
+            fmt::ptr(m_resource),
+            ptr,
+            bytes,
+            align);
     }
 
     [[nodiscard]] bool do_is_equal(memory_resource const& other) const noexcept override {
         bool const is_equal = m_resource->is_equal(other);
-        std::cout << "resource " << m_resource << " is " << (is_equal ? "    " : "not ") << "equal "
-                  << &other << '\n';
+        fmt::print(
+            "resource {} is {} equal {}\n",
+            fmt::ptr(m_resource),
+            is_equal ? "   " : "not",
+            fmt::ptr(&other));
         return is_equal;
     }
 

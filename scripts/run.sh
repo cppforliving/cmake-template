@@ -36,11 +36,9 @@ run_main() {
         case $opt in
         Conan)
             declare -r package_manager=conan
-            declare -r toolchain=$conan_dir/conan_paths.cmake
             ;;
         Vcpkg)
             declare -r package_manager=vcpkg
-            declare -r toolchain=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake
             ;;
         Clean)
             declare -r clean=1
@@ -103,6 +101,15 @@ run_main() {
 
     declare -r build_dir="$PWD"/build/"${build_type}"
     declare -r conan_dir="$build_dir"/conan
+
+    case $package_manager in
+    conan)
+        declare -r toolchain=$conan_dir/conan_paths.cmake
+        ;;
+    vcpkg)
+        declare -r toolchain=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake
+        ;;
+    esac
 
     cmake --warn-uninitialized \
         -D package_manager="$package_manager" \
