@@ -11,11 +11,11 @@ class DERIVED_EXPORT Base {
     virtual void virtualMethod() = 0;
 
   protected:
-    int protectedMethod();
+    static int protectedMethod();
     static int protectedMember;
 
   private:
-    DERIVED_NO_EXPORT int privateMethod();
+    DERIVED_NO_EXPORT static int privateMethod();
     DERIVED_NO_EXPORT static int const privateMember{42};
 };
 

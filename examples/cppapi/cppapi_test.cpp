@@ -7,7 +7,7 @@ namespace cppapi {
 namespace {
 
 TEST(cppapi, all) {
-    auto const x = newInt123();
+    auto* const x = newInt123();
     EXPECT_EQ(*x, 123);
     delete x;
 }

@@ -21,12 +21,11 @@ TEST(Derived, callVirtualMethod) {
 
 TEST(Derived, callProtectedMethod) {
     struct TestDerived : Derived {
-        int publicMethod() {
+        static int publicMethod() {
             return protectedMethod();
         }
     };
-    TestDerived test_derived;
-    EXPECT_NO_FATAL_FAILURE(test_derived.publicMethod());
+    EXPECT_NO_FATAL_FAILURE(TestDerived::publicMethod());
 }
 
 }  // namespace

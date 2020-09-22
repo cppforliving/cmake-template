@@ -6,7 +6,7 @@
 namespace {
 
 TEST(capicpp, all) {
-    auto const x = capicpp_newInt123();
+    auto* const x = capicpp_newInt123();
     EXPECT_EQ(*x, 123);
     capicpp_deleteInt123(x);
 }

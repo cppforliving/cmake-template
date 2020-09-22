@@ -14,7 +14,7 @@ int* newInt() {
 }  // namespace detail
 
 int* newInt123() {
-    auto const x = detail::newInt();
+    auto* const x = detail::newInt();
     *x = detail::get123();
     return x;
 }
