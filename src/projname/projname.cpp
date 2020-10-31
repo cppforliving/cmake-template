@@ -29,7 +29,7 @@ void StopIoContext::operator()(std::error_code const& ec) {
 }
 
 int run(std::vector<std::string> const& args) {
-    spdlog::info("{} args: {}", __func__, fmt::join(args, " "));
+    spdlog::info("{} args: {}", __func__, fmt::format("{}", fmt::join(args, " "sv)));
 
     asio::io_context io;
 
