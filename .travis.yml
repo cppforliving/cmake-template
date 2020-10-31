@@ -42,7 +42,7 @@ jobs:
       name: osx-clang
       os: osx
       compiler: clang
-      osx_image: xcode11.6 # xcode12 not supported by conan yet
+      osx_image: xcode12.2
       install:
         - export PATH=$HOME/Library/Python/3.8/bin:$PATH
         - python3 -m pip install --user -U conan -r requirements-dev.txt
