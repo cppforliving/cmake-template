@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Example projname_tool executable tests."""
 import os
 

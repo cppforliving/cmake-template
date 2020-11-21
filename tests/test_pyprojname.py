@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Example projname python bindings tests."""
 import pyprojname
 

@@ -37,6 +37,7 @@ run_main() {
             ;;
         Vcpkg)
             declare -r package_manager=vcpkg
+            declare -x VCPKG_FEATURE_FLAGS=--feature-flags=manifests
             ;;
         Clean)
             declare -r clean=1
