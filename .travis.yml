@@ -44,12 +44,12 @@ jobs:
       compiler: clang
       osx_image: xcode12.2
       install:
-        - export PATH=$HOME/Library/Python/3.8/bin:$PATH
+        - export PATH=$HOME/Library/Python/3.9/bin:$PATH
         - python3 -m pip install --user -U conan -r requirements-dev.txt
       env:
         - MATRIX_EVAL="CC=clang && CXX=clang++"
         - CMAKE_GENERATOR='Xcode'
-        - PYTHON_VERSION=3.8
+        - PYTHON_VERSION=3.9
 
     - &linux_gcc
       stage: test
