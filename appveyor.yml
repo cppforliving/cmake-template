@@ -14,7 +14,6 @@ platform:
 environment:
   VCPKG_ROOT: C:\Tools\vcpkg
   VCPKG_DEFAULT_TRIPLET: "%PLATFORM%-windows"
-  VCPKG_FEATURE_FLAGS: --feature-flags=manifests
   CMAKE_BUILD_PARALLEL_LEVEL: 2
   VERBOSE: 1
   matrix:
@@ -36,35 +35,35 @@ cache:
 install:
   - python -m pip install -U -r requirements-dev.txt
   - if "%PLATFORM%"=="x86" (
-      set "CMAKE_GENERATOR_PLATFORM=Win32"
+    set "CMAKE_GENERATOR_PLATFORM=Win32"
     ) else if "%PLATFORM%"=="x64" (
-      set "CMAKE_GENERATOR_PLATFORM=x64"
+    set "CMAKE_GENERATOR_PLATFORM=x64"
     )
   - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" (
-      set "CMAKE_GENERATOR=Visual Studio 16 2019"
+    set "CMAKE_GENERATOR=Visual Studio 16 2019"
     )
   - if "%CONFIGURATION%"=="Debug" (
-      set "BUILD_BENCHMARKS=OFF"
+    set "BUILD_BENCHMARKS=OFF"
     ) else if "%CONFIGURATION%"=="Release" (
-      set "BUILD_BENCHMARKS=ON"
+    set "BUILD_BENCHMARKS=ON"
     )
   - cmake -E environment
 
 build_script:
   - cmake --warn-uninitialized
-      -D package_manager=vcpkg
-      -D build_type=%CONFIGURATION%
-      -D build_dir=build
-      -D update=ON
-      -P scripts\setup.cmake
+    -D package_manager=vcpkg
+    -D build_type=%CONFIGURATION%
+    -D build_dir=build
+    -D update=ON
+    -P scripts\setup.cmake
   - cmake
-      -B build
-      -D BUILD_SHARED_LIBS=%BUILD_SHARED_LIBS%
-      -D CMAKE_TOOLCHAIN_FILE=%VCPKG_ROOT%\scripts\buildsystems\vcpkg.cmake
-      -D BUILD_TESTING=ON
-      -D BUILD_BENCHMARKS=%BUILD_BENCHMARKS%
-      -D BUILD_EXAMPLES=ON
-      -D projname_debug_dynamic_deps=ON
+    -B build
+    -D BUILD_SHARED_LIBS=%BUILD_SHARED_LIBS%
+    -D CMAKE_TOOLCHAIN_FILE=%VCPKG_ROOT%\scripts\buildsystems\vcpkg.cmake
+    -D BUILD_TESTING=ON
+    -D BUILD_BENCHMARKS=%BUILD_BENCHMARKS%
+    -D BUILD_EXAMPLES=ON
+    -D projname_debug_dynamic_deps=ON
   - cmake --build build --verbose --config %CONFIGURATION%
 
 test_script:
