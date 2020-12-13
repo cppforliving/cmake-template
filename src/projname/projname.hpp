@@ -17,7 +17,7 @@ namespace projname {
 
 template<typename F>
 auto and_then(F f) {
-    return [f](std::error_code const ec) {
+    return [f](std::error_code const ec) mutable {
         if (!ec) {
             f();
         } else {
@@ -28,7 +28,7 @@ auto and_then(F f) {
 
 template<typename F>
 auto or_else(F f) {
-    return [f](std::error_code const ec) {
+    return [f](std::error_code const ec) mutable {
         if (ec) {
             f();
         } else {
