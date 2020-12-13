@@ -13,7 +13,6 @@ class ProjnameConan(ConanFile):
         "fmt/[>=7.0.3]",
         "gtest/[>=1.10.0]",
         "pybind11/[>=2.5.0]",
-        "span-lite/[>=0.7.0]",
         "spdlog/[>=1.8.0]",
         "tbb/[>=2020.2]",
         "tl-expected/[>=1.0.0]",

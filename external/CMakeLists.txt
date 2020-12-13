@@ -1,7 +1,6 @@
 add_subdirectory(threads)
 
 add_subdirectory(asio)
-add_subdirectory(span-lite)
 add_subdirectory(spdlog)
 add_subdirectory(tbb)
 add_subdirectory(tl)

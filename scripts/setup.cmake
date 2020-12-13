@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.18)
+cmake_minimum_required(VERSION 3.16)
 
 get_property(cmake_role GLOBAL PROPERTY CMAKE_ROLE)
 if(NOT cmake_role STREQUAL "SCRIPT")
@@ -54,13 +54,17 @@ if(package_manager STREQUAL "conan")
     eval(conan profile update
         settings.compiler.cppstd=20
         "${conan_dir}/conanprofile.txt")
-    eval_out(conan_detected_libcxx
+    eval_out(conan_detected_compiler
         conan profile get
-        settings.compiler.libcxx
+        settings.compiler
         "${conan_dir}/conanprofile.txt")
-    if(conan_detected_libcxx STREQUAL "libstdc++")
+    if(conan_detected_compiler STREQUAL "gcc")
         eval(conan profile update
             settings.compiler.libcxx=libstdc++11
+            "${conan_dir}/conanprofile.txt")
+    elseif(conan_detected_compiler STREQUAL "clang")
+        eval(conan profile update
+            settings.compiler.libcxx=libc++
             "${conan_dir}/conanprofile.txt")
     endif()
     eval(conan install . "${update_flag}"

@@ -4,8 +4,9 @@
 #include <asio/post.hpp>
 #include <asio/steady_timer.hpp>
 #include <chrono>
+#include <cstdlib>
 #include <fmt/format.h>
-#include <nonstd/span.hpp>
+#include <span>
 #include <string_view>
 #include <system_error>
 #include <thread>
@@ -26,7 +27,7 @@ void StopIoContext::operator()() const {
 }
 
 int run(std::vector<std::string> const& args) {
-    spdlog::info("{} args: <{}>", __func__, fmt::join(args, "> <"sv));
+    spdlog::info("{} args: <{}>", __func__, fmt::format("{}", fmt::join(args, "> <"sv)));
 
     asio::io_context io;
 
@@ -44,11 +45,11 @@ int run(std::vector<std::string> const& args) {
     }}
         .join();
 
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 int run(int const argc, char const* const argv[]) {
-    nonstd::span const args_span{argv, nonstd::span_lite::to_size(argc)};
+    std::span const args_span{argv, static_cast<std::size_t>(argc)};
     std::vector<std::string> args{args_span.begin(), args_span.end()};
     return run(args);
 }

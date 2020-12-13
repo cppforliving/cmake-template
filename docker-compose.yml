@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  gcc10:
+    build:
+      context: ./docker
+      dockerfile: gcc10.Dockerfile
+    volumes:
+      - gcc10-conan:/home/conan/.conan
+      - .:/home/conan/src
+    working_dir: /home/conan/src
+    entrypoint: sleep infinity
+    restart: always
+
+  clang11:
+    build:
+      context: ./docker
+      dockerfile: clang11.Dockerfile
+    volumes:
+      - clang11-conan:/home/conan/.conan
+      - .:/home/conan/src
+    working_dir: /home/conan/src
+    entrypoint: sleep infinity
+    restart: always
+
+volumes:
+  gcc10-conan: {}
+  clang11-conan: {}

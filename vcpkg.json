@@ -10,7 +10,6 @@
         "fmt",
         "gtest",
         "pybind11",
-        "span-lite",
         "spdlog",
         "tbb",
         "tl-expected",

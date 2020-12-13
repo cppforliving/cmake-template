@@ -6,7 +6,6 @@ projname_add_library(projname
   DEPENDS
     Threads::Threads
     asio::asio
-    span-lite::span-lite
     spdlog::spdlog
     fmt::fmt
 )
@@ -51,7 +50,6 @@ if(projname_fuzzers)
       DEPENDS
         projname
         fmt::fmt
-        span-lite::span-lite
       EXTRA_ARGS
         -max_total_time=${projname_fuzzers}
     )
