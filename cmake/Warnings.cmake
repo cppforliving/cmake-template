@@ -1,9 +1,5 @@
 include(CheckCXXSymbolExists)
 
-if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    string(APPEND CMAKE_CXX_FLAGS " -stdlib=libc++")
-endif()
-
 if(NOT HAVE_CPPLIB AND NOT HAVE_LIBCPP AND NOT HAVE_GLIBCXX)
     check_cxx_symbol_exists(_CPPLIB_VER "ciso646" HAVE_CPPLIB)
     check_cxx_symbol_exists(_LIBCPP_VERSION "ciso646" HAVE_LIBCPP)

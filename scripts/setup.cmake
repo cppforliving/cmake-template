@@ -54,17 +54,13 @@ if(package_manager STREQUAL "conan")
     eval(conan profile update
         settings.compiler.cppstd=20
         "${conan_dir}/conanprofile.txt")
-    eval_out(conan_detected_compiler
+    eval_out(conan_detected_libcxx
         conan profile get
-        settings.compiler
+        settings.compiler.libcxx
         "${conan_dir}/conanprofile.txt")
-    if(conan_detected_compiler STREQUAL "gcc")
+    if(conan_detected_libcxx STREQUAL "libstdc++")
         eval(conan profile update
             settings.compiler.libcxx=libstdc++11
-            "${conan_dir}/conanprofile.txt")
-    elseif(conan_detected_compiler STREQUAL "clang")
-        eval(conan profile update
-            settings.compiler.libcxx=libc++
             "${conan_dir}/conanprofile.txt")
     endif()
     eval(conan install . "${update_flag}"
