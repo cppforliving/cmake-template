@@ -1,15 +1,15 @@
 #include <cstdint>
 #include <cstdlib>
 #include <fmt/format.h>
+#include <nonstd/span.hpp>
 #include <projname/projname.hpp>
-#include <span>
 #include <spdlog/spdlog.h>
 #include <vector>
 
 extern "C" int LLVMFuzzerTestOneInput(std::uint8_t const* data, std::size_t size);
 
 int LLVMFuzzerTestOneInput(std::uint8_t const* const data, std::size_t const size) {
-    std::span const data_span{data, size};
+    nonstd::span const data_span{data, nonstd::span_lite::to_size(size)};
 
     auto const zdata = [data_span] {
         std::vector<char> zdata;
@@ -18,7 +18,7 @@ int LLVMFuzzerTestOneInput(std::uint8_t const* const data, std::size_t const siz
         zdata.push_back('\0');
         return zdata;
     }();
-    std::span const zdata_span{zdata};
+    nonstd::span const zdata_span{zdata};
 
     auto const args = [zdata_span] {
         std::vector<char const*> args;

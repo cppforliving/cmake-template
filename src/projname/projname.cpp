@@ -6,7 +6,7 @@
 #include <chrono>
 #include <cstdlib>
 #include <fmt/format.h>
-#include <span>
+#include <nonstd/span.hpp>
 #include <string_view>
 #include <system_error>
 #include <thread>
@@ -49,7 +49,7 @@ int run(std::vector<std::string> const& args) {
 }
 
 int run(int const argc, char const* const argv[]) {
-    std::span const args_span{argv, static_cast<std::size_t>(argc)};
+    nonstd::span const args_span{argv, nonstd::span_lite::to_size(argc)};
     std::vector<std::string> args{args_span.begin(), args_span.end()};
     return run(args);
 }
