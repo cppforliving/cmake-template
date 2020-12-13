@@ -92,20 +92,20 @@ jobs:
       name: linux-clang-tidy
       script:
         - cmake --warn-uninitialized
-          -D package_manager=conan
-          -D build_type=Debug
-          -D build_dir=build
-          -D update=ON
-          -P scripts/setup.cmake &&
+            -D package_manager=conan
+            -D build_type=Debug
+            -D build_dir=build
+            -D update=ON
+            -P scripts/setup.cmake &&
           cmake
-          -B build
-          -D CMAKE_BUILD_TYPE=Debug
-          -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
-          -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
-          -D BUILD_TESTING=ON
-          -D projname_fuzzers=${FUZZER_TIMEOUT}
-          -D projname_examples=ON
-          -D projname_check=tidy &&
+            -B build
+            -D CMAKE_BUILD_TYPE=Debug
+            -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
+            -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
+            -D BUILD_TESTING=ON
+            -D projname_fuzzers=${FUZZER_TIMEOUT}
+            -D projname_examples=ON
+            -D projname_check=tidy &&
           cmake --build build --verbose --config Debug
 
     - <<: *linux_clang
@@ -113,20 +113,20 @@ jobs:
       name: linux-clang-lint
       script:
         - cmake --warn-uninitialized
-          -D package_manager=conan
-          -D build_type=Debug
-          -D build_dir=build
-          -D update=ON
-          -P scripts/setup.cmake &&
+            -D package_manager=conan
+            -D build_type=Debug
+            -D build_dir=build
+            -D update=ON
+            -P scripts/setup.cmake &&
           cmake
-          -B build
-          -D CMAKE_BUILD_TYPE=Debug
-          -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
-          -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
-          -D BUILD_TESTING=ON
-          -D projname_fuzzers=${FUZZER_TIMEOUT}
-          -D projname_examples=ON
-          -D projname_check=lint &&
+            -B build
+            -D CMAKE_BUILD_TYPE=Debug
+            -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
+            -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
+            -D BUILD_TESTING=ON
+            -D projname_fuzzers=${FUZZER_TIMEOUT}
+            -D projname_examples=ON
+            -D projname_check=lint &&
           cmake --build build --verbose --config Debug &&
           cmake -E chdir build ctest -V -C Debug -D ExperimentalTest -L lint
 
@@ -135,20 +135,20 @@ jobs:
       name: linux-gcc-coverage
       script:
         - cmake --warn-uninitialized
-          -D package_manager=conan
-          -D build_type=Debug
-          -D build_dir=build
-          -D update=ON
-          -P scripts/setup.cmake &&
+            -D package_manager=conan
+            -D build_type=Debug
+            -D build_dir=build
+            -D update=ON
+            -P scripts/setup.cmake &&
           cmake
-          -B build
-          -D CMAKE_BUILD_TYPE=Debug
-          -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
-          -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
-          -D BUILD_TESTING=ON
-          -D projname_examples=ON
-          -D projname_debug_dynamic_deps=ON
-          -D projname_coverage=xml &&
+            -B build
+            -D CMAKE_BUILD_TYPE=Debug
+            -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
+            -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
+            -D BUILD_TESTING=ON
+            -D projname_examples=ON
+            -D projname_debug_dynamic_deps=ON
+            -D projname_coverage=xml &&
           cmake --build build --verbose --config Debug &&
           cmake -E chdir build ctest -V -C Debug -D ExperimentalTest
       after_success:
@@ -159,20 +159,20 @@ jobs:
       name: linux-gcc-asan
       script:
         - cmake --warn-uninitialized
-          -D package_manager=conan
-          -D build_type=Debug
-          -D build_dir=build
-          -D update=ON
-          -P scripts/setup.cmake &&
+            -D package_manager=conan
+            -D build_type=Debug
+            -D build_dir=build
+            -D update=ON
+            -P scripts/setup.cmake &&
           cmake
-          -B build
-          -D CMAKE_BUILD_TYPE=Debug
-          -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
-          -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
-          -D BUILD_TESTING=ON
-          -D projname_examples=ON
-          -D projname_debug_dynamic_deps=ON
-          -D projname_sanitizer=address &&
+            -B build
+            -D CMAKE_BUILD_TYPE=Debug
+            -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
+            -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
+            -D BUILD_TESTING=ON
+            -D projname_examples=ON
+            -D projname_debug_dynamic_deps=ON
+            -D projname_sanitizer=address &&
           cmake --build build --verbose --config Debug &&
           cmake -E chdir build ctest -V -C Debug -D ExperimentalTest
 
@@ -181,20 +181,20 @@ jobs:
       name: linux-clang-ubsan
       script:
         - cmake --warn-uninitialized
-          -D package_manager=conan
-          -D build_type=Debug
-          -D build_dir=build
-          -D update=ON
-          -P scripts/setup.cmake &&
+            -D package_manager=conan
+            -D build_type=Debug
+            -D build_dir=build
+            -D update=ON
+            -P scripts/setup.cmake &&
           cmake
-          -B build
-          -D CMAKE_BUILD_TYPE=Debug
-          -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
-          -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
-          -D BUILD_TESTING=ON
-          -D projname_examples=ON
-          -D projname_debug_dynamic_deps=ON
-          -D projname_sanitizer=undefined &&
+            -B build
+            -D CMAKE_BUILD_TYPE=Debug
+            -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
+            -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
+            -D BUILD_TESTING=ON
+            -D projname_examples=ON
+            -D projname_debug_dynamic_deps=ON
+            -D projname_sanitizer=undefined &&
           cmake --build build --verbose --config Debug &&
           cmake -E chdir build ctest -V -C Debug -D ExperimentalTest
 
@@ -203,19 +203,19 @@ jobs:
       name: linux-gcc-memcheck
       script:
         - cmake --warn-uninitialized
-          -D package_manager=conan
-          -D build_type=Debug
-          -D build_dir=build
-          -D update=ON
-          -P scripts/setup.cmake &&
+            -D package_manager=conan
+            -D build_type=Debug
+            -D build_dir=build
+            -D update=ON
+            -P scripts/setup.cmake &&
           cmake
-          -B build
-          -D CMAKE_BUILD_TYPE=Debug
-          -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
-          -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
-          -D BUILD_TESTING=ON
-          -D projname_examples=ON
-          -D projname_valgrind=memcheck &&
+            -B build
+            -D CMAKE_BUILD_TYPE=Debug
+            -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
+            -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
+            -D BUILD_TESTING=ON
+            -D projname_examples=ON
+            -D projname_valgrind=memcheck &&
           cmake --build build --verbose --config Debug &&
           cmake -E chdir build ctest -V -C Debug -D ExperimentalMemCheck
 
@@ -230,20 +230,20 @@ before_script:
 
 script:
   - cmake --warn-uninitialized
-    -D package_manager=conan
-    -D build_type=Release
-    -D build_dir=build
-    -D update=ON
-    -P scripts/setup.cmake &&
+      -D package_manager=conan
+      -D build_type=Release
+      -D build_dir=build
+      -D update=ON
+      -P scripts/setup.cmake &&
     cmake
-    -B build
-    -D CMAKE_BUILD_TYPE=Release
-    -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
-    -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
-    -D BUILD_TESTING=ON
-    -D projname_fuzzers=${FUZZER_TIMEOUT}
-    -D projname_examples=ON
-    -D projname_debug_dynamic_deps=ON &&
+      -B build
+      -D CMAKE_BUILD_TYPE=Release
+      -D CMAKE_TOOLCHAIN_FILE=build/conan/conan_paths.cmake
+      -D PYBIND11_PYTHON_VERSION=${PYTHON_VERSION}
+      -D BUILD_TESTING=ON
+      -D projname_fuzzers=${FUZZER_TIMEOUT}
+      -D projname_examples=ON
+      -D projname_debug_dynamic_deps=ON &&
     cmake --build build --verbose --config Release &&
     if [[ $TRAVIS_OS_NAME == osx ]]; then . build/conan/activate_run.sh; fi &&
     cmake -E chdir build ctest -V -C Release &&
