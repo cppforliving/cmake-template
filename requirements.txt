@@ -1,2 +1,2 @@
-cmake==3.18.*
+cmake==3.16.*
 ninja; sys_platform == "linux"
