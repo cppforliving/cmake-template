@@ -2,34 +2,34 @@
 # See https://pre-commit.com/hooks.html for more hooks
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v3.2.0
+    rev: v4.0.1
     hooks:
       - id: trailing-whitespace
       - id: end-of-file-fixer
       - id: check-yaml
   - repo: https://github.com/psf/black
-    rev: 19.10b0
+    rev: 21.5b2
     hooks:
       - id: black
   - repo: https://github.com/asottile/pyupgrade
-    rev: v2.7.2
+    rev: v2.19.1
     hooks:
       - id: pyupgrade
   - repo: https://github.com/shellcheck-py/shellcheck-py
-    rev: v0.7.1.1
+    rev: v0.7.2.1
     hooks:
       - id: shellcheck
-        args: [-e, SC1090]
+        args: [-e, SC1090, -e, SC1091]
   - repo: https://github.com/markdownlint/markdownlint
-    rev: v0.10.0
+    rev: v0.11.0
     hooks:
       - id: markdownlint
   - repo: https://github.com/jorisroovers/gitlint
-    rev: v0.13.1
+    rev: v0.15.1
     hooks:
       - id: gitlint
   - repo: https://github.com/adrienverge/yamllint
-    rev: v1.24.2
+    rev: v1.26.1
     hooks:
       - id: yamllint
   - repo: https://github.com/openstack/bashate
