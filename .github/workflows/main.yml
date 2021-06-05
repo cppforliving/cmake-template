@@ -62,9 +62,9 @@ jobs:
     env:
       CMAKE_GENERATOR: Visual Studio 16 2019
       PYTHON_VERSION: 3
+      VCPKG_ROOT: C:\vcpkg
     steps:
       - uses: actions/checkout@v2
-      - run: echo "VCPKG_ROOT=$VCPKG_INSTALLATION_ROOT" >> $GITHUB_ENV
       - run: python -m pip install -U -r requirements-test.txt
       - run: cmake --warn-uninitialized
           -D package_manager=vcpkg
