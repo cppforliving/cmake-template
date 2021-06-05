@@ -35,7 +35,7 @@ jobs:
     env:
       CMAKE_GENERATOR: Xcode
       PYTHON_VERSION: 3
-      PATH: ${{env.HOME}}/Library/Python/3.9/bin:${{env.PATH}}
+      PATH: /Users/runner/Library/Python/3.9/bin:${PATH}
     steps:
       - uses: actions/checkout@v2
       - run: python3 -m pip install --user -U conan -r requirements-test.txt
@@ -62,7 +62,7 @@ jobs:
     env:
       CMAKE_GENERATOR: Visual Studio 16 2019
       PYTHON_VERSION: 3
-      VCPKG_ROOT: ${{env.VCPKG_INSTALLATION_ROOT}}
+      VCPKG_ROOT: ${VCPKG_INSTALLATION_ROOT}
     steps:
       - uses: actions/checkout@v2
       - run: python -m pip install -U -r requirements-test.txt
