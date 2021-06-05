@@ -6,11 +6,21 @@ env:
 jobs:
   ubuntu:
     runs-on: ubuntu-20.04
+    env:
+      CMAKE_GENERATOR: Unix Makefiles
+      PYTHON_VERSION: 3
     steps:
       - uses: actions/checkout@v2
-      - run: cmake --version
+      - run: python3 -m pip install --user -U conan -r requirements-test.txt
+      - run: cmake --warn-uninitialized
+          -D package_manager=conan
+          -D build_type=${{env.BUILD_TYPE}}
+          -D build_dir=${{github.workspace}}/build
+          -D update=ON
+          -P scripts/setup.cmake
       - run: cmake -B ${{github.workspace}}/build
           -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+          -DCMAKE_TOOLCHAIN_FILE=${{github.workspace}}/build/conan_paths.cmake
       - run: cmake --build ${{github.workspace}}/build
           --config ${{env.BUILD_TYPE}}
       - working-directory: ${{github.workspace}}/build
@@ -18,11 +28,21 @@ jobs:
 
   macos:
     runs-on: macos-10.15
+    env:
+      CMAKE_GENERATOR: Xcode
+      PYTHON_VERSION: 3
     steps:
       - uses: actions/checkout@v2
-      - run: cmake --version
+      - run: python3 -m pip install --user -U conan -r requirements-test.txt
+      - run: cmake --warn-uninitialized
+          -D package_manager=conan
+          -D build_type=${{env.BUILD_TYPE}}
+          -D build_dir=${{github.workspace}}/build
+          -D update=ON
+          -P scripts/setup.cmake
       - run: cmake -B ${{github.workspace}}/build
           -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+          -DCMAKE_TOOLCHAIN_FILE=${{github.workspace}}/build/conan_paths.cmake
       - run: cmake --build ${{github.workspace}}/build
           --config ${{env.BUILD_TYPE}}
       - working-directory: ${{github.workspace}}/build
@@ -30,11 +50,21 @@ jobs:
 
   windows:
     runs-on: windows-2019
+    env:
+      CMAKE_GENERATOR: Visual Studio 16 2019
+      PYTHON_VERSION: 3
     steps:
       - uses: actions/checkout@v2
-      - run: cmake --version
+      - run: python -m pip install -U -r requirements-test.txt
+      - run: cmake --warn-uninitialized
+          -D package_manager=vcpkg
+          -D build_type=${{env.BUILD_TYPE}}
+          -D build_dir=${{github.workspace}}/build
+          -D update=ON
+          -P scripts/setup.cmake
       - run: cmake -B ${{github.workspace}}/build
           -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+          -DCMAKE_TOOLCHAIN_FILE=%VCPKG_INSTALLATION_ROOT%\scripts\buildsystems\vcpkg.cmake
       - run: cmake --build ${{github.workspace}}/build
           --config ${{env.BUILD_TYPE}}
       - working-directory: ${{github.workspace}}/build
