@@ -26,6 +26,8 @@ cmake_print_variables(build_type)
 
 if(NOT build_dir)
     set(build_dir ./build/${build_type})
+else()
+    file(TO_CMAKE_PATH "${build_dir}" build_dir)
 endif()
 cmake_print_variables(build_dir)
 
